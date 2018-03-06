@@ -1,0 +1,32 @@
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th><?php echo $this->_("categories")?></th>
+			<th width="150px"></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+
+			<td><span id='kbitem_<?php echo $item["id"] ?>' class="kb_draggable_item"><a href="#"><?php print ( $item["title"]) ?></a></span></td>
+			<td><?php echo $item["fullpath"] ?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+
+				<li><a class="edit" href="#" onclick="javascript:openEditDialogKbItem('<?php echo $item["id"] ?>')"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="delete" href="#" onclick="if(deleteConfirmation('<?php echo $item["id"] ?>','item')){jQuery(this).parent().parent().remove();}"><?php echo $this->_("delete") ?></a></li>
+				
+			</ul>
+			</div>
+			
+		
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>

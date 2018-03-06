@@ -1,0 +1,47 @@
+
+<div id="dialogUpdates" title="<?php echo $this->_("Program update")?>">
+
+<form id="formUpdate" action="<?php echo BASE_URL ?>pub/stock/update/key/<?php echo $this->getParam("key") ?>/fkey/<?php echo $this->getParam("fkey") ?>"	method="get">
+<fieldset>
+<p><?php $updates = false;?> <?php echo $this->_("Production account updated this program since  last release.")?><br />
+<?php echo $this->_("Check case for parts you want update.")?></p>
+<?php if ($this->updates["details"] == "true" ) : $updates = true; ?>
+<p><label><?php echo $this->_("Description")?> :</label><span><?php echo $this->formCheckbox("updatedetails","1")?></span></p>
+<?php endif;?> <?php if ($this->updates["chapters"] == "true" ) :  $updates = true;?>
+<p><label><?php echo $this->_("Chapters")?> :</label><span><?php echo $this->formCheckbox("updatechapters","1")?></span></p>
+<?php endif;?> <?php if ($this->updates["pictures"] == "true" ) :  $updates = true;?>
+<p><label><?php echo $this->_("Pictures")?> :</label><span><?php echo $this->formCheckbox("updatepictures","1")?></span></p>
+<?php endif;?>
+
+
+<?php echo $this->systemMessage(  $this->_("Stop annoying me with this alert"). $this->formCheckbox("stopalert","1") ,0)?>
+<?php echo $this->systemMessage( $this->_("Accepting updates will delete your personal changes") ,2)?>
+
+
+
+
+</fieldset>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function(){
+		 $("#dialogUpdates").dialog({
+				modal: true,
+				autoOpen: <?php echo $this->publishRow && $this->publishRow["notification"] != 'none' && $updates ? "true":"false";?>,
+				width:500,	
+				buttons: {
+						'<?php echo $this->_("Confirm") ?>':function(){						
+							$("#formUpdate").trigger("submit");
+						},
+						'<?php echo $this->_("Cancel") ?>':function(){
+							$(this).dialog('close');
+						}
+					}
+		});		
+	});
+
+</script>

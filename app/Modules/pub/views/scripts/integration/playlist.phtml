@@ -1,0 +1,303 @@
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/packs/highlight/highlight.pack.js") ?>
+<link href="<?php echo BASE_URL ?>embeded/packs/highlight/styles/github.css"	type="text/css" rel="stylesheet"></link>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/innerxhtml.js") ?>
+
+ 
+ 
+ 
+ 
+
+<?php $this->placeholder("title")->set($this->_("Playlist integration"))?>
+
+<?php echo $this->partial("integration/view.phtml",array("views"=>$this->views))?>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Template") ?></h2>
+
+<form method="post" action="<?php echo BASE_URL ?>pub/integration/updateplaylisttheme">
+<fieldset class="small"><p><label for="defaultTheme"><?php echo $this->_("Use default template")?>: </label> <span><input type="radio" name="themetype" id="defaultTheme" value="default" /></span></p>
+<p>
+	<label for="specificTheme"><?php echo $this->_("Use specific template")?>: </label> <span><input type="radio" name="themetype" id="specificTheme" value="specific" /></span>
+</p>
+<p>
+	<label>&nbsp;</label><span> <?php echo $this->partial("integration/theme.phtml",array("themes"=>$this->themes,"type"=>"playlist","name"=>"themeChoice","selected"=>$this->selectedTheme))?></span>
+	<span>
+			<a href="#" class="no-see edit-dialog" title="<?php echo $this->_("Edit template parameters - Playlist")?>"></a>
+	</span>
+	<input type="hidden" value="playlist" />
+</p>
+<p>
+	<label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span>
+</p>
+
+<?php echo $this->formHidden("idplaylist",$this->idplaylist,null)?> <?php echo $this->formHidden("idview",$this->idview,null)?>
+<?php echo $this->formHidden("playlistKey",$this->playlistKey,null)?></fieldset>
+<?php echo $this->formHidden("viewcode",$this->viewcode,null)?></form>
+
+
+</div>
+
+<?php echo $this->partial("templates/dialog-js.phtml",array("type"=>"Playlist", "key"=>$this->playlistKey, "view"=>$this->idview))?>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Identification method") ?></h2>
+
+<form method="post"	action="<?php echo BASE_URL ?>pub/integration/updateidentificationplaylist">
+<fieldset class="small">
+<p id="radioIdentification"><label for="anonymousIdentification"><?php echo $this->_("Anonymous")?></label>
+<span><input id="anonymousIdentification" type="radio"	name="identification" value="anonymous" /></span></p>
+<p><label for="loginpassIdentification"><?php echo $this->_("Login - Password")?></label>
+<span><input id="loginpassIdentification" type="radio"	name="identification" value="loginpassword" /></span></p>
+<p><label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+
+<?php echo $this->formHidden("playlistKey",$this->playlistKey,null)?> <?php echo $this->formHidden("viewcode",$this->viewcode,null)?>
+<?php echo $this->formHidden("publicationKey",$this->publicationKey,null)?>
+</fieldset>
+</form>
+
+</div>
+
+
+<?php
+$playlist = $this->playlist;
+?>
+
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("object") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code">
+	<?php echo htmlentities( $playlist->getWindowsMediaObject()  , ENT_QUOTES, 'utf-8' ); ?>
+</div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getWindowsMediaObject()  , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("html") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code">
+<?php echo htmlentities( $playlist->getHtmlUrlCode() , ENT_QUOTES, 'utf-8'); ?>
+</div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getHtmlUrlCode()  , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+</div>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("iframe") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo  htmlentities($playlist->getHtmlIframeCode(), ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getHtmlIframeCode() , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+</div>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("link with html popup") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo  htmlentities($playlist->getHtmlUrlWithPopupCode(), ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getHtmlUrlWithPopupCode() , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+<h3><?php echo $this->_("Parameters")?></h3>
+<ul class="parameters">
+<li><label>gcv_popup_width :</label><span class="value"><?php echo $this->_("Width of the popup")?></span></li>
+<li><label>gcv_popup_height :</label><span class="value"><?php echo $this->_("Height of the popup")?></span></li>
+</ul>
+</div>
+
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("flash anim with html popup") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo htmlentities( $playlist->getHtmlAnimWithPopupCode(), ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getHtmlAnimWithPopupCode(), ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+
+<h3><?php echo $this->_("Parameters")?></h3>
+<ul class="parameters">
+<li><label>gcv_popup_width :</label><span class="value"><?php echo $this->_("Width of the popup")?></span></li>
+<li><label>gcv_popup_height :</label><span class="value"><?php echo $this->_("Height of the popup")?></span></li>
+</ul>
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("silverlight") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo htmlentities( $playlist->getEmbedSilverlightCode(), ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getEmbedSilverlightCode() , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+<h3><?php echo $this->_("Parameters")?></h3>
+<ul class="parameters">
+	<li><label>dualscreen :</label><span class="value">0|1 Switch on/off slides</span></li>
+	<li><label>currentChapterDisplay :</label><span class="value">0|1</span></li>
+	<li><label>autoplay :</label><span class="value">0|1</span></li>
+	<li><label>width :</label><span class="value"><?php echo $this->_("Width of the video in the silverlight component")?></span></li>
+	<li><label>height :</label><span class="value"><?php echo $this->_("Height of the video in the silverlight component")?></span></li>
+	<li><label>button :</label><span class="value"><?php echo $this->_("Switch on/off silverlights buttons (ex : 1011110111101)")?></span></li>
+	<li><label>uiculture & culture :</label><span class="value">fr|en</span></li>
+</ul>
+</div>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("silverlight by link with popup") ?></h2>
+&nbsp;
+<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo htmlentities( $playlist->getSilverlightUrlWithPopupCode() , ENT_QUOTES, 'utf-8');?></div>
+<pre class="html"  name="code">
+<code >		
+<?php echo htmlentities( $playlist->getSilverlightUrlWithPopupCode() , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+<h3><?php echo $this->_("Parameters")?></h3>
+<ul class="parameters">
+	<li><label>gcv_autoplay :</label><span class="value">true|false</span></li>
+	<li><label>gcv_dualscreen :</label><span class="value">0|1 Switch on/off slides</span></li>
+	<li><label>gcv_popup_width :</label><span class="value"><?php echo $this->_("Width of the video in the silverlight component")?></span></li>
+	<li><label>gcv_popup_height :</label><span class="value"><?php echo $this->_("Height of the video in the silverlight component")?></span></li>
+	<li><label>gcv_button :</label><span class="value"><?php echo $this->_("Switch on/off silverlights buttons (ex : 1011110111101)")?></span></li>
+	<li><label>gcv_lang :</label><span class="value">en|fr</span></li>
+</ul>
+</div>
+
+
+
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("silverlight by anim with popup") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo htmlentities( $playlist->getSilverlightAnimWithPopupCode(), ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $playlist->getSilverlightAnimWithPopupCode() , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+<h3><?php echo $this->_("Parameters")?></h3>
+<ul class="parameters">
+	<li><label>gcv_autoplay :</label><span class="value">true|false</span></li>
+	<li><label>gcv_dualscreen :</label><span class="value">0|1 Switch on/off slides</span></li>
+	<li><label>gcv_popup_width :</label><span class="value"><?php echo $this->_("Width of the video in the silverlight component")?></span></li>
+	<li><label>gcv_popup_height :</label><span class="value"><?php echo $this->_("Height of the video in the silverlight component")?></span></li>
+	<li><label>gcv_button :</label><span class="value"><?php echo $this->_("Switch on/off silverlights buttons (ex : 1011110111101)")?></span></li>
+	<li><label>gcv_lang :</label><span class="value">en|fr</span></li>
+</ul>
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Page lecteur video") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo $code = htmlentities('<a href="http://'.$_SERVER["HTTP_HOST"].BASE_URL.'lecteur_video/type/pl/id/'.$this->playlistKey.'/keypub/'.$this->publicationKey.'/lang/'.($playlist->lang).'" >'.$this->_("lecteur video").'</a>', ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo $code  ?>
+</code>
+</pre>
+
+</div>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Page lecteur video biecran") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+<div class="code"><?php echo $code = htmlentities('<a href="http://'.$_SERVER["HTTP_HOST"].BASE_URL.'lecteur_video_biecran/type/pl/id/'.$this->playlistKey.'/keypub/'.$this->publicationKey.'/lang/'.($playlist->lang).'" >'.$this->_("lecteur video biecran").'</a>', ENT_QUOTES, 'utf-8'); ?></div>
+<pre name="code" class="html">
+<code >	
+<?php echo  $code  ?>
+</code>
+</pre>
+
+</div>
+
+<script type="text/javascript">
+Ext.onReady(function() {
+	Ext.select("a.execCode").on('click',function(e,t){
+		var html = Ext.fly(this).next("", true).innerHTML;
+		html = $('<textarea/>').html(html).val();
+		 var codeExecutioner =  window.open('','CodeWindow','width=1024,height=800,scrollbars=yes');
+		codeExecutioner.document.open();		 
+		 codeExecutioner.document.write( html );
+		 codeExecutioner.document.close();
+		 codeExecutioner.focus();
+		 
+	});
+});
+
+jQuery(document).ready(function(){
+
+	hljs.initHighlightingOnLoad();
+	
+	<?php if($this->identification == "anonymous"): ?>
+	$("#anonymousIdentification").attr("checked","checked");
+	<?php else :?>
+	$("#loginpassIdentification").attr("checked","checked");
+	<?php endif;?>
+
+	
+	<?php if (!$this->specificTheme) :?>
+		$("#themelist-playlist").attr("disabled","disabled");
+		$("#defaultTheme").attr("checked","checked");
+		$('.no-see').hide();
+	<?php else:?>			
+		$("#specificTheme").attr("checked","checked");
+		$('.no-see').show();
+	<?php endif;?>
+	
+	$("#specificTheme").click(function(){
+			$("#themelist-playlist").removeAttr("disabled","disabled");
+			$('.no-see').show();		
+	});
+	$("#defaultTheme").click(function(){
+		$("#themelist-playlist").attr("disabled","disabled");
+		$('.no-see').hide();		
+});				
+});
+</script>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+
+	$("#viewSelector").change(function(){			
+		document.location.href = "<?php echo BASE_URL ?>pub/integration/playlist/key/<?php echo $this->getParam("key") ?>/viewcode/" + $("#viewSelector").val();
+	});
+	$(".blocInfos h2").each(function(){
+			$(this).click(function(){
+				if($(".moreinfos",$(this).parent()).css("display") == "none"){
+					$(".rubInfos",$(this).parent()).css("display","none");			
+					$(".moreinfos",$(this).parent()).css("display","block");						
+					$(".sortContent").sortable("refresh");
+					$(".extractItem").draggable('enable');		
+				}
+				else{
+							
+					$(".moreinfos",$(this).parent()).css("display","none");	
+					$(".rubInfos",$(this).parent()).css("display","block");	
+				}
+			});
+		});		
+});	
+</script>

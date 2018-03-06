@@ -1,0 +1,170 @@
+<?php 
+    if(!Zend_Registry::isRegistered("includejs2")) {
+        Zend_Registry::set("includejs2",true);
+    }
+    
+    $this->placeholder("fields")->set ("");
+?>
+<?php 
+foreach ( $this->fields as $key => &$value ) :
+
+endforeach;
+?>
+
+<?php foreach ( $this->fields as $key => &$value ) : 
+    $value["uniquid"] = uniqid("field");
+?> 		
+	 			
+<?php 
+
+$this->placeholder("fields")->captureStart('APPEND',''.$value["cat"]); 
+?>
+ 			
+ 			<?php if($value["type"] == "ENUM" || 
+ 			$value["type"] == "BOOLEAN"||
+ 			$value["type"] == "ENUMMULTI"||
+ 			$value["type"] == "RADIO"||
+ 			$value["type"] == "DATE"):
+ 			?>
+ 			<p>
+				<label><?php echo $value["title"]?></label>
+				<span > 	
+			<?php endif; ?>	
+					
+				<?php /* if($value["code"] == "timecode"):?> 
+					<script type="text/javascript">
+						var fieldTimeCode = "<?php echo $value["type"]."_".$value["idfgroup"] ?>";
+					</script>
+				<?php endif; */?>
+				<?php switch ($value["type"]): 
+				        case "TEXT" : echo $this->formHidden("HIDDEN_".$value["type"]."_".$value["idfgroup"], null ,array("alt"=>$value["mask"],"rel"=>$value["code"])); break;
+						case "TEXTAREA" : echo $this->formHidden("HIDDEN_".$value["type"]."_".$value["idfgroup"], null, array("alt"=>$value["mask"],"rel"=>$value["code"])) ; break;						
+				?>
+				<?php
+						case "ENUM" : 
+						    
+						    echo $this->formSelect($value["type"]."_".$value["idfgroup"], "", array("rel"=>$value["code"],"class"=>$value["uniquid"]), $this->contentTable($value["table_ref"]))  /*formText($value["type"]."_".$value["idfgroup"], "" ,null);*/; 
+							/** 
+						 * Gestion des selects liés
+						 */
+						if ($value["parent"] != ""){
+						    foreach ( $this->fields as $fieldtmp => $valuetmp ) :
+						        if($value["parent"] == $valuetmp["code"] && $valuetmp["type"] == "ENUM"){
+						            ?>
+						            	<script type="text/javascript">
+						            		jQuery(document).ready(function(){
+												//$("#<?php echo $value["type"]."_".$value["idfgroup"] ?>").linkedtoselect("#<?php echo $valuetmp["type"]."_".$valuetmp["idfgroup"] ?>","<?php echo $value["table_ref"] ?>");
+						            			$("select.<?php echo $value["uniquid"] ?>").linkedtoselect("select.<?php echo $valuetmp["uniquid"] ?>","<?php echo $value["table_ref"] ?>");
+							            	});
+						            	</script>
+						            <?php 
+						        }
+						    endforeach;						    
+						}
+						break;
+						case "BOOLEAN" : echo $this->formCheckbox($value["type"]."_".$value["idfgroup"], null , null, null); break;
+						//case "COMPLEXBOOLEAN" : echo $this->formTextarea($value["type"]."_desc_".$value["idfgroup"], $value["default_value"] , array("readonly"=>"readonly","rows"=>10)) ; echo $this->formCheckbox($value["type"]."_".$value["idfgroup"], null , array("rel"=>$value["code"]), null); break;
+						case "ENUMMULTI" :echo $this->formSelect ($value["type"]."_".$value["idfgroup"], null, array("multiple" => "multiple","size"=>"5","rel"=>$value["code"]), $this->contentTable($value["table_ref"])) ; break;
+						case "RADIO" : echo $this->formText($value["type"]."_".$value["idfgroup"], null ,array("rel"=>$value["code"])); break;
+						case "DATE" : 
+						    echo $this->formSelect ($value["type"]."_".$value["idfgroup"]."_operator", null,array("class"=>"date_operator"), array( "<"=>"<","<="=>"<=","="=>"=",">"=>">",">="=>">=" ) ) ; 
+						    $uniqId = uniqid('date');
+						    echo $this->formText($value["type"]."_".$value["idfgroup"], null ,array("id" => "$uniqId","readonly"=>"readonly","class"=>"date $uniqId","rel"=>$value["code"]));
+												
+				?> 
+				
+				
+				
+				
+						<script type="text/javascript">
+                        	jQuery(document).ready(function() {                        		                    		
+	                            $('input.<?php echo $uniqId?>').datepicker({
+		                        showButtonPanel: true,
+		                        changeMonth: true,
+		            			changeYear: true,
+		            			dateFormat:'yy/mm/dd' 
+	                            });	                            
+	                            $('input.<?php echo $uniqId?>').datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+	                            $('input.<?php echo $uniqId?>').datepicker('option','dateFormat','yy/mm/dd');  
+                            });
+                        </script>
+                        
+                        
+						<?php 	
+										
+						default : break;
+						endswitch;
+				 ?>
+				 
+				<?php if($value["type"] == "ENUM" || 
+ 			$value["type"] == "BOOLEAN"||
+ 			$value["type"] == "ENUMMULTI"||
+ 			$value["type"] == "RADIO"||
+ 			$value["type"] == "DATE"):
+ 			?>
+     			</span>
+				</p>		
+			<?php endif; ?>
+			
+<?php 
+$this->placeholder("fields")->captureEnd(); ?>
+<?php endforeach; ?> 
+
+
+
+ 
+ <?php 
+$this->placeholder("fields")->ksort();
+ foreach( $this->placeholder("fields") as $key => $value) :?> 
+ 
+ 
+ 		<?php if(  !isset($this->filter) || (   isset($this->filter) && is_array($this->filter)  && in_array($key,$this->filter)  )   ) : ?>
+ 
+             <?php if( $key == "2" || $key == "3") : ?>
+             <h4><?php echo $this->_("Description")." $key"?></h4>         
+             <div class="more_description"> 
+             	<?php echo $value ?> 	
+             </div>         
+             <?php else :?>     
+             	<?php echo $value ?> 
+             <?php endif;?>
+             
+         <?php endif;?>
+
+         
+ <?php 
+ endforeach;?>
+ 
+ 
+
+
+<?php if( Zend_Registry::get("includejs2") === true) : ?>
+
+
+
+<script  type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){  
+	$('input:text').setMask();
+	$.metadata.setType("attr", "metadata");	        
+});
+
+jQuery(document).ready(function(){
+	$(".more_description").hide();
+	$(".more_description").prev("h4").unbind('click');
+	$(".more_description").prev("h4").click(function(){
+		$(this).toggleClass("open");	
+		$next = $(this).next(".more_description");		
+		if($next.css("display") == "none")
+			$next.show();	
+		else 
+			$next.hide();		
+	}).addClass("expander").addClass("collapse");		
+});
+
+//]]>
+</script>
+<?php 
+    Zend_Registry::set("includejs2",false);
+?>
+<?php endif;?>

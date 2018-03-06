@@ -1,0 +1,91 @@
+<?php if(hasService($this->id_type, 4)) : ?>
+<!-- Translations (Traduction) -->
+<?php 
+	$locales = $this->simpleTable("locales","","code","libelle"); 
+?>
+
+<script type="text/javascript">
+	chb.push("translation");
+</script>
+
+<div class="blocInfos" id="translation_blocInfos" style="<?php if($this->getParam("action") != "view" && $this->getParam("action") != "processing") :?> display:none<?php endif; ?>">
+	<h2><?php echo $this->_("Translation") ?></h2>	
+	<span class="rubInfos">
+		<?php echo $this->_("Edit Translation")?>
+	</span>	
+	<div class="moreinfos">
+			<fieldset>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Language" )?>
+					</label> 
+					<?php if($this->index == 1) : ?>
+						<span>
+							<?php 
+								echo $this->formSelect('translation_language',$this->_session->locale, null, $locales); 
+							?>
+						</span>
+					<?php else: ?>
+						<span class="TEXT_value">
+							<?php echo $this->translation[0]["language"]; ?>
+						</span>
+					<?php endif; ?>
+				</p>
+				
+				<p>
+					<label>
+						<?php echo $this->_ ( "Comments" )?>
+					</label> 
+					<?php if($this->index == 1) : ?>
+						<textarea
+							name="translation_comments" 
+							id="translation_comments" 
+							rows="15" 
+							cols="80"></textarea>
+					<?php else: ?>
+						<span class="TEXTAREA_value">
+							<?php echo nl2br($this->translation[0]["comments"]) ?>
+						</span>
+					<?php endif; ?>
+				</p>
+				
+				<?php if($this->index != 1) : ?>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Current status"  )?>
+					</label> 
+					<span class="TEXT_value">
+						<?php echo $this->_ ( $this->translation[0]["status"]) ?>
+					</span>				
+				</p>
+				<?php endif; ?>
+			
+				<?php if($this->index == 2
+				&& !isEnded($this->order[0]["status"])
+				&& !isEnded($this->translation[0]["status"])
+				) : ?>
+					<p>
+						<label>
+							<?php echo $this->_ ( "Status" )?>
+						</label> 
+						<span class="TEXT_value">
+							<?php
+								$service_states = serviceStateSelection($this->order[0]["status"], $this->translation[0]["status"]);								
+							?>
+						<select id="translation_list_state" name="translation_list_state">
+							<?php 							 
+								foreach ($service_states as $state)
+								{
+									echo "<option>" . $this->_ ($state) . "</option>\n";
+								}	
+							?>		
+						</select>	
+						</span>				
+					</p>
+				<?php endif; ?>
+			
+			</fieldset>
+    </div>
+</div>	
+
+<?php endif;?>

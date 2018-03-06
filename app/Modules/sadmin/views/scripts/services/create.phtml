@@ -1,0 +1,142 @@
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+<?php if($this->action == "save"): ?>
+
+<?php $this->placeholder("title")->set($this->_("Create a service account"))?>
+<?php else:?>
+
+<?php $this->placeholder("title")->set($this->_("Update a service account"))?>
+<?php endif;?>
+<form method="post" id="serviceForm"
+	action="<?php echo BASE_URL ?>sadmin/services/<?php echo $this->action ?>">
+<fieldset>
+
+<p><label><?php echo $this->_("Name") ?></label> <span><?php echo $this->formText("name", "" ,array("class"=>"validate[required]")) ?></span>
+</p>
+<p>
+
+<label><?php echo $this->_("Services type") ?></label>
+    <span>
+        <ul>
+        <?php foreach($this->servicestype as $service ):?>
+        	<li><?php echo $this->formCheckbox("service_type[]",$service["idtype"],null,null); ?>	&nbsp;<?php echo $this->_( $service["title"] )?></li>
+        	<?php endforeach;;?>
+        </ul>
+   </span>
+</p>
+<p><label><?php echo $this->_("Email") ?></label> <span><?php echo $this->formText("email", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Email 2") ?></label> <span><?php echo $this->formText("email2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Phone number") ?></label> <span><?php echo $this->formText("phonenumber2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Mobile phone") ?></label> <span><?php echo $this->formText("mobilephone", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Organization") ?></label> <span><?php echo $this->formSelect('organization', 2, null, $this->contentTable("enum_organization")); ?></span></p>
+<p><label><?php echo $this->_("Organization details") ?></label> <span><?php echo $this->formSelect('organization_details', 2, null, $this->contentTable("enum_organization2")); ?></span></p>
+
+<p><label><?php echo $this->_("Notes") ?></label> <span><?php echo $this->formTextarea("notes", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Picture") ?></label> <span><?php echo $this->formText("picture", "" ,null) ?>
+	<a href="javascript:filemanager('picture');" title="<?php echo $this->_("File explorer")?>">
+							<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+						</a>
+						</span></p>
+
+<div style="display:none">
+<p><label><?php echo $this->_("Title") ?></label> <span><?php echo $this->formText("title", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Work") ?></label> <span><?php echo $this->formText("work", "" ,null) ?></span></p>
+
+</div>
+
+<!-- 
+	<p>
+		<label><?php echo $this->_("Description") ?></label>
+		<span><?php echo $this->formText("description", "" ,null) ?></span>
+	</p>
+	 -->
+	 <?php if(is_numeric($this->idservice)) :?>
+	 	<p>
+		<label><?php echo $this->_("Key") ?></label>
+		<span><?php echo $this->formText("key", $this->service["key"] ,array("readonly"=>"readonly")) ?></span>
+		</p>
+		<?php endif;?>
+
+<p><label>&nbsp;</label> </p>
+<p><label>&nbsp;</label> 
+    <span><?php echo $this->formHidden("idservice",$this->idservice,null,null); ?>
+     <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"")) ?> 
+</span>
+</p>
+
+</fieldset>
+
+</form>
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+var $currentField ;
+function filemanager(idref)
+{		
+	$currentField = jQuery("#"+idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");	
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+jQuery(document).ready(function(){   
+	$.metadata.setType("attr", "metadata");
+	$("#pictureZone").click(function(){
+    	$("#loadPicture").dialog('open');	
+	});
+	$("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        
+    	width:960,
+    	height:615,	    	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);			            						
+            		});      	                 		   				
+            		for(var i=0;i<filesSelected.length;i++){                     		  		
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	
+		 
+});
+//]]>
+</script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		  $("#serviceForm").validationEngine();  
+		$("#name").val("<?php echo $this->escapejs($this->service["name"]) ?>");
+		$("input#service_type").val(<?php echo $this-> servicesaffected ?>);
+		
+	});
+	
+</script>
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ; ?>];
+jQuery(document).ready(function(){   
+	  
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+    <?php if(is_numeric($this->idservice)) :?>
+    <?php foreach ( $this->rawData as $key => $value ) {	?>
+		$("#<?php echo $key?>").val('<?php echo $this->escape( $value ); ?>');
+    <?php }	?>
+    <?php endif;?>
+});
+//]]>
+</script>

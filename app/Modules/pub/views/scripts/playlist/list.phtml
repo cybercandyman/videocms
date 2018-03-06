@@ -1,0 +1,87 @@
+<?php $this->placeholder("title")->set($this->_("List of playlists") )?>
+
+<?php echo $this->sexybutton ("href", $this->_("create"), array("add_new"), BASE_URL."pub/playlist/create" ,array("id"=>"")) ?>
+<br />
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "idplaylist" );?></th>
+			<th><?php echo $this->_ ( "Title" );?></th>
+			<th><?php echo $this->_ ( "Number of programs" );?></th>
+			<th><?php echo $this->_ ( "Actions" );?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $playlist): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+
+			<td><?php echo $playlist["idplaylist"] ?></td>
+			<td><?php echo $playlist["title"] ?></td>
+			<td><?php echo $playlist["count"] ?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit" href="<?php print BASE_URL ?>pub/playlist/edit/key/<?php echo  $playlist["key"]?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="tools" href="<?php print BASE_URL ?>pub/integration/playlist/key/<?php echo  $playlist["key"]?>"><?php echo $this->_("integration") ?></a></li>
+				<li><a class="delete" href="javascript:deletePlaylist('<?php echo  $playlist["key"]?>')"><?php echo $this->_("delete") ?></a></li>
+			</ul>
+			</div>
+			</td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p>
+	<span class="ui-icon ui-icon-alert"	style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This playlist will be deleted. Are you sure ?") ?>
+</p>
+</div>
+
+<form method="post" action="<?php echo BASE_URL ?>pub/playlist/delete" id="formPlaylistToDelete">
+	<input type="hidden" id="keyToDelete" name="keyToDelete"/>
+</form>
+
+
+<script type="text/javascript">
+
+
+
+function deletePlaylist(key){	
+	$("#keyToDelete").val(key);
+	$('#dialog').dialog('open');
+	
+}
+
+
+jQuery(document).ready(function() 
+{ 
+          
+            $("#dialog").dialog({            	
+            	bgiframe: true,
+            	resizable: false,            	
+            	modal: true,
+            	autoOpen:false,
+            	overlay: {
+            		backgroundColor: '#000',
+            		opacity: 0.5
+            	},
+            	buttons: {
+            		'<?php echo $this->_("Delete")?>': function() {
+            			$(this).dialog('close');
+            			$("#formPlaylistToDelete").trigger("submit");            			
+            		},
+            		<?php echo $this->_("Cancel")?>: function() {
+            			$(this).dialog('close');
+            		}
+            	}
+            });
+});
+</script>

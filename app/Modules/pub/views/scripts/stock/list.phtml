@@ -1,0 +1,94 @@
+<?php $this->placeholder("title")->set($this->_("List of programs" . " : " .sprintf($this->_("You have %s programs and %s extracts in stock."), $this->datacount["programs"], $this->datacount["extracts"])))?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+	<?php 
+		//var_dump($this->_session->environment);
+	?>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+		
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+					<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("date"))) ?>"><?php echo $this->_ ( "date" );?></a></th>
+			<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("duration"))) ?>"><?php echo $this->_ ( "duration" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("idprog"))) ?>">#<?php echo $this->_ ( "IDPROG" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("keyprog"))) ?>"><?php echo $this->_ ( "keyprog" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("alias"))) ?>"><?php echo $this->_ ( "production" );?></a></th>	
+			<th><?php echo $this->_("actions")?></th>
+			<th><?php echo $this->_("is published")?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+
+		
+			<td><?php if( $item["idprog_programs_extract"] != "") : ?><img class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?> <?php print ( $this->details[$item["idprog"]]["title"]["value"]) ?></td>			
+			<td><?php echo $this->details[$item["idprog"]]["date"]["value"] ?></td>
+			<td><?php echo $this->details[$item["idprog"]]["duration"]["value"] ?></td>
+			
+			<td>#<?php echo $item["idprog"]?></td>
+			<td><?php echo $item["keyprog"]?></td>
+			<td><?php echo $item["alias"]?></td>
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit"	href="<?php print BASE_URL ?>pub/stock/manage/fkey/<?php print $item["keyprog"]?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="tools"href="<?php print BASE_URL ?>pub/integration/program/key/<?php print $item["replication"]?>"><?php echo $this->_("integration") ?></a></li>
+				<?php if($this->_session->environment["details"]["idservice"] > 0):?>
+				<li><a 	class="edit" href="<?php print BASE_URL ?>ser/prod/list/fkey/<?php print $item["keyprog"]?>/programTitle/<?php echo urlencode(urlencode($this->details[$item["idprog"]]["title"]["value"]))?>/idprog/<?php echo $item["idprog"]?>/publicationKey/<?php echo $this->_session->environment["details"]["key"] ?>"><?php echo $this->_("services") ?></a></li>
+				<?php endif;?>
+	
+	
+			</ul>
+			</div>
+
+			</td>
+			<td><input class="checkPublished" type="checkbox"
+				id="check_published_<?php echo $item["keyprog"]?>" value="published"
+				<?php echo  $item["publication_state"] == "published" ? "checked=\"checked\"" : "" ?> />
+			</td>
+		</tr>
+		
+		<?php endforeach; ?>
+	</tbody>
+</table>
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+jQuery(document).ready(function() 
+    { 
+	$.facebox.settings.opacity = 0.6;
+  //      $("#data").tablesorter(); 
+  
+
+
+    $(".checkPublished").click(function(){
+
+    		
+    		$.ajax({
+				type:"post",
+				url : "<?php echo BASE_URL ?>pub/stock/updatepublishing",
+				data: {key: $(this).attr("id"),state: $(this).attr("checked")},
+				error:function(){},
+				success:function(){}
+        	});
+		
+    });
+   
+	
+    } 
+); 
+//]]>
+</script>

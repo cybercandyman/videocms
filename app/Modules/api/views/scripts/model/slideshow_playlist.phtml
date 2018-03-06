@@ -1,0 +1,15 @@
+<slideshow title="<?php htmlspecialchars($this->playlist->title) ?>">
+<?php
+$programs = $this->playlist->getPrograms();
+for($i=0 ; $i <sizeof($programs) ;$i++) : ?>
+<slide>
+<title><![CDATA[<?php  echo (($programs[$i]->title)) ?>]]></title>
+<picture>
+<![CDATA[<?php echo (($programs[$i]->getPicture("program"))) ?>]]>
+</picture>
+</slide>
+<?php endfor;?>
+</slideshow>
+
+
+

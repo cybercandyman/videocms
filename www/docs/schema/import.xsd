@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="videolist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="programs" >
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="program" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="infos">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="duration" />
+                          <xs:element name="tcin" />
+                          <xs:element name="tcout" />
+                          <xs:element name="field" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="value" type="xs:string" />
+                                <xs:element name="code" type="xs:string" />
+                                <xs:element name="original_value" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="chapters">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="chapter" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="field" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="value" type="xs:string" />
+                                      <xs:element name="code" type="xs:string" />
+                                      <xs:element name="original_value" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="pictures">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="pitcure" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="uri" type="xs:string" />
+                                <xs:element name="usage" >
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:enumeration value="videolist"/>
+                                      <xs:enumeration value="program"/>
+                                      <xs:enumeration value="serie"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="original_value" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

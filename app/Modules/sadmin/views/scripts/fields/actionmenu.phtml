@@ -1,0 +1,28 @@
+<div id="actionmenu">
+<h1><?php
+echo $this->_ ( "Action" )?></h1>
+
+<ul>
+
+
+	<li><a href="<?php 	echo BASE_URL?>admin/profil/grouplist"
+		class="mainlevel"><?php	echo $this->_ ( "groups list" )?></a><br />
+	<ul>
+		<li><a href="<?php	echo BASE_URL?>admin/profil/creategroup"
+			class="mainlevel"><?php echo $this->_ ( "create group" )?></a></li>
+	</ul>
+	</li>
+
+	<li><a href="<?php 	echo BASE_URL?>admin/profil/fieldlist"
+		class="mainlevel"><?php	echo $this->_ ( "fields list" )?></a><br />
+	<ul>
+		<li><a href="<?php 	echo BASE_URL?>admin/profil/createfield"
+			class="mainlevel"><?php echo $this->_ ( "create field" )?></a></li>
+		<li><a href="<?php	echo BASE_URL?>admin/profil/tablelist"
+			class="mainlevel"><?php	echo $this->_ ( "table list" )?></a></li>
+	</ul>
+	</li>
+
+
+</ul>
+</div>

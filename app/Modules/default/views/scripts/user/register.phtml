@@ -1,0 +1,32 @@
+<form method="post"
+	action="<?php echo $this->url(array("action"=>"saveuser"))?>">
+<fieldset>
+<p><label><?php echo $this->_("Last name")?></label> <span><?php echo $this->formText("name")?></span>
+</p>
+<p><label><?php echo $this->_("First name")?></label> <span><?php echo $this->formText("firstname")?></span>
+</p>
+<p><label><?php echo $this->_("Email")?></label> <span><?php echo $this->formText("email")?></span>
+</p>
+<p><label><?php echo $this->_("Adress 1")?></label> <span><?php echo $this->formText("adress1")?></span>
+</p>
+<p><label><?php echo $this->_("Adress 2")?></label> <span><?php echo $this->formText("adress2")?></span>
+</p>
+<p><label><?php echo $this->_("Zip code")?></label> <span><?php echo $this->formText("postalcode")?></span>
+</p>
+<p><label><?php echo $this->_("City")?></label> <span><?php echo $this->formText("city")?></span>
+</p>
+<p><label><?php echo $this->_("Login")?></label> <span><?php echo $this->formText("ulogin")?></span>
+</p>
+<p><label><?php echo $this->_("Password")?></label> <span><?php echo $this->formText("upassword")?></span>
+</p>
+<p><label><?php echo $this->_("Confirm password")?></label> <span><?php echo $this->formText("passwordconfirmation")?></span>
+</p>
+
+<p><label>&nbsp;</label> <span><?php echo $this->formSubmit("submit",$this->_("Register"),null)?></span>
+</p>
+
+
+<?php echo $this->formHidden("publicationKey",Zend_Controller_Front::getInstance()->getRequest()-> getParam("keypub",""),null)?>
+
+</fieldset>
+</form>

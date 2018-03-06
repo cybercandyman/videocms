@@ -1,0 +1,21 @@
+<h1>Doctrine tests</h1>
+
+<form method="post" action="">
+
+
+Name =	<input type="test" name="name" /><br />
+Userid =	<input type="test" name="userid" /><br />
+Date =	<input type="test" name="date" /><br />
+Message =	<input type="test" name="message" /><br />
+
+<input type="submit" value="enregistrer" />  
+
+</form>
+
+<hr />
+
+<ul>
+<?php foreach($this->messages as $message) :?>
+	<li><?php echo $message->getName() ?> : <?php echo $message->getMessage() ?></li>
+<?php endforeach;?>
+</ul>

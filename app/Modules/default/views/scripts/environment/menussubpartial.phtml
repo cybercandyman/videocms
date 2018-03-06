@@ -1,0 +1,44 @@
+<div id="sec_menu">
+<?php   if(sizeof($this->container)>0):?>
+
+<ul>
+<?php
+$it = new RecursiveIteratorIterator(
+$this->container, RecursiveIteratorIterator::SELF_FIRST);
+$currentPage = $this->navigation()->findActive($this->container);
+foreach($this->container  as $page ) :?>
+	<li >
+	<?php if( sizeof($page->pages ) > 0):?>
+	<span class="drop"><span><span>
+	
+	<a  href="<?php echo $page->getHref() ?>" class="sm8 <?php if( $page->isActive(true)) echo "current"?>" >
+	<?php echo $page->label?>
+	</a>
+	
+	</span>
+	</span>
+	</span>
+	<?php else: ?>
+	
+	<span class="nodrop">
+	<a id="a_<?php echo $page->getHref() ?>" href="<?php echo $page->getHref() ?>" class="sm9 <?php if( $page->_active) echo "current"?>"  >
+	<?php echo $page->label?>
+	</a>
+	</span>
+	<?php endif;?>
+	
+	
+        <?php if( sizeof($page->pages) > 0):?>
+    	<ul>
+    	<?php foreach ($page->pages as $childPage) :?>
+    		<li id="li_<?php echo $childPage->attributes["id"] ?>"><a id="a_<?php echo $childPage->attributes["id"]  ?>" href="<?php echo $childPage->getHref() ?>" class="<?php if( $childPage->_active) echo "current"?>"><?php echo $childPage->label; ?></a></li>
+    		<?php endforeach; ?>
+    	</ul>
+    	<?php endif;?>
+	
+	</li>
+	<?php endforeach;?>
+</ul>
+
+<br style="clear:both" />
+<?php endif;?></div>

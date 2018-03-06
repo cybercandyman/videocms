@@ -1,0 +1,136 @@
+<!-- Accordéon -->
+<script type="text/javascript">
+function openBlocInfos(blocName)
+{
+	$("#"+blocName+"_blocInfos .rubInfos").css("display","none");
+	$("#"+blocName+"_blocInfos .moreinfos").css("display","block");	
+}
+//
+jQuery(document).ready(function(){		
+	$(".blocInfos h2").each(function(){		
+		$(this).click(function(){
+			if($(".moreinfos",$(this).parent()).css("display") == "none"){				
+				$(".rubInfos",$(this).parent()).css("display","none");			
+				$(".moreinfos",$(this).parent()).css("display","block");					
+				$(".sortContent").sortable("refresh");
+				$(".extractItem").draggable('enable');					}
+			else{						
+				$(".moreinfos",$(this).parent()).css("display","none");	
+				$(".rubInfos",$(this).parent()).css("display","block");
+			}
+		});
+	});
+	//
+	openBlocInfos("informations");
+	openBlocInfos("chapitrage");
+	openBlocInfos("encoding");
+	openBlocInfos("subtitling");
+	openBlocInfos("translation");
+	openBlocInfos("watermarking");
+	//alert("coucou");
+});
+
+// Options du service (visibilité)
+
+// Tableau contenant les services disponibles
+var chb = new Array();
+
+jQuery(document).ready(function()
+{
+	// Initialisation
+	$.each(chb, function(i, val) 
+	{
+		<?php if($this->index == 1) : ?>
+			$("#" + val + "_blocInfos").css("display", "none");
+		<?php endif; ?>
+	});
+	
+	// Ecouteurs
+	$("ul#servicesSelection input").click(function()
+	{			
+		var blocName = $(this).attr("name");
+		//alert(blocName);
+		blocName = blocName.split("_");
+		blocName = blocName[0];
+		//alert(blocName);
+		var blocChecked = $(this).attr("checked");
+		//alert(blocChecked);
+		($("#"+blocName+"_blocInfos").css("display") == "block") ? 
+			$("#"+blocName+"_blocInfos").css("display","none")
+			:
+			$("#"+blocName+"_blocInfos").css("display","block");
+		openBlocInfos(blocName);
+	});	
+	
+		$("#vtrColorPicker").attachColorPicker();
+		$("#vtrColorPicker2").attachColorPicker();
+		// Sélection de toutes les cases à cocher des types de services demandés
+		$("#all_cb").click(function()
+		{
+			//alert("coucou");
+			$.each(chb, 
+				function(i, val) {
+				//alert(val);
+				$("#" + val + "_blocInfos").css("display", "block");
+				$("#" + val + "_cb").attr("checked", "ckecked");				
+				openBlocInfos(val);
+			});		
+		});
+
+//		$("#load_cb").click(function()
+//		{
+//			alert("load");	
+//		});
+	});
+</script>
+
+<script type="text/javascript">
+	// Définitions des masques de saisies
+	$.mask.masks.msk = {mask: '999'};
+	$.mask.masks.mskFontSize = {mask: '99'};
+</script>
+
+<script  type="text/javascript">
+// Validation des données saisies
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready
+(	
+	function()
+	{  		
+    	jQuery.each(field_not_ok, function() {
+    		//alert(this);
+      		$("#" + this).addClass("input_nok");
+    	});      
+    	$("#order_informations_form").validationEngine();
+		<?php 
+			//Zend_Debug::dump($this->chapitrage_checked);exit;
+		?>
+    	<?php if($this->chapitrage_checked) : ?>
+    		openBlocInfos("chapitrage");   
+    		$("#chapitrage_blocInfos").css("display", "block"); 		
+    	<?php endif; ?>	   
+
+    	<?php if($this->encoding_checked) : ?>
+			openBlocInfos("encoding");
+			$("#encoding_blocInfos").css("display", "block");
+		<?php endif; ?>			
+
+    	<?php if($this->subtitling_checked) : ?>
+			openBlocInfos("subtitling");
+			$("#subtitling_blocInfos").css("display", "block");
+		<?php endif; ?>			
+
+    	<?php if($this->translation_checked) : ?>
+			openBlocInfos("translation");
+			$("#translation_blocInfos").css("display", "block");
+		<?php endif; ?>	
+
+		<?php if($this->watermarking_checked) : ?>
+			openBlocInfos("watermarking");
+			$("#watermarking_blocInfos").css("display", "block");
+		<?php endif; ?>	
+	}	
+);
+
+</script>
+

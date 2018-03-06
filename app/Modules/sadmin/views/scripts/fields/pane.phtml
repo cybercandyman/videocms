@@ -1,0 +1,26 @@
+ <div class="subgroup droparea folder">           
+	<h3><?php echo $this->_("Title")?>
+	<a href="<?php echo BASE_URL ?>sadmin/translations/glist/table/panes/pkey/<?php echo $this->cat["idpane"] ?>/col_id/idpane/col_value/title" class="translations" title="<?php echo $this->_("Translations")?>">
+	<img style="margin-top:2px;" align=top height="16px" width="16px" src="<?php echo BASE_URL ?>themes/system/pics/MultilingualStaff.gif" /></a>
+	<?php echo $this->formText("subtitle_".$this->cat["idpane"],  $this->cat["title"])?>
+	&nbsp;
+	<a href="#" rel="<?php echo $this->cat["idpane"] ?>"  class="setup" title="<?php echo $this->_("Panel setup")?>">
+		<img src="<?php echo BASE_URL ?>themes/system/pics/pics/gif/gear.gif" width="16px" height="16px"/>
+	</a>
+	
+	
+	<a href="#" class="deletepane" rel="<?php echo $this->cat["idpane"] ?>" title="<?php echo $this->_("Delete")?>">
+			<img src="<?php echo BASE_URL ?>themes/system/pics/pics/gif/cancel.gif" width="16px" height="16px"/>
+	</a>
+	</h3>
+	<ul class="connectedSortable ui-sortable sortContent" id="sublist_<?php echo $this->cat["idpane"] ?>"> 
+		<?php foreach($this->cat["fields"] as $field) :?>                               
+			<li class="ui-state-default" id="field_<?php echo $field["idfield"] ?>">
+        		<div class="sortableItem"><?php echo $field["title"]?></div>
+        	</li>        	   		
+		<?php endforeach; ?>		
+	</ul>
+	<input type="hidden" name="hidden_sublist_<?php echo $this->cat["idpane"]?>" id="hidden_sublist_<?php echo $this->cat["idpane"] ?>" value="">
+</div>    
+
+

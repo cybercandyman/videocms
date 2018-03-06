@@ -1,0 +1,44 @@
+<select id="themelist-<?php echo $this->type ?>" name="<?php echo $this->name ?>">
+	<optgroup label="<?php echo $this->_("Application templates")?>">
+	<?php foreach($this->themes["sadmin"] as $theme => $val):?>
+
+		<option value="<?php echo $theme?>"><?php echo $val["title"]?></option>
+
+		<?php endforeach;?>
+	</optgroup>
+	<optgroup label="<?php echo $this->_("Your templates")?>">
+	<?php foreach($this->themes["pub"] as $theme => $val):?>
+
+		<option value="<?php echo $theme?>"><?php echo $val["title"]?></option>
+
+		<?php endforeach;?>
+	</optgroup>
+</select>
+
+		<?php if(isset($this->selected) && $this->selected != "") :?>
+<script>
+jQuery(document).ready(function(){
+	//$(".no-see").hide();
+	var select ="#themelist-<?php echo $this->type ?>";
+	$(select).val('<?php echo $this->escapejs($this->selected)?>');
+});
+</script>
+		<?php endif;?>
+		
+<script>
+jQuery(document).ready(function(){
+	//$(".no-see").hide();
+	var key = '<?php echo $this->key?>';
+	var view = '<?php echo $this->view?>';
+	var select ="#themelist-<?php echo $this->type ?>";
+	var fullpath = $( select ).val();
+	var elementType = '<?php echo $this->type?>';
+	$(select).parent().parent().find('span a').empty().addClass('edit-dialog').load("<?php echo BASE_URL ?>pub/integration/checkoptionsbtn/", {elementType: elementType, fullpath:fullpath, key:key, view:view});
+
+	// Show / Hide params button
+	$(select).change( function() {
+		var dynamicpath = $( this ).val();
+		$(this).parent().parent().find('span a').empty().addClass('edit-dialog').load("<?php echo BASE_URL ?>pub/integration/checkoptionsbtn/", {elementType: elementType, fullpath:dynamicpath,key:key, view:view});
+	});	
+});
+</script>

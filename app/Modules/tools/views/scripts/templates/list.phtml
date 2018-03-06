@@ -1,0 +1,151 @@
+<?php $this->placeholder("title")->set($this->_("Template editing"))?>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.qtip-1.0.0-rc3.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tooltip.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.simpletooltip-min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.ezpz_tooltip.min.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/jquery.tooltip.css") ?>
+
+<style>
+	.details_tooltip{
+		display:none;
+}
+div.htmltooltip{
+position: absolute; /*leave this and next 3 values alone*/
+z-index: 1000;
+left: -1000px;
+top: -1000px;
+background: #272727;
+border: 10px solid black;
+color: white;
+padding: 3px;
+width: 250px; /*width of tooltip*/
+}
+</style>
+
+<form enctype="multipart/form-data" action="<?php echo BASE_URL ?>tools/templates/uploadtheme"	method="post">
+<fieldset>
+<p><label><?php echo $this->_("Upload new template") ?></label><span> <?php echo $this->formFile("files") ?></span>
+<span> 
+<?php echo $this->sexybutton ("submit", $this->_("upload"), array("send_form_btn"), null,array("id"=>"")) ?> 
+</span></p>
+</fieldset>
+</form>
+
+
+<?php echo $this->systemMessage(sprintf($this->_("For more informations about the structure of a template, you have to see the <a href='%s' >FAQ</a>.","none"), $this->url(array("module"=>"default","controller"=>"docs","action"=>"faq"))),1)?>
+	
+<?php if ($this->module == "pub") : ?>
+<form action="<?php echo BASE_URL ?>pub/tools/duplicatetemplate" method="post">
+<fieldset>
+<p><label><?php echo $this->_("Duplicate from a default template")  ?></label>
+<span> <select name="defaultTheme">
+<?php foreach($this->defaultThemes as $theme ):?>
+<?php if($theme["isvalidtemplate"]):?>
+	<option value="<?php  echo $theme["name"]; ?>"><?php echo $theme["description"]->title; ?>
+	</option>
+	<?php endif ;?>
+	<?php endforeach;?>
+</select> </span><span>
+<?php echo $this->sexybutton ("submit", $this->_("duplicate"), array("send_form_btn"), null,array("id"=>"")) ?> 
+</span></p>
+</fieldset>
+</form>
+<?php endif;?>
+
+
+
+
+<?php if(sizeof($this->messages)>0):?>
+
+<?php foreach($this->messages as $message):?>
+	
+	<?php echo $this->systemMessage($message,5)?>
+	
+	<?php endforeach;?>
+
+<?php endif;?>
+<div>
+
+
+
+<h3><?php echo $this->_("Availables template")?></h3>
+<table id="data" class="tablesorter display table">
+	<thead>		
+		<tr>
+			<th><?php echo $this->_("Title")?></th>
+			<th><?php echo $this->_("Author")?></th>
+			<th><?php echo $this->_("Directory")?></th>
+			<th><?php echo $this->_("Description")?></th>
+			<th width="30%"><?php echo $this->_("Actions")?></th>
+		</tr>	
+	</thead>
+<?php foreach($this->themes as $theme ):?>
+    <?php if($theme["isvalidtemplate"]):?>
+        <tr>	
+        <td>
+            <a  href="javascript:void(0)"  class="theme_title"> <?php  echo $theme["description"]->title; ?></a>
+            <div class="details_tooltip"><img src="<?php  echo $theme["link"]."/".$theme["description"]->thumb; ?>"	height="350px" /></div>
+        </td>
+        <td><?php echo $theme["description"]->author; ?></td>
+        <td><?php  echo $theme["name"]; ?></td>
+        <td><?php echo $theme["description"]->description; ?></td>
+        <td>
+
+<div class="actions_menu">
+			<ul>
+				
+				<li><a class="edit" href="<?php echo BASE_URL?>tools/templates/edit/theme/<?php  echo $theme["name"]; ?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="tools" href="<?php echo BASE_URL ?>tools/templates/duplicate/theme/<?php echo $theme["name"]; ?>"><?php echo $this->_("duplicate")?></a></li>
+				<li><a class="tools" href="<?php echo BASE_URL ?>tools/templates/download/theme/<?php echo $theme["name"]; ?>"><?php echo $this->_("download")?></a></li>
+				<li><a class="delete" href="javascript:void(0);" onclick="confirmdelete('<?php  echo $theme["name"]; ?>');"><?php echo $this->_("delete")?></a></li>
+				
+			</ul>
+			</div>	
+        </td>
+        </tr>
+    <?php endif;?> 
+<?php endforeach; ?>
+</table>
+</div>
+
+<div id="dialog"></div>
+
+<div id="dialogDelete" title="<?php echo $this->_("Delete")?>">
+	<p><?php echo $this->_("Confirm deletion of this theme ?") ?></p>
+</div>
+
+
+<script type="text/javascript">
+	var themeToDelete ;
+	function confirmdelete(theme){
+		themeToDelete = theme;
+		$("#dialogDelete").dialog("open");
+	}
+	jQuery(document).ready(function(){
+
+		$(".theme_title").tooltip({
+		    track: true, 
+		    delay: 0, 
+		    showURL: false, 
+		    extraClass: "right" ,
+		    bodyHandler: function() { 
+		        return $(this).next().html(); 
+		    }
+		});
+		
+		$("#dialogDelete").dialog({
+			autoOpen:false,
+			modal: true,
+			buttons:{
+				"<?php echo $this->_("Confirm") ?>":function(){
+					var url = "<?php echo BASE_URL ?>tools/templates/deletetemplate/theme/"+themeToDelete;					
+					document.location.href = url;
+				},
+				"<?php echo $this->_("Cancel") ?>":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
+	});	
+</script>

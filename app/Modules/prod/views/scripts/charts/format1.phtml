@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<graph caption='<?php echo $this->_("Consumption statistics by publications") ?>'
+	xAxisName='' yAxisName='<?php echo $this->_("views") ?>' showNames='1' rotateNames='1' labelDisplay='Rotate' slantLabels='1'
+	decimalPrecision='0' formatNumberScale='0' yAxisMaxValue='10'
+	yAxisMinValue='0' numdivlines='10'  showPrintMenuItem='0' showAboutMenuItem='0' >
+	
+<?php if(sizeof($this->data)>0):?>
+<?php foreach($this->data as $entry ):?>
+<set name='<?php echo htmlspecialchars  (utf8_decode($entry["name"]),ENT_QUOTES) ?>'
+	value='<?php echo $entry["viewcount"]?>'
+	link="<?php echo $this->Url(array("action"=>"publication","idpublication"=>$entry["idpublication"]),null,false); ?>"  />
+<?php endforeach;?>
+<?php else:?>
+<set name='' />
+<?php endif;?>
+
+</graph>

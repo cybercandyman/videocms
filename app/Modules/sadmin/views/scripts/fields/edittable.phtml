@@ -1,0 +1,152 @@
+<?php $this->placeholder("title")->set( sprintf($this->_("Edit content of table %s"),$this->getParam("table")))?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."<?php	echo BASE_URL?>embeded/js/jquery.tablesorter.pager.js" ) ?>
+
+
+<?php
+//if ($this->tableRows==false) return;
+?>
+<?php echo $this->sexybutton ("href", $this->_("Add a row") , array("add_new",""),  "#addrow"  ,array("name"=>"addrow", "id"=>"linkAddRow","onclick"=>"$('#contentRowAction').html($('#addRow').html());")) ?>
+<br />
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+
+			<th><?php echo $this->_ ( "ID" );?></th>
+			<th><?php echo $this->_ ( "Libelle" );?></th>
+			<th><?php echo $this->_ ( "Parent" );?></th>
+			<th><?php echo $this->_ ( "Actions" );	?></th>
+
+
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php for($i = 0; $i < sizeof ( $this->tableRows ); $i ++) :	?>
+
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+			<td><?php echo $this->tableRows [$i] ["id"]; ?></td>
+			<td><?php echo $this->tableRows [$i] ["libelle"];?></td>
+			<td><?php echo $this->tableRows [$i] ["parent"];	?></td>
+
+			<td><input type="hidden"
+				value="<?php echo htmlentities ( $this->tableRows [$i] ["libelle"], ENT_QUOTES, "UTF-8" );?>"
+				id="hidden_lib_<?php echo $this->tableRows [$i] ["id"];	?>"> <input
+				type="hidden"
+				value="<?php echo $this->tableRows [$i] ["parent"];	?>"
+				id="hidden_pere_<?php echo $this->tableRows [$i] ["id"];?>">
+
+			<div class="actions_menu">
+			<ul>
+				<li><a
+					href="<?php echo BASE_URL?>sadmin/fields/deleterow/table/<?php echo $this->tablename?>/row/<?php echo $this->tableRows [$i] ["id"];	?>"
+					title="<?php echo $this->_ ( "delete" )?>"
+					id="delete_<?php echo $this->tableRows [$i] ["id"];	?>"
+					class="delete"><?php echo $this->_ ( "delete" )?></a></li>
+				<li><a
+					href="<?php	echo BASE_URL?>sadmin/fields/editrow/row/<?php echo $this->tableRows [$i] ["id"]; ?>"
+					title="<?php echo $this->_ ( "edit" )?>"
+					id="edit_<?php echo $this->tableRows [$i] ["id"];	?>" class="edit"><?php echo $this->_ ( "edit" )?></a></li>
+				<li><a
+					href="<?php echo BASE_URL?>sadmin/translations/list/table/<?php echo $this->tablename?>/id/<?php echo $this->tableRows [$i] ["id"];	?>"
+					title="<?php echo $this->_ ( "translations" )?>" class="edit"><?php echo $this->_ ( "translations" )?></a></li>
+			</ul>
+			</div>
+
+
+
+
+
+			</td>
+		</tr>
+
+		<?php endfor; ?>
+	</tbody>
+</table>
+<br />
+
+
+<div id="contentRowAction"></div>
+
+
+<div id="addRow" style="display: none">
+
+
+
+<form method="POST" action="<?php echo BASE_URL?>sadmin/fields/addrow">
+<fieldset><legend></legend>
+
+
+
+<p><label><?php  echo $this->_ ( "Libelle" )?></label><span><input
+	type="text" maxlength="" name="libellerow" id="libellerow" /></span></p>
+<p><label><?php  echo $this->_ ( "Parent" )?></label><span><input
+	type="text" maxlength="" name="parentrow" id="parentrow" /></span></p>
+<p><label>&nbsp;</label> <span> <input type="hidden" maxlength=""
+	name="tablename" id="tablename" value="<?php	echo $this->tablename?>" />
+
+<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?> </span></p>
+
+</fieldset>
+</form>
+
+</div>
+
+<div id="editRow" style="display: none">
+
+
+
+<form method="POST" action="<?php echo BASE_URL?>sadmin/fields/editrow">
+<fieldset><legend></legend>
+
+<p><label><?php echo $this->_ ( "ID" )?></label><span><input type="text"
+	maxlength="" name="idrow" id="edit_idrow" readonly /></span></p>
+<p><label><?php echo $this->_ ( "Libelle" )?></label><span><input
+	type="text" maxlength="" name="libellerow" id="edit_libellerow" /></span></p>
+<p><label><?php echo $this->_ ( "Parent" )?></label><span><input
+	type="text" maxlength="" name="parentrow" id="edit_parentrow" /></span></p>
+<p><label>&nbsp;</label> <span> <input type="hidden" maxlength=""
+	name="tablename" id="tablename" value="<?php echo $this->tablename?>" />
+<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?> </span></p>
+
+</fieldset>
+</form>
+
+</div>
+
+		<?php
+		//echo $this->pager ( $this->numrows );
+		?>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+		document.location.href = "#addrow";
+        $("#data").tablesorter(); 
+        
+        $("a[id*=delete]").click(function(){
+            if(!confirm("<?php	echo $this->_ ( "Are you sure to delete this row?","none" )?>")){return false;}
+        });
+        $("a[id*=edit]").click(function(){  
+             
+           
+            var ident = this.id;
+            var index  = ident.substring(ident.lastIndexOf('_')+1);
+            document.location.href = "#addrow";
+            $("#contentRowAction").html($("#editRow").html());  
+            $("#edit_idrow").val(index);
+            $("#edit_libellerow").val($("#hidden_lib_"+index).val());
+            $("#edit_parentrow").val($("#hidden_pere_"+index).val());
+            
+            
+           // $("#contentRowAction").html($("#editRow").html());  
+                      
+            return false;
+        });
+        
+    } 
+); 
+//]]>
+</script>

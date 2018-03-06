@@ -1,0 +1,54 @@
+<?php $this->placeholder ( "title" )->set ( $this->_ ( "Ontology URI Mapping" ) )?>
+
+<form id="" class method="post" action="<?php echo $this->url ( array ("module" => "sadmin", "controller" => "semantic", "action" => "save" ), null, true )?>">
+<fieldset>
+<legend></legend>
+
+
+	<p>
+		<label for=><?php echo $this->_ ( "Agent" )?></label>
+		<span><?php echo $this->formText ( "agent" );	?></span>
+	</p>
+	
+	
+	<p>
+		<label for=><?php echo $this->_ ( "Concept" )?></label>
+		<span><?php echo $this->formText ( "concept"  );	?></span>
+	</p>
+	
+	
+	<p>
+		<label for=><?php echo $this->_ ( "Event" )?></label>
+		<span><?php echo $this->formText ( "event"  );	?></span>
+	</p>
+	
+	<p>
+		<label for=><?php echo $this->_ ( "Object" )?></label>
+		<span><?php echo $this->formText ( "object" );	?></span>
+	</p>
+	
+	<p>
+		<label for=><?php echo $this->_ ( "Place" )?></label>
+		<span><?php echo $this->formText ( "place"  );	?></span>
+	</p>
+	
+	<p>
+		<label for=><?php echo $this->_ ( "Time" )?></label>
+		<span><?php echo $this->formText ( "time"  );	?></span>
+	</p>
+	
+	<p>
+	<label>&nbsp;</label>
+		<span>
+		<?php echo $this->formHidden("mod","")?>
+		<?php echo $this->sexybutton ("submit", $this->_("Save"), array("send_form_btn"), null,array("id"=>"valider")) ?>
+		</span>
+	</p>
+	
+</fieldset>
+</form>
+
+<?php echo $this->setFormValue($this->params)?> 
+
+<?php echo $this->systemMessage( $this->_ ( "Map your ontology class uri to functionalities" ),1)?>
+<?php echo $this->systemMessage( $this->_ ( "Separe your value with a comma" ),1)?>		

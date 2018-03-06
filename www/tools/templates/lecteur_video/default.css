@@ -1,0 +1,82 @@
+@CHARSET "ISO-8859-1";
+
+html,body{
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	text-align: center;	
+	background:black;
+	font-family:Arial;
+	font-size: 12px;
+	color:#DFDFDF;
+}
+object{
+	margin:0;
+	padding:0;
+	display:block;
+}
+#maincontent{
+	padding-top:0px;
+}
+
+table,td,tr{
+	padding:0px;
+	margin:0px;
+	border-collapse: collapse;	
+	
+}
+
+table.ombre .top{
+	background:url(./pics/ombre_04.png) repeat-x;
+	height:9px;
+}
+table.ombre .topleft {
+	background:url(./pics/ombre_03.png) no-repeat;
+	height:9px;
+	width:9px;
+}
+table.ombre .topright {
+	background:url(./pics/ombre_06.png) no-repeat;
+	height:9px;
+	width:9px;
+}
+table.ombre  .left {
+	background:url(./pics/ombre_08.png) repeat-y;
+	height:9px;
+	width:9px;
+}
+table.ombre  .right {
+	background:url(./pics/ombre_10.png) repeat-y;
+	height:9px;
+	width:9px;
+}
+img {
+	display:block;	
+}
+table.ombre .bottom{
+	background:url(./pics/ombre_14.png) repeat-x;
+	height:9px;
+}
+table.ombre .bottomleft{
+	background:url(./pics/ombre_13.png) no-repeat;
+	height:9px;
+}
+table.ombre .bottomright{
+	background:url(./pics/ombre_17.png) no-repeat;
+	height:9px;
+}
+#title{
+	font-family:Arial;
+	font-size: 14px;
+	color:#DFDFDF;
+	margin-top:65px;
+	margin-bottom:35px;
+}
+.content{
+	width:500px;
+	height:375px;
+}
+img{
+	border:none;
+}

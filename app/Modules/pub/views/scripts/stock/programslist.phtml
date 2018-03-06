@@ -1,0 +1,45 @@
+<?php $this->placeholder("title")->set(
+ $this->_("List of programs : ")." " 
+.sprintf($this->_("You have %s programs and %s extracts in stock."), $this->datacount["programs"], $this->datacount["extracts"]))?>
+
+<p class="large"><?php echo $this->sexybutton ("href", $this->_("export all programs"), array("add_new"), "javascript:void(0);" ,array("id"=>"exportPrograms")) ?></p>
+
+<?php echo $this->action("search","stock","pub")?>
+
+<div id="programsList"></div>
+
+<div id="dialogSelectionExportingView"
+	title="<?php echo $this->_("View selection") ?>">
+<p><?php echo $this->_("Select the view for the export")?> : <?php
+$tmp = array(); foreach ($this->views as $view):
+$tmp[ $view["viewcode"] ] = $view["viewname"];
+endforeach;
+echo $this->formSelect("viewSelector", Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default") ,null,$tmp)
+?></p>
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){  
+	$("#exportPrograms").click(function(){
+		 $("#dialogSelectionExportingView").dialog("open");	
+	});	
+    $("#dialogSelectionExportingView").dialog({
+        	modal: true,
+        	autoOpen: false,    	            	
+        	width:400,
+        	       
+        	buttons: {
+        			'<?php echo $this->_("Export")?>':function(){  
+						document.location.href = BASE_URL + "pub/data/exportpublication/publicationKey/<?php echo $this->_session->environment["details"]["key"] ?>/viewcode/" + $("#viewSelector").val() ;              		
+        				$(this).dialog('close');  					
+        			},						
+        			'<?php echo $this->_("Cancel")?>':function(){
+        					$(this).dialog('close');
+        				}
+        			}
+     });	
+});	
+//]]>
+</script>

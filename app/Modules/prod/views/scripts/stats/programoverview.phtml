@@ -1,0 +1,26 @@
+
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL?>embeded/js/FusionCharts.js"></script>
+<div id="chartdiv"></div>
+
+
+
+
+<?php
+$date = explode(",", $this->getParam("period", date("Y-m-d", time() - 3600 * 24 * 30) . "," . date("Y-m-d", time() - 3600 * 24)));
+$date = "[\"" . implode("\",\"", $date) . "\"]";
+?>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){	
+        var myChart = new FusionCharts(BASE_URL + "embeded/flash/Charts/Line.swf", "myChartId", "98%", "500");
+        myChart.setDataURL("<?php echo $this->dataUrl ?>");
+        myChart.setTransparent(true);
+        myChart.render("chartdiv");        
+    			 
+});        
+</script>
+
+

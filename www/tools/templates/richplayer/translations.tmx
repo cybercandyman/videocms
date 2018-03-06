@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE tmx SYSTEM "tmx14.dtd">
+<tmx version="1.4">
+<header creationtoolversion="1.0.0" datatype="winres"
+segtype="sentence" adminlang="en-us" srclang="de-at"
+o-tmf="abc" creationtool="XYZTool" >
+</header>
+<body>
+<tu tuid='enabledjs'>
+<tuv xml:lang="fr"><seg>Vous devez activer le javascript</seg></tuv>
+<tuv xml:lang="en"><seg>You have to activate javascript</seg></tuv>
+</tu>
+
+
+<tu tuid='videolist'>
+<tuv xml:lang="fr"><seg>Liste des vidéos par date de publication et  avec option de recherche.</seg></tuv>
+<tuv xml:lang="en"><seg>List of videos by publishing date and with search option.</seg></tuv>
+</tu>
+
+<tu tuid='favoris'>
+<tuv xml:lang="fr"><seg>Sauvegarder cette vidéo dans votre navigateur afin de la retrouver facilement .</seg></tuv>
+<tuv xml:lang="en"><seg>Save this video onto your navigator so that you can easily retrieve it.</seg></tuv>
+</tu>
+
+<tu tuid='duration'>
+<tuv xml:lang="fr"><seg>Durée</seg></tuv>
+<tuv xml:lang="en"><seg>Duration</seg></tuv>
+</tu>
+
+<tu tuid='integration'>
+<tuv xml:lang="fr"><seg>Copiez-collez un des liens ci-dessous pour intégrer ce programme à votre site.</seg></tuv>
+<tuv xml:lang="en"><seg>Copy and paste one of the links below to integrate this video into your site.</seg></tuv>
+</tu>
+
+<tu tuid='tooltip'>
+<tuv xml:lang="fr"><seg>Cliquer et maintenez ctrl + a de votre clavier pour sélectionner tout le contenu</seg></tuv>
+<tuv xml:lang="en"><seg>Press ctrl + a to select all</seg></tuv>
+</tu>
+
+
+<tu tuid='hrefpopup'>
+<tuv xml:lang="fr"><seg>href et popup</seg></tuv>
+<tuv xml:lang="en"><seg>href and popup</seg></tuv>
+</tu>
+
+<tu tuid='falshpopup'>
+<tuv xml:lang="fr"><seg>flash et popup</seg></tuv>
+<tuv xml:lang="en"><seg>flash and popup</seg></tuv>
+</tu>
+ 
+<tu tuid='firefox'>
+<tuv xml:lang="fr"><seg>
+<![CDATA[
+<p><u>Pour les utilisateurs de Mozilla Firefox</u></p>
+	<br/>
+	1. Utilisez Mozilla Firefox version 3 (pour une mise à jour téléchargez le ici <a href="http://www.mozilla-europe.org/fr/firefox/" target="_blank">http://www.mozilla-europe.org/fr/firefox/</a> :cliquez sur Firefox 3 : téléchargement gratuit<br/>
+	2. Téléchargez et installez les 2 fichiers ci-après : <br/>		
+	<span style="margin-left:10px">a) ie_tab-1.5.20080823-fx-win.xpi à <a href="https://addons.mozilla.org/fr/firefox/addon/1419" target="_blank">https://addons.mozilla.org/fr/firefox/addon/1419</a> : cliquez sur « Ajouter à Firefox  (windows) »  , cliquez sur autoriser puis installer maintenant. Cliquez ensuite sur Redémarrer maintenant.<br/></span>
+	<span style="margin-left:10px">b) IETabPref.txt  à l’adresse <a href="http://video.minefe.gouv.fr/MoteurTemplate/templates/dpaep2a48/ietab.htm" target="_blank">http://video.minefe.gouv.fr/MoteurTemplate/templates/dpaep2a48/ietab.htm</a> : faire un clic droit puis, enregistrer le lien de la cible sous (bureau par exemple)<br/></span>	
+	3. Sous Firefox, une fois redémarré : menu outils puis options de IE Tab, choisir préférences puis importer des options et  sélectionnez: IETabPref.txt<br/>	
+]]>		
+</seg>
+</tuv>
+
+
+<tuv xml:lang="en"><seg>
+<![CDATA[
+   <p><u>message to Mozilla Firefox users</u></p>
+	<br/>
+	1. Use Mozilla Firefox version 3 (for an update download at <a href="http://www.mozilla.com/en-US" target="_blank">http://www.mozilla.com/en-US</a> :click Firefox 3 : free download<br/>
+	2. Download and install both of the following files : <br/>		
+	<span style="margin-left:10px">a) ie_tab-1.5.20080823-fx-win.xpi at <a href="https://addons.mozilla.org/en-US/firefox/addon/1419" target="_blank">https://addons.mozilla.org/en-US/firefox/addon/1419</a> : click on   « Add to Firefox (windows) » then click allow, then Install now, restart firefox.<br/></span>
+	<span style="margin-left:10px">b) IETabPref.txt  at <a href="http://video.minefe.gouv.fr/MoteurTemplate/templates/dpaep2a48/ietab.htm" target="_blank">http://video.minefe.gouv.fr/MoteurTemplate/templates/dpaep2a48/ietab.htm</a> : right click and save link as (on desktop for example). <br/></span>	
+	4. Firefox  relaunched / Tools / Options / Tabs :  IE Tab options, choose preferences then import options and select : IETabPref.txt<br/>
+]]>		
+</seg>
+</tuv>
+</tu>
+ 
+<tu tuid='errordest'>
+<tuv xml:lang="fr"><seg>Veuillez saisir au moins un destinataire</seg></tuv>
+<tuv xml:lang="en"><seg>No recipient</seg></tuv>
+</tu>
+ 
+<tu tuid='messagesend'>
+<tuv xml:lang="fr"><seg>Message envoyé.</seg></tuv>
+<tuv xml:lang="en"><seg>Email sent.</seg></tuv>
+</tu>
+
+<tu tuid='messagelanguage'>
+<tuv xml:lang="fr"><seg>Revenir à la page d'accueil pour le choix de la langue de documentation.</seg></tuv>
+<tuv xml:lang="en"><seg>Click back to the home page for the documentation language choice.</seg></tuv>
+</tu>
+
+<tu tuid='tooltiplangue'>
+<tuv xml:lang="fr"><seg>Choix de la langue</seg></tuv>
+<tuv xml:lang="en"><seg>Click back to the home page for the documentation language choice.</seg></tuv>
+</tu>
+<tu tuid='tooltipinfos'>
+<tuv xml:lang="fr"><seg>Informations</seg></tuv>
+<tuv xml:lang="en"><seg>Informations</seg></tuv>
+</tu>
+<tu tuid='tooltipfavoris'>
+<tuv xml:lang="fr"><seg>Favoris</seg></tuv>
+<tuv xml:lang="en"><seg>Favorites</seg></tuv>
+</tu>
+<tu tuid='tooltipemail'>
+<tuv xml:lang="fr"><seg>Envoyer par e-mail</seg></tuv>
+<tuv xml:lang="en"><seg>Email this video</seg></tuv>
+</tu>
+<tu tuid='tooltipchapters'>
+<tuv xml:lang="fr"><seg>Chapitres</seg></tuv>
+<tuv xml:lang="en"><seg>Chapters</seg></tuv>
+</tu>
+<tu tuid='tooltiplastvids'>
+<tuv xml:lang="fr"><seg>Derniéres vidéos</seg></tuv>
+<tuv xml:lang="en"><seg>Last videos</seg></tuv>
+</tu>
+<tu tuid='tooltiplinkedvids'>
+<tuv xml:lang="fr"><seg>Vidéos lièes</seg></tuv>
+<tuv xml:lang="en"><seg>Linked Videos</seg></tuv>
+</tu>
+<tu tuid='tooltipintegration'>
+<tuv xml:lang="fr"><seg>Intégration</seg></tuv>
+<tuv xml:lang="en"><seg>Integration</seg></tuv>
+</tu>
+ 
+ <tu tuid='noticeemail'>
+<tuv xml:lang="fr"><seg>Veuillez saisir les adresses électroniques complétes séparées par un point-virgule.</seg></tuv>
+<tuv xml:lang="en"><seg>Integration</seg></tuv>
+</tu>
+
+<tu tuid='recipients'>
+<tuv xml:lang="fr"><seg>Destinataires</seg></tuv>
+<tuv xml:lang="en"><seg>Recipients</seg></tuv>
+</tu>
+
+<tu tuid='yourmessage'>
+<tuv xml:lang="fr"><seg>Votre message (optionnel)</seg></tuv>
+<tuv xml:lang="en"><seg>Recipients</seg></tuv>
+</tu>
+
+<tu tuid='tipyourmessage'>
+<tuv xml:lang="fr"><seg>Saisissez un message, celui-ci est optionnel.</seg></tuv>
+<tuv xml:lang="en"><seg>Recipients</seg></tuv>
+</tu>
+
+<tu tuid='send'>
+<tuv xml:lang="fr"><seg>Envoyer</seg></tuv>
+<tuv xml:lang="en"><seg>Send</seg></tuv>
+</tu>
+
+
+</body>
+</tmx>

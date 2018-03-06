@@ -1,0 +1,29 @@
+<form action="<?php
+echo BASE_URL?>sadmin/fields/confirmdeletegroup"
+	method="post">
+
+<p><?php
+echo $this->_ ( "You are going to delete the group : " ) . $this->group [0] ['name'];
+?> <br />
+<?php
+echo $this->_ ( "Do you want to confirm ?" );
+?> <br />
+</p>
+<p><input type="hidden" name="udg_id" 	value="<?php echo $this->group [0] ['idgroup']?>" />
+	<?php echo $this->sexybutton ("button", $this->_("confirm"), array("send_form_btn"), null,array("id"=>"")) ?>
+	<?php echo $this->sexybutton ("reset", $this->_("back"), array("cancel_btn"), null,array("id"=>"btnReset")) ?>
+	
+
+
+</p>
+
+</form>
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+        $("#back").click(function(){history.back();}); 
+    } 
+); 
+//]]>
+</script>

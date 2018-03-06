@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<graph
+	caption='<?php echo $this->_("Consumption statistics per production") ?>'
+	xAxisName='' yAxisName='<?php echo $this->_("views") ?>' showNames='0' labelDisplay='Rotate' slantLabels='1'
+	decimalPrecision='0' formatNumberScale='0' yAxisMaxValue='10'
+	yAxisMinValue='0' numdivlines='10' showPrintMenuItem='0' showAboutMenuItem='0'  >
+
+<?php if(sizeof($this->data)>0): $count=0;?>
+<?php foreach($this->data as $entry ):
+if($count <=30 ):
+?>
+<set
+	name='<?php echo isset($entry["value"]) ? htmlspecialchars  (utf8_decode($entry["value"]),ENT_QUOTES):""?>'
+	value='<?php echo $entry["count"]?>'
+	link="<?php echo $this->Url(array("action"=>"production","idproduction"=>$entry["idproduction"]),null,false); ?>" />
+
+<?php
+$count++;
+endif;
+endforeach;
+?>
+
+
+<?php else:?>
+<set name='' />
+<?php endif;?>
+
+</graph>

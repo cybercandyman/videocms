@@ -1,0 +1,91 @@
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL ?>themes/system/css/facebox.css" media="all" />
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>
+			<ul>
+				<li class="draggableItem">
+				<div class="sortableItem">
+				
+				<span class="item_<?php echo $item["keyprog"]?>"><?php if( $item["idprog_programs_extract"] != "") : ?><img class="icones" align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?><?php print ( $this->details[$item["idprog"]]["title"]["value"]) ?></span>
+				</div>
+				</li>
+			</ul>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+		<?php if($this->paginator->getPages()->totalItemCount == 0): ?>
+		<?php echo $this->_("No matches") ?>
+		<?php endif;?>
+
+
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<form method="post" action="<?php echo BASE_URL ?>prod/program/delete"
+	id="formProgramToDelete">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This program will be deleted. Are you sure ?") ?>
+<input type="hidden" id="keyToDelete" name="keyToDelete" value="" /></p>
+<p><?php echo $this->_("Delete file on server : ") ?>
+<?php echo $this->_("Delete")?><input type="radio" name="deletefile" value="true" />
+<?php echo $this->_("Restore to depot")?><input type="radio" name="deletefile" value="false" checked="checked" />
+<?php echo $this->_("Keep at the same place")?> <input type="radio"	name="deletefile" value="keep" />
+</p>
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+function deleteProgram(key)
+{
+	$("#keyToDelete").val(key);$('#dialog').dialog('open');
+}
+jQuery(document).ready(function() 
+    { 
+	$.facebox.settings.opacity = 0.6;
+  //      $("#data").tablesorter(); 
+    var _destroyUrl;    	
+    $('a.delete').click(function() {
+    	$('#dialog').dialog('open');
+    	_destroyUrl = $(this).attr("href");
+    	return false;
+    });
+    $("#dialog").dialog({		
+		bgiframe: true,
+		resizable: false,		
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete this program")?>': function() {
+				$(this).dialog('close');
+				$("#formProgramToDelete").trigger("submit");
+				
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+    } 
+); 
+//]]>
+</script>

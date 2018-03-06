@@ -1,0 +1,135 @@
+<?php if(hasService($this->id_type, 1)) : ?>
+<!--  Chaptering -->
+<script type="text/javascript">
+	chb.push("chapitrage");
+</script>
+
+
+<div class="blocInfos" id="chapitrage_blocInfos" style="<?php if($this->getParam("action") != "view" || $this->getParam("action") != "processing") :?> display:none<?php endif; ?>">
+	<h2>
+		<?php echo $this->_("Chaptering") ?>
+	</h2>
+	
+	<span class="rubInfos">
+		<?php if($this->index) : ?>
+			<?php echo $this->_("Edit service chaptering")?>
+		<?php else: ?>
+			<?php echo $this->_("View service chaptering"); ?>
+		<?php endif; ?>	
+	</span>
+	<div class="moreinfos">
+	
+		<fieldset>
+	
+			<p>
+				<label>
+					<?php echo $this->_ ( "File" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<span> 
+						<input
+						class="inputText" 
+						name="chapitrage_file" 
+						id="chapitrage_file" 
+						value=""
+						type="text" /> 
+					</span> 
+					<a 
+					href="javascript:filemanager('chapitrage_file');" 
+					class="filemanager"> File manager </a>
+				<?php else: ?>
+					<span class="TEXT_value">
+						<a 
+							class="link_sorter" 
+							target="_blank"
+							
+							href="<?php echo $this->chaptering[0]["chapitrage_file"] ?>" ><?php echo $this->chaptering[0]["chapitrage_file"] ?>
+						</a>						
+					</span>
+				<?php endif; ?>
+			</p>
+	
+			<p>
+				<label>
+					<?php echo $this->_ ( "Captures/Miniatures" )?>
+				</label>
+				<?php if($this->index == 1) : ?>
+					<span style="display: block; float: left;">
+						<?php 
+							echo $this->formCheckbox("capture_miniature_cb","capture_miniature_cb", array("checked"=>$this->capture_miniature_checked)) ;
+						?>										
+					</span>
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php if($this->chaptering[0]["capture_miniature"] == 1) : ?>
+							<?php echo $this->_("YES") ?>
+						<?php else: ?>
+							<?php echo $this->_("NOT") ?>
+						<?php endif; ?>
+					</span>
+				<?php endif; ?>	
+			</p>		
+			
+			<?php if (strlen($this->chaptering[0]["comments"]) || ($this->index == 1)) :?>
+			<p>				
+				<label>				
+					<?php echo $this->_ ( "Comments" )?>
+				</label> 				
+				<?php if($this->index == 1) : ?>
+					<textarea
+						name="chapitrage_comments" 
+						id="chapitrage_comments" 
+						rows="15" 
+						cols="80"></textarea>
+				<?php else: ?>
+					<span class="TEXTAREA_value">
+						<?php echo nl2br($this->chaptering[0]["comments"]) ?>
+					</span>					
+				<?php endif; ?>
+				
+			</p>
+			<?php endif; ?>
+			
+			<?php if($this->index != 1) : ?>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Current status" )?>
+					</label> 
+					<span class="TEXT_value">
+						<?php echo $this->_ ( $this->chaptering[0]["status"]) ?>
+					</span>				
+				</p>
+			<?php endif; ?>
+			
+			<?php							
+				$service_states = serviceStateSelection($this->order[0]["status"], $this->chaptering[0]["status"]);
+			?>
+			
+			<?php if($this->index == 2 
+				&& !isEnded($this->order[0]["status"])
+				&& !isEnded($this->chaptering[0]["status"])
+			) : ?>
+			
+					<p>
+						<label>
+							<?php echo $this->_ ( "Status" )?>
+						</label>
+						<span class="TEXT_value">
+							<select id="chapitrage_list_state" name="chapitrage_list_state">
+								<?php						 
+									foreach ($service_states as $state)
+									{
+										echo "<option>" . $this->_ ($state) . "</option>\n";
+									}	
+								?>
+							</select>					
+						</span>
+					</p>
+					
+			<?php endif; ?>
+			
+		</fieldset>
+	</div>
+</div>
+
+<?php endif;?>

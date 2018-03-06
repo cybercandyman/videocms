@@ -1,0 +1,390 @@
+<?php require_once(dirname(__FILE__)."/functions.php") ;?>
+<?php
+
+$dualScreen = isset($_GET["dualScreen"]) && $_GET["dualScreen"] == true ? true : false;
+
+?>
+
+<div
+	id="overDiv"
+	style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+<noscript><font color="red"><?php echo $this->translate("enabledjs")?></font>
+</noscript>
+
+<?php
+$playlist = $this->playlist;
+$programs = $playlist->getPrograms();
+$wvx = $playlist->getWvxUri();
+
+?>
+
+<?php require_once(dirname(__FILE__)."/playlistjs.php") ;?>
+
+<?php if ($dualScreen):?>
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo THEME_PATH ?>/dualscreens.css" />
+
+<div id="bandeauHaut"><img
+	src="<?php echo THEME_PATH ?>/images/bandeauHaut2logos.jpg" /></div>
+<div id="content_center">
+<div id="colonneGauche"><?php endif;?>
+
+<div id="zoneVideo">
+<div><img src="<?php echo THEME_PATH ?>/images/arrondi-haut.gif" /></div>
+<div id="PlayerZone">
+<div id="video"></div>
+<div id="zone_flash"></div>
+</div>
+</div>
+
+<div id="hiddenVideoListe" style="display: none">
+<div><?php echo $this->translate("videolist")?></div>
+</div>
+
+<div id="hiddenFavoris" style="display: none">
+<div><?php echo $this->translate("favoris")?></div>
+</div>
+
+
+
+<div id="hiddenInfos_" style="display: none">Aucun programme en cours de
+lecture.</div>
+
+
+<?php foreach ($programs as $program) :
+$serie = $program->getProgramFromSerie();
+?>
+<div id="hiddenTitre_<?php echo base64_encode($program->title) ?>"
+	style="display: none"><?php echo $program->title ?></div>
+
+<div id="hiddenInfos_<?php echo base64_encode($program->title) ?>"
+	style="display: none">
+<div>
+<div style="float: left;"><img
+	src="<?php echo $program->getPicture("videolist") ?>" width="50"
+	height="37" alt="image programme" /></div>
+<div
+	style="float: left; width: 230px; margin-left: 5px; text-align: left;">
+<h1 style="margin-bottom: 5px"><span class="title"><?php echo $program->title ?></span></h1>
+<strong>Date :</strong>&nbsp;<?php echo $program->date ?>&nbsp; <strong><?php echo $this->translate("duration")?>
+:</strong>&nbsp;<?php echo CleanTc(Tronquer_Texte($program->duration,8,"")) ?>
+</div>
+<div style="clear: both;"></div>
+<div class="synopsis"><?php echo htmlspecialchars_decode($program->synopsis) ?></div>
+</div>
+</div>
+
+<div id="hiddenSerie_<?php echo base64_encode($program->title) ?>"
+	style="display: none"><?php foreach($serie as $prog) :?>
+<div class="blocChapitres">
+<div style="float: left; width: 40px;"><a
+	href="<?php echo $prog->getHtmlUrl() ?>"> <img
+	src="<?php echo $prog->getPicture("serie") ?>" width="40" height="30" />
+</a></div>
+<div style="float: left; width: 240px; margin-left: 5px;"><span
+	class="title"><a href="<?php echo $prog->getHtmlUrl() ?>"> <?php echo $prog->title ?></a></span>
+<em>(<?php echo $this->translate("duration")?>: <?php echo CleanTc(Tronquer_Texte($prog->duration,8,"")) ?>)</em>
+<br />
+<em> <?php echo Tronquer_Texte($prog->title,150,"...") ?></em></div>
+<div style="clear: both;"></div>
+<div></div>
+</div>
+<?php endforeach; ?></div>
+
+<div id="hiddenLangue_<?php echo base64_encode($program->title) ?>"
+	style="display: none">
+<div>
+<div class="blocChapitres"
+	style="margin-bottom: 5px; text-align: justify;"><?php echo $this->translate("messagelanguage")?>
+</div>
+<?php echo @$program->video->makeSwitchLanguage() ?></div>
+</div>
+
+<?php endforeach;?> <?php
+
+$serie  = array();
+if(sizeof($programs)>0)
+$serie = $programs[0]->getProgramFromSerie();
+?>
+
+<div id="hiddenSerie_" style="display: none"><?php foreach($serie as $prog) :?>
+<div class="blocChapitres">
+<div style="float: left; width: 40px;"><a
+	href="<?php echo $prog->getHtmlUrl() ?>"> <img
+	src="<?php echo $prog->getPicture("serie") ?>" width="40" height="30" />
+</a></div>
+<div style="float: left; width: 240px; margin-left: 5px;"><span
+	class="title"><a href="<?php echo $prog->getHtmlUrl() ?>"> <?php echo $prog->title ?></a></span>
+<em>(<?php echo $this->translate("duration")?>: <?php echo CleanTc(Tronquer_Texte($prog->duration,8,"")) ?>)</em>
+<br />
+<em> <?php echo Tronquer_Texte($prog->title,150,"...") ?></em></div>
+<div style="clear: both;"></div>
+<div></div>
+</div>
+<?php endforeach; ?></div>
+
+<div id="hiddenIntegration" style="display: none">
+<form name="form1" method="post" action=""><?php echo $this->translate("integration")?>
+<br />
+
+<strong>url : </strong> <br />
+<input title="<?php echo $this->translate("tooltip")?>"
+	name="textfield2" type="text" class="champTexte" id="textfield2"
+	value="<?php echo htmlentities($playlist->getHtmlUrl(),ENT_QUOTES,"UTF-8" )?>"
+	size="52" /> <br />
+<strong><?php echo $this->translate("hrefpopup")?> : </strong> <br />
+<input title="<?php echo $this->translate("tooltip")?>" name="textfield"
+	type="text" class="champTexte" id="textfield"
+	value="<?php echo  htmlentities( $playlist->getHtmlUrlWithPopupCode(),ENT_QUOTES,"UTF-8" ) ?>"
+	size="52" /> <br />
+<strong>iframe : </strong> <br />
+<input title="<?php echo $this->translate("tooltip")?>"
+	name="textfield4" type="text" class="champTexte" id="textfield4"
+	value="<?php echo htmlentities($playlist->getHtmlIframeCode(),ENT_QUOTES,"UTF-8") ?>"
+	size="52" /> <br />
+<strong>embed :</strong> <br />
+<input title="<?php echo $this->translate("tooltip")?>"
+	name="textfield5" type="text" class="champTexte" id="textfield5"
+	value="<?php echo htmlentities($playlist->getWindowsMediaObject(),ENT_QUOTES,"UTF-8") ?>"
+	size="52" /> <strong><?php echo $this->translate("flashpopup")?> : </strong>
+<br />
+<input title="<?php echo $this->translate("tooltip")?>" name="textfield"
+	type="text" class="champTexte" id="textfield"
+	value="<?php echo htmlentities($playlist->getHtmlAnimWithPopupCode(),ENT_QUOTES,"UTF-8") ?>"
+	size="52" /></form>
+</div>
+
+<div id="hiddenChapters" style="display: none"><?php 
+$count = 0;
+foreach ($programs as $program) :
+$chapters = $program->getChapters()?> <?php foreach($chapters as $chapter ):?>
+<div class="blocChapitres"
+	id="tag-<?php echo base64_encode($program->title) ?>-<?php echo $chapter->timecodeInSec() ?>">
+<div style="float: left; width: 32px;"><?php if($chapter->picture != ""):?>
+<a
+	href="javascript:PlayAt(<?php echo $count ?>,'<?php echo $chapter->timecodeInSec() ?>');">
+<img src="<?php echo $chapter->picture ?>" width="32" height="32"
+	alt="<?php echo $chapter->title?>" /> </a> <?php else :?> <?php endif;?>
+
+<?php if($chapter->file != "" || $chapter->url != ""):?>
+<div style="<?php if($chapter->file != "" && $chapter->url != ""):?>margin-left:3px;<?php elseif($chapter->file != "" || $chapter->url != ""):?>margin-left:9px;<?php endif; ?>" >
+<?php if($chapter->file != "" ):?>
+<div style="float: left; width: 14px; height: 15px; padding-top: 2px;">
+<a
+	id="tag-<?php echo base64_encode($program->title) ?>-<?php echo $chapter->timecodeInSec() ?>_link"
+	href="javascript:popSlide('<?php echo $chapter->file?>');"
+	rel="<?php echo $chapter->file?>"
+	title="<?php echo getFilename($chapter->file) ?>"> <img
+	src="<?php echo THEME_PATH ?>/images/picto-pdf.gif" width="13"
+	height="14" alt="<?php  getFilename($chapter->file) ?>" /></a></div>
+<?php endif; ?> <?php if($chapter->url != "" ):?>
+<div style="float: left; width: 14px; height: 15px; padding-top: 2px;">
+<a href="<?php echo $chapter->url?>" target="_blank"
+	title="<?php echo $chapter->urltitle?>"> <img
+	src="<?php echo THEME_PATH ?>/images/picto-web.gif"
+	alt="<?php echo $chapter->urltitle?>" width="13" height="14"
+	class="picto_info" /> </a></div>
+<?php endif; ?></div>
+<?php endif; ?></div>
+<div style="float: left; width: 250px; margin-left: 5px;"
+	class="chapter_description"><span
+	class="<?php echo $chapter->timecode == "00:00:00:00" ? "title" : "chapter"?>">
+<a
+	href="javascript:PlayAt(<?php echo $count ?>,'<?php echo $chapter->timecodeInSec() ?>');"><?php echo $chapter->title ?></a></span>
+&nbsp; <em><?php echo CleanTc(Tronquer_Texte( $chapter->timecode,8,"")) ?></em>
+&nbsp; <br />
+<div
+	onmouseover="return overlib('<?php echo htmlentities($this->escapejs($chapter->description),ENT_QUOTES,"utf-8") ?>',FGCOLOR ,'#FFFCDF',WIDTH,250,BGCOLOR ,'black',FIXX ,'50',ABOVE,TEXTFONT ,'Arial');"
+	onmouseout="return nd();"><?php echo Tronquer_Texte($chapter->description,80) ?>
+</div>
+</div>
+<div style="clear: both;"></div>
+</div>
+<?php endforeach;?> <?php $count++; endforeach;?></div>
+<div id="" style="display: none"><img
+	src="<?php echo THEME_PATH ?>/images/onglet-langues.gif"
+	alt="<?php echo $this->translate("tooltiplangue") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-informations.gif"
+	alt="<?php echo $this->translate("tooltipinfos") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-favoris.gif"
+	alt="<?php echo $this->translate("tooltipfavoris") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-email.gif"
+	alt="<?php echo $this->translate("tooltipemail") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-chapitres.gif"
+	alt="<?php echo $this->translate("tooltipchapters") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-dernieres-videos.gif"
+	alt="<?php echo $this->translate("tooltiplastvids") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-videos-liees.gif"
+	alt="<?php echo $this->translate("tooltiplinkedvids") ?>" width="248"
+	height="27" /> <img
+	src="<?php echo THEME_PATH ?>/images/onglet-integration.gif"
+	alt="<?php echo $this->translate("tooltipintegration") ?>" width="248"
+	height="27" /></div>
+
+
+<div id="zoneControles">
+<div id="zoneControlesContenus">
+<div class="controle"><a href="#"
+	onclick="changeContenuTitre('informations');" onclick=""><img
+	src="<?php echo THEME_PATH ?>/images/picto-infos.gif" alt="Information"
+	name="picto1" width="24" height="32" border="0" id="picto1"
+	onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('chapitres');"><img
+	src="<?php echo THEME_PATH ?>/images/picto-chapitres.gif"
+	alt="Chapitres" name="picto4" width="24" height="32" border="0"
+	id="picto4" onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('videosAssociees');"><img
+	src="<?php echo THEME_PATH ?>/images/picto-videos-liees.gif"
+	alt="Vid&eacute;os liées" name="picto6" width="24" height="32"
+	border="0" id="picto6" onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('dernieresVideos');popupVideolist();"
+	onmouseout=""><img
+	src="<?php echo THEME_PATH ?>/images/picto-dernieres-videos.gif"
+	alt="Derni&egrave;res vid&eacute;os" name="picto5" width="24"
+	height="32" border="0" id="picto5" onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('favoris');addbookmark();"><img
+	src="<?php echo THEME_PATH ?>/images/picto-favoris.gif" alt="Favoris"
+	name="picto2" width="24" height="32" border="0" id="picto2"
+	onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('email');"><img
+	src="<?php echo THEME_PATH ?>/images/picto-mail.gif"
+	alt="Envoi par courriel" name="picto3" width="24" height="32"
+	border="0" id="picto3" onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('integration');"><img
+	src="<?php echo THEME_PATH ?>/images/picto-integrer.gif"
+	alt="Int&eacute;gration" name="picto7" width="24" height="32"
+	border="0" id="picto7" onmouseover="" /></a></div>
+<div class="controle2"><a href="#"
+	onclick="changeContenuTitre('langues');"><img
+	src="<?php echo THEME_PATH ?>/images/picto-langues.gif" alt="Langue"
+	name="picto8" width="24" height="32" border="0" id="picto8"
+	onmouseover="" /></a></div>
+</div>
+</div>
+<div id="zoneDynamique">
+<div id="titre"></div>
+<div id="contenuDynamique"></div>
+<div id="arrondiBas"></div>
+</div>
+
+
+
+<?php if($dualScreen):?></div>
+<div id="colonneDroite">
+<div id="zoneIframe"><iframe src="<?php echo $playlist->picture?>"
+	frameborder="0" id="frame_diapo" scrolling="no" height="450"
+	width="600" marginheight="0" marginwidth="0"></iframe></div>
+<div id="zoneTitre">
+<div id="zoneTitrePlaylist"><?php echo $playlist->title?></div>
+<div id="zoneTitreProg"></div>
+</div>
+</div>
+</div>
+<div style="clear: both"></div>
+<?php endif;?>
+
+
+
+<script language="javascript" type="text/javascript">
+    changeContenuTitre("chapitres");
+    MM_swapImage('picto1', '', '<?php echo THEME_PATH ?>/images/picto-infos.gif',
+                 'picto2', '', '<?php echo THEME_PATH ?>/images/picto-favoris.gif',
+                 'picto3', '', '<?php echo THEME_PATH ?>/images/picto-mail.gif',
+                 'picto4', '', '<?php echo THEME_PATH ?>/images/picto-chapitres-over.gif',
+                 'picto5', '', '<?php echo THEME_PATH ?>/images/picto-dernieres-videos.gif',
+                 'picto6', '', '<?php echo THEME_PATH ?>/images/picto-videos-liees.gif',
+                 'picto7', '', '<?php echo THEME_PATH ?>/images/picto-integrer.gif',
+                 'picto8', '', '<?php echo THEME_PATH ?>/images/picto-langues.gif',
+                 0);
+</script>
+
+
+<script language="JScript" for="PlayerWmEmbeded"
+	event="playStateChange(NewState)">
+
+    if(NewState != 1 && NewState != 8 && NewState != 10 ){     
+        $('#video').css('z-index','20');
+        $('#video').css('visibility','visible');
+        $('#zone_flash').css('z-index','10');
+        $('#zone_flash').css('visibility','hidden');  
+    }else{
+        $('#video').css('z-index','10');
+        $('#video').css('visibility','hidden');
+        $('#zone_flash').css('z-index','20');
+        $('#zone_flash').css('visibility','visible');    
+    }
+    switch (NewState){
+        case 3:// playing
+            current_lcid = player_video.controls.currentAudioLanguage;
+            break;
+    }
+
+</script>
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+   jQuery(document).ready(function()
+        {           
+         	// Init de windows media player         	  
+          $('.libelle_langue').each( function(){ var  val = $(this).html(); var limite = 15;
+                  var  origine = val;
+                  if( val.length > limite ){
+                  val = '<span title="' + origine + '" >' + val.substring(0,limite) + "..." + '</span>';
+                  $(this).html(val);
+                  }
+          });                  
+          // Lecture auto sur le premier pas
+          //setLangueByLCID(1036);                   
+          // setTimeout("PlayAt(0,0)",1000);
+
+           $('#video').media({ 
+        	    width:     320, 
+        	    height:    305,         	   
+        	    src:       "<?php echo $wvx ?>" ,
+        	    attrs:     { id: 'PlayerWmEmbeded' ,name: 'PlayerWmEmbeded' },
+        	    autoplay:  <?php echo isset($_GET['autoplay'])&& $_GET['autoplay']=="true"? "true":"false"?>      	  	           	  
+        	});        	
+           if(!$.browser.mozilla ){
+            	$("#zone_flash").media({
+    					width:320,
+    					height:305,
+    					flashVersion:  '8',
+    					flashvars:     {"url":"<?php echo $playlist->getFileForFlash()?>"},					
+    					src : "<?php echo THEME_PATH ?>/images/slideshow.swf"
+                });
+           }else{
+        	   $('#video').css('z-index','20');
+               $('#video').css('visibility','visible');
+           }
+        	init(); 
+        });
+//]]>      
+</script>
+
+
+<div style="display: none;" id="messageActiveX"><?php echo $this->translate("firefox")?></div>
+<script type="text/javascript" language="javascript">
+	$(document).ready(function(){
+		if($.browser.mozilla ){
+			/* Décommenter a ligne suivante pour afficher le message sous le player */
+			$("#messageActiveX").css("display","block");			
+			/* Décommenter les 2 lignes suivantes pour afficher le message dans l'onglet information */
+			//changeContenuTitre("informations");
+			//$("#contenuDynamique").html($("#messageActiveX").html());
+			}
+	});
+</script>

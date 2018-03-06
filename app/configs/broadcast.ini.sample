@@ -1,0 +1,16 @@
+[server_1]
+name=Windows 2003 local
+address=127.0.0.1
+login=
+password=
+mode=FTP
+;mode=SCP
+rootDirectory=/
+streamDirectory=/Video/
+depositDirectory=/Depot/
+uriSchema=mms://127.0.0.1/gcv/Video/%s
+streamercode=1
+proxy=/mirror/wms/
+
+
+

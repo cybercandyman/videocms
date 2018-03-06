@@ -1,0 +1,33 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php $this->placeholder("title")->set($this->_("Statistics"))?>
+<h3><?php echo $this->_("Total views for last 30 days") ?></h3>
+<?php if($this->_session->environment["module"] == "prod"):?>
+<p>
+	<a href="<?php echo BASE_URL ?>prod/stats/program/idprog/<?php echo $this->program["idprog"] ?>" 	class="button check_all"><span><span><?php echo $this->_("more statistics")?></span></span></a><br/><br/></p>
+<?php else :?>
+<p>
+	<a href="<?php echo BASE_URL ?>pub/stats/program/idprog/<?php echo $this->program["idprog_programs_of"] ?>"	class="button check_all"><span><span><?php echo $this->_("more statistics")?></span></span></a><br/><br/></p>
+<?php endif;?>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/FusionCharts.js") ?>
+<div id="chartdiv"></div>
+
+
+<?php
+$date = explode(",", $this->getParam("period", date("Y-m-d", time() - 3600 * 24 * 30) . "," . date("Y-m-d", time() - 3600 * 24)));
+$date = "[\"" . implode("\",\"", $date) . "\"]";
+?>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){	
+        var myChart = new FusionCharts(BASE_URL + "embeded/flash/Charts/Line.swf", "myChartId", "600", "450");
+        myChart.setDataURL("<?php echo $this->dataUrl ?>");
+        myChart.setTransparent(true);
+        myChart.render("chartdiv");        
+    			 
+});        
+</script>
+<?php $this->block()->end(); ?>
+

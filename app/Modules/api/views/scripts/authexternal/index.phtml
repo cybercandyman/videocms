@@ -1,0 +1,13 @@
+<?php
+/**
+ * Vérifie l'état de connexion de l'utilisateur (status)
+ * La valeur retournée est utilisée par le Module Apache Authnz-External
+ * -- exit(0) 		== Access granted
+ * -- exit(n), n >0 == Access rejected
+ */
+header ( "Authorization: Basic $this->authorization" );
+if ($this->status) {
+	echo "0";
+} else {
+	echo "1";
+}

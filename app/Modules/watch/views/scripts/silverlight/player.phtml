@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>silverlight</title>
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+}
+</style>
+</head>
+<body>
+<?php
+$params = $this->params;
+$params["width"] = isset($params["width"]) && is_numeric($params["width"]) ? $params["width"] : 320;
+$params["autoplay"] = isset($params["autoplay"]) && ($params["autoplay"] == 'true') ? "true" : "false";
+$params["height"] = isset($params["height"]) && is_numeric($params["height"]) ? $params["height"] : 240;
+$params["button"] = isset($params["button"]) ? $params["button"] : "1011110111111" ;
+$params["dualscreen"] = isset($params["dualscreen"]) && ($params["dualscreen"] == "0" || $params["dualscreen"]=="1") ? $params["dualscreen"] : "1" ;
+$params["id"] = isset($params["id"]) && !empty($params["id"]) ? $params["id"] : 0;
+$params["culture"] = isset($params["culture"]) && !empty($params["culture"]) ? $params["culture"] : "en";
+$params["lang"] = isset($params["lang"])  ? $params["lang"] : $params["culture"];
+$params["publicationKey"] = isset($params["publicationKey"]) && !empty($params["publicationKey"]) ? $params["publicationKey"] : 0;
+$params["type"] = isset($params["type"]) && !empty($params["type"])  && ($params["type"] == "pl" || $params["type"]=="pr")? $params["type"] : "pr";
+$params["server"]  = "http://" . $_SERVER['HTTP_HOST'] . BASE_URL;
+$params["basehost"]  = "http://" . $_SERVER['HTTP_HOST']  . BASE_URL ."embeded/silverlight/";
+$params["currentChapterDisplay"] = isset($params["currentChapterDisplay"])  && is_numeric($params["currentChapterDisplay"]) ? $params["currentChapterDisplay"] : 1;
+$params["initParams"] = "basehost=".$params["basehost"].",server=".$params["server"].",videoWidth=".$params["width"].",videoHeight=".$params["height"].",button=".$params["button"].",dualscreen=".$params["dualscreen"].",id=".$params["id"].",type=".$params["type"].",publicationKey=".$params["publicationKey"].",autoplay=".$params["autoplay"].",lang=".$params["lang"].",currentChapterDisplay=".		$params["currentChapterDisplay"];
+?>
+<div id="playerSilverlight"><object
+	data="data:application/x-silverlight-2,"
+	type="application/x-silverlight-2"
+	width="<?php echo $params["width"] ?>px"
+	height="<?php echo $params["height"] ?>px" id="silverlightControl">
+	<param name="source"
+		value="http://<?php echo $_SERVER["HTTP_HOST"]?><?php echo BASE_URL?>embeded/silverlight/Menifi.Player.xap" />
+	<param name="enableHtmlAccess" value="true" />
+	<param name="background" value="white" />
+	<param name="minRuntimeVersion" value="2.0.31005.0" />
+	<param name="autoUpgrade" value="true" />
+	<param name="initParams" value="<?php echo $params["initParams"] ?>" />
+	<param name="culture" value="<?php echo $params["culture"] ?>" />
+	<param name="uiculture" value="<?php echo $params["culture"] ?>" />
+	<a href="http://go.microsoft.com/fwlink/?LinkID=124807"
+		style="text-decoration: none;"> <img
+		src="http://go.microsoft.com/fwlink/?LinkId=108181"
+		alt="Get Microsoft Silverlight" style="border-style: none" /> </a> </object>
+
+</div>
+
+</body>
+</html>

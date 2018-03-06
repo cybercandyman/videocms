@@ -1,0 +1,221 @@
+<?php $this->placeholder("title")->set($this->_( "Edit users access"))?>
+
+<script src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.min.js" type="text/javascript"></script>
+<script src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.pager.js"	type="text/javascript"></script>
+<script	src="<?php echo BASE_URL?>embeded/js/jquery.facebox.js" 	type="text/javascript"></script>
+
+<a class="button check_all"	href="<?php echo $this->url(array("action"=>"edit","id"=>$this->iduser) ) ?>"><span><span><?php echo $this->_("Back to user")?></span></span></a>
+<br />
+<br />
+
+<form action="<?php echo $this->url(array("action"=>"updateaccess"))?>"	method="post">
+
+
+<div id="tabs">
+
+<ul>
+<?php if(sizeof($this->superAdminList)>0 ) :?>
+<li><a href="#tabs-1"><?php echo $this->_("Super administration")?></a></li>
+<?php endif;?>
+<?php if(sizeof($this->productionList)>0 ) :?>
+<li><a href="#tabs-2"><?php echo $this->_("Production")?></a></li>
+<?php endif;?>
+<?php if(sizeof($this->publicationList)>0 ) :?>
+<li><a href="#tabs-3"><?php echo $this->_("Publication")?></a></li>
+<?php endif;?>
+<?php if(sizeof($this->serviceList)>0 ) :?>
+<li><a href="#tabs-4"><?php echo $this->_("Service")?></a></li>
+<?php endif;?>
+<li><a href="#tabs-5"><?php echo $this->_("Vivo")?></a></li>
+</ul>
+
+<?php if(sizeof($this->superAdminList)>0 ) :?>
+<div id="tabs-1">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th width="50%" ><?php echo $this->_("Ressource")?></th>
+			<th><?php echo $this->_("Admin")?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->_("Super administration") ?></td>
+			<td><?php echo $this->formCheckbox("check_superAdmin[]" , 1 ,array("checked" => $this->superAdminList[0]["adminaccess"])  ) ;?></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<?php endif;?>
+
+<?php if(sizeof($this->productionList)>0 ) :?>
+<div id="tabs-2">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th width="50%"><?php echo $this->_("Ressource")?></th>
+			<th><?php echo $this->_("Admin")?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php  for ($i = 0; $i < sizeof($this->productionList); $i ++) : ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->productionList[$i]["name"]?></td>
+			<td><?php echo $this->formCheckbox("check_production[]" , $this->productionList[$i]["idproduction"] ,array("checked" => $this->productionList[$i]["adminaccess"])  ) ;?>
+				&nbsp;
+				<a href="<?php echo BASE_URL ?>sadmin/users/editmenu/id/<?php echo $this->iduser?>/type/prod/ressource/<?php echo  $this->productionList[$i]["idproduction"] ?>" title="<?php echo $this->_("menu")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/package_settings.png" /></a>
+			</td>
+			
+		</tr>
+		<?php endfor;?>	
+		<tr>
+			<td></td>
+			<td>
+				<a  href="javascript:void(0)" id="prod_select_all" title="<?php echo $this->_("Select all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_all.gif" /></a>
+				<a  href="javascript:void(0)" id="prod_deselect_all" title="<?php echo $this->_("Deselect all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_none.gif" /></a>			
+			</td>
+		</tr>		
+	</tbody>
+</table>
+</div>
+<?php endif;?> 
+
+<?php if(sizeof($this->publicationList)>0 ) :?>
+<div id="tabs-3">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th width="50%"><?php echo $this->_("Ressource")?></th>
+			<th width="25%"><?php echo $this->_("Admin")?></th>
+			<th width="25%"><?php echo $this->_("View")?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php for ($i = 0; $i < sizeof($this->publicationList); $i ++) : ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->publicationList[$i]["name"]?></td>
+			<td><?php echo $this->formCheckbox("check_publication[]" , $this->publicationList[$i]["idpublication"] ,array("checked" => $this->publicationList[$i]["adminaccess"])  ) ;?>
+			&nbsp;<a href="<?php echo BASE_URL ?>sadmin/users/editmenu/id/<?php echo $this->iduser?>/type/pub/ressource/<?php echo  $this->publicationList[$i]["idpublication"] ?>"  title="<?php echo $this->_("menu")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/package_settings.png" /></a>
+			</td>
+			<td><?php echo $this->formCheckbox("check_publication_view[]" , $this->publicationList[$i]["idpublication"] ,array("checked" => $this->publicationList[$i]["viewaccess"])  ) ;?></td>
+		</tr>
+		<?php endfor; ?>
+		<tr>
+			<td></td>
+			<td>				
+				<a  href="javascript:void(0)" id="pub_select_all" title="<?php echo $this->_("Select all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_all.gif" /></a>
+				<a  href="javascript:void(0)" id="pub_deselect_all" title="<?php echo $this->_("Deselect all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_none.gif" /></a>				
+			</td>
+			<td>			
+				<a  href="javascript:void(0)" id="pubview_select_all" title="<?php echo $this->_("Select all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_all.gif" /></a>
+				<a  href="javascript:void(0)" id="pubview_deselect_all" title="<?php echo $this->_("Deselect all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_none.gif" /></a>				
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<?php endif;?> 
+
+
+<?php if(sizeof($this->serviceList)>0 ) :?>
+<div id="tabs-4">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th width="50%"><?php echo $this->_("Ressource")?></th>
+			<th><?php echo $this->_("Admin")?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php for ($i = 0; $i < sizeof($this->serviceList); $i ++) : ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->serviceList[$i]["name"]?></td>
+			<td><?php echo $this->formCheckbox("check_service[]" , $this->serviceList[$i]["idservice"] ,array("checked" => $this->serviceList[$i]["adminaccess"])  ) ;?>
+			&nbsp;<a href="<?php echo BASE_URL ?>sadmin/users/editmenu/id/<?php echo $this->iduser?>/type/ser/ressource/<?php echo  $this->serviceList[$i]["idservice"]  ?>"  title="<?php echo $this->_("menu")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/package_settings.png" /></a>
+			</td>
+		</tr>
+		<?php endfor; ?>
+		<tr>
+		<td></td>
+			<td>	
+				<a  href="javascript:void(0)" id="ser_select_all" title="<?php echo $this->_("Select all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_all.gif" /></a>
+				<a  href="javascript:void(0)" id="ser_deselect_all" title="<?php echo $this->_("Deselect all")?>"><img src="<?php echo BASE_URL ?>themes/system/pics/select_none.gif" /></a>						
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<?php endif;?>
+
+<div id="tabs-5">
+	<table class="minitable">
+	<thead>
+		<tr>
+			<th width="50%"><?php echo $this->_("Ressource")?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->_("Ontology Editor")?> </td>
+			<td><?php echo $this->formCheckbox("vivo_access" , 1 ,array("checked" => $this->userInfos[0]['vivo_access'])) ;?></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+</div>
+
+<br />
+
+<fieldset>
+<ul>
+<?php echo $this->formHidden("iduser", $this->iduser ,null) ?>
+	<li><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></li>
+	<ul>
+
+</fieldset>
+
+</form>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){       
+	$(function() {	
+
+		$("#pub_select_all").click(function(){
+			$("input[name=check_publication\[\]]").attr("checked","checked");
+		});
+
+		$("#pub_deselect_all").click(function(){
+			$("input[name=check_publication\[\]]").removeAttr("checked");
+		});
+
+		$("#prod_select_all").click(function(){
+			$("input[name=check_production\[\]]").attr("checked","checked");
+		});
+
+		$("#prod_deselect_all").click(function(){
+			$("input[name=check_production\[\]]").removeAttr("checked");
+		});
+		$("#ser_select_all").click(function(){
+			$("input[name=check_service\[\]]").attr("checked","checked");
+		});
+
+		$("#ser_deselect_all").click(function(){
+			$("input[name=check_service\[\]]").removeAttr("checked");
+		});
+
+		$("#pubview_select_all").click(function(){
+			$("input[name=check_publication_view\[\]]").attr("checked","checked");
+		});
+
+		$("#pubview_deselect_all").click(function(){
+			$("input[name=check_publication_view\[\]]").removeAttr("checked");
+		});
+		$("#tabs").tabs();
+	});
+
+});
+//]]>
+</script>

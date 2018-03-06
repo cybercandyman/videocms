@@ -1,0 +1,113 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+
+<div id="pictureManager">
+<div class="folder">
+<div class="picture"><img  src="<?php echo BASE_URL?>themes/system/pics/background.png"	id="showPictureDialog" class="vignette" /></div>
+<br style="clear: both" />
+</div>
+
+</div>
+
+
+
+<div id="divId" title="<?php echo $this->_("Explorer");?>"><iframe 	id="modalIframeId" 	src=""	title="Dialog Title" marginWidth="0" marginHeight="0" frameBorder="0" 	scrolling="auto" width="100%" height="95%">Your browser does not suppr</iframe></div>
+<div id="divId2" title="<?php echo $this->_("Picture editor");?>"><iframe id="modalIframeId2" width="100%" height="95%"	title="Dialog Title" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="no">Your browser does not suppr</iframe></div>
+
+
+
+<script type="text/javascript">
+
+var initPictures = <?php echo $this->jspictures?>;
+function loadPicture(pictures){
+	 $.each(pictures, function(i,item){
+		 var obj = new Object();
+		 obj.link = item.uri;
+		 obj.usage = item.usage;
+		 addPicture(obj);
+	 });
+}
+function savePicture(file){
+	$.ajax({
+		url:"<?php echo BASE_URL?>prod/program/addpicture",
+		type:"post",
+		data:{uri:file.link,key:"<?php echo $this->key?>"}		
+	});
+	addPicture(file);
+}
+function addPicture(file){
+	
+	var id=new  Date();
+	var uniquid = id.getTime();
+	$("#pictureManager .folder .picture:last").after('<div class="picture" id="vign'+uniquid+'"><div class="cancel"><a href="javascript:deletePic(\'vign'+uniquid+'\',\'' + file.link + '\');"><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"/></a></div><img src="'+file.link+'"  class="vignette showPictureDialog ' + file.usage +'"/></div>');
+	$("img.vignette", "#vign"+uniquid).click(function(){		
+		var arg = encodeURIComponent( $(this).attr("src"));
+		$("#modalIframeId2").attr("src", "<?php echo BASE_URL?>tools/filemanager/editpicture?picture=" + arg + "&usage=" +  file.usage );
+		$currentPicture = $(this);		
+		$("#divId2").dialog('open');
+	});
+}
+function deletePic(id,link){
+	
+	var uri = link;	
+	$.ajax({
+		url:"<?php echo BASE_URL?>prod/program/removepicture",
+		type:"post",
+		data:{uri:uri,key:"<?php echo $this->key?>"}		
+	});
+	$("#"+id).remove();		
+}
+var filesSelected = new Array();
+var $currentPicture ;
+
+jQuery(document).ready(function()
+{	
+	loadPicture(initPictures);
+	$.metadata.setType("attr", "metadata");
+	$(".ui-dialog-content").attr("overflow","hidden");
+	$("#showPictureDialog").click(function(){		
+		$("#modalIframeId").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");
+		$("#divId").dialog('open');
+		});		
+    $("#divId").dialog({
+    		modal: false,
+    		autoOpen: false,
+    		width:960,
+    		height:615,	
+    		buttons: {
+					'<?php echo $this->_("Select","none")?>':function(){
+    					filesSelected = new Array();
+    					$('#modalIframeId').contents().find('#explorerPanel .clicked').parent().each(function(){
+    						filesSelected.push($(this).metadata().fullpath);
+    						savePicture($(this).metadata());
+        				});      				
+    					$(this).dialog('close');  					
+					},						
+    				'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });		
+	 $("#divId2").dialog({
+	 		modal: false,
+	 		autoOpen: false,
+	 		width:960,
+	 		height:615,	
+	 		buttons: {	
+            		'<?php echo $this->_("Update","none")?>':function(){
+						var usage = $('#modalIframeId2').contents().find('#pictureUsage').val();
+						$currentPicture.removeClass("program").removeClass("videolist").removeClass("serie");
+						$currentPicture.addClass(usage);	
+            			$(this).dialog('close');
+            			$.ajax({
+							type:"post",
+							url:"<?php echo BASE_URL ?>prod/program/updatepictureusage",
+							data:{uri:$currentPicture.attr("src"),key:"<?php echo $this->key ?>",usage:usage}
+                		});
+            		},							
+	 				'<?php  echo $this->_("Cancel")?>':function(){
+	 					$(this).dialog('close');
+	 				}
+	 			}
+	 	});				
+});	
+</script>

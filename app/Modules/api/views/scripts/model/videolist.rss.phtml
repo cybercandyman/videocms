@@ -1,0 +1,31 @@
+<rss version="2.0">
+    <channel>
+        <title></title>        
+        <lastBuildDate><?php echo date ("r",time())?></lastBuildDate>              
+        <?php foreach($this->videolist->_programs as $program) : ?>
+        <item>
+            <title><![CDATA[<?php echo strip_tags(htmlspecialchars_decode($program->title,ENT_QUOTES)) ?>]]></title>
+            <description>
+            	<![CDATA[
+            	<img src="<?php echo htmlspecialchars($program->getPicture("videolist")) ?>" alt="" width="64px" align="left"/>
+           	 		<?php  echo htmlspecialchars(strip_tags(htmlspecialchars_decode($program->synopsis,ENT_QUOTES ))) ?>
+           	 	]]>
+            </description>
+            <pubDate><?php
+           
+            $tmp = explode("/",$program->date); 
+               
+            echo utf8_encode(
+            htmlspecialchars(date("r",mktime(0,0,0,
+                isset($tmp[1])?(int)$tmp[1]:0,
+                isset($tmp[2])?(int)$tmp[2]:0,
+                isset($tmp[0])?(int)$tmp[0]:0))));
+            //echo utf8_encode(htmlspecialchars($program->date)) ?></pubDate>
+            <enclosure type="image/jpeg"  url="<?php echo (htmlspecialchars($program->getPicture("videolist"))) ?>" ></enclosure>
+            <!-- <link><?php echo $program->getSilverlightUrl()?></link> -->
+            <link>http://<?php echo $_SERVER["HTTP_HOST"].BASE_URL ?>lecteur_video/keypub/<?php echo $program->publicationkey ?>/id/<?php echo $program->keyprog?>/lang/<?php echo $program->lang ?></link>           
+        </item>
+        <?php endforeach; ?>        
+    </channel>
+</rss>
+

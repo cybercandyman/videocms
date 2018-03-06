@@ -1,0 +1,64 @@
+
+<!-- FileManager -->
+
+<script type="text/javascript">
+//<![CDATA[   
+var $currentField ;
+/**
+ * FileManager
+ */
+function filemanager(idref)
+{	
+	$currentField = jQuery("#"+idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");
+	jQuery("#divIdExplorer").dialog('open');
+}
+/**
+ * 
+ */
+jQuery(document).ready(function(){  	
+	// Affectation du formulaire principal (informations) pour les services
+	// services.form = document.informations_form;
+	// services.hideBlocsInfos();
+	//
+	$('input:text').setMask();
+	$.metadata.setType("attr", "metadata");
+    $("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        	
+    	width:960,
+    	height:615,	    	
+    	buttons: {
+    			'<?php echo $this->_ ( "Select","none" )?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					
+            			filesSelected.push($(this).metadata().link);						
+            		});      	            				
+            		for(var i=0;i<filesSelected.length;i++){        				
+            			$currentField.val(filesSelected[i]);
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_ ( "Cancel" )?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	    
+});
+//]]>
+</script>
+
+<!-- Exploreur de fichiers -->
+
+<div id="divIdExplorer" title="<?php echo $this->_ ( "Explorer" ); ?>">
+	<iframe 
+		id="modalIframeIdExplorer" 
+		width="933" 
+		height="502" 
+		src=""
+		marginWidth="0" 
+		marginHeight="0" 
+		frameBorder="0" 
+		scrolling="no">Your browser does not suppr</iframe>
+</div>
+

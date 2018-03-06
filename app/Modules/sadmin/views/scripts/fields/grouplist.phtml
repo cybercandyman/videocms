@@ -1,0 +1,119 @@
+<?php $this->placeholder("title")->set($this->_("List of groups"))?>
+<script
+	src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.min.js"
+	type="text/javascript"></script>
+<script
+	src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.pager.js"
+	type="text/javascript"></script>
+
+
+
+<?php echo $this->sexybutton ("href", $this->_("create") , array("add_new",""),  BASE_URL."sadmin/fields/creategroup"  ,array()) ?>
+
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "ID" );?></th>
+			<th><?php echo $this->_ ( "Name" ); ?></th>
+			<th><?php echo $this->_ ( "Number of fields" );?></th>
+			<th><?php echo $this->_ ( "System group" );?></th>
+
+			<th><?php echo $this->_ ( "Actions" );?></th>
+
+
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php for($i = 0; $i < sizeof ( $this->groups ); $i ++) : ?>
+		<tr <?php  if($this->groups [$i] ["system_gcv"] == true): ?>
+			class="tr_system" <?php else:  ?>
+			class="<?php if($i % 2) echo "odd"; else echo "even"; ?>"
+			<?php endif; ?>>
+			<td><?php echo $this->groups [$i] ["idgroup"];?></td>
+			<td><?php echo $this->groups [$i] ["name"];?></td>
+			<td><?php echo $this->groups [$i] ["count"]; ?></td>
+			<td><?php echo $this->groups [$i] ["system_gcv"]==true?"true":"false"; ?></td>
+
+			<td>
+
+			<div class="actions_menu">
+
+			<ul>
+
+					<?php  if($this->groups [$i] ["is_editable"] == true) :?>
+				<li><a
+					href="<?php echo BASE_URL?>sadmin/fields/editgroup/group/<?php echo $this->groups [$i] ["idgroup"];?>"
+					class="edit" title="<?php echo $this->_ ( "edit" )?>"><?php echo $this->_ ( "edit" )?></a></li>
+					<?php endif; ?>
+					
+								<?php  if($this->groups [$i] ["system_gcv"] != true) :?>
+				<li><a class="delete"
+					href="<?php echo BASE_URL?>sadmin/fields/deletegroup/group/<?php echo $this->groups [$i] ["idgroup"]; ?>"
+					title="<?php echo $this->_ ( "delete" )?>"><?php echo $this->_ ( "delete" )?></a></li>
+					<?php endif; ?>
+
+			</ul>
+
+			</div>
+
+
+
+
+
+			</td>
+		</tr>
+
+		<?php endfor;?>
+	</tbody>
+
+</table>
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span><?php echo  $this->_("Are you sure to delete this group ?") ?></p>
+</div>
+
+
+		<?php // echo $this->pager ( $this->numrows );?>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+        $("#data").tablesorter(); 
+
+		var _destroyUrl;    	
+        $('a.delete').click(function() {
+    		$('#dialog').dialog('open');
+    		_destroyUrl = $(this).attr("href");
+    		return false;
+    	});
+    	
+    	$("#dialog").dialog({
+    		
+    		bgiframe: true,
+    		resizable: false,
+    		height:140,
+    		modal: true,
+    		autoOpen:false,
+    		overlay: {
+    			backgroundColor: '#000',
+    			opacity: 0.5
+    		},
+    		buttons: {
+    			'<?php echo $this->_("Delete")?>': function() {
+    				$(this).dialog('close');
+    				document.location.href = (_destroyUrl);
+    			},
+    			<?php echo $this->_("Cancel")?>: function() {
+    				$(this).dialog('close');
+    			}
+    		}
+    	});
+    } 
+); 
+//]]>
+</script>

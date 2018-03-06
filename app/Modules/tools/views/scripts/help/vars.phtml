@@ -1,0 +1,19 @@
+<h3><?php echo $this->_("Programs fields")?> :</h3>
+<ul>
+<?php foreach($this->programFields as $field) :?>
+	<li><?php echo $field["code"]?> (<?php echo $field["type"]?> )</li>
+	<?php endforeach; ?>
+</ul>
+
+<h3><?php echo $this->_("Chapters fields")?> :</h3>
+<ul>
+<?php foreach($this->chapterFields as $field) :?>
+	<li><?php echo $field["code"]?> (<?php echo $field["type"]?> )</li>
+	<?php endforeach; ?>
+</ul>
+
+	<?php
+
+	$field = new Model_Field("audience");
+	echo $field->getHtml();
+	?>

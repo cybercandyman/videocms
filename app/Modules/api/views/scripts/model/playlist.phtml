@@ -1,0 +1,82 @@
+<?php if( $this->playlist ) : ?>
+
+<playlist>
+<title><?php echo (htmlspecialchars($this->playlist->title)) ?></title>
+<description><?php echo (htmlspecialchars($this->playlist->description)) ?></description>
+<picture><?php echo (htmlspecialchars($this->playlist->picture)) ?></picture>
+<group><?php echo (htmlspecialchars($this->playlist->groupname)) ?></group>
+
+<programs>
+<?php
+$programs = $this->playlist->getPrograms();
+for($i=0 ; $i <sizeof($programs) ;$i++) :
+$program = $programs[$i];
+$program->getPictures();
+?>
+
+<program>
+
+<infos>
+<title><?php echo htmlspecialchars($program->title) ?></title>
+<synopsis><?php echo htmlspecialchars( $program->description) ?></synopsis>
+<duration><?php echo htmlspecialchars($program->duration )?></duration>
+<picture><?php echo htmlspecialchars($program->getPicture("program") ) ?></picture>
+<public><?php echo htmlspecialchars($program->public) ?></public>
+<date><?php echo htmlspecialchars($program->year) ?></date>
+<genre><?php echo htmlspecialchars($program->genre) ?></genre>
+<tcin><?php echo htmlspecialchars($program->tcin) ?></tcin>
+<tcout><?php echo htmlspecialchars($program->tcout) ?></tcout>
+<url><?php echo htmlspecialchars($program->_integrationUrl) ?></url>
+<key><?php echo $program->keyprog ?></key>
+<ressource><?php echo $program->getRestUrl() ?></ressource>
+<videos>
+<?php
+$videos = (array)$program->getVideos();
+for($y=0 ; $y <sizeof($videos) ;$y++) : ?>
+<video>
+
+<filename><?php echo htmlspecialchars($videos[$y]->filename) ?></filename>
+<arl><?php echo htmlspecialchars($videos[$y]->getUri()) ?></arl>
+<bitrate><?php echo htmlspecialchars($videos[$y]->rate) ?></bitrate>
+<size><?php echo htmlspecialchars($videos[$y]->filesize) ?></size>
+<codec><?php echo htmlspecialchars($videos[$y]->codec) ?></codec>
+<?php $langues = $videos[$y]->getLangues();?>
+<languages>
+<?php for($w=0 ; $w <sizeof($langues) ;$w++) :  ?>
+<language>
+<lcid><?php echo htmlspecialchars($langues[$w]["lcid"]) ?></lcid>
+<title><?php echo htmlspecialchars($langues[$w]["libelle"]) ?></title>
+<picture><?php echo htmlspecialchars($langues[$w]["picture"]) ?></picture>
+</language>
+<?php endfor;?>
+</languages>
+
+</video>
+<?php endfor;?>
+</videos>
+
+</infos>
+
+<chapters>
+<?php
+$chapters = $program->getChapters();
+for($y=0 ; $y <sizeof($chapters) ;$y++) : ?>
+<chapter>
+<?php foreach($chapters[$y]->_data["details"] as $field):?>
+<<?php echo $field["code"]?>><?php echo  $field["code"] != "timecode" ? htmlspecialchars($field["value"]):$chapters[$y]->getCleanTimeCode() ?></<?php echo $field["code"]?>>
+<?php endforeach;?>
+</chapter>
+<?php endfor;?>
+</chapters>
+
+
+</program>
+
+<?php endfor;?>
+</programs>
+</playlist>
+<?php else :?>
+<playlist>
+not found
+</playlist>
+<?php endif;?>

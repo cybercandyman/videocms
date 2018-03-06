@@ -1,0 +1,52 @@
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+<?php $this->placeholder("title")->set($this->_( "Edit component"))?>
+<form method="post" id="formComponent"
+	action="<?php echo BASE_URL ?>sadmin/menu/updatecomponent">
+
+<fieldset>
+
+
+<p><label><?php echo $this->_("Name") ?></label> <span><?php echo $this->formText("name", $this->rawData["name"],array("class"=>"validate[required]")) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Url") ?></label> <span><?php echo $this->formText("url", $this->rawData["url"]) ?></span>
+</p>
+<p><label><?php echo $this->_("Module") ?></label> <span><?php echo $this->formText("moduletype",$this->rawData["moduletype"]) ?></span>
+</p>
+<p><label><?php echo $this->_("Controller") ?></label> <span><?php echo $this->formText("controllerName", $this->rawData["controller"]) ?></span>
+</p>
+<p><label><?php echo $this->_("Action") ?></label> <span><?php echo $this->formText("actionName", $this->rawData["action"]) ?></span>
+</p>
+<p><label><?php echo $this->_("Parameters") ?></label> <span><?php echo $this->formText("parameters", $this->rawData["parameters"]) ?></span>
+</p>
+<p><label><?php echo $this->_("Route") ?></label> <span><?php echo $this->formText("route", $this->rawData["route"]) ?></span>
+</p>
+
+<p><label>&nbsp; <?php echo $this->formHidden("idcomponent", $this->rawData["idcomponent"]) ?></label>
+<span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+
+</fieldset>
+</form>
+
+
+<?php echo $this->systemMessage($this->_ ( "Be carefull, The url parameter takes advantage over any other." ) ,1)?>
+<?php echo $this->systemMessage($this->_ ( "Separate parameters by comma. Ex : param1=value1,param2=value2" ) ,1)?>
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready(function(){      
+	  $("#formComponent").validationEngine();  
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+   
+});
+//]]>
+</script>

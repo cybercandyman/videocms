@@ -1,0 +1,89 @@
+[production]
+phpSettings.display_startup_errors =1
+phpSettings.display_errors =1
+
+includePaths.library = APPLICATION_PATH "/../library"
+bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
+bootstrap.class = "Bootstrap"
+
+vbuild=150
+;environment configuration
+encodage		 = utf-8
+theme			 = liquid
+email_support 	 	 = 
+mail_sender		 = 
+mail_sender_info	 = 
+languages = fr,en
+replication=false
+encrypted_word = unmotpourlaclef
+ItemCountPerPage = 10
+productname     = GCV 
+ldap = false
+;end of environment configuration
+minifyjs = false;
+minifycss = false;
+;database configuration
+database.adapter         = pdo_pgsql
+database.params.host     = localhost
+database.params.username = 
+database.params.password = 
+database.params.dbname   = gcvv2
+database.params.profiler.enabled = false
+database.params.charset = "utf8"
+database.params.driver_options.1002 = "SET NAMES utf8"
+;end of database configuration
+
+resources.modules[] = ""
+resources.frontController.controllerdirectory 	= APPLICATION_PATH "/controllers"
+resources.frontController.moduledirectory 		= APPLICATION_PATH "/Modules"
+resources.frontController.baseurl 				= /
+resources.frontController.throwExceptions 		= false
+resources.frontController.params.noErrorHandler = false
+
+resources.router.routes.api.route = "rest/:method/:publicationkey/*"
+resources.router.routes.api.defaults.module = "api"
+resources.router.routes.api.defaults.controller = "rest"
+resources.router.routes.api.defaults.action = "index"
+
+resources.router.routes.resource.route = "resource/:action/:id/*"
+resources.router.routes.resource.defaults.module = "api"
+resources.router.routes.resource.defaults.controller = "resource"
+resources.router.routes.resource.defaults.action = "index"
+
+resources.router.routes.soap.route = "soap/*"
+resources.router.routes.soap.defaults.module = "api"
+resources.router.routes.soap.defaults.controller = "soap"
+resources.router.routes.soap.defaults.action = "index"
+
+resources.router.routes.lecteurvideo.route = "lecteur_video/*"
+resources.router.routes.lecteurvideo.defaults.module = "watch"
+resources.router.routes.lecteurvideo.defaults.controller = "webtv"
+resources.router.routes.lecteurvideo.defaults.action = "lecteurvideo"
+
+resources.router.routes.lecteurvideobiecran.route = "lecteur_video_biecran/*"
+resources.router.routes.lecteurvideobiecran.defaults.module = "watch"
+resources.router.routes.lecteurvideobiecran.defaults.controller = "webtv"
+resources.router.routes.lecteurvideobiecran.defaults.action = "lecteurvideobiecran"
+
+
+
+twig.templateDir = APPLICATION_PATH "/../templates"
+twig.options.cache = APPLICATION_PATH "/../temp/cache_twig"
+
+resources.cachemanager.core.frontend.name = core
+resources.cachemanager.core.frontend.customFrontendNaming = false
+resources.cachemanager.core.frontend.options.lifetime = 7200
+resources.cachemanager.core.frontend.options.automatic_serialization = true
+resources.cachemanager.core.frontend.options.caching = true
+resources.cachemanager.core.backend.name = File
+resources.cachemanager.core.backend.customBackendNaming = false
+resources.cachemanager.core.backend.options.cache_dir = APPLICATION_PATH "/../temp/cache"
+resources.cachemanager.core.frontendBackendAutoload = false
+    
+[testing : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+[development : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1

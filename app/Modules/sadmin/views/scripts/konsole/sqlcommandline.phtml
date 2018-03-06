@@ -1,0 +1,11 @@
+<form method="post" action="">
+
+	<textarea rows="10" cols="100" name="sql"><?php echo $this->getParam("sql")?></textarea><br />
+	<input type="submit" value="query" />
+
+</form>
+<hr/>
+<?php 
+    Zend_Debug::dump($this->rows);
+    
+?>

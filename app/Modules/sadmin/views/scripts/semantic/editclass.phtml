@@ -1,0 +1,80 @@
+<?php $this->placeholder ( "title" )->set ( $this->_ ( "Class mapping" ) )?>
+
+<h2><?php echo $this->classToEdit?></h2>
+
+<p><label><?php echo $this->_ ( "List of class properties" )?> :</label> 
+<span><?php echo $this->formSelect("classname",null,null,$this->classProperties)?></span> 
+<span> <?php echo $this->sexybutton ("href", $this->_("add property mapping"), array("add_new"), null,array("id" => "btnAddPropMapping","href"=>"#")) ?></span> </p>
+
+
+
+<form action="" method="post">
+
+<fieldset>
+	<legend></legend>
+	
+	<div id="propertiesMapping">
+	
+	
+	
+	</div>
+	
+	
+</fieldset>
+
+
+
+<span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span> </p>
+
+</form>
+
+
+
+
+
+<?php echo $this->systemMessage( $this->_("Choose in the list a property to map and click to the Add button. On the new row, choose the GCV field and save."),1)?>
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/utf8.js") ?>
+
+<script type="text/javascript">
+
+fieldSelector = "<?php echo $this->escapejs( $this->formSelect("property_{classPropertie}",null,null,$this->fields)) ?>";
+fieldTpl = '<tpl for=".">'+
+   			'<p class="propertyMapping" style="display:none" ><span class="property">{libelle}</span><span class="fieldCode">' +  fieldSelector + '</span>' +	
+   			'<a href="#" class="del"><?php echo $this->escapejs($this->_("delete")) ?></a></p>' + 
+			'</tpl>';
+tpl = new Ext.XTemplate(fieldTpl);
+tpl.compile();
+
+function addPropertyMapping(propertyUri){
+	var newcontent = tpl.applyTemplate({libelle:propertyUri,classPropertie:Base64.encode(propertyUri)});	
+	jQuery("#propertiesMapping").append( newcontent );
+	jQuery(".propertyMapping").show('slow');
+}
+
+jQuery(document).ready(function(){
+
+	$("#btnAddPropMapping").click(function(){
+		addPropertyMapping(jQuery("#classname").val());
+		return false;
+	});
+
+	<?php foreach($this->existingMapping  as $mapping) : ?>
+
+		addPropertyMapping("<?php echo $mapping["propertieuri"] ?>");		
+		jQuery("select[id=property_" + Base64.encode("<?php echo $mapping["propertieuri"] ?>" ) + "]").val("<?php echo $mapping["fieldcode"] ?>");
+		
+	<?php endforeach;?>
+
+	jQuery("#propertiesMapping a.del").live("click",function(){
+
+		$(this).parent().remove();
+		return false;
+		
+	});
+
+});
+
+</script>
+

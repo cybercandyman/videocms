@@ -1,0 +1,30 @@
+<div class="blocInfos">
+<h2><?php echo $this->_("Description") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Edit playlist description")?>
+</span>
+<div class="moreinfos"></div>
+</div>
+
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+ $(".blocInfos h2").each(function(){
+			$(this).click(function(){
+
+				if($(".moreinfos",$(this).parent()).css("display") == "none"){
+					$(".rubInfos",$(this).parent()).css("display","none");			
+					$(".moreinfos",$(this).parent()).css("display","block");	
+					
+					$(".sortContent").sortable("refresh");
+					$(".extractItem").draggable('enable');		
+				}
+				else{
+							
+					$(".moreinfos",$(this).parent()).css("display","none");	
+					$(".rubInfos",$(this).parent()).css("display","block");	
+				}
+			});
+		});		
+});	
+</script>

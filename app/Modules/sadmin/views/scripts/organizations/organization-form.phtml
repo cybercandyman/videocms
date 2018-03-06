@@ -1,0 +1,171 @@
+
+<?php $this->placeholder("title")->set($this->_("Organizations"))?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+
+
+<?php if(is_numeric($this->idorganization)) : ?>
+<a class="button check_all"
+	href="<?php echo BASE_URL ?>sadmin/organizations/contacts/id/<?php echo $this->idorganization ?>"><span><span><?php echo $this->_("Contacts") ; ?></span></span></a>
+<?php endif ;?>
+
+<form method="post"
+	action="<?php echo BASE_URL ?>sadmin/organizations/save"
+	id="formOrganization">
+
+<fieldset>
+
+<p><label><?php echo $this->_("Organization name") ?></label> <span><?php echo $this->formText("name", "" ,array("class"=>"validate[required]")) ?></span>
+
+<!-- 
+<div class="picture" id="pictureZone"><img	src="<?php echo  (( array_key_exists  ("picture", $this->rawData)) && ( $this->rawData["picture"]  != "") ?  $this->rawData["picture"] : BASE_URL. "themes/system/pics/image.png" )?>"
+	alt="picture" /> <?php echo $this->formHidden("picture", null) ?></div>
+ -->
+</p>
+
+<p><label><?php echo $this->_("Alias") ?></label> <span><?php echo $this->formText("alias", "" ,array("class"=>"validate[required]")) ?></span>
+</p>
+<p><label><?php echo $this->_("Registerd company code") ?></label> <span><?php echo $this->formText("siret", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("VAT intra") ?></label> <span><?php echo $this->formText("tvaintra", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Phone number") ?></label> <span><?php echo $this->formText("phonenumber", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Phone number 2") ?></label> <span><?php echo $this->formText("phonenumber2", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Fax number") ?></label> <span><?php echo $this->formText("faxnumber", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Email") ?></label> <span><?php echo $this->formText("email", "",array("class"=> "validate[required,custom[email]]" )) ?></span>
+</p>
+<p><label><?php echo $this->_("Email 2") ?></label> <span><?php echo $this->formText("email2", "",array("class"=> "validate[custom[email]]" )) ?></span>
+</p>
+<p><label><?php echo $this->_("Adress") ?></label> <span><?php echo $this->formText("adress1", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Address (2)") ?></label> <span><?php echo $this->formText("adress2", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("City") ?></label> <span><?php echo $this->formText("city", "","") ?></span>
+</p>
+<p><label><?php echo $this->_("Postal Code") ?></label> <span><?php echo $this->formText("postalcode", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Country") ?></label> <span><?php echo $this->formSelect('country', 2, null, $this->contentTable("enum_countries")); ?></span>
+</p>
+<p><label><?php echo $this->_("Domain") ?></label> <span><?php echo $this->formText("domaine") ?></span>
+</p>
+<p><label><?php echo $this->_("Picture") ?></label> 
+<span>
+
+<?php echo $this->formText("picture");?>
+<a href="javascript:filemanager('picture');" title="<?php echo $this->_("File explorer")?>">
+	<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+</a>
+
+</span>
+</p>
+<p><label><?php echo $this->_("Notes") ?></label> <span><?php echo $this->formTextarea('notes'); ?></span>
+</p>
+
+
+
+<?php if(false):?>
+
+<p><label><?php echo $this->_("Create at the same time") ?></label> <span
+	style="display: block; float: left;">
+<ul>
+	<li><input type="checkbox" /> <?php echo $this->_("Production account") ?></li>
+	<li><input type="checkbox" /> <?php echo $this->_("Publication account") ?></li>
+	<li><input type="checkbox" /> <?php echo $this->_("Service account") ?></li>
+</ul>
+</span></p>
+
+<?php endif;?>
+
+<p><label>&nbsp;</label> <?php echo $this->formHidden("idorganization", $this->idorganization ,null) ?>
+<span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+
+</fieldset>
+</form>
+
+<?php if(!is_numeric($this->idorganization)):?>
+
+
+
+
+<?php endif;?>
+
+
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js" ) ?>
+
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+var $currentField ;
+function filemanager(idref)
+{		
+	$currentField = jQuery("#"+idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");	
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+jQuery(document).ready(function(){   
+	$.metadata.setType("attr", "metadata");
+	$("#pictureZone").click(function(){
+    	$("#loadPicture").dialog('open');	
+});	 
+});
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[  
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready(function(){   
+	
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+    <?php foreach ( $this->rawData as $key => $value ) {	?>
+		$("#<?php echo $key?>").val("<?php echo $this->escapejs( $value ); ?>");
+    <?php }	?>
+    
+    $("#formOrganization").validationEngine();
+	
+	$("body").append("<div id=\"loadPicture\"></div>");   
+	
+
+    
+	$("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        
+    	width:960,
+    	height:615,	    	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);			            						
+            		});      	                 		   				
+            		for(var i=0;i<filesSelected.length;i++){                     		  		
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	
+
+});
+//]]>
+</script>

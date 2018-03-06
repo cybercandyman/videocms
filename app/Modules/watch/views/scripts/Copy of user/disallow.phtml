@@ -1,0 +1,9 @@
+<p><?php echo $this->_("You are not allowed to view this page") ?></p>
+<p>
+<ul>
+	<li><a
+		href="<?php echo $this->url(array("action"=>"disconnect","controller"=>"user","request"=>Zend_Controller_Front::getInstance()->getRequest()->getParam("action"))) ?>"><?php echo $this->_("Disconnect")?></a></li>
+	<li><a
+		href="<?php echo $this->url(array("action"=>"requestaccess","controller"=>"user")) ?>"><?php echo $this->_("Request access")?></a></li>
+</ul>
+</p>

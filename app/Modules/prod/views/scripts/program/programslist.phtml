@@ -1,0 +1,14 @@
+
+<?php $this->placeholder("title")->set( 
+    $this->_("List of programs : ")." " 
+    .sprintf( $this->_("You have %s programs and %s extracts in stock."), $this->datacount["programs"], $this->datacount["extracts"]))?>
+
+<p class="large">
+<?php echo $this->sexybutton ("href", $this->_("create"), array("add_new"), BASE_URL."prod/program/create" ,array("id"=>"")) ?>
+&nbsp;
+<?php echo $this->sexybutton ("href", $this->_("export all programs"), array("add_new"), BASE_URL."prod/data/exportprod/idproduction/".$this->_session->environment["ressource"]  ,array("id"=>"")) ?>
+</p>
+<?php echo $this->action("search","program","prod")?>
+
+<div id="programsList"></div>
+

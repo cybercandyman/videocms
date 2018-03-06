@@ -1,0 +1,191 @@
+<?php 
+	$services_lines = new services_orders_lines();
+?>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+		
+			<th><a 
+					class="link_sorter" href="#">
+				<?php echo $this->_ ( "Message" );?>
+				</a>			
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("idorder"))) ?>" >
+					#<?php echo $this->_ ( "IDORDER" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("date_of_creation"))) ?>" >
+					<?php echo $this->_ ( "creation date" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("desireddate"))) ?>" >
+					<?php echo $this->_ ( "expected date" );?>
+				</a>
+			</th>
+			
+			<th>
+			<a 
+					class="link_sorter" href="#">
+					<?php echo $this->_ ( "services" );?></a>
+
+			</th>		
+			
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("status"))) ?>" >
+					<?php echo $this->_ ( "status" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("delivery_date"))) ?>" >
+					<?php echo $this->_ ( "delivery date" );?>
+				</a>
+			</th>
+			
+		<th>
+		</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->paginator as $item): ?>
+		<?php //var_dump($item); 
+		//echo $this->session->environment["module"];
+		//echo $item["account"]."<br>";
+		//echo $this->_session->environment["ressource"]."<br>";
+		
+		//if ($item["idproduction"] == $this->_session->environment["ressource"]): 
+	
+		?>
+		
+				<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+				
+					<td>
+						<?php if($item["enclosed"]) : ?>
+							<div class="green_warning"
+							title='<?php echo $this->_ ("order enclosed")?>'
+							> &nbsp;														
+							</div>													
+						<?php endif; ?>	
+						<?php if($item["delay_warning"] && !isEnded($item["status"])) : ?>
+							<div class="red_warning"
+							title='<?php echo $this->_ ("delay warning : expected date expired")?>'
+							> &nbsp;														
+							</div>													
+						<?php endif; ?>	
+					</td>
+					
+					<td>#<?php echo $item["idorder"]?></td>
+					
+					<td><?php echo $item["date_of_creation"]?></td>
+					
+					<td><?php echo $item["desireddate"]?></td>
+					
+					<td>
+						<?php 
+							$lines = $services_lines->getServicesOrdersLines($item["idorder"]);
+							//Zend_Debug::dump($truc->getServicesOrdersLines($item["idorder"]));
+							$count_item = count($lines);
+							for ($i=0; $i<$count_item; ++$i)
+							{
+								$service_name = $services_lines->getServicesOrdersName($lines[$i]["idtype"]);
+								echo $this->_ ($service_name[0]["title"]);
+								if ($i!=count($lines)-1)
+									echo ", ";								
+							}
+						?>
+					</td>				
+					
+					<td>
+						<?php echo $this->_( $item["status"])?>
+					</td>
+					
+					<td>
+						<?php echo $this->_( $item["delivery_date"])?>
+					</td>					
+					
+					<td>
+						<div class="actions_menu">
+							<ul>
+							
+								<!-- Demande d'annulation du service -->
+								<?php if(!$item["abort_demand"] && !isEnded($item["status"])) : ?>							
+									
+									<li>
+										<a 											
+											title='<?php echo $this->_("abort request");?>'
+											class='delete' 
+											href='<?php echo BASE_URL ?>ser/prod/delete/keyToDelete/
+											<?php echo $item["idorder"]?>/key/
+											<?php print $this->key ?>/programTitle/
+											<?php echo urlencode($this->programTitle) ?>/idprog/
+											<?php echo $this->idprog ?>/idorder/
+											<?php echo $item["idorder"] ?>/fkey/<?php echo $this->fkey?>'>
+											<?php echo $this->_("abort request");?>
+										</a>
+									</li>
+								
+								<?php endif;?>		
+								
+								<!-- Livraison acceptée -->
+								<?php if(!$item["enclosed"] && $item["status"] == "Completed") : ?>
+								
+									<li>
+										<a 
+											title='<?php echo $this->_("enclosed");?>'
+											class='delete' 
+											href='<?php echo BASE_URL ?>ser/prod/enclose/keyToEnclose/
+											<?php echo $item["idorder"]?>/key/
+											<?php print $this->key ?>/programTitle/
+											<?php echo urlencode($this->programTitle) ?>/idprog/
+											<?php echo $this->idprog ?>/idorder/
+											<?php echo $item["idorder"] ?>/fkey/<?php echo $this->fkey ?>'>
+											<?php echo $this->_("enclosed");?>
+										</a>
+									</li>										
+								<?php endif;?>								
+								
+								<!-- Vue du détail de la commande -->
+								<li>
+									<a 
+										class="edit" 
+										href="<?php print BASE_URL ?>
+										ser/command/view/key/
+										<?php print $this->key ?>/programTitle/
+										<?php echo urlencode($this->programTitle) ?>/idprog/
+										<?php echo $this->idprog ?>/idorder/										
+										<?php echo $item["idorder"] ?>/publicationKey/
+										<?php echo $this->getParam("publicationKey") ?>/fkey/<?php echo $this->fkey ?>						
+										">
+										<?php echo $this->_("details") ?>
+									</a>
+								</li>	
+							</ul>
+						</div>
+					</td>
+				</tr>
+				<?php //endif; ?>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>

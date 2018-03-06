@@ -1,0 +1,242 @@
+<?php $this->placeholder("title")->set( $this->program["details"]["title"]["value"])?>
+
+
+<?php if($this->program["idprog_programs_extract"] >0 ): ?>
+<?php echo $this->_("Extract of")?>
+:
+<a
+	href="<?php echo BASE_URL?>prod/program/manage/key/<?php echo $this->programFrom["keyprog"] ?>"><?php echo $this->programFrom["details"]["title"]["original_value"]?></a>
+<?php endif;?>
+<br />
+
+<?php //echo  $this->progPublish instanceof Model_Program ? $this->progPublish->getEmbedSilverlightCode() : ""?>
+
+<div class="blocInfos">
+<?php echo $this->sexybutton ("href", $this->_("duplicate"), array("add_new"), BASE_URL ."prod/program/duplicate/key/".$this->key) ?>
+
+
+<?php if($this->replication ):?>
+
+<?php echo $this->sexybutton ("href", $this->_("duplicate to internet"), array("add_new"), BASE_URL ."prod/tools/replicate/key/".$this->key,array("id"=>"replicationLink")) ?>
+
+<?php endif;?>
+<a class="button add_new" href="<?php echo BASE_URL ?>prod/data/exportprogram/keyprog/<?php echo $this->key ?>"><span><span><?php echo $this->_("export")?></span></span></a>
+<?php if($this->_session->environment["details"]["idservice"] > 0):?>
+<a class="button add_new" href="<?php echo BASE_URL ?>ser/prod/list/key/<?php echo $this->key ?>/programTitle/<?php echo urlencode(urlencode($this->program["details"]["title"]["value"])) ?>/idprog/<?php echo $this->program["idprog"] ?>"><span><span><?php echo $this->_("services")?></span></span></a>
+<?php endif;?>
+<a class="button red_btn delete" href="<?php echo BASE_URL?>prod/program/delete/keyToDelete/<?php print $this->key?>"><span><span><?php echo $this->_("delete")?></span></span></a>
+
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Description") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Edit description of your program")?>
+</span>
+<div class="moreinfos"><!-- <a href="<?php echo BASE_URL ?>prod/program/editinfo/key/<?php echo $this->key ?>" class="button check_all"><span><span><?php echo $this->_("edit informations")?></span></span></a> -->
+<?php echo $this->action("editinfo","program","prod",array("key"=>$this->key)); ?>
+</div>
+</div>
+
+
+<?php if($this->progPublish instanceof Model_Program):?>
+<?php  //echo $this->progPublish->getEmbedSilverlightCode() ?>
+<?php endif;?>
+
+<div class="blocInfos">
+
+<h2><?php echo $this->_("Picture") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Illustrate your program with pictures")?>
+</span>
+<div class="moreinfos"><?php echo $this->action("managepicture","program","prod",array("key"=>$this->key)); ?>
+</div>
+
+</div>
+
+<div class="blocInfos">
+
+<h2><?php echo $this->_("Chapters") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Create chapters to navigate in your video")?>
+</span>
+<div class="moreinfos">
+<p><a
+	href="<?php echo BASE_URL ?>prod/program/chapters/key/<?php echo $this->key ?>"
+	class="button check_all"><span><span><?php echo $this->_("edit chapters")?></span></span></a><br /><br /></p>
+<?php echo $this->action("chapterslist","program","prod",array("key"=>$this->key)); ?>
+</div>
+
+</div>
+
+
+<?php if($this->_session->environment["module"] == "prod"):?>
+
+        <div class="blocInfos">
+        <h2><?php echo $this->_("Publications") ?></h2>
+        <span class="rubInfos"> <?php echo $this->_("Publish your content")?> </span>
+        <div class="moreinfos"><?php echo $this->action("publications","program","prod",array("key"=>$this->key)); ?>
+        </div>
+        </div>
+        
+        <div class="blocInfos">
+        <h2><?php echo $this->_("Videofiles") ?></h2>
+        <span class="rubInfos"> <?php echo $this->_("Add streaming videos to your program")?>
+        </span>
+        <div class="moreinfos">
+        <p><a
+        	href="<?php echo BASE_URL ?>prod/program/addversions/key/<?php echo $this->key ?>"
+        	class="button add_new"><span><span><?php echo $this->_("add new version")?></span></span></a>
+        </p>
+        <?php echo $this->action("infosversions","program","prod",array("key"=>$this->key)); ?>
+        </div>
+        </div>
+        
+        <div class="blocInfos">
+        <h2><?php echo $this->_("Statistics") ?></h2>
+        <span class="rubInfos"> <?php echo $this->_("Consult programs statistics")?>
+        </span>
+        <div class="moreinfos">
+        
+        <h3><?php echo $this->_("Total views for last 30 days") ?></h3>
+        <p>
+        <a href="<?php echo BASE_URL ?>prod/stats/program/idprog/<?php echo $this->program["idprog"] ?>" 	class="button check_all"><span><span><?php echo $this->_("more statistics")?></span></span></a><br/><br/>
+        </p>	
+        <?php echo $this->action("programoverview","stats","prod",array("idprog"=>$this->program["idprog"])); ?>
+        </div>
+        </div>
+
+<?php endif;?>
+
+
+
+<?php if($this->program["idprog_programs_extract"] == "" || $this->program["idprog_programs_extract"] == "0" ): ?>
+<div class="blocInfos">
+
+<h2><?php echo $this->_("Extracts") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Create extract")?> </span>
+<div class="moreinfos"><a href="javascript:addExtract()"
+	class="button add_new"><span><span><?php echo $this->_("create new extract")?></span></span></a>
+<?php echo $this->action("extracts","program","prod",array("key"=>$this->key)); ?>
+</div>
+</div>
+<?php endif; ?>
+
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){	
+
+
+	  var _destroyUrl;    	
+	    $('a.delete').click(function() {
+	    	$('#dialog').dialog('open');
+	    	_destroyUrl = $(this).attr("href");
+	    	return false;
+	    });
+
+	    $("#replicationLink").click(function(event){$("#dialogReplication").dialog('open');event.preventDefault();});
+	    
+ 		$("#dialog").dialog({
+			
+			bgiframe: true,
+			width:500,
+			
+			modal: true,
+			autoOpen:false,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'<?php echo $this->_("Delete this program")?>': function() {
+					$(this).dialog('close');
+					var url = _destroyUrl + "/deletefile/" + ($("#mustdeletefile").attr("checked")?"false":"true" );		
+					document.location.href = url;
+									
+				},
+				<?php echo $this->_("Cancel")?>: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	
+	    $("#dialogReplication").dialog({			
+			bgiframe: true,					
+			modal: true,
+			autoOpen:false,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'<?php echo $this->_("Replicate this program")?>': function() {
+					$(this).dialog('close');
+					$.blockUI({message:"<h1><?php echo $this->_("Please wait") ?></h1>"});
+					$.ajax({
+						type:'get',
+						url : $("#replicationLink").attr("href"),
+						success : function(msg){
+						if(msg == "ok")
+							alert("<?php echo $this->_("Replication is successfull for program data. Program Video file(s) will be replicated when next cron job is over."); ?>");
+						else
+							alert(msg);						
+						},
+						error : function(){
+							alert("<?php echo $this->_("Problem during data replication"); ?>");
+						},
+						complete : function(){
+							$.unblockUI();
+						}
+					});		
+														
+				},
+				<?php echo $this->_("Cancel")?>: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		
+	$(".blocInfos h2").each(function(){
+		$(this).click(function(){
+
+			if($(".moreinfos",$(this).parent()).css("display") == "none"){
+				$(".rubInfos",$(this).parent()).css("display","none");			
+				$(".moreinfos",$(this).parent()).css("display","block");	
+				
+				$(".sortContent").sortable("refresh");
+				$(".extractItem").draggable('enable');		
+			}
+			else{
+						
+				$(".moreinfos",$(this).parent()).css("display","none");	
+				$(".rubInfos",$(this).parent()).css("display","block");	
+			}
+		});
+	});		
+});
+</script>
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<form method="post" action="<?php echo BASE_URL ?>prod/program/delete"
+	id="formProgramToDelete">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This program will be deleted. Are you sure ?") ?>
+<input type="hidden" id="keyToDelete" name="keyToDelete" value="tata" />
+</p>
+<p><?php echo $this->_("Delete file on server : ") ?> 
+<?php echo $this->_("Delete")?><input type="radio" name="deletefile" value="true" />
+<?php echo $this->_("Restore to depot")?><input type="radio" name="deletefile" value="false" checked="checked"	id="mustdeletefile" />
+<?php echo $this->_("Keep at the same place")?><input type="radio" name="deletefile" value="keep" />
+</p>
+</form>
+</div>
+
+
+
+<div id="dialogReplication" title="<?php echo  $this->_("Program replication") ?>">
+	<p>
+		<?php echo $this->_("Your are going to replicate this program to internet.")?>
+	</p>
+</div>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.blockUI.js") ?>

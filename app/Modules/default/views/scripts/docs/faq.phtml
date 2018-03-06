@@ -1,0 +1,67 @@
+
+<?php $this->placeholder("title")->set( $this->_("Frequently Asked Questions (FAQ)") )?>
+
+
+<h2><?php echo $this->_("Structures and xml schema") ?></h2>
+
+<style>
+
+	.faq dl,.faq dl dd,.faq dl dt{
+		margin:0;
+		padding:0;	
+	}
+	.faq dl dt{
+		font-size:12px;
+		font-weight: bold;
+		color:#6997A7;	
+		margin-top: 25px;
+	}
+</style>
+
+<div class="faq">
+<dl>
+	<dt><?php echo $this->_("How to import programs ?")?></dt>
+	<dd>
+		<?php echo $this->_("You can import a program list in the database by using the import function under module production > tools menu > import. Your xml file has to respect the following xsd schema :") ?>
+		<a href="<?php echo BASE_URL ?>docs/schema/import.xsd" target="_blank">import.xsd</a>.
+	</dd>
+	
+	<dt><?php echo $this->_("How to import package ?")?></dt>
+	<dd>
+		<p>
+		<?php echo $this->_("You can import a package by using the add / suppress menu under sadmin module. Your component must be an archive like the following example :") ?>
+		<a href="<?php echo BASE_URL ?>docs/example/component_example.zip"><?php echo $this->_("component example")?></a>.
+		</p>
+		<p> 
+		<?php echo $this->_("The inner manisfest.xml has to respect the following schema :")?>
+		<a href="<?php echo BASE_URL ?>docs/schema/package.xsd" target="_blank">package.xsd</a>.
+		</p>
+	</dd>
+	<dt><?php echo $this->_("How to create a template ?")?></dt>
+	<dd>
+		<p>
+		<?php echo $this->_("You can use the following template as an example :") ?>
+		<a href="<?php echo BASE_URL ?>docs/example/richplayer.zip"><?php echo $this->_("Richplayer example")?></a>.
+		</p>
+		
+		<p>
+			<?php echo $this->_("Click here for more information about templates :")?>
+			<a href="<?php echo BASE_URL ?>default/docs/templates"><?php echo $this->_("Structure and properties of templates")?></a>.
+		</p>
+		
+		<p> 
+		<?php echo $this->_("The inner theme.xml has to respect the following schema :")?>
+		<a href="<?php echo BASE_URL ?>docs/schema/theme.xsd" target="_blank">theme.xsd</a>.
+		</p>
+		
+	</dd>
+	<dt><?php echo $this->_("Questions about REST")?></dt>
+	<dd>
+		<p>
+			<?php echo $this->_("More informations here")?> : <a href="<?php echo BASE_URL ?>docs/rest">REST</a>
+		</p>
+	</dd>
+	
+	
+</dl>
+</div>

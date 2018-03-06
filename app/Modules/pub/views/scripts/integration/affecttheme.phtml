@@ -1,0 +1,51 @@
+<?php $this->placeholder("title")->set($this->_("Template allocation"))?>
+<?php 
+ //print_r($this->_session->environment["details"]["pathcomponent"]);
+?>
+<form id="affect-theme" action="<?php echo BASE_URL ?>pub/integration/saveaffectation" method="post">
+	
+	<?php echo $this->sexybutton ("submit", $this->_("Update"), array("send_form_btn"), null) ?>
+	<div class="blocInfos">
+		<h2><?php echo $this->_("Playlist")?></h2>
+		<fieldset>
+				<?php 
+					echo $this->partial("integration/theme.phtml","pub",array("themes"=>$this->themes,"type"=>"playlist","name"=>"PlaylistTheme","selected"=>$this->playlistTheme["folder"]));
+				?>
+				<span id="params-playlist">
+					<a href="#" class="no-see edit-dialog" title="<?php echo $this->_("Edit template parameters")?>"></a>
+				</span>
+				<input type="hidden" value="playlist" />
+		</fieldset>
+	</div><!--/Playlist  -->
+	
+	<div class="blocInfos">
+		<h2><?php echo $this->_("Programs")?></h2>
+		<fieldset>
+				<?php 
+					echo $this->partial("integration/theme.phtml","pub",array("themes"=>$this->themes,"type"=>"program","name"=>"ProgramTheme","selected"=>$this->programTheme["folder"]));
+				?>
+				<span id="params-program">
+					<a href="#" class="no-see edit-dialog" title="<?php echo $this->_("Edit template parameters")?>"></a>
+				</span>
+				<input type="hidden" value="program" />
+		</fieldset>
+	</div><!--/Programs  -->
+	
+	<div class="blocInfos">
+		<h2><?php echo $this->_("Videolist")?></h2>
+		<fieldset>
+				<?php 
+					echo $this->partial("integration/theme.phtml","pub",array("themes"=>$this->themes,"type"=>"videolist","name"=>"VideolistTheme","selected"=>$this->videolistTheme["folder"]));
+				?>
+				<span id="params-videolist">
+					<a href="#" class="no-see edit-dialog" title="<?php echo $this->_("Edit template parameters")?>"></a>
+				</span>
+				<input type="hidden" value="videolist" />
+		</fieldset>
+	</div><!--/VideoList  -->
+		
+</form>
+
+<?php echo $this->partial("templates/dialog-js.phtml",array( "key"=>0, "view"=>0))?>
+
+<?php echo $this->systemMessage($this->_("In order to allocate a template to a specific program or playlist, go to the integration menu of the program or playlist."),1)?>

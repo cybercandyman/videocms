@@ -1,0 +1,39 @@
+<?php $this->masterView('sidebar_module.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+
+
+<div class="sidebar-module-accesslist">
+<?php if( sizeof($this->access)>0) :  ?>
+
+<form method="post"	action="<?php echo BASE_URL ?>default/environment/setenvir"	id="environmentSelectorForm">
+<p><select id="ressourceSelector" name="ressourceSelector" style="width:100%">
+	<option value="">---</option>
+	<?php foreach($this->access as $access ):
+
+	if($access["module"]==$this->module && $access["level"] == 0):
+	?>
+	<option value="<?php echo $access["tmpaccess"]?>"
+	<?php echo $this->tmpaccess == $access["tmpaccess"] ?  "selected=\"selected\"" : ""?>><?php echo $access["name"]?><!-- -<?php echo $access["ressource"]?>--></option>
+	<?php
+	endif;
+	endforeach;
+	?>
+</select></p>
+<p>
+
+<?php echo $this->sexybutton ("submit", $this->_("submit"), array("send_form_btn"), null) ?>
+ 
+<input type="hidden" name="comingFromPage" value="<?php echo $this->url()?>" /></p>
+
+</form>
+
+	<?php endif;?>
+</div>
+<?php $this->block()->end(); ?>
+
+<?php $this->block('title')->start(); ?>
+	<?php echo $this->_("Ressource") ?>
+<?php $this->block()->end(); ?>
+
+
+

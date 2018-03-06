@@ -1,0 +1,16 @@
+<?php
+if(!isset($this->includeJS))$this->includeJS = true;
+?>
+<?php $value  = $this->field ; ?>
+<?php switch ($value["type"]):
+
+case "ENUM" : echo $this->formSelect("FILTER_".$value["code"], "", array("rel"=>$value["code"]), $this->contentTable($value["table_ref"],$this->lang)) ; break;
+case "ENUMMULTI" :echo $this->formSelect ("FILTER_".$value["code"], null, array("multiple" => "multiple","size"=>"5","rel"=>$value["code"]), $this->contentTable($value["table_ref"],$this->lang)) ; break;
+
+?>
+<?php
+default : break;
+endswitch;
+?>
+
+

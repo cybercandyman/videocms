@@ -1,0 +1,99 @@
+<?php $this->placeholder("title")->set($this->_("List groups of programs"))?>
+
+
+<?php echo $this->sexybutton ("href", $this->_("create"), array("add_new"), BASE_URL."prod/group/create") ?>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("name"))) ?>"><?php echo $this->_ ( "name" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("count"))) ?>"><?php echo $this->_ ( "count" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("type"))) ?>"><?php echo $this->_ ( "type" );?></a></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php print ( $item["name"]) ?></td>
+			<td><?php print ( $item["count"]) ?></td>
+			<td><?php print ( $item["type"]) ?></td>
+
+			<td>
+			<div class="actions_menu">
+			<ul>
+				
+				<li><a class="edit" href="<?php print BASE_URL ?>prod/group/edit/idgroup/<?php print $item["idgroup"]?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="delete"  href="#" onclick="javascript:deleteGroup(<?php print $item["idgroup"]?>)"><?php echo $this->_("delete") ?></a></li>
+			</ul>
+			</div>
+
+			</td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+		<?php if($this->paginator->getPages()->totalItemCount == 0): ?>
+		<?php echo $this->_("No matches") ?>
+		<?php endif;?>
+
+
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+
+
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p>
+	<span class="ui-icon ui-icon-alert"	style="float: left; margin: 0 7px 20px 0;"></span> 
+	<?php echo  $this->_("This group of programs will be deleted. Are you sure ?") ?>
+</p>
+</div>
+
+<form method="post" action="<?php echo BASE_URL ?>prod/group/delete" id="formPlaylistToDelete">
+	<input type="hidden" id="keyToDelete" name="keyToDelete" value="" />
+</form>
+
+
+
+<script type="text/javascript">
+
+
+function deleteGroup(key){	
+	$("#keyToDelete").val(key);
+	$('#dialog').dialog('open');
+	
+}
+
+
+jQuery(document).ready(function() 
+{ 
+           
+            $("#dialog").dialog({            	
+            	bgiframe: true,
+            	resizable: false,            	
+            	modal: true,
+            	autoOpen:false,
+            	overlay: {
+            		backgroundColor: '#000',
+            		opacity: 0.5
+            	},
+            	buttons: {
+            		'<?php echo $this->_("Delete")?>': function() {
+            			$(this).dialog('close');
+            			$("#formPlaylistToDelete").trigger("submit");            			
+            		},
+            		<?php echo $this->_("Cancel")?>: function() {
+            			$(this).dialog('close');
+            		}
+            	}
+            });
+});
+</script>

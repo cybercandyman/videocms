@@ -1,0 +1,145 @@
+<?php if($this->mode == "integrated"):?>
+
+<div style="float:left">
+<?php require_once ("search.phtml") ?>
+</div>
+
+<div style="float:left;margin-left:20px;">
+        <div id="divIdItemModification" title="<?php echo $this->_("Objects knowledge base modification") ?>">
+        	<iframe id="modalIframeIdItemModification" width="100%" height="95%" src=""	marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"> Your browser does not suppr</iframe>
+        </div>
+    	<div id="kbresults"></div>
+    	<div id="kbtree"></div>
+</div>
+<div style="clear:both"></div>
+
+<?php else:?>
+
+<?php require_once ("search.phtml") ?>
+<div id="divIdItemModification" title="<?php echo $this->_("Objects knowledge base modification") ?>">
+<iframe id="modalIframeIdItemModification" width="100%" height="95%" src="#"	marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"> Your browser does not suppr</iframe></div>
+<div id="kbresults"></div>
+<div id="kbtree"></div>
+<?php endif;?>
+
+<?php if($this->mode == "full"):?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.anchor.event.js") ?>
+<?php echo $this->systemMessage($this->_("By choosing an item type, you search elements of this type. Text fields are combined to fulltext search and do not appear in the additional information."),1)?>
+
+<?php endif;?>
+
+<script type="text/javascript">
+function openEditDialogKbItem(id){
+	jQuery("#modalIframeIdItemModification").attr("src","<?php echo BASE_URL?>tools/virtualmanager/edititem/item/"+id);
+	jQuery("#divIdItemModification").dialog("open");
+}
+function deleteKbItem(iditem,typeitem){
+	var root_node = Ext.data.StoreManager.lookup('CMChapters').getRootNode( );    	
+	var childNode = root_node.findChild("id",iditem,true);
+	if(childNode !== null){
+		childNode.remove();
+		jQuery("span[id=kbitem_" + iditem +"]","#kbresults").parent().parent().remove();
+	}else{
+		jQuery.ajax({
+			type:'post',
+			url : BASE_URL + "tools/virtualmanager/delete",
+			data:{id:iditem,type:typeitem},
+			success:function(data){
+				jQuery("span[id=kbitem_" + iditem +"]","#kbresults").parent().parent().remove();
+			}
+		});
+	}
+}
+function deleteConfirmation(iditem,typeitem){
+	if(confirm("<?php echo $this->_("Are you sure to delete this object ?") ?>")){
+		deleteKbItem(iditem,typeitem);
+		return true;
+	}
+	return false;
+}
+var TmpDragging = {
+	isdragging : false,
+	id:null,	
+	type:'item'
+};
+jQuery(document).ready(function(){
+	$("#kbtree").load("<?php echo BASE_URL ?>tools/virtualmanager/manager");	
+	$("#divIdItemModification").dialog({
+		modal: false,
+		autoOpen: false,
+		height:500,
+		width :650,
+		buttons: {
+			'<?php echo $this->_("Save")?>':function(){
+					$('#modalIframeIdItemModification').contents().find('#itemForm').trigger("submit");
+            		$(this).dialog('close');
+            	},					
+				'<?php echo $this->_("Close")?>':function(){
+					$(this).dialog('close');
+				}
+			}
+	});		
+	$(".kb_draggable_item").live('mouseover',
+		function(){
+			if (!$(this).data("init")) {
+				$(this).data("init", true).disableSelection();	
+        		$(this).draggable({
+        			helper: 'clone',
+        			revert: 'invalid',
+        			cursor: 'pointer' ,
+        			start: function(event, ui) {         			
+        				var id = $(this).attr("id").slice( 'kbitem_'.length, $(this).attr("id").length);        				
+        				TmpDragging.isdragging = true;
+        				TmpDragging.id = id;
+        				$("#divChapterForm").addClass("drag_on");
+        			},
+       		 		stop: function(event, ui) {            		 		
+           		 		TmpDragging.isdragging = false;        		 			
+       		 			$("#divChapterForm").removeClass("drag_on");
+       		 		}        			
+        	});        		
+		}	
+	});		
+	jQuery("#divChapterForm").droppable({
+		accept: ".kb_draggable_item",
+		 drop: function() {
+			 if(TmpDragging.isdragging){			
+					TmpDragging.isdragging = false;
+					if(confirm("<?php echo $this->_("Fill the form with this item ?","none") ?>")){						
+						getDataNode(TmpDragging.id,"item");				
+					}
+				}		
+		}
+
+	});
+	
+	<?php if( $this->getParam("fullTextFilter","") != "" ):?>
+	$("#fullTextFilter").val("<?php echo $this->getParam("fullTextFilter")?>");
+	$("#kbFormSearchBtnFilter").trigger("click");
+    <?php endif;?>
+   
+    <?php  if($this->mode =="full")  :?>
+    $.anchor(function(anchor){
+    	var  reg=new  RegExp("\#", "g");
+		var id  = window.location.hash.replace(reg,'');    
+		if(id != ""){
+			openEditDialogKbItem(id);
+		}	
+	});
+    <?php  else  :?>
+    $("#kbFormSearchType").get(0).selectedIndex = 1;
+    $("#kbFormSearchType").trigger("change");
+	<?php endif;?>
+	
+});
+</script>
+
+<?php if($this->mode == "integrated"):?>
+<?php echo $this->systemMessage($this->_("You can drag and drop objects onto the form to pre-fill by clicking on the title of the object. When you search, you can return to the tree by clicking cancel."),1)?>
+<?php endif;?>
+
+
+
+
+
+

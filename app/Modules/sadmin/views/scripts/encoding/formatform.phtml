@@ -1,0 +1,62 @@
+
+<?php $this->placeholder("title")->set($this->_("Format"))?>
+
+
+<form action="<?php echo $this->url(array("controller"=>"encoding","action"=>$this->getParam("action") == "editformat" ? "updateformat":"saveformat","module"=>$this->getParam("module")),null,true) ?>" method="post">
+
+<fieldset>
+
+	<p>
+		<label><?php echo $this->_("Title")?></label>
+		<span><?php echo $this->formText("title") ?></span>
+	</p>
+
+	<p>
+		<label><?php echo $this->_("Command")?></label>
+		<span><?php echo $this->formText("command") ?> <?php echo $this->_("used in easystreaming")?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Output string")?></label>
+		<span><?php echo $this->formText("outputstring") ?> <?php echo $this->_("ex : _500.wmv")?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Coder")?></label>
+		<span><?php echo $this->formText("coder") ?>  <?php echo $this->_("ffmpeg or mencoder")?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Rate")?></label>
+		<span><?php echo $this->formText("rate") ?> <?php echo $this->_("bytes")?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Width")?></label>
+		<span><?php echo $this->formText("width") ?> <?php echo $this->_("pixel")?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Height")?></label>
+		<span><?php echo $this->formText("height") ?>  <?php echo $this->_("pixel")?></span>
+	</p>
+	
+	<p>
+		<label>&nbsp;</label>
+		<span>
+			<?php echo $this->getParam("action") == "editformat" ? $this->formHidden("idformat",null) : ""?>
+			 <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"btnSubmit")) ?>
+			
+			
+		</span>	
+	</p>
+	
+</fieldset>
+
+
+</form>
+
+<?php echo $this->setFormValue($this->rawData );?>
+
+
+

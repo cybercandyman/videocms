@@ -1,0 +1,98 @@
+- Configurer la base � importer dans le fichier /app/Modules/tools/configs/module.ini
+- Set de la variable de classe $BASE_URL en correspondance avec le serveur qui r�cup�re la base
+
+- Créer les vues dans la base à importer :
+CREATE OR REPLACE VIEW chaptersview_ref AS 
+ SELECT progs_chapitres_ref.id, progs_chapitres_ref.idprog, progs_chapitres_ref.titre, progs_chapitres_ref.url, progs_chapitres_ref.url_titre, progs_chapitres_ref.tcin, progs_chapitres_ref.description, progs_chapitres_ref.file, progs_chapitres_ref.imagette, progs_chapitres_ref.idsitetiers_ref, progs_ref.idprog_ref
+   FROM progs_chapitres_ref
+   LEFT JOIN progs_ref ON progs_chapitres_ref.idprog = progs_ref.idprog AND progs_chapitres_ref.idsitetiers_ref = progs_ref.idsitetiers_ref;
+
+CREATE OR REPLACE VIEW pictures AS 
+ SELECT images.fichierimage, images.idprog, images.hauteurenpixels, images.largeurenpixels, images.poidskbits, catalogues.pathcomponent
+   FROM images
+   LEFT JOIN progs ON images.idprog = progs.idprog
+   LEFT JOIN catalogues ON progs.idcatalogue = catalogues.idcatalogue;
+
+
+CREATE OR REPLACE VIEW programsview AS 
+ SELECT progs.idprog, progs.idextfilm, progs.clefprog, progs.idcatalogue, progs.titre, progs.duree, progs.annee, progs.version, progs.idserie, progs.idemission, progs.langue, progs.languesoustitre, progs.idimageratio, progs.codegenre, progs.synopsis_fr, progs.synopsis_gb, progs.codepublic, progs.tcinextrait, progs.tcoutextrait, progs.istrailer, progs.trailerof, progs.pagename, progs.typeprog, progs.isdeleted, pr1.value AS organization1, pr2.value AS organization2, pr5.value AS genre, pr6.value AS genre2, pr11.value AS theme, pr12.value AS theme2, pr13.value AS lieu, pr14.value AS lieu2, pr15.value AS periode, pr16.value AS media, pr9983.value AS flv, pr9984.value AS mp4, pr9985.value AS salle, pr9986.value AS pointzoom, pr9997.value AS chapo, pr9998.value AS domaine, pr9999.value AS tags
+   FROM progs
+   LEFT JOIN extensions_progs pr1 ON progs.idprog::character varying::bpchar = pr1.idprog::bpchar AND pr1.idchamp = 1
+   LEFT JOIN extensions_progs pr2 ON progs.idprog::character varying::bpchar = pr2.idprog::bpchar AND pr2.idchamp = 2
+   LEFT JOIN extensions_progs pr5 ON progs.idprog::character varying::bpchar = pr5.idprog::bpchar AND pr5.idchamp = 5
+   LEFT JOIN extensions_progs pr6 ON progs.idprog::character varying::bpchar = pr6.idprog::bpchar AND pr6.idchamp = 6
+   LEFT JOIN extensions_progs pr11 ON progs.idprog::character varying::bpchar = pr11.idprog::bpchar AND pr11.idchamp = 11
+   LEFT JOIN extensions_progs pr12 ON progs.idprog::character varying::bpchar = pr12.idprog::bpchar AND pr12.idchamp = 12
+   LEFT JOIN extensions_progs pr13 ON progs.idprog::character varying::bpchar = pr13.idprog::bpchar AND pr13.idchamp = 13
+   LEFT JOIN extensions_progs pr14 ON progs.idprog::character varying::bpchar = pr14.idprog::bpchar AND pr14.idchamp = 14
+   LEFT JOIN extensions_progs pr15 ON progs.idprog::character varying::bpchar = pr15.idprog::bpchar AND pr15.idchamp = 15
+   LEFT JOIN extensions_progs pr16 ON progs.idprog::character varying::bpchar = pr16.idprog::bpchar AND pr16.idchamp = 16
+   LEFT JOIN extensions_progs pr9983 ON progs.idprog::character varying::bpchar = pr9983.idprog::bpchar AND pr9983.idchamp = 9983
+   LEFT JOIN extensions_progs pr9984 ON progs.idprog::character varying::bpchar = pr9984.idprog::bpchar AND pr9984.idchamp = 9984
+   LEFT JOIN extensions_progs pr9985 ON progs.idprog::character varying::bpchar = pr9985.idprog::bpchar AND pr9985.idchamp = 9985
+   LEFT JOIN extensions_progs pr9986 ON progs.idprog::character varying::bpchar = pr9986.idprog::bpchar AND pr9986.idchamp = 9986
+   LEFT JOIN extensions_progs pr9997 ON progs.idprog::character varying::bpchar = pr9997.idprog::bpchar AND pr9997.idchamp = 9997
+   LEFT JOIN extensions_progs pr9998 ON progs.idprog::character varying::bpchar = pr9998.idprog::bpchar AND pr9998.idchamp = 9998
+   LEFT JOIN extensions_progs pr9999 ON progs.idprog::character varying::bpchar = pr9999.idprog::bpchar AND pr9999.idchamp = 9999
+  WHERE progs.isdeleted = 0;
+
+CREATE OR REPLACE VIEW programsview_ref AS 
+ SELECT progs.idprog, progs.idextfilm, progs.clefprog, progs.idcatalogue, progs.titre, progs.duree, progs.annee, progs.version, progs.idserie, progs.idemission, progs.langue, progs.languesoustitre, progs.idimageratio, progs.codegenre, progs.synopsis_fr, progs.synopsis_gb, progs.codepublic, progs.tcinextrait, progs.tcoutextrait, progs.istrailer, progs.trailerof, progs.pagename, progs.typeprog, progs.isdeleted, pr1.value AS organization1, pr2.value AS organization2, pr5.value AS genre, pr6.value AS genre2, pr11.value AS theme, pr12.value AS theme2, pr13.value AS lieu, pr14.value AS lieu2, pr15.value AS periode, pr16.value AS media, pr9983.value AS flv, pr9984.value AS mp4, pr9985.value AS salle, pr9986.value AS pointzoom, pr9997.value AS chapo, pr9998.value AS domaine, pr9999.value AS tags, progs.idsitetiers_ref, progs.idprog_ref
+   FROM progs_ref progs
+   LEFT JOIN extensions_progs pr1 ON progs.idprog::character varying::bpchar = pr1.idprog::bpchar AND pr1.idchamp = 1
+   LEFT JOIN extensions_progs pr2 ON progs.idprog::character varying::bpchar = pr2.idprog::bpchar AND pr2.idchamp = 2
+   LEFT JOIN extensions_progs pr5 ON progs.idprog::character varying::bpchar = pr5.idprog::bpchar AND pr5.idchamp = 5
+   LEFT JOIN extensions_progs pr6 ON progs.idprog::character varying::bpchar = pr6.idprog::bpchar AND pr6.idchamp = 6
+   LEFT JOIN extensions_progs pr11 ON progs.idprog::character varying::bpchar = pr11.idprog::bpchar AND pr11.idchamp = 11
+   LEFT JOIN extensions_progs pr12 ON progs.idprog::character varying::bpchar = pr12.idprog::bpchar AND pr12.idchamp = 12
+   LEFT JOIN extensions_progs pr13 ON progs.idprog::character varying::bpchar = pr13.idprog::bpchar AND pr13.idchamp = 13
+   LEFT JOIN extensions_progs pr14 ON progs.idprog::character varying::bpchar = pr14.idprog::bpchar AND pr14.idchamp = 14
+   LEFT JOIN extensions_progs pr15 ON progs.idprog::character varying::bpchar = pr15.idprog::bpchar AND pr15.idchamp = 15
+   LEFT JOIN extensions_progs pr16 ON progs.idprog::character varying::bpchar = pr16.idprog::bpchar AND pr16.idchamp = 16
+   LEFT JOIN extensions_progs pr9983 ON progs.idprog::character varying::bpchar = pr9983.idprog::bpchar AND pr9983.idchamp = 9983
+   LEFT JOIN extensions_progs pr9984 ON progs.idprog::character varying::bpchar = pr9984.idprog::bpchar AND pr9984.idchamp = 9984
+   LEFT JOIN extensions_progs pr9985 ON progs.idprog::character varying::bpchar = pr9985.idprog::bpchar AND pr9985.idchamp = 9985
+   LEFT JOIN extensions_progs pr9986 ON progs.idprog::character varying::bpchar = pr9986.idprog::bpchar AND pr9986.idchamp = 9986
+   LEFT JOIN extensions_progs pr9997 ON progs.idprog::character varying::bpchar = pr9997.idprog::bpchar AND pr9997.idchamp = 9997
+   LEFT JOIN extensions_progs pr9998 ON progs.idprog::character varying::bpchar = pr9998.idprog::bpchar AND pr9998.idchamp = 9998
+   LEFT JOIN extensions_progs pr9999 ON progs.idprog::character varying::bpchar = pr9999.idprog::bpchar AND pr9999.idchamp = 9999
+  WHERE progs.isdeleted = 0;
+CREATE OR REPLACE VIEW pictures_ref AS 
+ SELECT images.fichierimage, images.idprog, images.hauteurenpixels, images.largeurenpixels, images.poidskbits, catalogues.pathcomponent, programsview_ref.idsitetiers_ref
+   FROM images
+   JOIN programsview_ref ON images.idprog = programsview_ref.idprog
+   LEFT JOIN catalogues ON programsview_ref.idcatalogue = catalogues.idcatalogue;
+
+
+CREATE OR REPLACE VIEW usersaccess AS 
+ SELECT users_acces.idacces, users_acces.iduser, users_acces.ressource, users_acces.type_module, users_acces.module_spe, users_acces.typeutilisateur, users_acces.statut, users_acces.last_connection, users_acces.idsess, users_acces.idpalette, users_acces.suivi, users_acces.dateperiode, users_acces.idperiode, users_acces.ipuser, 
+        CASE users_acces.type_module
+            WHEN 1 THEN 'sadmin'::character varying
+            WHEN 2 THEN catalogues.nomcatalogue
+            WHEN 3 THEN sitestiers.nomsitetiers
+            WHEN 4 THEN laboratoires.nomlabo
+            WHEN 5 THEN 
+            CASE users_acces.module_spe
+                WHEN 1 THEN catalogues.nomcatalogue
+                WHEN 2 THEN sitestiers.nomsitetiers
+                ELSE NULL::character varying
+            END
+            ELSE NULL::character varying
+        END AS nom_ressource, users.langue
+   FROM users, users_acces
+   LEFT JOIN catalogues ON catalogues.idcatalogue = users_acces.ressource AND catalogues.datefermeture IS NULL
+   LEFT JOIN sitestiers ON sitestiers.idsitetiers = users_acces.ressource
+   LEFT JOIN laboratoires ON laboratoires.idlabo = users_acces.ressource
+  WHERE users_acces.statut = 1 AND users.iduser = users_acces.iduser;
+  
+
+- Appel de l'action /tools/converter/setusers
+- Appel de l'action /tools/converter/integrate
+- Appel de l'action /tools/converter/resetsequence
+
+
+
+Verifier si une publication par défaut existe pour chaque catalogue
+requete pour trouver des correspondants sur les noms :
+select productions.name,publications.name,publications.idpublication from productions
+left outer join publications on productions.name = publications.name order by productions.name asc

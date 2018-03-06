@@ -1,0 +1,33 @@
+
+
+
+<dl>
+
+	<form action="?todo=load" method="post">
+	
+    	<dt>File to load :</dt>
+    	<dd><input type="text" name="filename" size="50" value="<?php echo  $this->filename ?>"/><input type="submit" name="load" value="load" /></dd>
+	
+	</form>
+
+	
+	
+	<form action="?todo=save" method="post">
+	<dt>Content :</dt>
+	<dd>
+	
+	
+	<textarea style="width:95%" rows="20" name="filecontent"><?php echo htmlentities( $this->filecontent, ENT_NOQUOTES,'utf-8') ?></textarea><br />
+	
+	
+	</dd>
+	<dt>Save to :</dt>
+	<dd>
+		<input type="text" name="filename" size="50" value="<?php echo  $this->filename ?>" /><input type="submit" name="save" value="save" />
+		
+	</dd>
+	
+	</form>
+	 
+
+</dl>

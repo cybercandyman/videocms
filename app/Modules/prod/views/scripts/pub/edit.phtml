@@ -1,0 +1,146 @@
+
+<?php $this->placeholder("title")->set($this->_("Publish your programs"))?>
+
+<table width="100%">
+	<tr valign="top">
+		<td width="60%">
+
+		<fieldset class="panel"><legend><?php echo $this->_("Search programs")?></legend>
+		<?php echo $this->action("search","program","prod",array("formatlist"=>"mini"))?>
+		<div id="programsList"></div>
+
+		</fieldset>
+
+
+		</td>
+		<td>
+
+		<fieldset class="panel"><legend><?php echo $this->_("Published programs")?></legend>
+		
+		
+		<div class="folder" id="AffectedPrograms">
+		<ul class="sortContent">
+		<?php
+		if(isset($this->group["programs"])):
+		foreach($this->group["programs"] as $prog):?>
+		
+			<li class="ui-state-default">
+			<div class="sortableItem">
+			<div class="cancel" style="float: right; cursor: pointer" onclick="removeItem(this)"><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+			
+			<span	class="item_<?php echo $prog["keyprog"] ?>">
+			<?php if( $prog["idprog_programs_extract"] != "") : ?><img class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?>
+			<?php echo $prog["details"]["title"]["original_value"]?></span>
+			&nbsp;
+			</div>
+			</li>
+			<?php endforeach;
+			endif;?>
+		</ul>
+		</div>
+		</fieldset>
+
+		</td>
+	</tr>
+</table>
+
+<style type="text/css">
+.drophover {
+	border: 2px solid #7D9D00;
+}
+
+.tablesorter li {
+	width: 300px;
+	overflow: visible;
+}
+</style>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.debug.js") ?>
+<script type="text/javascript">
+
+function removeItem(item){
+	
+	var classID  = jQuery(item).next().attr("class");			
+	var key = getKey(classID);
+	publishing(key,false);
+	jQuery(item).parent().parent().remove();	
+}
+
+function publishing(keyprog,statepublish){
+	$.ajax({
+		type:"post",
+		url:"<?php echo BASE_URL ?>prod/program/dispo",
+		data:{key:keyprog,id:'<?php echo $this->idpublication ?>',state:statepublish}
+	});
+}
+function getKey(item){
+	var  reg= new  RegExp("item_", "g");
+	var key = item.replace(reg,"");
+	return key;
+}
+
+
+jQuery(document).ready(function(){	
+
+	$('#programsList .draggableItem').live("mouseover", function() {	
+		if (!$(this).data("init")) {				
+			$(this).data("init", true).disableSelection();				
+			jQuery(this).draggable({	
+				connectToSortable: 'ul.sortContent',
+				helper: function(){
+					var classID = $("div span",$(this)).attr('class');
+					var result = $(".sortContent").find("span." + classID );
+					var helper = $(this).clone().addClass("ui-state-default");
+    				if(result.length > 0)
+    				{
+    					helper.find("div").addClass("sortableItem").prepend("<img width='16px' height='16px' src='<?php echo BASE_URL ?>themes/system/pics/critical.gif'/>&nbsp;");
+    				}	else{
+    					helper.find("div").addClass("sortableItem").prepend("<img width='16px' height='16px' src='<?php echo BASE_URL ?>themes/system/pics/ok.png'/>&nbsp;");
+    				}					
+    				return helper;
+				}, 
+				revert: 'invalid',  
+				iframeFix: true,
+				snap: true,
+				addClasses: false,
+				refreshPositions: true,
+				
+				zIndex: 2700						
+        	});        	
+			//$(".sortContent").sortable( 'refreshPositions' );
+		}
+	});		
+
+	$(".sortContent").droppable({	
+		accept: function(ui){		
+			var classID = $("div span",ui).attr('class');
+			var result = $(".sortContent").find("span." + classID );	
+			var response = result.length > 0 ? false:true;					
+			return response;
+		},		
+		drop: function(event, ui) {			
+			
+			var $object = ui.draggable .clone().addClass("ui-state-default");
+			var classID  = $("div span", $object).attr("class");
+			var key = getKey(classID);
+			publishing(key,true);
+			$("span",$object).parent().prepend('<div class="cancel" style="float:right;cursor:pointer" onclick="removeItem(this)" ><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"/></div>');
+			$(".sortContent").append($object); 		 	
+		},
+		hoverClass: 'drophover'		
+	});
+
+	/*
+	.sortable({
+	placeholder: 'ui-state-highlight' ,
+	dropOnEmpty: true,
+	forcePlaceholderSize: true
+})
+	*/
+});
+</script>
+
+<?php echo $this->systemMessage($this->_("Select the programs you want to publish by dragging them to the zone \"published programs\""),1)?>
+
+
+

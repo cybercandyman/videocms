@@ -1,0 +1,119 @@
+<table id="ChaptersList" cellpadding="0" cellspacing="0" >
+	<thead>
+		<tr>
+			<th ><?php echo $this->_ ( "Picture" );?></th> 
+			<th><?php echo $this->_ ( "Title" );?></th>	
+			<th><?php echo $this->_("Description")?></th> 		
+			<th><?php echo $this->_ ( "Timecode" );?></th>
+			
+			<th width="90px"><?php echo $this->_ ( "Actions" );?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php $i=0;foreach ($this->chapters as $item): ?>
+		<tr id="chapter_<?php echo $i++ ?>" class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			
+			<td  >
+    			<?php if($item["details"]["picture"]["value"] != ""):?>
+    			
+    			 
+    			 <img src="<?php echo $item["details"]["picture"]["value"] ?>"	width="32px" height="32px" />
+    				
+    			<?php endif;?>
+    			&nbsp;
+			</td>	
+					
+			<td ><?php echo $item["details"]["title"]["value"] ?>&nbsp;</td>
+			<td>				 
+			   <div style="width: 100%;height:18px;overflow:hidden" class="GridchapterSynopsis"><?php echo htmlentities( $item["details"]["description"]["value"],ENT_QUOTES,"utf-8") ?></div>&nbsp;			  
+			</td>
+			
+			<td ><?php echo $item["details"]["timecode"]["value"] ?>&nbsp;</td>			
+			
+			
+									
+			<td >
+			<a  class="edit action" href="#" onclick="editChapter('<?php echo $item["id"] ?>')" title="<?php echo $this->_("edit")?> #<?php echo $item["id"]?>">&nbsp;</a>
+			<a  class="save action" href="#" onclick="addToKb('<?php echo $item["id"] ?>')" title="<?php echo $this->_("add")?>">&nbsp;</a>
+			<a  class="delete action" href="#" onclick="deleteChapter('<?php echo $item["id"] ?>')" title="<?php echo $this->_("delete")?>">&nbsp;</a>
+			&nbsp;
+			</td>
+		</tr>
+		<?php endforeach; ?>
+
+	</tbody>
+</table>
+<div id="chaptersGrid" style="position:relative;height:100%"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var chaptersJS = <?php echo $this->chaptersJS ?>;
+    function addToKb(idchaptertoadd){
+    	$.ajax({
+    		type:'post',
+    		url:'<?php echo $this->url(array('controller'=>'program','module'=>'prod','action'=>'addToKb','idview' =>  $this->idview != "" ? $this->idview : 0)) ?>',
+    		data:{idchapter:idchaptertoadd},
+    		success:function(msg){
+    			alert("<?php echo $this->_("Successfull replication ","none") ?>")
+      			 if('function' == typeof(loadChapterManager)){
+    				 loadChapterManager();
+    			 }
+    		}
+    	});
+     }
+
+    Ext.onReady(function(){                  
+            var grid = Ext.create('Ext.ux.grid.TransformGrid', "ChaptersList", {
+                stripeRows: true,
+                height:450,
+                border:0,
+                width:'95%',
+                id:'extjsgrid',
+                layout: 'fit',  
+                renderTo:'chaptersGrid',
+                autoExpandColumn  	 :'titre',   
+                forceFit: true,           
+                columns: [
+                          {menuDisabled:true,sortable:true,width:50},
+                          {menuDisabled:true,sortable:true,width:250},
+                          {menuDisabled:true,sortable:true,width:180},
+                          {menuDisabled:true,sortable:true,width:75}, 
+                          {menuDisabled:true,sortable:true,width:75}
+                          ]
+            });
+           
+            setInterval('Ext.getCmp("extjsgrid").setSize($("#chaptersGrid").width(),$("#chaptersGrid").height())',1000);   
+    });
+    jQuery(document).trigger('chaptersLoaded');	
+                   
+
+    
+    
+//]]>
+</script>
+
+   <!-- 
+    var grid = new Ext.ux.grid.TableGrid("ChaptersList", {
+	id:"ChaptersListGrid", 		     
+    stripeRows: true, // stripe alternate rows
+    height:138,
+    autoWidth:false,
+    width:'100%',           	
+    frame:false,
+    border: false,
+    layout: 'fit',                     
+    columns: [
+              {sortable:true, menuDisabled: true,width:45},
+              {sortable:true,id:'title', menuDisabled: true,width:'auto'},
+              {sortable:true, menuDisabled: true,width:180},
+              {sortable:true, menuDisabled: true,width:75},
+           
+              {sortable:false, menuDisabled: true,width:75}
+              ],  
+    autoExpandColumn  	 :'title',
+    autoExpandMax :1500
+     -->
+
+
+
+

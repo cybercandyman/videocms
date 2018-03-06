@@ -1,0 +1,25 @@
+ <div id="lingualismPart">
+    <h2><?php echo $this->_("Audio languages") ?></h2>        
+    <?php echo $this->formSelect( "availablelcid",null,array("multiple"=>"multiple","size"=>"15","style"=>"width:150px;float:left"), $this->contentTable("enum_lcid",null,null,"lcid","libelle"))  ?>
+    <div style="float: left">
+    <button id="addlcid"><span><?php echo $this->_("add") ?></span></button>
+    <br />
+    <button id="removelcid"><span><?php echo $this->_("remove") ?></span></button>
+    </div>
+    <?php echo $this->formSelect("chosenlcid",null,array("multiple"=>"multiple","size"=>"15","style"=>"width:150px;float:left"), array() )  ?>
+    <br style="clear: both" />
+</div>
+
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+			$("#addlcid").click(function(){		
+				$("#availablelcid option:selected").clone().appendTo("#chosenlcid");
+			});
+			$("#removelcid").click(function(){
+				$("#chosenlcid option:selected").remove();
+			});	
+	});
+</script>

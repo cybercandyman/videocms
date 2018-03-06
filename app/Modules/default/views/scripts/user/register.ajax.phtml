@@ -1,0 +1,72 @@
+<form method="post"	action="<?php echo $this->url(array("action"=>"saveuser","format"=>"ajax"))?>"	id="registerForm">
+<fieldset class="small">
+<p><label><?php echo $this->_("Last name")?> *</label> <span><?php echo $this->formText("name",null,array("class"=>"validate[required]"))?></span>
+</p>
+<p><label><?php echo $this->_("First name")?> *</label> <span><?php echo $this->formText("firstname",null,array("class"=>"validate[required]"))?></span>
+</p>
+<p><label><?php echo $this->_("Email")?> *</label> <span><?php echo $this->formText("email",null,array("class"=>"validate[required,custom[email],ajax[ajaxMail]]"))?></span>
+</p>
+<p><label><?php echo $this->_("Adress 1")?></label> <span><?php echo $this->formText("adress1",null,null)?></span>
+</p>
+<p><label><?php echo $this->_("Adress 2")?></label> <span><?php echo $this->formText("adress2")?></span>
+</p>
+<p><label><?php echo $this->_("Zip code")?></label> <span><?php echo $this->formText("postalcode",null,null)?></span>
+</p>
+<p><label><?php echo $this->_("City")?></label> <span><?php echo $this->formText("city",null,null)?></span>
+</p>
+<p><label><?php echo $this->_("Login")?> *</label> <span><?php echo $this->formText("ulogin",null,array("class"=>"validate[required,ajax[ajaxUser]]"))?></span>
+</p>
+<p><label><?php echo $this->_("Secret question")?> *</label> <span><?php echo $this->formText("secretquestion",null,array("class"=>"validate[required]","title"=>$this->_("Question will be requested  if you loose your password.")))?></span>
+</p>
+<p><label><?php echo $this->_("Secret response")?> *</label> <span><?php echo $this->formText("secretresponse",null,array("class"=>"validate[required]"))?></span>
+</p>
+
+<p><label><?php echo $this->_("Password")?> *</label> <span><?php echo $this->formText("upassword",null,array("class"=>"validate[required]"))?></span>
+</p>
+<p><label><?php echo $this->_("Confirm password")?> *</label> <span><?php echo $this->formText("passwordconfirmation",null,array("class"=>"validate[required,confirm[upassword]]"))?></span>
+</p>
+
+<p><label>&nbsp;</label> <span>
+<input type="submit" value="<?php echo $this->_("Register","null")?>" />
+</span>
+</p>
+
+<?php echo $this->formHidden("publicationKey",Zend_Controller_Front::getInstance()->getRequest()-> getParam("keypub",""),null)?>
+</fieldset>
+</form>
+
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL?>embeded/js/jquery.form.js"></script>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+
+	
+	 $("#registerForm").validationEngine({
+		 success:function(){
+		 	$("#registerForm").ajaxSubmit({
+	    		success: function (responseXML){	    																									
+	    			$.facebox(responseXML);	
+	    		},
+	    		error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+	    	});				
+	    	return false;
+		 }
+			});
+
+	 /*
+	 $("#registerForm").submit(function(){
+	 $("#registerForm").ajaxSubmit({
+		success: function (responseXML){
+																									
+			$.facebox(responseXML);	
+		},
+		error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+	});				
+	return false;
+	 });
+	*/   
+});
+</script>

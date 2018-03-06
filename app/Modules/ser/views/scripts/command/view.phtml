@@ -1,0 +1,40 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php
+	// Variable pour les vues "partial"
+	$var = 	array(
+			"index"=>0,	
+			"idorder"=>$this->idorder,
+			"order"=>$this->order,
+			"id_type"=>$this->id_type,
+			"chaptering"=>$this->chaptering,
+			"encoding"=>$this->encoding,
+			"subtitling"=>$this->subtitling,
+			"translation"=>$this->translation,
+			"watermarking"=>$this->watermarking,
+			"module_source"=>$this->module_source
+	);
+	//
+	echo $this->partial("command/index_view_links.phtml", $var);	
+	echo $this->partial("command/index_view_scripts.phtml", $var);	
+	echo $this->partial("command/index_view_php_scripts.phtml", $var);	
+	//
+?>
+<!-- Title -->
+<?php $this->placeholder("title")->set($this->_("Services"))?>
+
+<form>
+
+<?php 	
+	// Zone d'informations
+	echo $this->partial("command/informations.phtml", $var);	
+	// Zone des services	
+	echo $this->partial("command/chapitrage.phtml", $var);	
+	echo $this->partial("command/encoding.phtml", $var);	
+	echo $this->partial("command/subtitling.phtml", $var);	
+	echo $this->partial("command/translation.phtml", $var);	
+	echo $this->partial("command/watermarking.phtml", $var);	
+?>
+
+</form>
+<?php $this->block()->end(); ?>

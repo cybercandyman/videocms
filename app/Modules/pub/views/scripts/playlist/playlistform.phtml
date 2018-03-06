@@ -1,0 +1,731 @@
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.meio.mask.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/Silverlight.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.anchor.event.js") ?>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.blockUI.js") ?>
+
+<style>
+	.tabsection{
+		display:none;
+}
+</style>
+
+	
+		<div id="programlayout-video">
+		
+				<div class="section">
+        						<!--[if !IE]>start title wrapper<![endif]-->
+        						<div class="title_wrapper">
+        							<h2><?php echo $this->_("Video files")?></h2>
+        							
+        							<ul class="programToolBar">
+        							 <?php if($this->_session->environment["module"] == "prod" || $this->_session->environment["module"] == "pub"):?>
+        							<li>
+        							<a href="javascript:void(0);" id="previewButton">
+        								<img src="<?php echo BASE_URL?>themes/system/pics/video.png" title="<?php echo $this->_("preview") ?>"/>
+        							</a>
+        							</li>      
+        							<?php endif;?>					
+        							</ul>
+        							
+        							
+        							
+        							<span class="title_wrapper_left"></span>
+        							
+        						<span class="title_wrapper_right" style="display: block;"></span></div>
+        						<!--[if !IE]>end title wrapper<![endif]-->
+        						<!--[if !IE]>start section content<![endif]-->
+        						<div class="section_content">
+        							<!--[if !IE]>start section content top<![endif]-->
+        							<div class="sct">
+        								<div class="sct_left">
+        									<div class="sct_right">
+        										<div class="sct_left">
+        											<div class="sct_right">
+        												
+	        												
+	        												
+	        												<select id="versionToExtract" name="versionToExtract" style="width:330px">
+                                                    			<?php foreach($this->versions as $version) : ?>
+                                                    			<option value="<?php echo $version["filename"] ?>"><?php echo $version["filename"] ?></option>
+                                                    			<?php endforeach;?>
+                                                    		</select><br />
+                                                    				<br />
+                                                    		
+                                                    		<div id="ControlHost"></div>
+                                                   			
+                                                   			 <?php echo $this->systemMessage('<a href="#" onclick="jQuery(\'#section_programs_action\').trigger(\'click\');">'.$this->_("Click on a playlist programs to get its videos.")."</a>",1)?>
+                                                    	
+		
+        					
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        							<!--[if !IE]>end section content top<![endif]-->
+        							<!--[if !IE]>start section content bottom<![endif]-->
+        							<span class="scb"><span class="scb_left"></span><span class="scb_right"></span></span>
+        							<!--[if !IE]>end section content bottom<![endif]-->
+        							
+        						</div>
+        						<!--[if !IE]>end section content<![endif]-->
+                    </div>
+		
+		
+		
+		</div>
+		<div id="programlayout-edition">
+		
+        		<div class="section">
+        						<!--[if !IE]>start title wrapper<![endif]-->
+        						<div class="title_wrapper">
+        							<h2><?php echo $this->_("Playlist editing")?></h2>
+        							
+        							<!--[if !IE]>start section menu<![endif]-->
+        							<ul class="section_menu">
+        							
+        								
+        								<li><a id="section_description_action" href="#section_description"><span><span><?php echo $this->_("Description")?></span></span></a></li>        								
+        								
+        								<!-- <li><a id="section_chapters_action" href="#section_chapters"><span><span><?php echo $this->_("Chapters")?></span></span></a></li> -->
+        								<li><a id="section_programs_action" href="#section_programs"><span><span><?php echo $this->_("Programs")?></span></span></a></li>
+        								<li><a id="section_chapter_form_action" href="#section_chapter_form"><span><span><?php echo $this->_("Chapters")?></span></span></a></li>
+        								<li><a href="<?php echo BASE_URL ?>pub/integration/playlist/key/<?php echo $this->playlistKey ?>/viewcode/<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default") ?>"><span><span><?php echo $this->_("Integration")?></span></span></a></li>
+        							   
+
+        							</ul>
+        								<ul class="programToolBar">    
+        							
+        										<li><a  title="<?php echo $this->_("Integration")?>" href="<?php echo BASE_URL ?>pub/integration/playlist/key/<?php echo $this->playlistKey ?>/viewcode/<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default") ?>"><img  src="<?php echo BASE_URL ?>themes/system/pics/network.png" /></a></li>
+										</ul>
+        							<!--[if !IE]>end section menu<![endif]-->
+        							
+        							
+        							<span class="title_wrapper_left"></span>
+        							
+        						<span class="title_wrapper_right" style="display: block;"></span></div>
+        						<!--[if !IE]>end title wrapper<![endif]-->
+        						<!--[if !IE]>start section content<![endif]-->
+        						<div class="section_content">
+        							<!--[if !IE]>start section content top<![endif]-->
+        							<div class="sct">
+        								<div class="sct_left">
+        									<div class="sct_right">
+        										<div class="sct_left">
+        											<div class="sct_right">
+        											<h5><?php echo $this->_("Availables views")?></h5>
+        											<p>
+                                                       <?php $tmp = array(); foreach ($this->views as $view): $tmp[ $view["viewcode"] ] = $view["viewname"]; endforeach;?>
+        											<?php echo $this->_("Views")?>:<?php echo $this->formSelect("viewSelector", Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default") ,null,$tmp) ?><br />
+        											</p>
+        											
+        												<div id="section_description" class="tabsection">
+        													<h5><?php echo $this->_("General description of your playlist")?></h5>
+        													<form action="<?php echo BASE_URL ?>pub/playlist/update" method="post" 	id="formPlaylistDescription">
+                                                                <fieldset>
+                                                                <p><label><?php echo $this->_("Title")?></label> <span><?php echo $this->formText("playlistTitle",$this->playlist["title"],null)?></span>
+                                                                </p>
+                                                                <p><label><?php echo $this->_("Description")?></label> <span><?php echo $this->formTextarea("playlistDescription",$this->playlist["description"],array("rows"=>10))?></span>
+                                                                </p>
+                                                                <p><label><?php echo $this->_("Category")?></label> <span><?php echo $this->formText("playlistGroupName",$this->playlist["groupname"],null)?></span>
+                                                                </p>
+                                                                <p><label><?php echo $this->_("Picture")?></label> <span><?php echo $this->formText("playlistPicture",$this->playlist["picture"],null)?></span>
+                                                                </p>
+                                                                <?php echo $this->formHidden("idplaylist",$this->playlist["idplaylist"]) ?>
+                                                                <?php echo $this->formHidden("publicationkey",$this->publicationkey) ?>
+                                                                <p><label>&nbsp;</label> <span>
+                                                                	<?php echo $this->sexybutton ("href",  $this->_("explorer"), array("grey_btn"), "javascript:filemanager('playlistPicture');",array("id"=>"")) ?>
+                                                                	</span>
+                                                                </p>
+                                                                <p><label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+                                                                </fieldset>
+        													</form>
+        													
+        												</div>
+        											
+        												<div id="section_chapter_form" class="tabsection">
+        												
+        												
+        												
+        												
+        												
+        													
+                                                            			
+                                                            		
+                                                            		<div id="chapterZone">
+                                                            			<a href="#" onclick="jQuery('#section_programs_action').trigger('click');"><?php echo $this->_("Select a program to load chapters and videos.")?></a>
+                                                            		</div>
+                                                            	
+                                                            
+                                                            	
+                                                            	
+                                                            		<h5><?php echo $this->_("Chapter form")?></h5>
+                                                            		<form method="post"	action="<?php echo BASE_URL ?>prod/program/savechapter"	id="chapterForm" class="nodeDraggable">			
+                                                            		<fieldset class="small chapters">
+                                                            		<div id="divChapterForm" >
+                                                                	<table cellspacing="4" class="chapterForm">
+                                                                	
+                                                                		<tr valign="top">
+                                                                			<td>
+                                                                				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("1"))); ?>
+                                                                			</td>
+                                                                			<td>
+                                                                				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("2"))); ?>
+                                                                				
+                                                                				
+                                                                			
+                                                                				
+                                                                				
+                                                                			</td>
+                                                                			<td>
+                                                                				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("3"))); ?>
+                                                                					<div>
+    																				<div class="formButton">
+    																				
+                                                                					                                                  		                                                                
+                                                                
+                                                                						<?php echo $this->sexybutton ("reset", $this->_("cancel"), array("cancel_btn"), null,array("id"=>"btnReset")) ?>
+                                                                						<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+                                                                			            <?php echo $this->formHidden("idproduction",$this->idproduction,null); ?>                                                                				
+                                                                				        <?php echo $this->formHidden("idplaylist",$this->idplaylist,null); ?>
+                                                                        		        <?php echo $this->formHidden("key",$this->key,null); ?> <?php echo $this->formHidden("idchapter",null,null); ?>
+                                                                        		        <?php echo $this->formHidden("idview",$this->idview,null); ?>  
+                                                                					</div>
+                                                                				</div>
+                                                                
+                                                                			</td>
+                                                                		</tr>
+                                                         
+                                                                	
+                                                                	</table>
+                                                                	
+                                                                	</div>
+                                                                	<p id="TimeCodeButtons" >  
+                                                                	<?php echo $this->sexybutton ("href", $this->_("get"), array("grey_btn"), "javascript:void(0)",array("id"=>"shotFromVideo")) ?>                                                              	
+                                                                	 
+                                                                	&nbsp;
+                                                                	<?php echo $this->sexybutton ("href", $this->_("preview"), array("grey_btn"), "javascript:void(0)",array("id"=>"shotFromChapter")) ?>  
+                                                                	                                                    	
+                                                                	</p>
+	
+	
+                                                            		</fieldset>
+                                                            		</form>
+                                                            		
+                                                            	
+                                                      			<?php  echo $this->action("semantic","program","prod") ?>
+                                                            	<h5><?php echo $this->_("Objects manager")?></h5>
+                                                            	<div id="vmanagerZone">
+                                                            	<?php echo $this->action("index","virtualmanager","tools",array("mode"=>"integrated")) ?>		
+                                                            	</div>
+                                                            			
+                                                            	
+                                                         
+        												</div>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                              
+                                                        
+        												<div id="section_programs" class="tabsection">
+        														<h5><?php echo $this->_("Search program in stock")?></h5>
+        														<div ><?php echo $this->action("search","stock","pub",array("formatlist"=>"mini","idview"=>$this->defaultidview))?>
+    															<div id="programsList"></div>
+    															 <?php echo $this->systemMessage($this->_("Drop program from this list on the playlist programs panel."),1)?>
+            							
+        														
+        														<h5><?php echo $this->_("Allocated programs")?></h5>
+        														
+        															<div class="folder" id="AffectedPrograms">
+                                                            		<ul class="sortContent">
+                                                            		<?php if(isset($this->playlist["programs"])):
+                                                            		foreach($this->playlist["programs"] as $prog):?>
+                                                            			<li class="ui-state-default">
+                                                            			<div class="sortableItem">
+                                                            			<div class="cancel" style="float: right; cursor: pointer" onclick="removeItem(this)"><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+                                                            			<span id="item_<?php echo $prog["keyprog"] ?>" class="item_<?php echo $prog["keyprog"] ?>">
+                                                            			<?php if( $prog["idprog_programs_extract"] != "") : ?><img class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?> 
+                                                            		    <?php echo $prog["details"]["title"]["original_value"]?></span>
+                                                            			&nbsp;
+                                                            			
+                                                            			</div>
+                                                            			</li>
+                                                            			<?php endforeach;
+                                                            			endif;?>
+                                                            		</ul>
+                                                            		</div>
+        														
+
+															 
+                               
+                                                            		 <?php echo $this->systemMessage($this->_("Click on a playlist program to get its chapters."),1)?>
+            							
+        														
+        												</div>
+                                                        
+                                                        
+                                                        <div id="section_vmanager" class="tabsection">
+                                                        	<?php //echo $this->action("index","virtualmanager","tools",array("mode"=>"integrated")) ?>
+                                                        </div>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        							<!--[if !IE]>end section content top<![endif]-->
+        							<!--[if !IE]>start section content bottom<![endif]-->
+        							<span class="scb"><span class="scb_left"></span><span class="scb_right"></span></span>
+        							<!--[if !IE]>end section content bottom<![endif]-->
+        							
+        						</div>
+        						</div>
+        						<!--[if !IE]>end section content<![endif]-->
+                    </div>
+		
+		</div>
+	
+	
+	
+
+<div id="loadingChapters" style="display: none; text-align: center;"><img src="<?php echo BASE_URL ?>themes/system/pics/loading.gif" /></div>
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span><?php echo  $this->_("Are you sure to delete this chapter ?") ?></p>
+</div>
+<div style="display: none" id="divFileName"><span class="filename"><?php echo $this->versions[0]["filename"] ?></span></div>
+<?php echo $this->formHidden("groupprograms")?>
+
+
+<div id="dialogImportChapters" title="<?php echo  $this->_("Import chapters ?") ?>">
+<p><?php echo  $this->_("Import programs chapters ?") ?></p>
+</div>
+<div id="#images"></div>
+
+<script type="text/javascript">
+/**
+ * Variables 
+ */
+var currentKeyProgram = null;
+var field_not_ok = [<?php echo $this->field_not_ok ;?>];
+var _destroyUrl	;
+var svlObjectDialog;
+var  mmspreview;
+var streamDirectory = "<?php echo $this->streamDirectory ?>";
+var mms = "<?php echo $this->mms ?>";
+var currentElement = $("#divFileName");
+/**
+ * Global functions
+ */
+function removeItem(item){
+	jQuery(item).parent().parent().remove();	
+	saveContentOrdering();
+}
+var ChapterManagerloaded = false;
+function loadChapterManager(){
+	/*
+	if(ChapterManagerloaded === false){
+		ChapterManagerloaded = true;
+		$.ajax({
+			type:'get',
+			url:BASE_URL + 'tools/virtualmanager/index/mode/integrated',
+			success:function(content){				
+				jQuery("#vmanagerZone").html(content);
+			}
+		});
+	}else{
+	*/
+		var treeChapter = Ext.getCmp("treeChapter");
+		if(typeof(treeChapter) != "undefined"){			
+			Ext.getCmp("treeChapter").getStore().getProxy().extraParams.NODE_ID = 0;
+			Ext.getCmp("treeChapter").getStore().load();		
+		}
+		
+	//}
+
+}
+function saveContentOrdering(){	
+	jQuery(".sortContent").each(function(){
+		var listPrograms = "";		
+		
+		$("li div span",this).each(function(){
+			listPrograms += listPrograms != "" ? "&":"";
+			listPrograms +=  $(this).attr("class") ;			
+		});	
+		$("#groupprograms").val(listPrograms);
+		$.ajax({
+			type:"get",
+			url:"<?php echo BASE_URL ?>pub/playlist/saveprogramorder",
+			data:{"groupprograms":$("#groupprograms").val(),"idplaylist":"<?php echo $this->idplaylist ?>"}
+		});
+	});
+}
+
+
+function onloadplayer() {	
+	svlObjectDialog = document.getElementById("silverlightControl");
+    try{        
+    	mmspreview = makemms($("#versionToExtract").val(),"stream");	
+    	svlObjectDialog.Content.SilverlightApp.loadVideo(mmspreview);
+    }catch(error){}
+}
+function makemms(filename,mode){
+	
+	var reg=new RegExp("(%s)");
+	var uri = "";
+	switch(mode){
+		case "deposit": uri = mms.replace(reg,depositDirectory+ "/" +filename );  break;
+		case "stream": uri = mms.replace(reg,streamDirectory+ "/" +filename );  break;
+		default: uri = mms.replace(reg,depositDirectory+ "/" +filename ); break;
+	}	
+
+	var tmp = "";	
+	$.ajax({
+		url : '<?php echo BASE_URL ?>prod/program/getmms',
+		type: 'get',
+		data:{file:filename,key:currentKeyProgram,uri:uri},
+		async:false,
+		success:function(result){
+			tmp = (result);
+		}
+	});
+	return tmp;
+}
+function deleteChapter(idChapter){
+	_destroyUrl	= "<?php echo BASE_URL ?>pub/playlist/deletechapter/format/ajax/key/"+currentKeyProgram+"/id/"  + idChapter;
+	jQuery("#dialog").dialog('open');
+}
+function editChapter(idChapter){
+	jQuery("#btnReset").trigger("click");
+	var childrenSelect = new Array();
+	for(var i =0;i < chaptersJS.length;i++){
+		if(chaptersJS[i]["id"] == idChapter){
+			jQuery.each(chaptersJS[i]["details"], function(i,item){
+					var id = item["type"] + "_" + item["idfgroup"];
+					var value = item["original_value"];
+					if(item["type"]=="BOOLEAN" || item["type"]=="COMPLEXBOOLEAN"){
+						jQuery("#chapterForm input[name=" + id + "][value="+value+"]" ).attr("checked","checked");
+					}
+					else{
+						jQuery("#chapterForm #" + id ).val(value);
+						if(item["parent"] != ""){
+							childrenSelect.push(item);
+						}
+					}												
+					
+			 });
+			 for(var y = 0; y < childrenSelect.length;y++){
+				 jQuery.each(chaptersJS[i]["details"], function(z,itemparent){
+						if(childrenSelect[y]["parent"] == itemparent["code"] ){
+							var idparent = itemparent["type"] + "_" + itemparent["idfgroup"];
+							jQuery("#chapterForm #" + idparent ).trigger("change",childrenSelect[y]["original_value"]);
+						}
+					});
+			 }			
+			 jQuery("#idchapter","#chapterForm").val(chaptersJS[i]["id"]);	
+			 try{	
+			 	loadChapterSemantics(chaptersJS[i]["id"]);
+			 }catch(error){}
+		}
+	}
+}
+function loadChapters(idprogram){	
+	jQuery('#chapterZone').html($("#loadingChapters").html());	
+	jQuery.get('<?php echo BASE_URL ?>prod/program/chapterslist/idview/<?php echo $this->idview ?>/playlist/<?php echo $this->idplaylist ?>/format/ajax/key/'+idprogram, function(data) {
+		jQuery('#chapterZone').html(data);		
+		//jQuery(document).trigger('chaptersLoaded');
+	});		
+	try{
+		resetSurface();
+	}	catch(error){}	
+}
+
+function setVideoEnvironment(currentKeyProgram)
+{
+	jQuery.ajax(			
+	{
+		type:"post",
+		url:'<?php echo BASE_URL ?>pub/playlist/getversions/idview/<?php echo $this->idview ?>/key/'+currentKeyProgram,
+		success:function(data){				
+			streamDirectory = data.streamDirectory;
+			mms = data.mms;	
+			jQuery("#versionToExtract").html("");			
+			for(var i = 0;i<data.videos.length;i++){				
+				var option = "<option value=\"" + data.videos[i].filename + "\">" + data.videos[i].filename + "</option>";				
+				jQuery("#versionToExtract").append(option);		
+			}	
+			jQuery("#versionToExtract").trigger("change");
+		},
+		dataType:"json"
+	});	
+}
+function gotoTimeCode(timecode){
+	svlObjectDialog.Content.SilverlightApp.pausePlayer();
+	svlObjectDialog.Content.SilverlightApp.gotoPlayer(timecode.substr(0,8));
+	svlObjectDialog.Content.SilverlightApp.playPlayer();
+	
+	
+}   
+
+jQuery(document).ready(function(){
+
+	$("#previewButton").click(function(){		
+		$.facebox.settings.opacity = 0.6;               		
+		$.facebox({ajax : "<?php echo BASE_URL ?>pub/playlist/getpreview/key/<?php echo $this->playlistKey ?>/viewcode/<?php echo $this->viewcode?>/height/338/width/450/lang/<?php echo $this->_session->locale ?>"},"clean");
+						
+	});
+	
+	$('#programsList .draggableItem').live("mouseover", function() {	
+			if (!$(this).data("init")) {				
+				$(this).data("init", true).disableSelection();	
+    			jQuery(this).draggable({	
+    				connectToSortable: 'ul.sortContent',
+    				helper: 'clone',
+    				iframeFix: true,
+    				snap: true,
+    				revert: 'invalid',
+   					addClasses: false,
+    				refreshPositions: true					
+            	});
+    			$(".sortContent").sortable( 'refreshPositions' );
+			}
+	});		
+	$(".sortContent").sortable({			
+		stop: function(event, ui) { 
+    		var result = ui.item.find("div.cancel");		
+    		if(result.length == 0){	        		
+    				$("span",ui.item) .prepend('<div class="cancel" style="float:right;cursor:pointer" onclick="removeItem(this)" ><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"/></div>');    				
+    				var tmp = ui.item.find("div span");
+    				chaptersImport( tmp .attr("class"));
+    			}
+		},					  
+		update: function(event, ui) {
+			$(".sortContent li").addClass("ui-state-default");
+			saveContentOrdering();
+		},		
+		tolerance: 'pointer',
+		placeholder: 'ui-state-highlight' ,
+		dropOnEmpty: true,
+		forcePlaceholderSize: true		
+	});
+		
+	function chaptersImport(classItem)
+	{
+		var keyprog = classItem.substr(5,classItem.length);
+		currentKeyProgram = keyprog;
+		$("#dialogImportChapters").dialog('open');
+	}
+	
+	$(".sortContent li").live("click",function(){
+		$.blockUI({message:"<h1><?php echo $this->_("Please wait") ?></h1>"});		
+		$(".sortContent li").removeClass("ui-state-highlight");$(".sortContent li").addClass("ui-state-default");		
+		$(this).removeClass("ui-state-default").addClass("ui-state-highlight");		
+		var vclass = $(".sortableItem span",this).attr("class");
+		
+		currentKeyProgram = vclass.substr(5,vclass.length);
+		$("#section_chapter_form_action").trigger("click"); 	 
+		loadChapters(currentKeyProgram);
+		$("#key").val(currentKeyProgram);
+		setVideoEnvironment(currentKeyProgram);
+		$.unblockUI();
+	});	
+
+	
+	saveContentOrdering();	
+
+	$("#chapterForm input[rel=timecode]").parent().parent().after($("#TimeCodeButtons"));
+	$("#btnReset").click(function(){
+		$("#chapterForm").trigger("reset");
+		$("#chapterForm #idchapter").val("");		
+	});
+	$("#versionToExtract").change(function(){
+		svlObjectDialog.Content.SilverlightApp.loadVideo(makemms($("#versionToExtract").val(),  "stream"));
+	});		
+    jQuery.each(field_not_ok, function() {
+    	$("#" + this).addClass("input_nok");
+    }); 
+    $("#chapterForm").submit(function(){
+    	$("#chapterForm").ajaxSubmit({
+			success: function (response){	
+				var idchapter = response.idchapter;
+				try{
+		    		saveChapterSemantics(idchapter);
+		    			resetSurface();
+				}
+				catch(error){}																				
+				$("#btnReset").trigger("click");	
+				loadChapters(currentKeyProgram);						
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+		});				
+		return false;
+    });
+    $("#shotFromVideo").click(function(){
+    	//svlObjectDialog.Content.SilverlightApp.pausePlayer();
+    	var timecode = svlObjectDialog.Content.SilverlightApp.getCurrentTimeCode();
+    	$("#"+fieldTimeCode).val(timecode);
+    }); 
+    $("#shotFromChapter").click(function(){
+
+    	gotoTimeCode($("#"+fieldTimeCode).val());
+    });     
+
+    
+
+    $("#dialogImportChapters").dialog({		
+	
+		resizable: true,
+		height:200,
+		width:400,
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Import chapters")?>': function() {
+				$(this).dialog('close');
+				$.ajax({
+					type:'post',
+					url :"<?php echo BASE_URL ?>pub/playlist/importchapters/key/<?php echo $this->playlistKey ?>/viewcode/"+$("#viewSelector").val()+"/programKey/"+currentKeyProgram,
+					success:function(msg){												
+					},
+					complete:function(){
+						currentKeyProgram = null;
+					}				
+				});							
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+        
+	$("#dialog").dialog({		
+		bgiframe: true,
+		resizable: false,
+		height:140,
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete")?>': function() {
+				$(this).dialog('close');				
+				$.ajax({
+					url:_destroyUrl,
+					success:function(response){
+						loadChapters(currentKeyProgram);
+					}
+				});
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+
+	$("#viewSelector").change(function(){		
+		document.location.href = "<?php echo BASE_URL ?>pub/playlist/edit/key/<?php echo $this->playlistKey ?>/viewcode/"+$("#viewSelector").val();
+	});
+
+
+	$("#formPlaylistDescription").submit(function(){
+		$("#formPlaylistDescription").ajaxSubmit({
+			success: function (responseXML){																							
+				//$("#btnReset").trigger("click");	
+				//loadChapters();
+				alert("<?php echo $this->_("saved","none") ?>");						
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+		});
+		return false;
+	});
+	
+	 Silverlight.createObjectEx({
+	        source: "<?php echo BASE_URL ?>embeded/silverlight/editVideo.xap",
+	        parentElement: document.getElementById("ControlHost"),
+	        id: "silverlightControl",
+	        properties: {
+	            width: "330",
+	            height: "450",
+	            version: "3.0.40624.0",
+	            background: "transparent",
+	            isWindowless: "true",
+	            enableHtmlAccess: "true",
+	            autoUpgrade: "false"
+	        },
+	        events: {
+				onload:function(){
+    	        	svlObjectDialog = document.getElementById("silverlightControl");
+    	            try{        
+    	            	mmspreview = makemms($("#versionToExtract").val(),"stream");	
+    	            	svlObjectDialog.Content.SilverlightApp.loadVideo(mmspreview);
+    	            }catch(error){}
+    				}
+		        }
+	    });
+
+	 $(".blocInfos h2").each(function(){
+			$(this).click(function(){
+
+				if($(".moreinfos",$(this).parent()).css("display") == "none"){
+					$(".rubInfos",$(this).parent()).css("display","none");			
+					$(".moreinfos",$(this).parent()).css("display","block");	
+					
+					$(".sortContent").sortable("refresh");
+					$(".extractItem").draggable('enable');		
+				}
+				else{
+							
+					$(".moreinfos",$(this).parent()).css("display","none");	
+					$(".rubInfos",$(this).parent()).css("display","block");	
+				}
+			});
+		});	
+
+	 $.anchor(function(anchor){
+		 var  reg=new  RegExp("/", "g");
+		 var  array = window.location.hash.split(reg);
+			 
+		 if(array.length >=2){
+			 jQuery(document).bind('chaptersLoaded',function(){
+				 editChapter(array[1]);
+				 $("#section_chapter_form_action").trigger("click"); 
+			 });
+			 		 			
+		 }
+		 if(array.length >= 1){
+			if( array[0] != "#")
+		 	$(array[0]).parent().parent().trigger("click");	
+		 } 	
+		 
+	});
+		
+
+	 $(".tabsection").css("display","none");	 
+	 $(".section_menu a[id*=section]").click(function(){
+		 $(".section_menu a[id*=section]").removeClass("active");
+		 $(this).addClass("active");		 
+		 $(".tabsection").css("display","none");
+		 $( $(this).attr("href") ) .css("display","block");
+		 
+	 });  
+	// $("#section_programs_action").trigger("click"); 	 
+	 $("#section_chapter_form_action").trigger("click"); 	 
+	// loadChapterManager();
+});
+</script>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.videoinfos.js") ?>

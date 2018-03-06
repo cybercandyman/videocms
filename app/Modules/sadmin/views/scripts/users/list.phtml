@@ -1,0 +1,103 @@
+<?php $this->placeholder("title")->set($this->_( "List of users") )?>
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js" ) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+
+<p class="large">
+
+<?php echo $this->sexybutton ("href", $this->_("create") , array("add_new",""), $this->url(array("action"=>"create"),array())) ?>
+</p>
+<?php require_once 'searchengine.phtml';?>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("id"))) ?>">#<?php echo $this->_ ( "ID" );?></a></th>
+			<th><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("login"))) ?>"><?php echo $this->_ ( "Login" );?></a></th>
+			<th><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("nf"))) ?>"><?php echo $this->_ ( "Name - Firstname" );?></a></th>
+			<th><?php echo $this->_("state") ?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $item["iduser"]?></td>
+			<td><?php echo $item["ulogin"]?></td>
+			<td><?php echo $item["name"]?> <?php echo $item["firstname"]?></td>
+			<td><?php echo $item["state"]== 0 ?  $this->_("unactive") : $this->_("active")?></td>
+			<td>
+
+
+			<div class="actions_menu">
+				<ul>
+				
+					<li><a
+						href="<?php echo $this->url(array("action"=>"edit","id"=> $item["iduser"] )) ?>"
+						class="edit" title="<?php echo $this->_("edit") ?>"><?php echo $this->_("edit") ?></a></li>
+						<li><a
+						href="<?php echo $this->url(array("action"=>"deleteuser","id"=> $item["iduser"] )) ?>"
+						class="delete" title="<?php echo $this->_("delete") ?>"><?php echo $this->_("delete") ?></a></li>
+				</ul>
+			</div>
+
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span><?php echo  $this->_("This user will be deleted. Are you sure ?") ?></p>
+</div>
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+	$.facebox.settings.opacity = 0.6;
+  //      $("#data").tablesorter(); 
+
+	var _destroyUrl;
+	
+    $('a.delete').click(function() {
+		$('#dialog').dialog('open');
+		_destroyUrl = $(this).attr("href");
+		return false;
+	});	
+	
+	$("#dialog").dialog({
+		
+		bgiframe: true,
+		resizable: false,
+		height:140,
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete")?>': function() {
+				$(this).dialog('close');
+				document.location.href = (_destroyUrl);
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+    } 
+); 
+//]]>
+</script>

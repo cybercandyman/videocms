@@ -1,0 +1,127 @@
+<table >
+
+<tr valign="top">
+
+	<td width="350px">
+		<div style="float: left;" id="ControlHost"><!--   
+		     <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="640" height="663"  id="silverlightControl">
+			  <param name="source" value="<?php echo BASE_URL ?>embeded/silverlight/editVideo.xap"/>
+			  <param name="onError" value="onSilverlightError" />
+			  <param name="onload" value="onload" />			  
+			  <param name="enableHtmlAccess" value="true" />		  
+			  <param name="background" value="black" />
+			  <param name="minRuntimeVersion" value="3.0.40624.0" />
+			  <param name="autoUpgrade" value="true" />
+			  <param name="enableGPUAcceleration" value="true"/>
+			  <param name="Windowless" value="true"/>
+			  <a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0" style="text-decoration:none">
+	 			  <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style:none"/>
+			  </a>
+		    </object>	
+		    --></div>
+	</td>
+	<td>
+	
+        <div>
+        <h2><?php echo $this->_("About this video") ?></h2>
+        <form>
+        <fieldset>
+        <p><span><?php echo $this->_("Filename")?> : </span><span id="videofilename"></span></p>
+        <p><span><?php echo $this->_("Length")?> : </span><span id="videofileduration"></span></p>
+        <p><span><?php echo $this->_("Resolution")?> : </span><span	id="videofileresolution"></span></p>
+        <p><span><?php echo $this->_("Ratio")?> : </span><span	id="videofileratio"></span></p>
+        <p><span><?php echo $this->_("Size")?> : </span><span id="videofilesize"></span></p>
+        <p><span><?php echo $this->_("Audio stream count")?> : </span><span
+        	id="videofileaudiostream"></span></p>
+        </fieldset>
+        </form>
+        </div>
+        <div id="lingualismPart">
+        <h2><?php echo $this->_("Audio languages") ?></h2>
+        
+        <?php echo $this->formSelect( "availablelcid",null,array("multiple"=>"multiple","size"=>"15","style"=>"width:150px;float:left"), $this->contentTable("enum_lcid",null,null,"lcid","libelle"))  ?>
+        <div style="float: left">
+        <button id="addlcid"><span><?php echo $this->_("add") ?></span></button>
+        <br />
+        <button id="removelcid"><span><?php echo $this->_("remove") ?></span></button>
+        </div>
+        <?php echo $this->formSelect("chosenlcid",null,array("multiple"=>"multiple","size"=>"15","style"=>"width:150px;float:left"), array() )  ?>
+        <br style="clear: both" />
+        </div>
+	
+	</td>
+
+</tr>
+
+</table>
+
+
+<?php
+$front = Zend_Controller_Front::getInstance();
+$request = $front->getRequest();
+
+?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/Silverlight.js") ?>
+<script type="text/javascript">
+
+var count = 0;
+var currentElement ;
+var svlObjectDialog ;
+var stealthInfos = false;
+var  mmspreview;
+var depositDirectory = "<?php echo $this->depositDirectory ?>";
+var streamDirectory = "<?php echo $this->streamDirectory ?>";
+var mms = "<?php echo $this->mms ?>";
+
+function makemms(filename,mode){
+	var reg=new RegExp("(%s)");
+	switch(mode){
+		case "deposit": return mms.replace(reg,depositDirectory+ "/" +filename );  break;
+		case "stream": return mms.replace(reg,streamDirectory+ "/" +filename );  break;
+		default: return mms.replace(reg,depositDirectory+ "/" +filename ); break;
+	}	
+}
+
+function slVideoInformations(videofile){
+	$("#videofileratio").html(videofile.strRatio);
+	$("#videofileresolution").html(videofile.strResolution);
+	$("#videofileduration").html(videofile.strDuration);
+	$("#videofileaudiostream").html(videofile.AudioStreamCount);
+	if(stealthInfos)$("#dialogInformation").dialog("close");
+}
+
+jQuery(document).ready(function()
+		{	
+	$("#addlcid").click(function(){		
+		$("#availablelcid option:selected").clone().appendTo("#chosenlcid");
+	});
+	$("#removelcid").click(function(){
+		$("#chosenlcid option:selected").remove();
+	});	
+
+	Silverlight.createObjectEx({
+        source: "<?php echo BASE_URL ?>embeded/silverlight/editVideo.xap",
+        parentElement: document.getElementById("ControlHost"),
+        id: "silverlightControl",
+        properties: {
+            width: "330",
+            height: "450",
+            version: "3.0.40624.0",
+            background: "transparent",
+            isWindowless: "true",
+            enableHtmlAccess: "true",
+            autoUpgrade: "false"
+        },
+        events: {
+			onload:function(){
+        	svlObjectDialog = document.getElementById("silverlightControl");
+        	try{
+        		svlObjectDialog.Content.SilverlightApp.loadVideo(mmspreview);
+        	}catch(error){}
+	        }
+        }
+    });
+    
+});
+	
+</script>

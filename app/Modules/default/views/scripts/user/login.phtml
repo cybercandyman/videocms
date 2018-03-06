@@ -1,0 +1,130 @@
+
+<!--[if !IE]>start login<![endif]-->
+<form action="<?php echo $this->url(array("controller" =>"user" ,"action"=>"connect"))?>" method="post" id="loginForm">
+<fieldset>
+<h1 id="logo"><a href="<?php echo BASE_URL ?>"><?php echo $this->_("websitename Administration Panel")?></a></h1>
+<div class="formular">
+<div class="formular_inner"><br />
+<table width="100%">
+	<tr>
+		<td width="120px"><strong><?php echo $this->_("Username")?>:</strong></td>
+		<td>
+			<input style="width: 150px" name="login" id="login" type="text" class="validate[required]" />
+		</td>
+	</tr>
+	<tr>
+		<td width="120px"><strong><?php echo $this->_("Password")?>:</strong></td>
+		<td><input style="width: 150px" name="password" type="password" id="password" class="validate[required]" /></td>
+	</tr>
+
+</table>
+
+<?php echo $this->formHidden("url",$this->url)?>
+
+<ul class="form_menu">
+
+	<li>
+		<a href="<?php echo $this->url( array( "action" => "forgottenpasswordstep1","controller"=>"user" ))?>">
+			<span><span><?php echo $this->_("Forgot pass")?></span></span>
+		</a>
+	</li>
+		<?php if($this->getParam("module") == "watch"):?>
+	<li>
+		<a id="registerLink" href="<?php echo $this->url( array( "action" => "register","controller"=>"user","format"=>"ajax" ))?>">
+			<span><span><?php echo $this->_("Register")?></span></span>
+		</a>
+	</li>
+		<?php endif;?>
+	<li>
+		<span class="button"><span><span><?php echo $this->_("submit")?></span></span>
+		<input type="submit" name=""></span>
+	</li>
+
+</ul>
+</div>
+</div>
+</fieldset>
+
+<?php 
+if(Zend_Registry::isRegistered("config") ) 
+    $config = Zend_Registry::get("config") ; 
+    ?>
+
+<div class="footer"><img src="<?php echo BASE_URL ?>themes/system/pics/info.png" class="info" />
+	<a href="mailto:<?php echo $config["email_support"] ?>">
+	<?php echo $this->_("If you want more information about GCV or request the opening of an account, contact us indicating your name, title, mail, url of your site and project assignment entity.")?>
+	</a>
+</div>
+
+</form>
+
+<!--<div id="vivo"></div>-->
+
+<style>
+.footer {
+	margin: 50px 10px 0 10px;
+	text-align: justify;
+}
+
+.footer img.info {
+	width: 26px;
+	vertical-align: top;
+	margin-right: 10px;
+	display: block;
+	float: left;
+}
+
+.footer a:link,.footer a:hover,.footer a:visited {
+	text-decoration: none;
+	color: #7D898F;
+	display: block;
+	float: left;
+	width: 270px;
+}
+
+.footer a:hover {
+	color: #68818D;
+}
+</style>
+
+
+
+<!--[if !IE]>end login<![endif]-->
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){	
+	$.facebox.settings.opacity = 0.6;
+	$(document).bind('close.facebox', function() {
+		$.validationEngine.closePrompt(".formError",true) ;
+	});
+
+	$("#vivo").hide();
+	
+	$("#loginForm").validationEngine();
+
+//	$("#loginForm").submit( function ()  {
+//		var username = $("#login").val();
+//		var password = $("#password").val();
+//		$.ajax({
+//		  type: "post",
+//		  url: $(this).attr("action"),
+//		  data: $(this).serialize(),
+//		  complete: function() {
+//			  //$("#vivo").html("<iframe src='http://192.168.100.70/vivo/loginExternalAuth?j_username=" + username + "&j_password=" + password + "'></iframe>");
+//		  }
+//		});
+//	});
+	
+    $("#registerLink").click(function(){
+    	$.validationEngine.closePrompt(".formError",true) ;
+         $link = $(this);
+         $.facebox(function() {
+             $.get($($link).attr("href"), function(data) { $.facebox(data) });
+        });
+         
+        return false;
+    });
+});
+</script>

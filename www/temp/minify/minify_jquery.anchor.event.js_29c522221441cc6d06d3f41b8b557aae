@@ -1,0 +1,9 @@
+(function($){$.anchor=function(func){if("onhashchange"in window)
+{window.onhashchange=function()
+{hashChanged(window.location.hash,func);}}
+else
+{var storedHash=window.location.hash;window.setInterval(function()
+{if(window.location.hash!=storedHash)
+{storedHash=window.location.hash;hashChanged(storedHash,func);}},100);}
+if($.anchor.trigger_onload){if(window.location.hash.length>0){hashChanged(window.location.hash,func);}}};$.anchor.removehash=true;$.anchor.trigger_onload=true;function hashChanged(hash,func){if($.anchor.removehash){var reg=new RegExp("#","g");hash=hash.replace(reg,"");}
+if($.isFunction(func))func.call($(this),hash);}})(jQuery);

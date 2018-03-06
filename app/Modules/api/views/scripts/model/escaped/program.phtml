@@ -1,0 +1,187 @@
+<?php if (is_array($this->program->_program)) : ?>
+<program>
+<infos>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->title)) ?>]]></title>
+<synopsis>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->synopsis)) ?>]]>
+</synopsis>
+<duration>
+<![CDATA[<?php echo $this->program->duration ?>]]>
+</duration>
+<picture>
+<![CDATA[<?php echo $this->program->_pictures[0] ?>]]>
+</picture>
+<public>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->public)) ?>]]>
+</public>
+<date>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->year)) ?>]]>
+</date>
+<genre>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->genre)) ?>]]>
+</genre>
+<tcin>
+<![CDATA[<?php echo $this->program->tcin ?>]]>
+</tcin>
+<tcout>
+<![CDATA[<?php echo $this->program->tcout ?>]]>
+</tcout>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_integrationUrl)) ?>]]>
+</url>
+<key>
+<![CDATA[<?php echo $this->program->clefprog ?>]]>
+</key>
+
+<?php if (sizeof($this->program->_pictures)>0) : ?>
+
+
+<pictures>
+<?php foreach ( $this->program->_pictures as  $value ) : ?>
+<picture>
+<![CDATA[<?php echo $value ?>]]>
+</picture>
+<?php endforeach; ?>
+</pictures>
+
+<?php endif;?>
+<ressource>
+http://
+<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>
+rest/program/
+<?php echo $this->publicationkey ?>
+/id/
+<?php echo utf8_encode(htmlspecialchars($this->program->clefprog)) ?>
+</ressource>
+<more>
+<?php if (sizeof($this->program->_more)>0) :
+ 
+foreach ( $this->program->_more as $key => $value ) : ?>
+<field>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($key))?>]]></title>
+<value>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($value))?>]]>
+</value>
+</field>
+
+<?php endforeach;
+ 
+ 
+endif;?>
+</more>
+
+<chapters>
+<?php for($y=0 ; $y <sizeof($this->program->_chapters) ;$y++) : ?>
+<chapter>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_chapters[$y]["title"])) ?>]]></title>
+<picture>
+<![CDATA[<?php echo $this->program->_chapters[$y]["picture"] ?>]]>
+</picture>
+<description>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_chapters[$y]["description"])) ?>]]>
+</description>
+<timecode>
+<![CDATA[<?php echo $this->program->_chapters[$y]["timecode"] ?>]]>
+</timecode>
+<url>
+<![CDATA[<?php echo htmlspecialchars($this->program->_chapters[$y]["url"]) ?>]]>
+</url>
+<urltitle>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_chapters[$y]["urltitle"])) ?>]]>
+</urltitle>
+<file>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_chapters[$y]["file"])) ?>]]>
+</file>
+</chapter>
+<?php endfor;?>
+</chapters>
+
+<videos>
+<?php for($y=0 ; $y <sizeof($this->program->_videos) ;$y++) : ?>
+<video>
+<filename>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["filename"])) ?>]]>
+</filename>
+<arl>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["arl"])) ?>]]>
+</arl>
+<bitrate>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["bitrate"])) ?>]]>
+</bitrate>
+<size>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["size"])) ?>]]>
+</size>
+<codec>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["codec"])) ?>]]>
+</codec>
+<?php if(isset($this->program->_videos[$y]["languages"])):?>
+<languages>
+<?php for($w=0 ; $w <sizeof($this->program->_videos[$y]["languages"]) ;$w++) : ?>
+
+<language>
+<lcid>
+<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["languages"][$w]["lcid"])) ?>
+</lcid>
+<title><?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["languages"][$w]["libelle"])) ?></title>
+<picture>
+<?php echo utf8_encode(htmlspecialchars($this->program->_videos[$y]["languages"][$w]["picture"])) ?>
+</picture>
+</language>
+
+<?php endfor;?>
+</languages>
+<?php endif;?>
+</video>
+<?php endfor;?>
+</videos>
+
+<serie>
+<?php for($y=0 ; $y <sizeof($this->program->_serie) ;$y++) : ?>
+<program>
+<infos>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["title"])) ?>]]></title>
+<synopsis>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["synopsis"])) ?>]]>
+</synopsis>
+<duration>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["duration"])) ?>]]>
+</duration>
+<date>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["year"])) ?>]]>
+</date>
+<?php
+$picture = $this->program->_serie[$y]["picture"][0];
+for($z=0;$z<sizeof($this->program->_serie[$y]["picture"]);$z++){
+
+    $pic = $this->program->_serie[$y]["picture"][$z];
+    if(preg_match("#_serie#i", $pic)){
+        $picture = $pic;break;
+    }
+}
+?>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($picture)) ?>]]>
+</picture>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["url"])) ?>]]>
+</url>
+<key>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["clefprog"])) ?>]]>
+</key>
+<ressource>
+<![CDATA[http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/program/<?php echo $this->publicationkey ?>/id/<?php echo utf8_encode(htmlspecialchars($this->program->_serie[$y]["clefprog"])) ?>]]>
+</ressource>
+</infos>
+</program>
+<?php endfor;?>
+</serie>
+</infos>
+</program>
+<?php else :?>
+
+<program>
+not found
+</program>
+
+<?php endif;?>
+

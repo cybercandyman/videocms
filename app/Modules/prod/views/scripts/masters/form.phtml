@@ -1,0 +1,61 @@
+
+<?php $this->placeholder("title")->set($this->_("Master"))?>
+
+
+<form action="<?php echo $this->url(array("controller"=>"masters","action"=>$this->getParam("action") == "edit" ? "update":"save","module"=>$this->getParam("module")),null,true) ?>" method="post">
+
+<fieldset>
+
+	<p>
+		<label><?php echo $this->_("Title")?></label>
+		<span><?php echo $this->formText("title") ?></span>
+	</p>
+
+	<p>
+		<label><?php echo $this->_("Length")?></label>
+		<span><?php echo $this->formText("duration") ?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Format")?></label>
+		
+		<span>
+		<?php echo $this->formSelect("format",null,null,$this->formats)?>
+		</span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Encoding")?></label>
+		<span><?php echo $this->formText("encoding") ?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Comments")?></label>
+		<span><?php echo $this->formTextarea("comments") ?></span>
+	</p>
+	
+	<p>
+		<label><?php echo $this->_("Languages")?></label>
+		<span><?php echo $this->formText("languages") ?></span>
+	</p>
+	
+	
+	
+	<p>
+		<label>&nbsp;</label>
+		<span>
+			<?php echo $this->getParam("action") == "edit" ? $this->formHidden("idmaster",null) : ""?>
+			
+			<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"btnSubmit")) ?>
+		</span>	
+	</p>
+	
+</fieldset>
+
+
+</form>
+
+<?php echo $this->setFormValue($this->rawData )?>
+
+
+

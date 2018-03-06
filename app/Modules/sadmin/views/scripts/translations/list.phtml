@@ -1,0 +1,127 @@
+
+<?php $this->placeholder("title")->set($this->_("List of translations"))?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js" ) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+<?php $locales = $this->simpleTable("locales","","code","libelle"); ?>
+
+<?php
+if($this->table != ""){
+    $hrefBack = BASE_URL."sadmin/fields/edittable/table/".$this->table;
+}else{
+    $hrefBack = BASE_URL."sadmin/fields/editfield/field/".$this->id;
+}
+?>
+
+
+<a class="button check_all" href="<?php echo $hrefBack ?>"><span><span><?php echo $this->_("back")?></span></span></a>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><?php echo $this->_ ( "Title" );	?></th>
+			<th><?php echo $this->_ ( "Lang" );	?></th>
+			<th><?php echo $this->_ ( "Value" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php for($i = 0; $i < sizeof ( $this->traductions ); $i ++) :	?>
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+			<td><?php echo $this->traductions [$i] ["title"];?></td>
+			<td><?php echo $this->traductions [$i] ["libelle"]; ?> (<?php echo $this->traductions [$i] ["lang"]; ?>)</td>
+			<td><?php echo $this->traductions [$i] ["value"]; ?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+				
+				<li>
+					<a class="edit edittranslate"  href="javascript:void(0)" ><?php echo $this->_("edit")?></a>					
+					<div id="editForm_<?php echo $this->traductions [$i] ["id"]; ?>" class="editform" style="display: none">
+        			<form action="<?php echo BASE_URL ?>sadmin/translations/updatetranslation"	method="post">
+        			<fieldset>
+        			<p><label><?php echo $this->_("Translation");?></label> <span><?php echo $this->formText("translation",$this->traductions [$i] ["value"],"")?></span></p>
+        			<p><label><?php echo $this->_("Locale");?></label> <span><?php echo $this->formSelect('locale',$this->traductions [$i] ["lang"], null, $locales); ?></span></p>
+        			<p><label>&nbsp; <?php echo $this->formHidden("method","update",null)  ?>
+        			<?php echo $this->formHidden("idtranslation",$this->traductions [$i] ["id"],null)  ?>
+        			<?php echo $this->formHidden("table",$this->table,null)  ?> <?php echo $this->formHidden("id",$this->id,null)  ?>
+        			<?php echo $this->formHidden("type",$this->type,null)  ?> </label> <span>
+        			<?php echo $this->sexybutton ("submit", $this->_("update"), array("send_form_btn"), null,array("id"=>"")) ?> 
+        			</span></p>
+        			</fieldset>
+        			</form>        
+        			</div>			
+				</li>
+				
+				<li>
+					<a class="delete" href="#"	onclick="$.facebox('<?php echo $this->_("Are you sure to delete this translation ?") ."<br/> ".  sprintf($this->_("Click <a href=\"%s\">yes</a> to confirm or <a href=\"#\" onclick=\"$.facebox.close();\">no</a> to cancel.","js"),  BASE_URL ."sadmin/translations/deletetranslation/idtranslation/".$this->traductions [$i] ["id"]."/id/".$this->id."/table/".$this->table  ) ?>');" 	title="<?php echo $this->_("delete")?>"><?php echo $this->_("delete")?></a>
+				</li>
+			</ul>
+			</div>
+			
+
+			</td>
+		</tr>
+
+	<?php endfor;?>
+	</tbody>
+</table>
+
+<p><br/>
+<?php echo $this->sexybutton ("href", $this->_("Add translation") , array("add_new",""),  "javascript:void()",array("onclick"=>"showAddForm()")) ?>
+
+</p>
+<div id="addTrandlation" style="display: none;">
+<form action="<?php echo BASE_URL ?>sadmin/translations/addtranslation"	method="post">
+<fieldset>
+
+<p><label><?php echo $this->_("Translation");?></label> <span><?php echo $this->formText("translation","","")?></span></p>
+
+<p><label><?php echo $this->_("Locale");?></label> <span><?php echo $this->formSelect('locale',$this->_session->locale, null, $locales); ?></span></p>
+
+<p><label>&nbsp; <?php echo $this->formHidden("table",$this->table,null)  ?>
+<?php echo $this->formHidden("id",$this->id,null)  ?> <?php echo $this->formHidden("type",$this->type,null)  ?>
+</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+</fieldset>
+
+</form>
+
+</div>
+
+<div id="editTranslation"></div>
+
+
+<?php
+// echo $this->pager ( $this->numrows );
+?>
+
+<script type="text/javascript">
+//<![CDATA[ 
+
+function showEditForm(content){
+
+	$("#editTranslation").html($(content).html());
+	$("#addTrandlation").css("display","none");
+	$("#editTranslation").css("display","block");
+	
+}
+
+function showAddForm(){
+
+	$("#addTrandlation").css("display","block");
+	$("#editTranslation").css("display","none");
+
+}
+
+jQuery(document).ready(function() 
+    { 
+        $("#data").tablesorter(); 
+        $("a.edittranslate").click(function(){
+            var content = $(this).next("div.editform").html();
+			$("#editTranslation").html(content);
+        });
+    } 
+); 
+//]]>
+</script>

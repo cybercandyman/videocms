@@ -1,0 +1,12 @@
+<?php
+header ( "Access-Control-Allow-Origin: *" );
+header ( "Content-type: text/html" );
+header ( "Userkey :" . $this->userkey );
+header ( "GCV-UserID :" . $this->userkey );
+if ($this->userkey) {
+	//apache_setenv ( "GCV-UserID", $this->userkey );
+	exit ( 0 ); //--> Auth OK
+} else {
+	exit ( 1 ); //--> Auth NOK
+}
+?>

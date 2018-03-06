@@ -1,0 +1,156 @@
+
+<?php if( is_array($this->playlist->_playlist )) : ?>
+<playlist>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->title)) ?>]]></title>
+<description>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->description)) ?>]]>
+</description>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->picture)) ?>]]>
+</picture>
+<group>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->group)) ?>]]>
+</group>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_url)) ?>]]>
+</url>
+<programs>
+<?php for($i=0 ; $i <sizeof($this->playlist->_programs) ;$i++) : ?>
+<?php  if ($this->playlist->_programs[$i]["details"]->_program != null ) :?>
+<program>
+<infos>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->title)) ?>]]></title>
+<synopsis>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->synopsis)) ?>]]>
+</synopsis>
+<duration>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->duration ))?>]]>
+</duration>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_pictures[0])) ?>]]>
+</picture>
+<public>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->public)) ?>]]>
+</public>
+<date>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->year)) ?>]]>
+</date>
+<genre>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->genre)) ?>]]>
+</genre>
+<tcin>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->tcin)) ?>]]>
+</tcin>
+<tcout>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->tcout)) ?>]]>
+</tcout>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_integrationUrl)) ?>]]>
+</url>
+<key>
+<![CDATA[<?php echo $this->playlist->_programs[$i]["details"]->clefprog ?>]]>
+</key>
+<ressource>
+<![CDATA[http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/program/<?php echo $this->publicationkey ?>/id/<?php echo $this->playlist->_programs[$i]["details"]->clefprog ?>]]>
+</ressource>
+<chapters>
+<?php for($y=0 ; $y <sizeof($this->playlist->_programs[$i]["details"]->_chapters) ;$y++) : ?>
+<chapter>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["title"])) ?>]]></title>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["picture"])) ?>]]>
+</picture>
+<description>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["description"])) ?>]]>
+</description>
+<timecode>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["timecode"] ))?>]]>
+</timecode>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["url"])) ?>]]>
+</url>
+<urltitle>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["urltitle"])) ?>]]>
+</urltitle>
+<file>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_chapters[$y]["file"])) ?>]]>
+</file>
+</chapter>
+<?php endfor;?>
+</chapters>
+<videos>
+<?php for($y=0 ; $y <sizeof($this->playlist->_programs[$i]["details"]->_videos) ;$y++) : ?>
+<video>
+<filename>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["filename"])) ?>]]>
+</filename>
+<arl>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["arl"])) ?>]]>
+</arl>
+<bitrate>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["bitrate"])) ?>]]>
+</bitrate>
+<size>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["size"])) ?>]]>
+</size>
+<codec>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["codec"])) ?>]]>
+</codec>
+<?php if(isset($this->playlist->_programs[$i]["details"]->_videos[$y]["languages"])):?>
+<languages>
+<?php for($w=0 ; $w <sizeof($this->playlist->_programs[$i]["details"]->_videos[$y]["languages"]) ;$w++) : ?>
+
+<language>
+<lcid>
+<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["languages"][$w]["lcid"])) ?>
+</lcid>
+<title><?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["languages"][$w]["libelle"])) ?></title>
+<picture>
+<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["details"]->_videos[$y]["languages"][$w]["picture"])) ?>
+</picture>
+</language>
+
+<?php endfor;?>
+</languages>
+<?php endif;?>
+
+</video>
+<?php endfor;?>
+</videos>
+
+</infos>
+<chapters>
+<?php for($y=0 ; $y <sizeof($this->playlist->_programs[$i]["chapters"]) ;$y++) : ?>
+<chapter>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["title"])) ?>]]></title>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["picture"])) ?>]]>
+</picture>
+<description>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["description"])) ?>]]>
+</description>
+<timecode>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["timecode"])) ?>]]>
+</timecode>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["url"])) ?>]]>
+</url>
+<urltitle>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["urltitle"])) ?>]]>
+</urltitle>
+<file>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->playlist->_programs[$i]["chapters"][$y]["file"])) ?>]]>
+</file>
+</chapter>
+<?php endfor;?>
+</chapters>
+</program>
+<?php endif;?>
+<?php endfor;?>
+</programs>
+</playlist>
+<?php else :?>
+<playlist>
+not found
+</playlist>
+<?php endif;?>

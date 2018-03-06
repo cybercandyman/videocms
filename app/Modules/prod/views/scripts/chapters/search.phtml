@@ -1,0 +1,64 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+
+<form id="formFilter" method="post"><input type="text"	name="fullTextFilter"   id="fullTextFilter"/> 
+
+<?php echo $this->sexybutton ("button", $this->_("search"), array("send_form_btn"), null,array("id"=>"btnFilter")) ?>
+
+<div id="moreCriteria" style="display:none">
+<!-- 
+<h3><?php echo $this->_("More criterias")?></h3>
+<div id="moreCriteriaContent" class="more_description">
+ -->
+<fieldset class="small"><?php echo $this->partial("genericsearchform.phtml",array("fields"=>$this->fields)) ?>
+
+
+</fieldset>
+
+</div>
+</form>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){		
+ 	var searchFunction = function(){ 	 	
+    	function search(data){
+    		data = (data.replace(new  RegExp("[=&]", "g"),"/").replace(new  RegExp("%2F", "g"),"%252F"));     	
+    		loading();
+    		$.ajax({
+    			type:"get",
+    			url:"<?php echo BASE_URL ?>prod/chapters/list/formatlist/<?php echo $this->formatlist ?>/" + data,    			
+    			success:function(message){
+    				$("#chaptersList").html(message);
+    			}
+    		});
+    	}    	
+    	function loading(){
+    		$("#chaptersList").html("<img src=\"<?php echo BASE_URL ?>themes/system/pics/loading.gif\">");
+    	}    	
+    	$("#btnFilter").click(function(){
+    		var data = $("#formFilter").serialize();
+    		search(data);
+    	});	
+    	$("#chaptersList .paginationControl a,#chaptersList table#data thead a").live("click",function(event){			
+    			loading();				
+    			$("#chaptersList").load($(this).attr("href"));		
+    			event.preventDefault();
+    		}
+    	);	  	    	
+ 	}();	
+
+ 	<?php if($this->getParam("fullTextFilter","") != ""): ?>
+ 	$("#fullTextFilter").val("<?php echo $this->getParam("fullTextFilter","")?>");
+	$("#moreCriteriaContent").show();
+	$("#btnFilter").trigger("click");
+	<?php else:?>
+	(function(){					
+		$("#chaptersList").load("<?php echo BASE_URL ?>prod/chapters/list/formatlist/<?php echo $this->formatlist ?>/");
+	})();
+	<?php endif; ?>
+});
+</script>
+
+

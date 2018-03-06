@@ -1,0 +1,49 @@
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL ?>themes/system/css/facebox.css" media="all" />
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>
+			 
+			<ul>
+				<li class="draggableItem">
+				<div class="sortableItem">
+				<span	class="item_<?php echo $item["keyprog"]?>"><?php if( $item["idprog_programs_extract"] != "") : ?><img  class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?> <?php print ( $this->details[$item["idprog"]]["title"]["value"]) ?></span>
+				</div>
+				</li>
+			</ul>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+		<?php if($this->paginator->getPages()->totalItemCount == 0): ?>
+		<?php echo $this->_("No matches") ?>
+		<?php endif;?>
+
+
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+jQuery(document).ready(function() 
+    { 
+	$.facebox.settings.opacity = 0.6;
+
+    } 
+); 
+//]]>
+</script>

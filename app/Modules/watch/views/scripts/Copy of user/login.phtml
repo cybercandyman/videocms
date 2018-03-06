@@ -1,0 +1,33 @@
+
+
+<header>
+
+<nav>
+
+<ul>
+
+	<li><a
+		href="<?php echo $this->url( array( "action" => "forgottenpasswordstep1","controller"=>"user" ))?>"><?php echo $this->_("Forgot password")?></a></li>
+	<li><a
+		href="<?php echo $this->url( array( "action" => "register","controller"=>"user" ))?>"><?php echo $this->_("Request access")?></a></li>
+</ul>
+
+</nav>
+
+</header>
+
+
+<section id="main">
+<form method="post"
+	action="<?php echo $this->url(array("controller" =>"user" ,"action"=>"connect"))?>">
+<fieldset>
+<p><label><?php echo $this->_("Login")?></label> <span><?php echo $this->formText("login",null,null)?></span>
+</p>
+<p><label><?php echo $this->_("Password")?></label> <span><?php echo $this->formPassword("password",null,null)?></span>
+</p>
+<p><label>&nbsp;</label> <span><?php echo $this->formSubmit("submit","login",null)?></span>
+</p>
+<p><?php echo $this->formHidden("url",$this->url)?></p>
+</fieldset>
+</form>
+</section>

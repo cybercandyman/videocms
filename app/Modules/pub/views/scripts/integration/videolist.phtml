@@ -1,0 +1,176 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/packs/highlight/highlight.pack.js") ?>
+<link href="<?php echo BASE_URL ?>embeded/packs/highlight/styles/github.css"	type="text/css" rel="stylesheet"></link>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/innerxhtml.js") ?>
+
+ 
+ 
+<?php $this->placeholder("title")->set($this->_("Videolist integration"))?>
+
+
+<?php echo $this->partial("integration/view.phtml",array("views"=>$this->views))?>
+
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Template") ?></h2>
+
+<form method="post" action="<?php echo BASE_URL ?>pub/integration/updatevideolisttheme">
+<fieldset class="small">
+<p><label for="defaultTheme"><?php echo $this->_("Use default template")?>: </label> <span><input type="radio" name="themetype" id="defaultTheme"
+	value="default" /></span></p>
+<p><label for="specificTheme"><?php echo $this->_("Use specific template")?>: </label> <span><input type="radio" name="themetype" id="specificTheme"
+	value="specific" /></span></p>
+<p>
+	<label>&nbsp;</label><span> <?php echo $this->partial("integration/theme.phtml",array("themes"=>$this->themes,"type"=>"videolist","name"=>"themeChoice","selected"=>$this->selectedTheme))?></span>
+	<span>
+			<a href="#" class="no-see edit-dialog" title="<?php echo $this->_("Edit template parameters - Videolist")?>"></a>
+	</span>
+	<input type="hidden" value="videolist" />
+</p>
+<p><label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+<?php echo $this->formHidden("idview",$this->idview,null)?> <?php echo $this->formHidden("viewcode",$this->viewcode,null)?>
+</fieldset>
+</form>
+</div>
+
+<?php echo $this->partial("templates/dialog-js.phtml",array("type"=>"VideoList", "key"=>0, "view"=>$this->idview))?>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Identification method") ?></h2>
+
+<form method="post"
+	action="<?php echo BASE_URL ?>pub/integration/updateidentificationvideolist">
+<fieldset class="small">
+<p id="radioIdentification"><label for="anonymousIdentification"><?php echo $this->_("Anonymous")?></label>
+<span><input id="anonymousIdentification" type="radio"
+	name="identification" value="anonymous" /></span></p>
+<p><label for="loginpassIdentification"><?php echo $this->_("Login - Password")?></label>
+<span><input id="loginpassIdentification" type="radio"
+	name="identification" value="loginpassword" /></span></p>
+<p><label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+<?php echo $this->formHidden("publicationKey",$this->publicationKey,null)?>
+<?php echo $this->formHidden("viewcode",$this->viewcode,null)?></fieldset>
+</form>
+
+</div>
+
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("xml") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+
+
+
+
+<?php $this->placeholder("tmpCode")->captureStart("SET") ?>
+<a href="http://<?php echo $this->http_host; echo BASE_URL; ?>rest/videolist/<?php echo $this->publicationKey ?>/viewcode/<?php echo $this->viewcode ?>/">xml</a>
+<?php $this->placeholder("tmpCode")->captureEnd() ?>
+<div class="code">
+<?php echo htmlentities($this->placeholder("tmpCode") , ENT_QUOTES, 'utf-8');?>
+</div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $this->placeholder("tmpCode") , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+
+
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("xhtml") ?></h2>
+&nbsp;<a class="button check_all floatright execCode"><span><span><?php echo $this->_("view")?></span></span></a>
+
+
+<?php $this->placeholder("tmpCode")->captureStart("SET") ?>
+<a href="http://<?php echo $this->http_host; echo BASE_URL; ?>watch/videolist/index/viewcode/<?php echo $this->viewcode ?>/keypub/<?php echo $this->publicationKey ?>">xhtml</a>
+<?php $this->placeholder("tmpCode")->captureEnd() ?>
+<div class="code">
+<?php echo htmlentities( $this->placeholder("tmpCode") , ENT_QUOTES, 'utf-8');?>
+</div>
+<pre name="code" class="html">
+<code >	
+<?php echo htmlentities( $this->placeholder("tmpCode")  , ENT_QUOTES, 'utf-8'); ?>
+</code>
+</pre>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+Ext.onReady(function() {
+	Ext.select("a.execCode").on('click',function(e,t){
+		var html = Ext.fly(this).next("", true).innerHTML;
+		html = $('<textarea/>').html(html).val();
+		 var codeExecutioner =  window.open('','CodeWindow','width=1024,height=800,scrollbars=yes');
+		 codeExecutioner.document.open();		 
+		 codeExecutioner.document.write( html );
+		 codeExecutioner.document.close();
+		 codeExecutioner.focus();
+		 
+	});
+});
+
+
+jQuery(document).ready(function(){
+	<?php if($this->identification == "anonymous"): ?>
+	$("#anonymousIdentification").attr("checked","checked");
+		<?php elseif($this->identification == "loginpassword") :?>
+	$("#loginpassIdentification").attr("checked","checked");
+	<?php endif;?>
+
+	
+	<?php if (!$this->specificTheme) :?>
+		$("#themelist-videolist").attr("disabled","disabled");
+		$("#defaultTheme").attr("checked","checked");
+		$('.no-see').hide();
+	<?php else:?>			
+		$("#specificTheme").attr("checked","checked");
+		$('.no-see').show();
+	<?php endif;?>
+	
+	$("#specificTheme").click(function(){
+			$("#themelist-videolist").removeAttr("disabled","disabled");
+			$('.no-see').show();
+	});
+	$("#defaultTheme").click(function(){
+		$("#themelist-videolist").attr("disabled","disabled");
+		$('.no-see').hide();
+	});				
+});
+
+
+
+jQuery(document).ready(function(){
+	$("#viewSelector").change(function(){			
+		document.location.href = "<?php echo BASE_URL ?>pub/integration/videolist/viewcode/" + $("#viewSelector").val();
+	});
+	
+	hljs.initHighlightingOnLoad();
+
+	$(".blocInfos h2").each(function(){
+			$(this).click(function(){
+
+				if($(".moreinfos",$(this).parent()).css("display") == "none"){
+					$(".rubInfos",$(this).parent()).css("display","none");			
+					$(".moreinfos",$(this).parent()).css("display","block");	
+					
+					$(".sortContent").sortable("refresh");
+					$(".extractItem").draggable('enable');		
+				}
+				else{
+							
+					$(".moreinfos",$(this).parent()).css("display","none");	
+					$(".rubInfos",$(this).parent()).css("display","block");	
+				}
+			});
+		});		
+});	
+</script>

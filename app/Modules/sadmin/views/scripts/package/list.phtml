@@ -1,0 +1,124 @@
+<?php $this->placeholder("title")->set($this->_("Install or uninstall : modules, controllers, plugins, helpers"))?>
+
+<form enctype="multipart/form-data" action="<?php echo BASE_URL ?>sadmin/package/uploadpackage" method="post">
+
+<fieldset>
+
+<p><label><?php echo $this->_("Upload new package") ?></label> <span> <?php echo $this->formFile("files") ?>
+
+</span></p>
+<p><label>&nbsp;</label> <span>
+ <?php echo $this->sexybutton ("submit", $this->_("upload"), array("send_form_btn"), null,array("id"=>"")) ?> 
+</span></p>
+
+</fieldset>
+
+</form>
+
+
+
+<?php if(sizeof($this->messages)>0):?>
+
+<?php foreach($this->messages as $message):?>
+<?php echo $this->systemMessage($message,5)?>
+<?php endforeach;?>
+
+<?php endif;?>
+
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "ID" );?></th>
+			<th><?php echo $this->_ ( "Title" );?></th>
+			<th><?php echo $this->_ ( "Type" );?></th>
+			<th><?php echo $this->_ ( "Installation date" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php for($i = 0; $i < sizeof ( $this->list ); $i ++) :?>
+
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+			<td><?php echo $this->list[$i]["idcomp"]?></td>
+			<td><?php echo $this->list[$i]["title"]?></td>
+			<td><?php echo $this->list[$i]["type"]?></td>
+		
+			<td><?php echo $this->list[$i]["install_date"]?></td>
+			
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+			<li>
+			<a href="<?php echo BASE_URL ."sadmin/package/remove/idpackage/".  $this->list[$i]["idcomp"] ?>"	class="delete"><?php echo $this->_("delete") ?></a>
+			</li>		
+			</ul>
+			</div>
+
+
+			</td>
+		</tr>
+
+		<?php endfor;?>
+	</tbody>
+</table>
+
+
+<div id="dialog" title="<?php echo  $this->_("Remove package ?") ?>">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span><?php echo  $this->_("Are you sure to remove this package ?") ?></p>
+</div>
+
+
+
+<?php echo $this->systemMessage(sprintf($this->_("For more informations about the structure of a component, you have to see the <a href='%s' >FAQ</a>.","none"), $this->url(array("module"=>"default","controller"=>"docs","action"=>"faq"))),1)?>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+        $("#data").tablesorter(); 
+        var _destroyUrl;
+    	
+        $('a.delete').click(function() {
+    		$('#dialog').dialog('open');
+    		_destroyUrl = $(this).attr("href");
+    		return false;
+    	});
+    	
+    	$("#dialog").dialog({
+    		
+    		bgiframe: true,
+    		resizable: false,
+    		height:140,
+    		modal: true,
+    		autoOpen:false,
+    		overlay: {
+    			backgroundColor: '#000',
+    			opacity: 0.5
+    		},
+    		buttons: {
+    			'<?php echo $this->_("Remove")?>': function() {
+    				$(this).dialog('close');
+    				document.location.href = (_destroyUrl);
+    			},
+    			<?php echo $this->_("Cancel")?>: function() {
+    				$(this).dialog('close');
+    			}
+    		}});
+    } 
+); 
+//]]>
+</script>
+
+

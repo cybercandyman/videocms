@@ -1,0 +1,35 @@
+<span class="languages"> 
+<?php for($i=0;$i<sizeof($this->languages);$i++):?>
+    <span>
+    <a  id="lang_<?php echo $this->languages[$i] ?>" href="javascript:setLanguage('<?php echo trim($this->languages[$i])?>')">
+    	<img src="<?php echo BASE_URL ?>themes/system/pics/flags/<?php echo trim($this->languages[$i])?>.gif" /></a>
+    </span>
+<?php endfor;?>
+</span>
+
+<script type="text/javascript">
+function setLanguage(lang){
+	jQuery.ajax({
+		type:"post",
+		url:"<?php echo BASE_URL ?>default/environment/setlanguage",
+		data:{lang:lang},
+		success:function(message){
+			document.location.reload();
+		}
+	});
+}
+jQuery(document).ready(function(){
+	$("#lang_<?php echo $this->currentLocale ?>").addClass("selected");
+});
+</script>
+<style>
+
+	span.languages  img{
+		border:2px solid transparent;	
+	}
+	
+	span.languages .selected img{
+		border:2px solid #5D7282;	
+	}
+
+</style>

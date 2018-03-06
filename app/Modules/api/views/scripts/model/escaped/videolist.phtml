@@ -1,0 +1,62 @@
+<videolist>
+
+<responses>
+<?php echo $this->videolist->_count?>
+</responses>
+
+<programs>
+<?php for($i=0;$i<sizeof($this->videolist->_programs);$i++) : ?>
+
+<program>
+<infos>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->title)) ?>]]></title>
+<synopsis>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->synopsis)) ?>]]>
+</synopsis>
+<duration>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->duration)) ?>]]>
+</duration>
+<?php
+$picture = $this->videolist->_programs[$i]->_pictures[0];
+for($z=0;$z<sizeof($this->videolist->_programs[$i]->_pictures);$z++){
+
+    $pic = $this->videolist->_programs[$i]->_pictures[$z];
+    if(preg_match("#_serie#i", $pic)){
+        $picture = $pic;break;
+    }
+}
+?>
+<picture>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($picture)) ?>]]>
+</picture>
+<public>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->public)) ?>]]>
+</public>
+<date>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->year)) ?>]]>
+</date>
+<genre>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->genre)) ?>]]>
+</genre>
+<tcin>
+<![CDATA[<?php echo $this->videolist->_programs[$i]->tcin ?>]]>
+</tcin>
+<tcout>
+<![CDATA[<?php echo $this->videolist->_programs[$i]->tcout ?>]]>
+</tcout>
+<url>
+<![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->_integrationUrl)) ?>]]>
+</url>
+<key>
+<![CDATA[<?php echo $this->videolist->_programs[$i]->clefprog ?>]]>
+</key>
+<ressource>
+<![CDATA[http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/program/<?php echo $this->publicationkey ?>/id/<?php echo $this->videolist->_programs[$i]->clefprog ?>]]>
+</ressource>
+</infos>
+</program>
+
+<?php endfor; ?>
+</programs>
+
+</videolist>

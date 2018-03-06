@@ -1,0 +1,80 @@
+CREATE TABLE services_orders
+(
+  idorder serial NOT NULL,
+  idprog bigint NOT NULL,
+  keyprog character varying,
+  idproduction bigint,
+  date_of_creation date,
+  desireddate date,
+  source_file character varying,
+  status character varying,
+  abort_demand boolean,
+  delivery_date date,
+  enclosed boolean,
+  account character varying,
+  CONSTRAINT pk_services_orders PRIMARY KEY (idorder)
+);
+CREATE TABLE services_orders_chapitrage
+(
+  idchapitrage serial,
+  idorderline bigint,
+  chapitrage_file character varying,
+  comments character varying,
+  capture_miniature boolean,
+  status character varying,
+  CONSTRAINT pk_services_orders_chapitrage PRIMARY KEY (idchapitrage)
+);
+CREATE TABLE services_orders_encoding
+(
+  idencoding bigserial NOT NULL,
+  idorderline bigint,
+  status character varying,
+  comments character varying,
+  CONSTRAINT pk_services_orders_encoding PRIMARY KEY (idencoding)
+);
+CREATE TABLE services_orders_lines
+(
+  idorderline serial NOT NULL,
+  idorder bigint,
+  idtype bigint,
+  CONSTRAINT pk_services_orders_lines PRIMARY KEY (idorderline)
+);
+CREATE TABLE services_orders_subtitling
+(
+  idsubtitling serial NOT NULL,
+  idorderline bigint,
+  font character varying,
+  font_size integer,
+  font_color character varying,
+  "language" character varying,
+  status character varying,
+  justification character varying,
+  comments character varying,
+  CONSTRAINT pk_services_orders_subtitling PRIMARY KEY (idsubtitling)
+);
+CREATE TABLE services_orders_translation
+(
+  idtranslation serial NOT NULL,
+  idorderline bigint,
+  "language" character varying,
+  status character varying,
+  comments character varying,
+  CONSTRAINT pk_services_orders_translation PRIMARY KEY (idtranslation)
+);
+CREATE TABLE services_orders_watermarking
+(
+  idwatermarking serial NOT NULL,
+  idorderline bigint,
+  "text" character varying,
+  font character varying,
+  font_size integer,
+  font_color character varying,
+  image_file character varying,
+  orientation integer,
+  "position" character varying,
+  mosaic boolean,
+  opacity integer,
+  comments character varying,
+  status character varying,
+  CONSTRAINT pk_services_orders_watermarking PRIMARY KEY (idwatermarking)
+);

@@ -1,0 +1,30 @@
+<script type="text/javascript">
+
+var gcv_popup_width = 320;
+var gcv_popup_height = 240;
+var gcv_dualscreen = 1;
+var gcv_currentchapter = 1;
+var gcv_autoplay=0;
+var gcv_button = "1011110111111";
+var gcv_lang = "<?php echo $this->locale ?>";
+
+function gcv_loadUrl(url){
+url = url + "?width=" + gcv_popup_width + "&height=" +gcv_popup_height + "&dualscreen=" + gcv_dualscreen + "&button=" + gcv_button+"&culture=" + gcv_lang+"&currentChapterDisplay="+gcv_currentchapter+"&autoplay="+gcv_autoplay;
+var top=(screen.height-gcv_popup_height)/2;
+var left=(screen.width-gcv_popup_width)/2;
+window.open(url,"","WIDTH=" + gcv_popup_width +",HEIGHT=" + gcv_popup_height + ",left=" +left+ ",top="+top);
+}
+
+</script>
+<object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="250" height="187">
+<param name="source" value="http://<?php echo $_SERVER["HTTP_HOST"]?><?php echo BASE_URL ?>embeded/silverlight/slideshow.xap" />
+<param name="onError" value="onSilverlightError" />
+<param name="enableHtmlAccess" value="true" />
+<param name="background" value="transparent" />
+<param name="Windowless" value="true" />
+<param name="minRuntimeVersion" value="3.0.40624.0" />
+<param name="autoUpgrade" value="true" />
+<param name="initParams" value="speedMarquee=8,speedSlide=10,speedTransition=1,displayPlaylistTitle=true,displayMarquee=true,
+ressource=<?php echo  $this->playlist->getSilverlightAnimRessourceUrl()?>,urlPlayer=<?php echo  $this->playlist->getSilverlightUrl()?>" />
+<a href="http://go.microsoft.com/fwlink/?LinkID=149156&amp;v=3.0.40624.0" style="text-decoration: none"> <img src="http://go.microsoft.com/fwlink/?LinkId=108181"	alt="Get Microsoft Silverlight" style="border-style: none" /> </a> 
+</object>

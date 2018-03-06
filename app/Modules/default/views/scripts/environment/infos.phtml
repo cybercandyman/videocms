@@ -1,0 +1,14 @@
+<?php $this->masterView('sidebar_module.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+
+<div class="sidebar-module-tips">
+		<p><?php echo $this->_("Press [F11] to switch in fullscreen.")?></p><br />
+		<p><?php echo $this->_("This application is designed to fit with 1680 x 1050 pixels.")?></p>
+</div>
+
+
+<?php $this->block()->end(); ?>
+
+<?php $this->block('title')->start(); ?>
+	<?php echo $this->_("Tips")?>
+<?php $this->block()->end(); ?>

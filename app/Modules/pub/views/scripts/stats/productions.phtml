@@ -1,0 +1,33 @@
+<?php $this->placeholder("title")->set( $this->_("Consumption  statistics by production account")  )?>
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL ?>embeded/js/FusionCharts.js"></script>
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL ?>embeded/packs/datepicker/js/datepicker.js"></script>
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL?>embeded/packs/datepicker/css/datepicker.css" />
+
+<h3><?php echo $this->_("Consumption period")?> :</h3>
+
+
+<?php echo $this->partial("stats_calendar_header.phtml",array("formAction"=> $this->url(array("controller"=>"stats","module"=>"pub","action"=>"productions"),null,true)))?>
+
+
+
+<p class="large"></p>
+<div id="chartdiv"></div>
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){	
+        var myChart = new FusionCharts(BASE_URL + "embeded/flash/Charts/Column3D.swf", "myChartId", "98%", "500");
+        myChart.setDataURL("<?php echo $this->dataUrl ?>");
+        myChart.setTransparent(true);
+        myChart.render("chartdiv");
+      
+});        
+</script>
+

@@ -1,0 +1,16 @@
+<?php $this->placeholder("title")->set($this->_("Import programs"))?>
+
+<form action="" method="post" enctype="multipart/form-data">
+<fieldset>
+
+<p><label><?php echo $this->_("Select your file")?> :</label> <span><?php echo $this->formFile("files")?></span>
+</p>
+<p><label>&nbsp;</label> <span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?> </span></p>
+
+</fieldset>
+</form>
+
+<?php echo $this->systemMessage('<a href="'.BASE_URL.'default/docs/faq">'.$this->_("Read the FAQ for more informations.") .'</a>','info')?>
+
+
+

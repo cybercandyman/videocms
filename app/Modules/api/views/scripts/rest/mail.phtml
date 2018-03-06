@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+<?php echo $this->_("Hello!",null,$this->locale)?>
+<br />
+<br />
+<p><?php echo sprintf($this->_("The video \"<b>%s</b>\" can be viewed at this address <a href=\"%s\">%s</a>.",'none',$this->locale),($this->title),($this->link),($this->link)) ?>
+</p>
+<p><?php echo $this->_("There is the message written by the sender",null,$this->locale)?>:
+</p>
+
+<br />
+<br />
+
+<pre>
+<?php echo (  $this->message  )?>
+</pre>
+
+</body>
+</html>

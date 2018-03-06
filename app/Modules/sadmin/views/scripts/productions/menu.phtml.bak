@@ -1,0 +1,85 @@
+<h1><?php echo $this->_("Edit menu") ?></h1>
+
+<script  type="text/javascript" src="<?php 	echo BASE_URL?>embeded/js/jquery-ui.last.js"></script>
+<script type="text/javascript" src="<?php 	echo BASE_URL?>embeded/js/jquery.tree.js"></script>
+<script type="text/javascript" src="<?php 	echo BASE_URL?>embeded/js/jquery.json-2.2.min.js"></script>
+
+
+
+<div class ="droparea">
+	<h2><?php echo $this->_("Menu elements in stock") ?></h2>
+	<div   id="zone1">
+		<ul  id="list1">
+		        <?php  foreach( $this->menusArrayDispo as   $keyValue ) :	?>
+		         <li  id="field_<?php echo$keyValue ["idmenu"]?>">
+		             <a href="#"><ins> </ins> <?php echo $keyValue ["title"]?></a> 
+		         </li>
+		        <?php endforeach;; 	?>
+		</ul>
+	</div>
+</div>
+
+
+<div class ="droparea">
+	<h2><?php echo $this->_("Menu elements affected") ?></h2>
+	<div id="zone2">		
+		<ul id="list2">		        
+		       	        
+		</ul>	
+	</div>
+</div>
+
+		 
+<br style="clear:both"/>
+<form action="<?php echo BASE_URL ?>sadmin/productions/savemenu" method="post">
+	<input type="hidden" name="listAffected" id="listAffected" value="">
+	<input type="hidden" name="idproduction" id="idproduction" value="<?php echo isset($this->idproduction)?$this->idproduction:0  ?>">
+	<?php if($this->idproduction > 0):?>
+	     		<button type="submit">
+			<span><?php echo $this->_("update") ?></span>
+		</button>
+	<?php else : ?>
+	     		<button type="submit">
+			<span><?php echo $this->_("update all production account") ?></span>
+		</button>
+	<?php endif;?>	
+</form>
+
+
+<?php if($this->idproduction > 0):?>
+<div class="help">
+	<?php echo $this->_("") ?>
+</div>
+<?php else : ?>
+<div class="help">
+	<?php echo $this->_("You can specify a different list and order for each production account. Go on the list of production and click menu for the production you want to edit for.") ?>
+</div>
+
+<?php endif;?>
+
+
+<script  type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){   
+       $("#zone2").tree({
+    	   "ui":{ "theme_path" : "<?php echo BASE_URL?>themes/system/css/tree/default/style.css"},
+    	   "rules":{"multitree":"all"},
+    	   "callback" : {
+        	   	"onmove":function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){ var str = $.toJSON(TREE_OBJ.get(0,"json"));$("#listAffected").val(str); },
+        	   	"onload":function(TREE_OBJ) { var str = $.toJSON(TREE_OBJ.get(0,"json"));$("#listAffected").val(str); }
+   	   	},
+    	   "data":{
+    		   		type : "json",
+    		   		opts : {static :<?php echo $this->menusJsonOrderedAffected ?>} 
+        	   }
+           });
+
+       $("#zone1").tree({
+    	   "ui":{ "theme_path" : "<?php echo BASE_URL?>themes/system/css/tree/default/style.css"},
+    	   "rules":{"multitree":"all"}
+        });
+});
+//]]>
+</script>
+
+

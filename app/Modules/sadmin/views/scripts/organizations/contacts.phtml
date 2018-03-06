@@ -1,0 +1,184 @@
+
+<?php $this->placeholder("title")->set($this->_("Contacts"))?>
+<script
+	src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.min.js"
+	type="text/javascript"></script>
+<script
+	src="<?php echo BASE_URL?>embeded/js/jquery.facebox.js"
+	type="text/javascript"></script>
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL ?>themes/system/css/facebox.css" media="all" />
+
+
+<div>
+
+<fieldset class="panel"><legend><?php echo $this->_("Organization overview")?></legend>
+<ul>
+	<li><?php echo $this->organization["name"] ?></li>
+	<li><?php echo $this->organization["phonenumber"] ?></li>
+	<li><?php echo $this->organization["faxnumber"] ?></li>
+	<li><?php echo $this->organization["email"] ?></li>
+</ul>
+</fieldset>
+</div>
+
+
+<div>
+
+
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+			<th><?php echo $this->_("Name - Firstname")?></th>
+			<th><?php echo $this->_("Phone number")?></th>
+			<th><?php echo $this->_("Email")?></th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<?php for($i = 0; $i < sizeof ( $this->contacts ); $i ++) :?>
+
+	<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+		<td><?php echo $this->contacts[$i]["name"]?> <?php echo $this->contacts[$i]["firstname"]?></td>
+		<td><?php echo $this->contacts[$i]["phonenumber"]?></td>
+		<td><?php echo $this->contacts[$i]["email"]?></td>
+		<td>
+
+		<div class="actions_menu">
+		<ul>
+		
+			<li><a class="edit" href="#contactForm"
+				title="<?php echo $this->_("Edit")?>"
+				onclick="$('#contactForm').html($('#contact_<?php echo $this->contacts[$i]["idcontact"]?>').html());"><?php echo $this->_("Edit")?></a>
+			</li>
+				<li><a href="#" class="delete"
+				onclick="$.facebox('<?php echo $this->_("Are you sure to delete this contact ?") ."<br/> ".  sprintf($this->_("Click <a href=\"%s\">yes</a> to confirm or <a href=\"#\" onclick=\"$.facebox.close();\">no</a> to cancel.","js"), BASE_URL ."sadmin/organizations/deletecontact/id/".$this->contacts[$i]["idcontact"]."/idorganization/".$this->idorganization )?>');"
+				title="<?php echo $this->_("Delete")?>"><?php echo $this->_("Delete")?></a>
+			</li>
+		</ul>
+		</div>
+
+
+
+
+
+		<div style="display: none"
+			id="contact_<?php echo $this->contacts[$i]["idcontact"]?>">
+		<form method="post"
+			action="<?php echo BASE_URL ?>sadmin/organizations/updatecontact/id/<?php echo $this->idorganization ?>">
+		<fieldset>
+		<p><label><?php echo $this->_("Name") ?></label>
+		<div><?php echo $this->formText("name", $this->contacts[$i]["name"] ,null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Firstname") ?></label>
+		<div><?php echo $this->formText("firstname", $this->contacts[$i]["firstname"] ,null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Phone number") ?></label>
+		<div><?php echo $this->formText("phonenumber", $this->contacts[$i]["phonenumber"] ,null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Fax number") ?></label>
+		<div><?php echo $this->formText("faxnumber", $this->contacts[$i]["faxnumber"],null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Email") ?></label>
+		<div><?php echo $this->formText("email", $this->contacts[$i]["email"] ,null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Adress") ?></label>
+		<div><?php echo $this->formText("adress1", $this->contacts[$i]["adress1"] ,null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Address (2)") ?></label>
+		<div><?php echo $this->formText("adress2", $this->contacts[$i]["adress2"],null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("City") ?></label>
+		<div><?php echo $this->formText("city", $this->contacts[$i]["city"],null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Postal Code") ?></label>
+		<div><?php echo $this->formText("postalcode", $this->contacts[$i]["postalcode"],null) ?></span>
+		
+		</p>
+		<p><label><?php echo $this->_("Country") ?></label>
+		<div><?php  echo $this->formSelect('country', $this->contacts[$i]["country"] , null, $this->contentTable("enum_countries")); ?></span>
+		
+		</p>
+		<p><label> &nbsp; <?php echo $this->formHidden("idcontact", $this->contacts[$i]["idcontact"] ,null) ?>
+		<?php echo $this->formHidden("idorganization",  $this->idorganization ,null) ?></label>
+		<div><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+		
+		</p>
+
+		</fieldset>
+		</form>
+		</div>
+		</td>
+
+
+	</tr>
+
+	<?php endfor;?>
+	</tbody>
+
+</table>
+
+<p>
+<?php echo $this->sexybutton ("href", $this->_("Add contact") , array("add_new",""),  "#"  ,array("onclick"=>"$('#contactForm').html($('#addcontact').html());")) ?>
+</p>
+
+
+</div>
+
+<div id="contactForm"></div>
+<div id="addcontact" style="display: none">
+<form method="post"
+	action="<?php echo BASE_URL ?>sadmin/organizations/addcontact/id/<?php echo $this->idorganization ?>">
+<fieldset>
+<p><label><?php echo $this->_("Name") ?></label> <span><?php echo $this->formText("name", "" ,null) ?></span>
+</p>
+<p><label><?php echo $this->_("Firstname") ?></label> <span><?php echo $this->formText("firstname", "" ,null) ?></span>
+</p>
+<p><label><?php echo $this->_("Phone number") ?></label> <span><?php echo $this->formText("phonenumber",  $this->organization["phonenumber"] ,null) ?></span>
+</p>
+<p><label><?php echo $this->_("Fax number") ?></label> <span><?php echo $this->formText("faxnumber", $this->organization["faxnumber"],null) ?></span>
+</p>
+<p><label><?php echo $this->_("Email") ?></label> <span><?php echo $this->formText("email", "",null) ?></span>
+</p>
+<p><label><?php echo $this->_("Adress") ?></label> <span><?php echo $this->formText("adress1", $this->organization["adress1"] ,null) ?></span>
+</p>
+<p><label><?php echo $this->_("Address (2)") ?></label> <span><?php echo $this->formText("adress2", $this->organization["adress2"],null) ?></span>
+</p>
+<p><label><?php echo $this->_("City") ?></label> <span><?php echo $this->formText("city", $this->organization["city"],null) ?></span>
+</p>
+<p><label><?php echo $this->_("Postal Code") ?></label> <span><?php echo $this->formText("postalcode", $this->organization["postalcode"],null) ?></span>
+</p>
+<p><label><?php echo $this->_("Country") ?></label> <span><?php echo $this->formSelect('country', $this->organization["country"] , null, $this->contentTable("enum_countries")); ?></span>
+</p>
+<p><label>&nbsp; <?php echo $this->formHidden("idorganization", $this->idorganization ,null) ?></label>
+
+<span> 
+
+ <?php echo $this->sexybutton ("submit", $this->_("add contact"), array("send_form_btn"), null,array("id"=>"")) ?> 
+ </span></p>
+</fieldset>
+</form>
+
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+    	$.facebox.settings.opacity = 0.6;
+        $("#data").tablesorter(); 
+    } 
+); 
+//]]>
+</script>

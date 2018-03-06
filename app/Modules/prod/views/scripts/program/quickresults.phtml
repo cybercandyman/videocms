@@ -1,0 +1,182 @@
+<div id="quickResults">
+<h2><?php echo $this->_("Results")?></h2>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+<br style="clear: both" />
+
+
+
+
+
+
+
+
+<?php if(in_array("progs",$this->cat)) : ?>
+<h3><?php echo $this->_("Programs")?>&nbsp;
+<?php if($this->_session->environment["module"] == "prod"):?>
+<a class="" href="<?php echo $this->url(array("action"=>"programslist","controller"=>"program","module"=>"prod","fullTextFilter"=>$this->getParam("fullTextFilter")),null,true) ?>"><span><span><img align="middle" src="<?php echo BASE_URL ?>themes/system/pics/viewmag+.png" /></span></span></a>
+<?php else:?>
+<a class="" href="<?php echo $this->url(array("action"=>"programslist","controller"=>"stock","module"=>"pub","fullTextFilter"=>$this->getParam("fullTextFilter")),null,true) ?>"><span><span><img align="middle" src="<?php echo BASE_URL ?>themes/system/pics/viewmag+.png" /></span></span></a>
+<?php endif;?>
+</h3>
+<div id="programResults" class="results">
+<?php if($this->paginatorProgram->getTotalItemCount() > 0):?>
+<table  class="tablesorter display table">
+	<thead>
+		<tr>
+		
+			<th width="70%"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ordprograms" => $this->order("title","ordprograms"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginatorProgram as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+
+		
+		
+			<td><?php print ( $item["details"]["title"]["value"]) ?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+			<?php if($this->_session->environment["module"] == "prod"):?>
+				<li><a class="edit"	href="<?php print BASE_URL ?>prod/program/manage/key/<?php print $item["keyprog"]?>"><?php echo $this->_("edit") ?></a></li>
+				<?php else:?>
+				<li><a class="edit"	href="<?php print BASE_URL ?>pub/stock/manage/fkey/<?php print $item["keyprog"]?>"><?php echo $this->_("edit") ?></a></li>
+				<?php endif;?>
+			</ul>
+			</div>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+<?php echo $this->paginationControl($this->paginatorProgram,'Sliding', 'items_pagination.phtml',array("var_page_keyname"=>"pageprograms")); ?>
+<?php else:?>
+<p><?php echo $this->_("no matches ...")?></p>
+<?php endif;?>
+</div>
+<?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+<?php if(in_array("chapters",$this->cat)) : ?>
+<h3><?php echo $this->_("Chapters")?>&nbsp;
+<a class="" href="<?php echo $this->url(array("action"=>"chapterslist","controller"=>"chapters","module"=>$this->_session->environment["module"],"fullTextFilter"=>$this->getParam("fullTextFilter")),null,true) ?>"><span><span><img align="middle" src="<?php echo BASE_URL ?>themes/system/pics/viewmag+.png" /></span></span></a>
+</h3>
+
+<div id="chaptersResults" class="results">
+<?php if($this->paginatorChapter->getTotalItemCount() > 0):?>
+<table  class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><a href="<?php echo $this->url(array( "ordchapters" => $this->order("title","ordchapters"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th><?php echo $this->_ ( "Timecode" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginatorChapter as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			
+		
+			<td width="800px"><?php echo $item["details"]["title"]["value"] ?></td>
+			<td width="100px"><?php echo $item["details"]["timecode"]["value"] ?></td>
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+			<?php if($item["idplaylist"]>0):?>			
+				<li><a class="edit" href="<?php echo $this->url(array("controller"=>"playlist","action"=>"edit","module"=>$this->_session->environment["module"],"key"=>$item["playlistkey"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"] ?>" ><?php echo $this->_("edit") ?></a></li>				
+			<?php else:?>
+			
+    			<?php if($this->_session->environment["module"]=="prod"):?>
+    				<li><a class="edit" href="<?php echo $this->url(array("controller"=>"program","action"=>"chapters","module"=>$this->_session->environment["module"],"key"=>$item["keyprog"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"]?>" ><?php echo $this->_("edit") ?></a></li>
+    			<?php else:?>
+    				<li><a class="edit" href="<?php echo $this->url(array("controller"=>"stock","action"=>"editchapters","module"=>$this->_session->environment["module"],"key"=>$item["keyprog"],"fkey"=>$item["fromkeyprog"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"]?>" ><?php echo $this->_("edit") ?></a></li>
+    			<?php endif;?>
+				
+			<?php endif;?>
+			<!-- 
+				<li><a class="save" href="javascript:addToKb('<?php echo $item["id"] ?>')"><?php echo $this->_("add to kb") ?></a></li>
+			 -->				
+			</ul>
+			</div>
+
+			</td>
+		</tr>
+		<?php endforeach; ?>
+
+	</tbody>
+</table>
+<?php echo $this->paginationControl($this->paginatorChapter,'Sliding', 'items_pagination.phtml',array("var_page_keyname"=>"pagechapters")); ?>
+<?php else:?>
+<p><?php echo $this->_("no matches ...")?></p>
+<?php endif; ?>
+</div>
+<?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php if(in_array("kb",$this->cat)) : ?>
+<h3><?php echo $this->_("Objects knowledge base")?>&nbsp;
+<a class="" href="<?php echo $this->url(array("action"=>"vmanager","controller"=>"tools","module"=>$this->_session->environment["module"],"fullTextFilter"=>$this->getParam("fullTextFilter")),null,true) ?>"><span><span><img align="middle" src="<?php echo BASE_URL ?>themes/system/pics/viewmag+.png" /></span></span></a>
+</h3>
+<div id="kbResults" class="results">
+<?php if($this->paginatorKB->getTotalItemCount() > 0):?>
+<table  class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><a class="link_sorter" href="<?php echo $this->url(array( "ordkb" => $this->order("title","ordkb"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th><?php echo $this->_("categories")?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginatorKB as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><span id='kbitem_<?php echo $item["id"] ?>' class="kb_draggable_item"><?php print ( $item["title"]) ?></span></td>
+			<td><?php echo $item["fullpath"] ?></td>
+			<td>		
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit" href="<?php echo $this->url(array("controller"=>"tools","action"=>"vmanager","module"=>$this->_session->environment["module"]),null,true) ?>#<?php echo $item["id"]?>"><?php echo $this->_("edit") ?></a></li>				
+			</ul>
+			</div>					
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+<?php echo $this->paginationControl($this->paginatorKB,'Sliding', 'items_pagination.phtml',array("var_page_keyname"=>"pagekb")); ?>
+<?php else:?>
+<p><?php echo $this->_("no matches ...")?></p>
+<?php endif; ?>
+</div>	
+<?php endif; ?>
+		
+		
+		
+		
+</div>
+	

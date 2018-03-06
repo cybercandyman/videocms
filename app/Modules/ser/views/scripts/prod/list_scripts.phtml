@@ -1,0 +1,52 @@
+<script  type="text/javascript">
+//<![CDATA[
+
+// Demande de suppression d'un programme
+function deleteProgram(key){
+	
+	$("#keyToDelete").val(key);
+	$('#dialog').dialog('open');
+}
+
+jQuery(document).ready(function() 
+    { 	
+    	//
+	    var _destroyUrl;    	
+	    $('a.delete').click(function() {
+	    	$('#dialog').dialog('open');    	
+	    	_destroyUrl = $(this).attr("href");
+	    	return false;
+	    });
+	    //
+		$("#in_progress_cb").click(function()
+			{
+				//alert($("#in_progress_cb").attr("checked"));
+				//document.location.reload();
+				$("#filter_cb").submit();
+			}
+		);
+		//
+	    $("#dialog").dialog({			
+			bgiframe: true,
+			resizable: false,			
+			modal: true,
+			autoOpen:false,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'<?php echo $this->_("Enclose","none")?>': function() {
+					$(this).dialog('close');	
+					document.location.href = (_destroyUrl);
+					//_destroyUrl = document.URL;
+				},
+				'<?php echo $this->_("Cancel")?>': function() {
+					$(this).dialog('close');
+				}
+			}
+		});	
+    } 
+); 
+//]]>
+</script>

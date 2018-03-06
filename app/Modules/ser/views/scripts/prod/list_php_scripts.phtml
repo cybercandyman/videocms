@@ -1,0 +1,14 @@
+<?php
+	
+	// Vérification que le status ne correspond pas à un état "Terminé" (Ended)
+	function isEnded($status)
+	{
+		$ends = array("Completed", "Canceled");
+		if (in_array($status, $ends))		
+		{
+			return true;				
+		}
+		return false;
+	}
+?>
+							 

@@ -1,0 +1,67 @@
+
+<?php $this->placeholder("title")->set($this->_("Create a new group"))?>
+<form action="<?php echo BASE_URL?>sadmin/fields/registernewgroup"
+	method="post">
+
+
+<fieldset><legend></legend>
+
+
+<p><label><?php echo $this->_ ( "Name" )?></label> <span><input
+	type="text" maxlength="" name="groupname" id="groupname" /></span></p>
+
+
+<p><label>&nbsp;</label> <span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+</fieldset>
+
+</form>
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok?>];
+
+jQuery(document).ready(function(){
+    $("form").submit(function(){
+    	var state = true;	
+    	
+    	if(!state)alert("<?php	echo $this->_ ( "Please check your entry, some fields are wrong." )?>");
+    	//return true;
+    	return state;
+    	
+    })
+    
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });
+    
+    <?php foreach ( $_POST as $key => $value ) :?>
+    $("#<?php echo $key?>").val('<?php echo $value?>');
+    <?php endforeach;	?>
+
+    
+});
+//]]> 
+</script>
+
+
+
+
+<div class="error"
+	id="error" style="display: none"></div>
+
+
+
+<?php echo $this->systemMessage( $this->_ ( "Assign the fields to your group once you have created it." ),1)?>
+
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+
+<div>
+<table  class="tablesorter display table">
+	<thead>
+		<tr>
+		
+			<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("date"))) ?>"><?php echo $this->_ ( "date" );?></a></th>
+			<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("duration"))) ?>"><?php echo $this->_ ( "duration" );?></a></th>			
+				<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("idprog"))) ?>">#<?php echo $this->_ ( "IDPROG" );?></a></th>
+			<th class="header"><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("keyprog"))) ?>"><?php echo $this->_ ( "keyprog" );?></a></th>
+				
+			<th></th>
+			
+			
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>" >
+
+			
+			<td><?php if( $item["idprog_programs_extract"] != "") : ?><img class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?> <?php print ( $this->details[$item["idprog"]]["title"]["value"]) ?></td>
+			<td><?php echo $this->details[$item["idprog"]]["date"]["value"] ?></td>
+			<td><?php echo $this->details[$item["idprog"]]["duration"]["value"] ?></td>
+				<td>#<?php echo $item["idprog"]?></td>
+			<td><?php echo $item["keyprog"]?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>				
+				<li><a class="edit" href="<?php print BASE_URL ?>prod/program/manage/key/<?php print $item["keyprog"]?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="delete" href="<?php echo BASE_URL?>prod/program/delete/keyToDelete/<?php print $item["keyprog"]?>"><?php echo $this->_("delete") ?></a>				
+				</li>
+				<?php if($this->_session->environment["details"]["idservice"] > 0):?>
+				<li><a class="edit"	href="<?php print BASE_URL ?>ser/prod/list/key/<?php print $item["keyprog"]?>/programTitle/<?php echo urlencode(urlencode($this->details[$item["idprog"]]["title"]["value"]))?>/idprog/<?php echo $item["idprog"]?>"><?php echo $this->_("services") ?></a></li>				
+				<?php endif;?>
+			</ul>
+			</div>
+			</td>
+		
+			
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+</div>
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+<div id="dialogdelete" title="<?php echo  $this->_("Removal confirmation") ?>">
+<form method="post" action="<?php echo BASE_URL ?>prod/program/delete"
+	id="formProgramToDelete">
+<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This program will be deleted. Are you sure ?") ?>
+<input type="hidden" id="keyToDelete" name="keyToDelete" value="tata" />
+</p>
+
+<p>
+<?php echo $this->_("Delete file on server : ") ?>
+</p>
+
+<ul>
+	<li><input type="radio" name="deletefile" value="true" /><?php echo $this->_("Delete")?></li>
+	<li><input type="radio" name="deletefile" value="false" checked="checked" id="mustdeletefile" /><?php echo $this->_("Restore to depot")?></li>
+	<li><input type="radio" name="deletefile" value="keep" /><?php echo $this->_("Keep at the same place")?></li>
+</ul> 
+
+
+
+
+</form>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+
+jQuery(document).ready(function() 
+    { 
+	$.facebox.settings.opacity = 0.6;
+  //      $("#data").tablesorter(); 
+    var _destroyUrl;    	
+    $('a.delete').click(function() {
+    	
+    	_destroyUrl = $(this).attr("href");
+    	$('#dialogdelete').dialog('open');
+    	return false;
+    });
+
+
+     $("#dialogdelete").dialog({
+		
+		bgiframe: true,
+		width:550,
+		
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete")?>': function() {
+				$(this).dialog('close');
+				var url = _destroyUrl + "/deletefile/" + ( jQuery("#dialogdelete.ui-dialog-content input[name=deletefile]:checked") );		
+				document.location.href = url;
+								
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+	
+
+    } 
+); 
+//]]>
+</script>
+

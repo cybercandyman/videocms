@@ -1,0 +1,61 @@
+<?php $this->placeholder("title")->set($this->_("Access to productions account"))?>
+<div class="droparea folder">
+<h2><?php echo $this->_("Available production accounts ")?></h2>
+<div>
+<ul class="connectedSortable ui-sortable" id="list1">
+<?php foreach( $this->productionsAvailable as $keyValue) :	?>
+	<li class="ui-state-default"
+		id="field_<?php echo $keyValue ["idproduction"]?>"><?php echo $keyValue ["name"]?></li>
+		<?php endforeach;; 	?>
+</ul>
+</div>
+</div>
+
+<div class="droparea folder">
+<h2><?php echo $this->_("Allocated production accounts ")?></h2>
+<div>
+<ul class="connectedSortable ui-sortable" id="list2">
+<?php foreach($this->productionsAffected  as $keyValue) :	?>
+	<li class="ui-state-default"
+		id="field_<?php echo $keyValue ["idproduction"]?>"><?php echo  $keyValue ["name"]?></li>
+		<?php endforeach; 	?>
+</ul>
+</div>
+</div>
+
+<br style="clear: both" />
+
+<form action="<?php echo BASE_URL ?>sadmin/publications/saveprodaccess" method="post"><input type="hidden" name="listAffected"	id="listAffected" value="">
+<input type="hidden" name="idpublication" id="idpublication" value="<?php echo $this->idpublication ?>">
+ <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"")) ?> 
+
+</form>
+
+
+
+<?php echo $this->systemMessage($this->_("Drop productions account into the right column."),1)?>
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){       
+	  $("#list2").sortable({ 
+          placeholder: "ui-selected", 
+          revert: true ,
+          helper:"clone",    
+          snap:true,
+          zIndex:1000,
+          connectWith: ["#list1"] ,
+          update:function(e,ui){$("#listAffected").val($("#list2").sortable("serialize"));}
+       });
+       $("#list1").sortable({ 
+          placeholder: "ui-selected", 
+          revert: true , 
+          helper:"clone",
+          zIndex:1000,         
+          snap:true,
+          connectWith: ["#list2"] 
+       });
+       $("#listAffected").val($("#list2").sortable("serialize"));
+});
+//]]>
+</script>

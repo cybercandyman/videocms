@@ -1,0 +1,39 @@
+<?php require_once 'userpresentation.phtml';?>
+
+
+
+
+<ul
+	class="dashboard_menu">
+
+
+	<li><a class="d1"
+		href="<?php echo $this->url(array("action"=>"edituser","id"=>$this->user["iduser"]) ) ?>"><span><?php echo $this->_("edit informations")?></span></a></li>
+	<li><a class="d5"
+		href="<?php echo $this->url(array("action"=>"editaccess","id"=>$this->user["iduser"]) ) ?>"
+		title="<?php echo $this->_("edit access")?>"><span><?php echo $this->_("edit access")?></span></a></li>
+	<li><a class="d8"
+		href="<?php echo $this->url(array("action"=>"editpassword","id"=>$this->user["iduser"]) ) ?>"><span><?php echo $this->_("Change password") ?></span></a></li>
+
+	<!-- <li><a class="d12" href="#"><span><?php echo $this->_("Statistics") ?></span></a></li> -->
+
+</ul>
+
+
+<?php if(sizeof($this->requestedAccess)>0):?>
+<h4><?php echo $this->_("Requested access by the user")?></h4>
+<?php foreach($this->requestedAccess as $requestedAccess): ?>
+
+<dl class="tasks">
+	<dt><?php echo $this->_("Viewing access")?> : <?php echo $requestedAccess["ressource_details"]["name"]?>
+	</dt>
+	<dd>
+	<?php echo $this->sexybutton ("href", $this->_("approve") , array("add_new",""), $this->url(array("action"=>"updaterequest","state"=>1,"level"=> $requestedAccess["level"],"mode"=>$requestedAccess["module"],"ressource"=>$requestedAccess["ressource"])),array()) ?>
+	<?php echo $this->sexybutton ("href", $this->_("refuse") , array("red_btn",""), $this->url(array("action"=>"updaterequest","state"=>0,"level"=> $requestedAccess["level"],"mode"=>$requestedAccess["module"],"ressource"=>$requestedAccess["ressource"])),array()) ?>
+
+	
+	</dd>
+</dl>
+
+<?php endforeach;?>
+<?php endif;?>

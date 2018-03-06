@@ -1,0 +1,58 @@
+<?php
+	// Fonction permettant de savoir si un service est présent pour
+	// le compte de production
+	function hasService($id_type, $id)
+	{
+		//Zend_Debug::dump($id_type); exit;
+		foreach ($id_type as $item)
+		{
+			if ($item["idtype"] == $id) 
+			{
+				return true;	
+			}
+		}
+		return false;
+	}
+	// Retourne le tableau des options possibles en fonction du status du service
+	// général et d'un service donné (paramètre)
+	function serviceStateSelection($infos_state, $service_state)
+	{
+		
+		$service_states = array();
+		//Zend_Debug::dump($infos_state); exit;
+		switch ($infos_state) {
+			case "Received":
+				switch ($service_state)
+				{
+					case "Received":
+						$service_states = array("Received", "In progress", "Canceled");
+						break;
+					case "In progress":
+						$service_states = array("Completed",  "Canceled");
+						break;
+					case "Completed":
+					case "Canceled":
+						//$service_states = array();
+						break; 
+				}
+				break;
+			case "In progress":
+				$service_states = array("In progress", "Completed", "Canceled");	
+			default:
+				break;
+		}
+		//var_dump($service_states);
+		return $service_states;		
+	}
+	// Vérification que le status ne correspond pas à un état "Terminé" (Ended)
+	function isEnded($status)
+	{
+		$ends = array("Completed", "Canceled");
+		if (in_array($status, $ends))		
+		{
+			return true;				
+		}
+		return false;
+	}
+?>
+							 

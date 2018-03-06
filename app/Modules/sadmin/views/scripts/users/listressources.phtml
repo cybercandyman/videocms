@@ -1,0 +1,161 @@
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+
+
+
+<div id="tabs">
+
+
+<ul>
+	<?php if($this->module=="sadmin")  :?>
+	<li><a href="#tabs-1"><?php echo $this->_("Super administration")?></a></li>
+	<?php endif;?>
+	<?php if($this->module=="sadmin" &&   sizeof($this->productionList)>0 ) :?>
+	<li><a href="#tabs-2"><?php echo $this->_("Production")?></a></li>
+	<?php endif;?>
+	<?php if(sizeof($this->publicationList)>0 ) :?>
+	<li><a href="#tabs-3"><?php echo $this->_("Publication")?></a></li>
+	<?php endif;?>
+	<?php if($this->module=="sadmin"  && sizeof($this->serviceList)>0 ) :?>
+	<li><a href="#tabs-4"><?php echo $this->_("Service")?></a></li>
+	<?php endif;?>
+</ul>
+
+<?php if($this->module=="sadmin")  :?>
+
+<div id="tabs-1">
+	<table  class="minitable">
+		<thead>
+			<tr>
+				<th><?php echo $this->_("Ressource")?></th>
+				<th><?php echo $this->_("Admin")?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+				<td><?php echo $this->_("Super administration") ?></td>
+				<td><?php echo $this->formCheckbox("check_superAdmin[]" , 1 , null ) ;?></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<?php endif;?>
+
+
+
+<?php if($this->module=="sadmin" &&   sizeof($this->productionList)>0 ) :?>
+
+<div id="tabs-2">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th><?php echo $this->_("Ressource")?></th>
+			<th><?php echo $this->_("Admin")?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php  for ($i = 0; $i < sizeof($this->productionList); $i ++) : ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->productionList[$i]["name"]?></td>
+			<td><?php echo $this->formCheckbox("check_production[]" , $this->productionList[$i]["idproduction"] ,null  ) ;?></td>
+
+		</tr>
+
+		<?php endfor;?>
+	</tbody>
+</table>
+</div>
+<?php endif;?>
+
+
+<?php if(sizeof($this->publicationList)>0 ) :?>
+
+<div id="tabs-3">
+<table class="minitable">
+	<thead>
+		<tr>
+			<th><?php echo $this->_("Ressource")?></th>
+			<th><?php echo $this->_("Admin")?></th>
+			<th><?php echo $this->_("View")?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php for ($i = 0; $i < sizeof($this->publicationList); $i ++) : ?>
+	<?php if($this->module=="sadmin" || $this->publicationList[$i]["idpublication"] == $this->currentRessource):?>
+
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $this->publicationList[$i]["name"]?></td>
+			<td><?php echo $this->formCheckbox("check_publication[]" , $this->publicationList[$i]["idpublication"] ,null  ) ;?></td>
+			<td><?php echo $this->formCheckbox("check_publication_view[]" , $this->publicationList[$i]["idpublication"] ,null  ) ;?></td>
+		</tr>
+
+		<?php endif;?>
+		<?php endfor; ?>
+	</tbody>
+</table>
+</div>
+<?php endif;?> 
+
+
+<?php if($this->module=="sadmin"  && sizeof($this->serviceList)>0 ) :?>
+
+	<div id="tabs-4">
+		<table class="minitable">
+			<thead>
+				<tr>
+					<th><?php echo $this->_("Ressource")?></th>
+					<th><?php echo $this->_("Admin")?></th>	
+				</tr>
+			</thead>
+			<tbody>
+			<?php for ($i = 0; $i < sizeof($this->serviceList); $i ++) : ?>	
+				<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+					<td><?php echo $this->serviceList[$i]["name"]?></td>
+					<td><?php echo $this->formCheckbox("check_service[]" , $this->serviceList[$i]["idservice"] ,null ) ;?></td>
+				</tr>
+				<?php endfor; ?>
+			</tbody>
+		</table>
+	</div>
+<?php endif;?>
+
+</div>
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){    
+
+	$checkAdmin = <?php echo Zend_Json::encode( $this->getParam("check_superAdmin",array() ));?>;
+	$checkProd = <?php echo Zend_Json::encode( $this->getParam("check_production",array() ));?>;
+	$checkPub = <?php  echo Zend_Json::encode( $this->getParam("check_publication",array() ));?>;
+	$checkPubVisu = <?php echo Zend_Json::encode( $this->getParam("check_publication_view",array() ));?>;
+	$checkSer = <?php echo Zend_Json::encode( $this->getParam("check_service",array() ));?>;
+	$.each($checkAdmin,function(index,value){
+		$("input[name=check_superAdmin[]][value=" + value +  "]").attr("checked","checked");
+	});
+	$.each($checkProd,function(index,value){
+		$("input[name=check_production[]][value=" + value +  "]").attr("checked","checked");
+	});
+	$.each($checkPub,function(index,value){
+		$("input[name=check_publication[]][value=" + value +  "]").attr("checked","checked");
+	});
+	$.each($checkPubVisu,function(index,value){
+		$("input[name=check_publication_view[]][value=" + value +  "]").attr("checked","checked");
+	});
+	$.each($checkSer,function(index,value){
+		$("input[name=check_service[]][value=" + value +  "]").attr("checked","checked");
+	});
+
+	$(function() {		
+		
+		$("#tabs").tabs();
+	});
+	//$(".tablesorter").tablesorter();
+});
+//]]>
+</script>

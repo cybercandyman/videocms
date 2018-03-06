@@ -1,0 +1,301 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.utils.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.contextmenu.r2.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/Silverlight.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.blockUI.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.videoinfos.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+
+
+<div class="folder">
+<div id="distantrepository"><?php
+if (is_array($this->files)) :
+    ?>
+<ul>
+<?php
+    $count = 1;
+    foreach ($this->files as $file) :
+        ?>
+	<li id="video_<?php echo $count?>">
+	<div class="file"><span class="filename" title="<?php  echo $file["title"]?>"><?php  echo $file["title"]?></span>
+	<span class="filesize"><?php  echo $file["hsize"]?></span></div>
+	</li>
+	<?php $count ++;  endforeach;   ?>
+</ul>
+	
+<?php endif ;
+?></div>
+</div>
+
+<br style="clear: both;" />
+
+<input type="hidden" name="videos" id="videos" />
+
+<div id="dialogRename">
+
+<form method="post"	action="<?php echo BASE_URL?>prod/program/renremotefile" id="filenameform">
+<fieldset>
+<p><label></label> <span><input type="text" id="newfilename"
+	name="newfilename" value="" /></span> <input type="hidden"
+	id="oldfilename" name="oldfilename" /></p>
+</fieldset>
+</form>
+</div>
+
+<div id="dialogDelete">
+<form method="post"	action="<?php echo BASE_URL?>prod/program/deleteremotefile"	id="deletefileform">
+<fieldset>
+<p><?php echo $this->_("You are about to delete the file : ")?><span class="filename"></span> <input type="hidden" id="filenametodelete"	name="filenametodelete" /></p>
+</fieldset>
+</form>
+</div>
+
+
+
+
+<form action="<?php echo BASE_URL?>prod/program/savevideofiles"	method="post" id="formFilenames">
+<input type="hidden"	value="<?php echo $this->key?>" name="key" /> 
+<input type="hidden"	value="<?php echo $this->state?>" name="state" /> 
+
+<?php echo $this->sexybutton ("submit", $this->_("select"), array("send_form_btn"), null) ?>
+</form>
+
+
+
+<?php if(isset($this->errormessage)):?>
+<?php echo $this->systemMessage($this->errormessage ,5)?>
+<?php endif;?>
+
+<?php echo $this->systemMessage(
+	array(
+		array("content"=> sprintf($this->_("Your deposit directory is %s"), $this->repository),"type"=>0),
+		array("content"=> $this->_("Right click on a item for more actions like : rename, delete, view etc."),"type"=>1),
+		array("content"=> $this->_("Left click on an item to select it."),"type"=>1)
+	))
+?>
+
+
+
+
+<div class="contextMenu" id="contextualmenu">
+<ul>
+	<li class="contextualmenuentry" id="informationFile"><?php echo $this->_("Informations")?></li>
+	<li class="contextualmenuentry" id="Rename"><?php echo $this->_("Rename")?></li>
+	<li class="contextualmenuentry" id="Delete"><?php echo $this->_("Delete")?></li>
+</ul>
+</div>
+
+
+<script type="text/javascript">
+
+function renameFile(filename,element){
+	jQuery("#newfilename").val(filename);
+	jQuery("#oldfilename").val(filename);
+	jQuery("#dialogRename").dialog('open');
+	currentElement = element;
+}
+function deleteFile(filename,element){	
+	jQuery("#filenametodelete").val(filename);
+	jQuery("#dialogDelete").dialog('open');
+	jQuery(".filename","#dialogDelete").html(filename);
+	currentElement = element;
+}
+function informationFile(filename,element){	
+	mmspreview = makemms(filename);
+	jQuery("#videofilesize").html($(".filesize",element).html());
+	jQuery("#videofilename").html($(".filename",element).html());
+	jQuery("#videofileratio").html("");
+	jQuery("#videofileresolution").html("");
+	jQuery("#videofileduration").html("");
+	jQuery("#videofileaudiostream").html("");
+	jQuery("#dialogInformation").dialog('open');
+	currentElement = element;
+	
+}
+function stockInformations(){
+	var lcid = "";
+	jQuery("#chosenlcid option").each(
+		function(){lcid += lcid == "" ? jQuery(this).attr("value") : "," +  jQuery(this).attr("value");}
+	);
+	jQuery("#chosenlcid option").remove();	
+	jQuery(currentElement).data("more",
+		{
+		ratio:jQuery("#videofileratio").html(),
+		resolution:jQuery("#videofileresolution").html(),
+		duration:jQuery("#videofileduration").html(),
+		audiostreamcount:jQuery("#videofileaudiostream").html(),
+		lcid:lcid,
+		size:jQuery("#videofilesize").html(),
+		filename:jQuery("#videofilename").html()
+		});	
+}
+jQuery(document).ready(function(){
+	
+	$("#formFilenames").submit(function(){
+		stealthInfos = false;			
+		var filestoCheck = new Array();	
+		$("#distantrepository ul li div[class*=selected]").each(function(){
+				if($(this).data("more")=== undefined){
+					var tmpMms = makemms( $(".filename",$(this)).html());
+					$(this).data("more",
+							{
+								mms:tmpMms,
+								filename:$(".filename",$(this)).html(),
+								size:$(".filesize",$(this)).html()
+							});
+					filestoCheck.push( tmpMms );
+				}
+		});
+		$.blockUI({message:"<h1><?php echo $this->_("Please wait")?></h1>"});
+		$.videoInfos(filestoCheck,{
+			threadCompleted:function(args){
+				// Complétion des données sur obj existants
+				$("#distantrepository ul li div[class*=selected]").each(function(){
+					for(var i = 0;i<args.length;i++)
+					{
+						if(args[i].mms== $(this).data("more").mms){
+							$(this).data("more",
+									{
+									ratio:args[i].ratio,
+									resolution:args[i].resolution,
+									duration:args[i].duration,
+									audiostreamcount:args[i].audioStreamCount,
+									lcid:"",
+									size:$(this).data("more").size,
+									filename:$(this).data("more").filename,
+									mms:$(this).data("more").mms
+									});				
+						}
+					}
+				});
+				completeForm();
+		}});
+		return false;
+	});
+	function completeForm(){
+		var countFile = 0;
+		$("#distantrepository ul li div[class*=selected]").each(function(){
+			$("#formFilenames").append('<input type="hidden" name="videoFilename_'+countFile+'" value="'+$(this).data("more").filename+'"/>');
+			$("#formFilenames").append('<input type="hidden" name="videoFilesize_'+countFile+'" value="'+$(this).data("more").size+'"/>');
+			$("#formFilenames").append('<input type="hidden" name="videoFileLcid_'+countFile+'" value="'+$(this).data("more").lcid+'"/>');
+			$("#formFilenames").append('<input type="hidden" name="videoFileDuration_'+countFile+'" value="'+$(this).data("more").duration+'"/>');
+			$("#formFilenames").append('<input type="hidden" name="videoFileResolution_'+countFile+'" value="'+$(this).data("more").resolution+'"/>');
+			$("#formFilenames").append('<input type="hidden" name="videoFileRatio_'+countFile+'" value="'+$(this).data("more").ratio+'"/>');
+			countFile++;
+		});
+		$("#formFilenames").append('<input type="hidden" name="videoFileCount" value="'+countFile+'"/>');
+		$("#formFilenames").unbind("submit");
+		$("#formFilenames").trigger("submit");
+		$.unblockUI();
+	}
+		
+	$("body").append('<div id="dialogInformation"></div>');	
+	$("#dialogInformation").load("<?php echo BASE_URL?>prod/program/videofileinfo");
+	if($(".file").length>0){
+		$(".file").contextMenu("contextualmenu",  {bindings: {
+			"informationFile":function(element){
+			filename = $(".filename",$(element)).html();
+    			mmspreview = makemms(filename);
+    			jQuery("#videofilesize").html($(".filesize",element).html());
+    			jQuery("#videofilename").html($(".filename",element).html());
+    			jQuery("#videofileratio").html("");
+    			jQuery("#videofileresolution").html("");
+    			jQuery("#videofileduration").html("");
+    			jQuery("#videofileaudiostream").html("");
+    			jQuery("#dialogInformation").dialog('open');
+    			currentElement = element;
+			 },
+			"Rename":function(element){
+				 filename = $(".filename",$(element)).html();
+					jQuery("#newfilename").val(filename);
+					jQuery("#oldfilename").val(filename);
+					jQuery("#dialogRename").dialog('open');
+					currentElement = element;
+			},
+			"Delete":function(element){
+				filename = $(".filename",$(element)).html();
+				jQuery("#filenametodelete").val(filename);
+				jQuery("#dialogDelete").dialog('open');
+				jQuery(".filename","#dialogDelete").html(filename);
+				currentElement = element;
+			}
+		},
+   		menuStyle: {
+   	        margin: '-2px 0 0 -2px'
+   	    }
+		});		
+		
+	}
+	
+	
+	$(".file").click(function(){
+		$(this).toggleClass( "selected" );
+	});
+
+	$("#dialogRename").dialog({
+			modal: true,
+			autoOpen: false,
+			width:500,	
+			buttons: {
+					'Rename':function(){						
+						$("#filenameform").ajaxSubmit({
+							dataType:'xml',
+				    		success: function (responseXML){												
+										var message =  $('message',responseXML ).text();
+										if( $('status', responseXML).text() == "true"){											
+											$(".filename",currentElement).html($("#newfilename").val());
+											$("#dialogRename").dialog('close');
+										}else{
+											alert(message);
+											$("#dialogRename").dialog('close');											
+										} 
+							},
+							error:function (XMLHttpRequest, textStatus, errorThrown) {alert("erreur");}	
+						});
+					},
+					'Cancel':function(){
+						$(this).dialog('close');
+					}
+				}
+	});	
+	 $("#dialogDelete").dialog({
+			modal: true,
+			autoOpen: false,
+			width:500,	
+			buttons: {
+					'Delete':function(){						
+						$("#deletefileform").ajaxSubmit({
+							dataType:'xml',
+				    		success: function (responseXML){													
+										var message =  $('message',responseXML ).text();
+										if( $('status', responseXML).text() == "true"){
+											$(currentElement).remove();
+											$("#dialogDelete").dialog('close');											
+										}else{
+											alert(message);
+											$("#dialogDelete").dialog('close');											
+										} 
+							},
+							error:function (XMLHttpRequest, textStatus, errorThrown) {alert("erreur");}	
+						});
+					},
+					'Cancel':function(){
+						$(this).dialog('close');
+					}
+				}
+	});		
+	 $("#dialogInformation").dialog({
+			modal: true,
+			autoOpen: false,
+			width:800,	
+			close:function(){
+		 		stockInformations();
+			},			
+			buttons: {
+					'Close':function(){			
+						$(this).dialog('close');
+					}					
+				}
+			});
+	 
+});
+</script>

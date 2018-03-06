@@ -1,0 +1,54 @@
+<?php $this->placeholder("title")->set($this->_( "Billings list") )?>
+
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL ?>themes/system/css/facebox.css" media="all" />
+
+<div>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"	href="<?php echo $this->url(array( "ord" => $this->order("idbilling"))) ?>">#<?php echo $this->_ ( "idbilling" );?></a></th>
+			<th><a class="link_sorter"	href="<?php echo $this->url(array( "ord" => $this->order("date"))) ?>"><?php echo $this->_ ( "date" );?></a></th>
+			
+			<th><?php echo $this->_("Total")?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $item["idbilling"]?></td>
+			<td><?php echo $item["date"]?></td>
+			
+			<td><?php echo $item["frozen_total"]?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit"
+					href="<?php echo $this->url(array( "action" => "view","controller"=>"billings","module"=>$this->getParam("module"),"idbilling"=>$item["idbilling"]),null,true) ?>"><?php echo $this->_("view") ?></a></li>
+			</ul>
+			</div>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+</div>
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	$("#moreCriteriaContent").hide();
+	$("#moreCriteria h3:first").click(function(){
+		if($("#moreCriteriaContent").css("display") == "none")
+			$("#moreCriteriaContent").show();	
+		else 
+			$("#moreCriteriaContent").hide();
+	}).addClass("expander");
+	}); 
+//]]>
+</script>

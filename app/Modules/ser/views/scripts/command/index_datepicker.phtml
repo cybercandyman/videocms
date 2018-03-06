@@ -1,0 +1,26 @@
+
+<!-- DatePicker -->
+
+<script type="text/javascript">	
+	// Paramétrage des dates de manière à limiter les choix de l'utilisateur à 
+	// une date postérieure à la date du jour
+	var context = "<?php echo $this->_session->locale?>";
+	var now = new Date();
+	var desired_date = new Date();
+	// Une semaine minimum
+	var offsetDate = 0;
+	desired_date.setDate(now.getDate() + offsetDate);
+	//
+    jQuery(document).ready(function() {
+    		/** Voir fonction pour étendre **/
+    		$('#desireddate').datepicker({
+  			showButtonPanel: true,
+			changeMonth: true,
+			changeYear: true 
+		});
+		$('#desireddate').datepicker('option', $.datepicker.regional[context]);
+		$('#desireddate').datepicker('option', 'minDate', desired_date);
+    	$('#desireddate').datepicker('option', 'firstDay', (context=="fr" ? 1:0));
+    	$("#desireddate").datepicker('option','dateFormat','yy/mm/dd');
+    });                                                        
+</script> 

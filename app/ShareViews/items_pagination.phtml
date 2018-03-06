@@ -1,0 +1,48 @@
+<!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
+-->
+
+<?php if ($this->pageCount): ?>
+<div class="paginationControl">
+<?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?>
+ <?php echo $this->_(" of ")?> <?php echo $this->totalItemCount; ?>
+
+<!-- First page link -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array($this->var_page_keyname  => $this->first)); ?>">
+    <?php echo $this->_("First")?>
+  </a> |
+<?php else: ?>
+  <span class="disabled"><?php echo $this->_("First")?></span> |
+<?php endif; ?>
+
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array($this->var_page_keyname  => $this->previous)); ?>">
+    &lt; <?php echo $this->_("Previous")?>
+  </a> |
+<?php else: ?>
+  <span class="disabled">&lt; <?php echo $this->_("Previous")?></span> |
+<?php endif; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array($this->var_page_keyname  => $this->next)); ?>">
+    <?php echo $this->_("Next")?> &gt;
+  </a> |
+<?php else: ?>
+  <span class="disabled"><?php echo $this->_("Next")?> &gt;</span> |
+<?php endif; ?>
+
+<!-- Last page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array($this->var_page_keyname  => $this->last)); ?>">
+    <?php echo $this->_("Last")?>
+  </a>
+<?php else: ?>
+  <span class="disabled"><?php echo $this->_("Last")?></span>
+<?php endif; ?>
+
+</div>
+<?php endif; ?>
+

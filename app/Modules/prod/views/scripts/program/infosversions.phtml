@@ -1,0 +1,261 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.videoinfos.js") ?>
+
+
+<div >
+<?php if(sizeof($this->infosversions) > 0) : ?>
+                <?php foreach ($this->infosversions as $version) :?>
+                <div class="fileversion" id="version_<?php echo $version["idversion"] ?>">
+                <p>
+                <dl>
+                	<dt>
+                	<div style="float:right"><a title="<?php echo $this->_("Delete") ?>" href="javascript:deleteVersion('<?php echo $version["idversion"] ?>')" ><img class="deletePic" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"></a></div>
+                	<span class="filename"><?php print $version["filename"] ?></span>
+                	
+                	</dt>
+                
+                	<dd>
+                	<div style="float:right">
+                		<a href="javascript:moreVersionInfos('<?php echo $version["idversion"] ?>')" title=" <?php echo $this->_("Audio languages") ?>">
+	                			<img class="min-icones" src="<?php echo BASE_URL ?>themes/system/pics/MultilingualStaff.gif"/>
+                        </a>
+                        </div>
+                        
+                		<table width="90%">
+                		<tr>
+                		<?php 
+                		    $zb = new Zend_Measure_Binary($version["filesize"], Zend_Measure_Binary::BYTE);
+                		    
+                		?>
+    	            		<td align="left" ><label><?php echo $this->_("File size")?> : </label><span class="filesize"><?php print $zb->convertTo(Zend_Measure_Binary::MEGABYTE)?></span></td>
+	                		<td align="center"><label><?php echo $this->_("Resolution")?> : </label><span class="fileresolution"><?php print $version["resolution"] ?></span></td>
+	                		
+                		</tr>
+                		</table>
+                		
+                	</dd>
+                	
+                	<dd>
+                	<div style="float:right">
+                	<a href="javascript:void(0)" title="<?php echo $this->_("Update")?>" onclick="updatemms('<?php echo $version["idversion"] ?>'); "><img class="min-icones" src="<?php echo BASE_URL?>themes/system/pics/update_button.png" /></a>
+                	</div>
+                <?php echo $this->_("uri")?> : <span>
+                	<input type="text"	class="inputText" style="width:240px" name="" value="<?php print $version["uri"] ?>" />                	
+                	</span>                	
+                	</dd>
+                	<span class="filelcid" style="display: none"><?php print $version["lcid"] ?></span>
+                </dl>
+                </p>
+                </div>
+                <?php endforeach; ?>
+                
+                <?php if( $this->program["idprog_programs_extract"] != "" ) :?>
+                
+				<?php echo $this->systemMessage( $this->_("This is a physical extract (ie file has been cut!). To come back to a virtual extract, remove all versions.") ,1)?>
+
+                <?php endif;?>
+<?php else: ?>
+
+                <?php if( $this->program["idprog_programs_extract"] != "" ) :?>
+                        <form>
+                        <fieldset class="mini">
+                        <p><label><?php echo $this->_("Tcin")?> :</label><input type="text"
+                        	readonly="readonly" value="<?php echo $this->program["tcin"] ?>" /></p>
+                        <p><label><?php echo $this->_("Tcout")?> :</label><input type="text"
+                        	readonly="readonly" value="<?php echo $this->program["tcout"]?>" /></p>
+                        <p><label>&nbsp;</label><a href="javascript:editExtract()"><?php echo $this->_("Edit timecode")?></a>
+                        </p>
+                        </fieldset>
+                        </form>                        
+                        <script type="text/javascript">
+                            function editExtract(){	
+                            	jQuery("#dialogCreateExtractupdate").dialog('open');
+                            }
+                            </script>    
+                            <?php echo $this->systemMessage(
+								array(
+									array("content" =>  $this->_("This is a virtual extract with specific timecode to adjust start and end."),"type"=>1), 
+									array("content" =>  $this->_("Virtual extract uses by default the program video file (the « video ») with following tcin and tc out. .\n
+									\t\t. In order to use a physical extract, proceed to a cut in and out in the source file and use the « add a new video file » function."),"type"=>1), 
+								) 
+							);
+                           ?>                    
+                        
+                        <?php echo $this->partial('program/dialogextract.phtml','prod', array("key"=>$this->program["keyprog"],"infosversions"=>$this->versionsProgramFrom,"method"=>"update","title"=> $this->_("Update extract"),"tcin"=>$this->program["tcin"],"tcout"=>$this->program["tcout"])); ?>
+                <?php else : ?>
+                
+                    <?php echo $this->_("No versions.") ?>
+                    
+                <?php endif;?>
+
+<?php endif; ?>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="deleteVersion" title="<?php echo $this->_("Delete version")?>">
+<form method="post"	action="<?php echo  BASE_URL ?>prod/program/deleteversion"	id="deleteprogramversion">
+<fieldset>
+<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><?php echo $this->_("You are about to delete this version.") ?></span><br /></p>
+<p>
+<?php echo $this->_("Delete file on server : ") ?> 
+</p>
+<ul>
+	<li><?php echo $this->_("Delete")?><input type="radio" name="deletefile" value="true" /></li>
+	<li><?php echo $this->_("Restore to depot")?><input type="radio" name="deletefile" value="false" checked="checked" /></li>
+	<li><?php echo $this->_("Keep at the same place")?> <input type="radio"	name="deletefile" value="keep" /></li>
+</ul>
+
+
+
+
+<input type="hidden" id="versiontodelete" name="versiontodelete" />
+<input type="hidden"id="key" name="key" value="<?php echo $this->key ?>" />
+</fieldset>
+</form>
+</div>
+
+<div id="updateVersion" title="<?php echo $this->_("Update mms")?>">
+<form method="post"	action="<?php echo  BASE_URL ?>prod/program/updateversion"	id="updateversionmms">
+<fieldset>
+<p><?php echo $this->_("You are about to update this version with the following mms :") ?><br />
+<input type="text" id="versionnewmms" name="versionnewmms" /> <input
+	type="hidden" id="versiontoupdate" name="versiontoupdate" /> <input
+	type="hidden" id="key" name="key" value="<?php echo $this->key ?>" /></p>
+</fieldset>
+</form>
+</div>
+
+<script type="text/javascript">
+
+var currentVersion ;
+function updatemms(idversion){
+	$("#versiontoupdate").val(idversion);
+	$("#versionnewmms").val($("#version_"+idversion+ " input[type=text]").val());
+	$("#updateVersion").dialog('open');	
+}
+
+function deleteVersion(idversion)
+{
+	$("#versiontodelete").val(idversion);
+	$("#deleteVersion").dialog('open');	
+}
+
+function moreVersionInfos(idversion)
+{
+	currentVersion = idversion;	
+	$("#dialogInformation").dialog('open');	
+	var reg=new RegExp("[,]+", "g");
+	var lcid = $(".filelcid","#version_" +  idversion).html();	
+	var filelcid = lcid.split(reg);	
+	for(var i=0;i<filelcid.length;i++)
+	{		
+		if(filelcid[i] !="")
+			$("#chosenlcid").append('<option value="'+filelcid[i]+'">'+ $("#availablelcid option[value="+filelcid[i]+"]").html() +'</option>'); 
+	}
+}
+
+function saveinfos()
+{
+	var lcid = "";
+	$("#chosenlcid option").each(
+		function(){lcid += lcid == "" ? $(this).attr("value") : "," +  $(this).attr("value");}
+	);
+	$("#chosenlcid option").remove();	
+	$.ajax({
+		type:"post",
+		url:"<?php echo BASE_URL ?>prod/program/updateversionlcid",
+		data:{key:"<?php echo $this->key ?>",version:currentVersion,lcid:lcid}
+	});	
+	$(".filelcid","#version_" +  currentVersion).html(lcid);	
+}
+
+jQuery(document).ready(function()
+{	
+	
+	$("body").append('<div id="dialogInformation"></div>');	
+
+	$("#dialogInformation").load("<?php echo BASE_URL ?>prod/program/multilingualism");	
+	$("#dialogInformation").dialog({
+		modal: false,
+		autoOpen: false,
+		width:405,	
+		close:function(){
+	 		saveinfos();
+		},	
+		title:'<?php echo $this->_("Video information")?>',		
+		buttons: {
+				'<?php echo $this->_("Close") ?>':function(){			
+					$(this).dialog('close');
+				}					
+			}
+	});
+	
+		
+	$("#updateVersion").dialog({
+		modal: true,
+		autoOpen: false,
+		width:500,			
+		buttons: {				
+				"<?php echo $this->_("Update", "none") ?>":function(){	
+						$("#updateversionmms").ajaxSubmit({
+							dataType:'xml',
+				    		success: function (responseXML){													
+										var message =  $('message',responseXML ).text();										
+										if( $('status', responseXML).text() == "true"){											
+											$("#updateVersion").dialog('close');											
+										}else{									
+											$("#updateVersion").dialog('close');											
+										} 
+							},
+							error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+						});									
+				}	,
+				'<?php echo $this->_("Close") ?>':function(){			
+					$(this).dialog('close');
+				}					
+			}
+	});	
+	
+	$("#deleteVersion").dialog({
+		modal: true,
+		autoOpen: false,
+		width:650,	
+		buttons: {
+				'<?php echo $this->_("Delete") ?>':function(){						
+					$("#deleteprogramversion").ajaxSubmit({
+						dataType:'xml',
+			    		success: function (responseXML){													
+									var message =  $('message',responseXML ).text();
+									$("#version_" + $("#versiontodelete").val()).remove();
+									if( $('status', responseXML).text() == "true"){
+										$("#version_" + $("#versiontodelete").val()).remove();
+										$("#deleteVersion").dialog('close');											
+									}else{									
+										$("#deleteVersion").dialog('close');											
+									} 
+									
+											document.location.href = document.location.href;
+																	
+						},
+						error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+					});
+				},
+				'<?php echo $this->_("Cancel") ?>':function(){
+					$(this).dialog('close');
+				}
+			}
+	});		
+})
+
+</script>

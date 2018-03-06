@@ -1,0 +1,105 @@
+<style >
+div#content{
+
+	background:none	 !important;
+	padding:0px;
+}
+td.tdcontent{
+		
+}
+</style>
+
+
+
+
+
+<div id="divOntoFrame"></div>
+
+
+
+<?php if($this->ieCase === true) : ?>
+
+<div id="dialogIESecurity" title="<?php echo $this->_("Dialog Security")?>">
+
+<p style="padding:5px">
+	<?php echo 	$this->_("Dear User, You are using Internet Explorer who does not support anymore authentification via Url.")?>
+</p>
+
+<p style="padding:5px">
+	<?php echo sprintf($this->_("Please see this Microsoft KB for information %s."),'<a href="http://support.microsoft.com/kb/834489/en-us">KB-834489</a>')?>
+</p>
+
+<p style="padding:5px">
+	<?php echo $this->_("As a result, you have to type yourself the identification in the next dialog prompt with the following information :")?>
+</p>
+
+<form>
+<fieldset class="mini">
+
+	<p>
+		<label><?php echo $this->_("Username")?></label><span><input type="text" value="<?php echo $this->username; ?>"></span>
+	</p>
+
+	<p>
+		<label><?php echo $this->_("Password")?></label><span><input type="text" value="<?php echo $this->userpwd; ?>"></span>
+	</p>
+
+</fieldset>
+</form>
+<p>
+<?php echo $this->_("Otherwise, you can use another navigator like firefox or chrome.")?>
+</p>
+
+
+<?php echo $this->SystemMessage($this->_("Click on the confirm button when you are ready."),2)?>
+
+
+</div>
+
+<?php endif; ?>
+
+
+<script type="text/javascript">
+<!--
+var iframe = '<iframe id="ontoframe" frameborder="0" src="<?php 	echo $this->vivoUrl?>?gcv_userkey=<?php	echo $this->userkey;?>"></iframe>';
+
+jQuery(document).ready(function(){
+	setInterval('setOntoIframe()',500);	
+	<?php if($this->ieCase === true) : ?>
+
+	
+     $("#dialogIESecurity").dialog({
+		
+		bgiframe: true,
+		width:550,		
+		modal: true,
+		autoOpen:true,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Confirm")?>': function() {
+				$(this).dialog('close');
+				jQuery("#divOntoFrame").html(iframe);
+			}
+		}
+	});
+	<?php else :?>
+
+	jQuery("#divOntoFrame").html(iframe);
+		
+	<?php endif; ?>	
+	
+});
+function setOntoIframe(){
+	try{
+		$("#ontoframe").height($("body").height() - $("#head").height() - $("#footer").height() - 5);
+		$("#ontoframe").width($("body").width()-5);
+	}
+	catch(error){
+
+	}	
+}
+//-->
+</script>

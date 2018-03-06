@@ -1,0 +1,162 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.meio.mask.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+
+<div id="dialogCreateExtract<?php echo $this->method ?>">
+<div style="float: left;">
+
+<object	data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="330" height="450" id="silverlightControlExtract<?php echo $this->method ?>">
+	<param name="source" value="<?php echo BASE_URL ?>embeded/silverlight/editVideo.xap" />
+	<param name="onload" value="onloadSlExtract<?php echo $this->method ?>" />
+	<param name="enableHtmlAccess" value="true" />
+	<param name="background" value="black" />
+	<param name="minRuntimeVersion" value="3.0.40624.0" />
+	<param name="autoUpgrade" value="true" />
+	<param name="enableGPUAcceleration" value="true" />
+	<param name="Windowless" value="true" />
+	<a href="http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0" style="text-decoration: none"> <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" /> </a>
+</object>
+
+</div>
+<div style="float: left; margin-left: 25px">
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Cut your extract") ?></legend>
+<form name="createExtractForm" id="createExtractForm<?php echo $this->method ?>" method="post" action="<?php echo BASE_URL ?>prod/program/<?php echo $this->method ?>extract">
+<fieldset class="small">
+
+
+<p><label> &nbsp; </label> <span> <select id="versionToExtract<?php echo $this->method ?>" name="versionToExtract">
+	<?php foreach($this->infosversions as $version) : ?>
+	<option value="<?php echo $version["filename"] ?>"><?php echo $version["filename"] ?></option>
+	<?php endforeach;?>
+</select> </span></p>
+
+
+<p><label><?php echo $this->_("Start timecode")?> : </label> <span><input alt="99:99:99.99" type="text" name="tcin" id="tcin<?php echo $this->method ?>" value="<?php echo $this->tcin ?>" class="validate[required]" /></span>
+
+</p>
+
+<p><label>&nbsp;</label>
+<?php echo $this->sexybutton ("button", $this->_("get"), array("grey_btn","goTimeCode"), null,array("id"=>"takeTcin".$this->method)) ?>
+<?php echo $this->sexybutton ("button", $this->_("set"), array("grey_btn","goTimeCode"), null,array("id"=>"goToFrom_tcin".$this->method)) ?>
+
+
+
+</span></p>
+<p><label><?php echo $this->_("End timecode")?> : </label> <span> <input alt="99:99:99.99" type="text" name="tcout" id="tcout<?php echo $this->method ?>" value="<?php echo $this->tcout ?>" class="validate[required]" />
+</span></p>
+<p><label>&nbsp;</label> 
+<?php echo $this->sexybutton ("button", $this->_("get"), array("grey_btn","goTimeCode"), null,array("id"=>"takeTcout".$this->method)) ?>
+<?php echo $this->sexybutton ("button", $this->_("set"), array("grey_btn","goTimeCode"), null,array("id"=>"goToFrom_tcout".$this->method)) ?>
+
+
+<input type="hidden" name="key" value="<?php echo $this->fkey != null ? $this->fkey : $this->key?>" /> </span>
+</p>
+
+</fieldset>
+
+</form>
+
+</fieldset>
+</div>
+</div>
+
+<script type="text/javascript" >
+
+var svlObjectDialogExtract<?php echo $this->method ?>;
+function onloadSlExtract<?php echo $this->method ?>(sender, args) {
+    svlObjectDialogExtract<?php echo $this->method ?> = document.getElementById("silverlightControlExtract<?php echo $this->method ?>");
+    try{    
+    	var mmstmp = makemmsforedition($("#versionToExtract").val(),  "stream");
+    	svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.loadVideo(mmstmp);    	
+    }catch(error){}
+}
+
+function makemmsforedition(filename,mode)
+{
+	var reg=new RegExp("(%s)");
+	var uri = "";	
+	switch(mode){
+		case "deposit": uri = mms.replace(reg,depositDirectory+ "/" +filename );  break;
+		case "stream": uri = mms.replace(reg,streamDirectory+ "/" +filename );  break;
+		default: uri = mms.replace(reg,depositDirectory+ "/" +filename ); break;
+	}		
+	var tmp = "";	
+	$.ajax({
+		url : '<?php echo BASE_URL ?>prod/program/getmms/extract/off',
+		type: 'get',
+		data:{file:filename,key:programKey,uri:uri},
+		async:false,
+		success:function(result){
+			tmp = (result);
+		}
+	});
+	return tmp;
+}
+
+jQuery(document).ready(function(){
+
+	$("#createExtractForm<?php echo $this->method ?>").validationEngine();    
+    jQuery(document).bind("sl_media_loaded",
+            function(){
+                	 if($("#dialogCreateExtract<?php echo $this->method ?>").dialog( "isOpen" ) ){        	 
+                        		$("#goToFrom_tcin<?php echo $this->method ?>").trigger("click");
+                	 }
+            });
+    
+	$("#versionToExtract<?php echo $this->method ?>").change(function(){
+		var mmstmp = makemmsforedition($("#versionToExtract<?php echo $this->method ?>").val(),  "stream");
+		svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.loadVideo(mmstmp);
+	});
+	
+	$("#takeTcin<?php echo $this->method ?>").click(function(){
+		var timecode = svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.getCurrentTimeCode();
+		$("#tcin<?php echo $this->method ?>").val(timecode);
+	});
+	
+	$("#takeTcout<?php echo $this->method ?>").click(function(){
+		var timecode = svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.getCurrentTimeCode();
+		$("#tcout<?php echo $this->method ?>").val(timecode);
+	});
+	
+	$(".goTimeCode").click(function(){
+		var id = $(this).attr("id");
+		if(id == "goToFrom_tcout<?php echo $this->method ?>")
+		 	svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.gotoPlayer ( $("#tcout<?php echo $this->method ?>").val() );
+		else if(id == "goToFrom_tcin<?php echo $this->method ?>")
+			svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.gotoPlayer ( $("#tcin<?php echo $this->method ?>").val() );
+		
+	});
+
+	$("#dialogCreateExtract<?php echo $this->method ?>").dialog({
+		modal: true,
+		autoOpen: false,
+		width:960,	
+		title: "<?php echo $this->title ?>",
+		close:function(){
+			svlObjectDialogExtract<?php echo $this->method ?>.Content.SilverlightApp.stopPlayer();				
+		},			
+		buttons: {
+				'<?php echo $this->_("save")?>':function(){
+					$("#createExtractForm<?php echo $this->method ?>").trigger("submit");	
+					if($("#createExtractForm<?php echo $this->method ?>").validationEngine({returnIsValid:true}) == true){
+						$(this).dialog('close');
+					}		
+					
+				},
+				'<?php echo $this->_("cancel")?>':function(){		
+					$.validationEngine.closePrompt(".formError",true) ;	
+					$(this).dialog('close');
+				}					
+			}
+	});
+
+
+	
+	 $('input:text').setMask();
+});
+
+	
+</script>

@@ -1,0 +1,56 @@
+<informations>
+	<time-generated><?php echo date("c",time())?></time-generated>
+	<time-end><?php echo $this->direct["timeend"]?></time-end>
+	<lastupdate><?php echo $this->direct["lastupdate"]?></lastupdate>
+	<isactive><?php echo $this->isactive ?></isactive>
+	
+	<current>
+		<mms><?php echo $this->direct["mms"]?></mms>
+		<lcid><?php echo $this->direct["lang"]?></lcid>
+		<languages>
+		<?php 
+		$videos =  $this->program->getVideos(); 
+		for($y=0 ; $y <sizeof($videos) ;$y++) : 
+			$langues = $videos[$y]->getLangues(); 		
+				for($w=0 ; $w <sizeof($langues) ;$w++) : ?>
+					<language>
+					<lcid><?php echo (htmlspecialchars($langues[$w]["lcid"])) ?></lcid>
+					<title><?php echo (htmlspecialchars($langues[$w]["libelle"])) ?></title>
+					<picture><?php echo (htmlspecialchars($langues[$w]["picture"])) ?></picture>
+					</language>
+				<?php endfor;?>		
+		<?php endfor;	?>
+		</languages>
+		<chapter><?php echo $this->direct["current_chapter"]?></chapter>
+		<panel>
+			<id><?php echo $this->direct["current_panel"]?></id>
+			<description>				
+			<?php if(sizeof($this->pane)> 0  ) :?>
+				<title><?php echo $this->pane["title"]?></title>
+				<code><?php echo $this->pane["code"]?></code>
+				<type><?php echo $this->pane["content_type"]?></type>			
+				<content><![CDATA[<?php echo $this->pane["pane_content"]?>]]></content>
+				<applicable_environnement><?php echo $this->pane["applicable_environnement"]?></applicable_environnement>
+			<?php endif;?>
+						
+			</description>
+		</panel>
+	</current>
+	<program>
+		<title><?php echo (htmlspecialchars($this->program->title)) ?></title>
+		<synopsis><?php echo (htmlspecialchars($this->program->synopsis)) ?></synopsis>
+		<picture><?php echo $this->program->getPicture("program") ?></picture>
+	</program>
+	<chapters>
+			<?php
+			$chapters = $this->program->getChapters();
+			for($y=0 ; $y <sizeof($chapters) ;$y++) : ?>
+			<chapter>
+			<idchapter><?php echo $chapters[$y]->_data ["id"]?></idchapter>
+			<?php foreach($chapters[$y]->_data["details"] as $field):?>
+			<<?php echo $field["code"]?>><?php echo $field["code"] != "timecode" ? htmlspecialchars($field["value"]):$chapters[$y]->getCleanTimeCode()?></<?php echo $field["code"]?>>
+			<?php endforeach;?>
+			</chapter>
+			<?php endfor;?>
+	</chapters>	
+</informations>

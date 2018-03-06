@@ -1,0 +1,41 @@
+
+<form
+	action="<?php echo $this->url(array("action"=>"list","controller"=>"users","module"=>$this->getParam("module")),null,true) ?>"
+	method="get"><label><?php echo $this->_("Keywords") ?></label> <span><input
+	type="text" name="q" id="q" value="" /></span> <span>
+	<?php echo $this->sexybutton ("submit", $this->_("search"), array("send_form_btn"), null,array("id"=>"")) ?>
+	</span> 
+	<?php echo $this->sexybutton ("href", $this->_("Show pending request"), array("grey_btn"), $this->url(array("action"=>"list","controller"=>"users","module"=>$this->getParam("module"),"spr"=>1),null,true),array("id"=>"")) ?> 
+
+<h3 id="moreOptionsTitle"><?php echo $this->_("More options")?></h3>
+<div id="moreoptions"  class="more_description"  style="display:block">
+
+<table>
+	<tr>
+		<td width="400px"><?php echo $this->action("listressources","users",'sadmin') ?></td>
+	</tr>
+</table>
+</div>
+
+
+</fieldset>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[   
+
+
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready(function(){
+
+	
+	
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+   
+		$("#q").val('<?php echo $this->escape( $this->getParam("q","") ); ?>');
+  
+});
+//]]>
+</script>

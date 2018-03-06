@@ -1,0 +1,174 @@
+<?php $this->placeholder("title")->set($this->_("Edit a group of fields ") ." : " . $this->groupdetails[0]["name"] )?>
+
+<div class="droparea folder">
+<h3><?php echo $this->_("Fields in stock")?></h3>
+<ul class="connectedSortable ui-sortable sortContent depot" id="list1">
+<?php  for($i = 0; $i < sizeof ( $this->fields ); $i ++) :?>
+	<li class="ui-state-default"
+		id="field_<?php echo $this->fields [$i] ["idfield"]?>">
+	<div class="sortableItem"><?php echo $this->fields [$i] ["title"]?></div>
+	</li>
+	<?php
+
+	endfor; ?>
+</ul>
+<br class="clear" />
+</div>
+
+ <div>
+        <form action="<?php echo BASE_URL?>sadmin/fields/savegroupmodification"	method="post">
+        
+        <p><?php echo $this->_("Group name ")?> 
+        <input type="text" name="groupname"	value="<?php echo htmlentities($this->groupdetails[0]["name"],ENT_QUOTES,'UTF-8') ?>" id="" <?php if($this->groupdetails[0]["system_gcv"] == "t"): ?> readonly="readonly" <?php endif;?> />
+        <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"")) ?>
+
+        </p>
+
+        <input type="hidden" name="group" id="group" value="<?php echo $this->group?>">
+     
+
+    
+            <div id="subgroupzone">
+            <?php foreach( $this->panes as  $cat) : ?>
+              	<?php echo $this->partial("fields/pane.phtml","sadmin",array("cat"=>$cat))?>           
+            <?php endforeach;?>
+            
+            </div>
+			<br class="clear"/>
+        
+            
+                     
+           
+             <?php echo $this->sexybutton ("href", $this->_("create new panel"), array("send_form_btn"), null,array("id"=>"createnewpanel")) ?>      
+        </form>
+
+
+<?php echo $this->systemMessage( $this->_("Drop fields in stock for standard description and more description"),1)?>
+<?php echo $this->systemMessage( $this->_("Standard description and more description are only used for programs. In other cases,  the distinction between standard and more description doesn't matter."),2)?>
+
+
+</div>
+
+
+<div id="panesetup" title="<?php echo $this->_("Panel setup")?>">
+
+
+
+
+</div>
+    
+<div id="panetranslation" title="<?php echo $this->_("Translations")?>">
+	<iframe frameborder="0" scrolling="auto" width="98%" height="80%" id="ftranslations"></iframe>	
+</div>
+        
+<?php echo $this->javascriptfile(BASE_URL . "embeded/js/jquery.form.js")?>            
+<script type="text/javascript">
+
+function initSortable(){
+	$("ul.connectedSortable").sortable({
+	    //	placeholder: "ui-selected", 
+       		revert: true ,
+       		placeholder:"clone",
+       		helper:"clone",
+       		forcePlaceholderSize:true,
+       		stack:{group:'.draggable',min:100},
+       		snap:true,
+       		connectWith: $("ul.connectedSortable,#list1") ,
+       		update:function(e,ui){updatefield();}         
+                       
+		});	
+}
+function updatefield(){               
+    $("#subgroupzone ul.connectedSortable").each(function(i,item){              
+  	  $(  "#hidden_" +  jQuery(item).attr("id")   ).val(  $( "#" + jQuery(item).attr("id") ).sortable("serialize") );   
+	  });
+  }
+
+var count = 1;
+jQuery(document).ready(function(){
+
+
+
+	$("#panesetup").dialog({
+		height: 250,
+		modal: true,
+		autoOpen: false,
+		buttons: {
+			'<?php echo $this->_("Save")?>':function(){
+				
+				 $( "#panesetup form").ajaxSubmit({
+					url : BASE_URL + "sadmin/panes/savepanemodifications",
+					type: "post",
+					error: function(){
+                        alert("theres an error with AJAX");
+                	},
+                	beforeSubmit:function(){},
+                	success: function(e){ $("#panesetup").dialog("close"); }
+					})		
+            	},					
+			'<?php echo $this->_("Close")?>':function(){
+            		$( "#panesetup" ).dialog('close');
+				}
+			}
+	});
+	
+    	$( "#panetranslation" ).dialog({
+    		height: 500,
+    		width: 700,
+    		modal: true,
+    		autoOpen: false,
+    		buttons: {    			
+    			'<?php echo $this->_("Close")?>':function(){
+                		$( "#panetranslation" ).dialog('close');
+    				}
+    			}
+    	});
+
+    	
+		$("#createnewpanel").click(function(){
+			$.ajax({
+				type:"post",
+				url: BASE_URL + "sadmin/fields/createnewpane",
+				data:{idgroup:<?php echo $this->group ?>},
+				success:function(message){
+				$("#subgroupzone").append(message);initSortable();
+				},
+				error:function(){}				
+			});
+			return false;
+		});
+        initSortable();
+        updatefield();
+
+        $(".deletepane").live("click",function(){
+			if(confirm( "<?php echo $this->_("Deleting this panel will delete all attached fields and data for all programs.If you want keep data, move attached fields into another pane.","none"); ?>" )){
+				$link = $(this);
+				$.ajax({
+					type:"post",
+					url: BASE_URL + "sadmin/fields/deletepane",
+					data:{idpane:$link.attr("rel"),fields:$("#hidden_sublist_"+ $link.attr("rel")).val(),idgroup:<?php echo $this->group ?>},
+					success:function(message){						
+						$link.parent().parent().remove();
+					},
+					error:function(){}				
+				});
+					
+			}
+        });
+        $("a.setup").live("click",function(){  
+            var idpane = $(this).attr("rel") ;
+        	$("#panesetup").load( BASE_URL +  'sadmin/fields/editpanelsetup?idpane='  + idpane,function(){
+        		$("#panesetup").dialog("open");
+            });        	        	
+        });
+        $("a.translations").live("click",function(){                    	
+			$("#ftranslations", $( "#panetranslation" ) ).attr( "src", $(this).attr("href"));        		                    
+        	$( "#panetranslation" ).dialog("open");
+        	return false;
+        });
+    });
+    
+</script>
+
+
+

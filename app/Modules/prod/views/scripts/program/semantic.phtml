@@ -1,0 +1,125 @@
+<!-- 
+<ul id="semantic-menu" class="dashboard_menu">
+	<li><a class="d1" rel="form-semantic-agent" href="#"><span><?php echo $this->_ ( "agent" )?></span></a></li>
+	<li><a class="d14" rel="form-semantic-concept" href="#"><span><?php	echo $this->_ ( "concept" )?></span></a></li>
+	<li><a class="d13" rel="form-semantic-event" href="#"><span><?php	echo $this->_ ( "event" )?></span></a></li>
+	<li><a class="d4" rel="form-semantic-agent" href="#"><span><?php	echo $this->_ ( "object" )?></span></a></li>
+	<li><a class="d15" rel="form-semantic-agent" href="#"><span><?php	echo $this->_ ( "place" )?></span></a></li>
+	<li><a class="d10" rel="form-semantic-agent" href="#"><span><?php	echo $this->_ ( "time" )?></span></a></li>
+</ul>
+
+
+<form action="<?php echo BASE_URL?>prod/chapters/addsemantics"	method="post">
+<div class="semantic-forms">
+
+<div class="semantic-form" id="form-semantic-agent"><legend></legend>
+<fieldset>
+<p><label><?php echo $this->_ ( "Type or drop agent uri" )?> : </label> <span>
+					<?php	echo $this->formText ( "agenturi" )?>
+				</span></p>
+				<p><label>&nbsp;</label> <span>
+						<?php echo $this->sexybutton ( "button", $this->_ ( "Add" ), array ("grey_btn" ), null, array ("id" => "add_objecturi" ) )?>
+				</span></p>
+</fieldset>
+</div>
+
+<div class="semantic-form" id="form-semantic-concept"><legend></legend>
+<fieldset>
+<p><label><?php echo $this->_ ( "Type or drop concept uri" )?> : </label>
+<span>
+					<?php echo $this->formText ( "concepturi" )?>
+				</span></p>
+				<p><label>&nbsp;</label> <span>
+						<?php echo $this->sexybutton ( "button", $this->_ ( "Add" ), array ("grey_btn" ), null, array ("id" => "add_objecturi" ) )?>
+				</span></p>
+</fieldset>
+
+</div>
+
+<div class="semantic-form" id="form-semantic-event"><legend></legend>
+<fieldset>
+<p><label><?php echo $this->_ ( "Type or drop event uri" )?> : </label> <span>
+					<?php echo $this->formText ( "eventuri" )?>
+				</span></p>
+				<p><label>&nbsp;</label> <span>
+						<?php echo $this->sexybutton ( "button", $this->_ ( "Add" ), array ("grey_btn" ), null, array ("id" => "add_objecturi" ) )?>
+				</span></p>
+</fieldset>
+
+</div>
+		
+		<?php	echo $this->formHidden ( "idchaptersem" )?>
+	
+</div>
+</form>
+ -->
+
+<script type="text/javascript">
+function resetSurface(){
+	var ChapterSemanticsDatastore = Ext.data.StoreManager.lookup('Chapters');
+	ChapterSemanticsDatastore.removeAll();
+	var proxy = ChapterSemanticsDatastore.getProxy();
+	proxy.extraParams.idchapter = "";
+}
+function loadChapterSemantics(idchapter){	
+	var ChapterSemanticsDatastore = Ext.data.StoreManager.lookup('Chapters');
+	var proxy = ChapterSemanticsDatastore.getProxy();
+	proxy.extraParams.idchapter = idchapter;	
+	ChapterSemanticsDatastore.loadPage();	 	
+}
+function saveChapterSemantics(idchapter){
+	var ChapterSemanticsDatastore = Ext.data.StoreManager.lookup('Chapters');
+	var proxy = ChapterSemanticsDatastore.getProxy();
+	proxy.extraParams.idchapter = idchapter;		
+	ChapterSemanticsDatastore.sync();	
+}
+jQuery(document).ready(function(){	
+		jQuery("#semantic-menu a").click(function(){
+			jQuery(".semantic-form").hide();		
+			$("#"+ $(this).attr("rel")+".semantic-form")  .show();
+			return false;
+		});
+		jQuery(".semantic-form .grey_btn").click(function(){
+			jQuery("#idchaptersem").val( jQuery("#idchapter","#chapterForm").val() ) ;
+			jQuery(this).parents("form").ajaxSubmit({
+			});
+		})
+});
+jQuery(document).ready(function(){
+	$("#previewRdf").click(function(){
+		var url = "<?php 	echo $this->url ( array ("action" => "chapter", "controller" => "rdf", "module" => "api" ), null, true )?>" + "?idchapter=" +  jQuery("#idchapter","#chapterForm").val();
+		window.open(url);
+		return false;
+	});
+});
+
+</script>
+
+<div id="extjszone"></div>
+
+<?php echo $this->naction ( "chapterzone", "semantic", "tools", array ("format" => "ajax" ) )?>
+<?php echo $this->naction ( "explorer", "semantic", "tools", array ("format" => "ajax" ) )?>
+
+<script type="text/javascript" >
+Ext.onReady(function(){
+
+	setInterval('resizeExtjsComponent()',500);	
+	setInterval('resizeExtjsComponent()',500);
+	
+});
+
+function resizeExtjsComponent(){
+	try{
+		if(typeof(Ext.getCmp("ExtSemExplorer")) != null ){
+			Ext.getCmp("ExtSemExplorer").setWidth($("#mainexplorer").width());
+		}
+		if(typeof(Ext.getCmp("ExtChapterZone")) != null ){
+			Ext.getCmp("ExtChapterZone").setWidth($("#chaptersem").width())
+		}
+	}
+	catch(error){}	
+}
+
+
+
+</script>

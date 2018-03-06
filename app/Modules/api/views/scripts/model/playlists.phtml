@@ -1,0 +1,12 @@
+<playlists>
+<?php for($i=0 ; $i <sizeof($this->playlists) ;$i++) : ?>
+<playlist>
+<title><?php echo (htmlspecialchars($this->playlists[$i]['title'])) ?></title>
+<key><?php echo (htmlspecialchars($this->playlists[$i]['key'])) ?></key>
+<description><?php echo (htmlspecialchars($this->playlists[$i]['description'])) ?></description>
+<picture><?php echo (htmlspecialchars($this->playlists[$i]['picture'])) ?></picture>
+<group><?php echo (htmlspecialchars($this->playlists[$i]['groupname'])) ?></group>
+<ressource>http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/playlist/<?php echo $this->publicationkey ?>/key/<?php echo htmlspecialchars($this->playlists[$i]['key']) ?>/viewcode/<?php echo  $this->getParam("viewcode","default")?></ressource>
+</playlist>
+<?php endfor;?>
+</playlists>

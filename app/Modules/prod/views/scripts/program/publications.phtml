@@ -1,0 +1,91 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php $this->placeholder("title")->set($this->_("Syndication"))?>
+<table class="tablesorter display table" id="publicationListAffectation">
+<thead>
+<tr>
+	<th><?php echo $this->_("publication state of the program")?></th>
+	<?php if($this->programReview[0]["idprog_programs_extract"] == null || $this->programReview[0]["idprog_programs_extract"]  == 0 ) :?>
+	<th><?php echo $this->_("extracts")?></th>
+	<?php endif;?>
+	<th><?php echo $this->_("publications")?></th>
+	<th><?php echo $this->_("actions")?></th>
+</tr>
+</thead>
+	<tbody>
+	
+	<?php foreach ($this->listofpublications as $publication): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>
+				<label>
+				<input type="checkbox" <?php echo $publication["checked"] ?>
+					id="checkPublication_<?php echo $publication["idpublication"] ?>"
+					name="checkPublication_<?php echo $publication["idpublication"] ?>" />
+				    
+				</label>
+			</td>
+				<?php
+
+				if($this->programReview[0]["idprog_programs_extract"] == null || $this->programReview[0]["idprog_programs_extract"]  == 0 ) :?>
+					<td><a class="pextracts" href="javascript:void(0);" id="publishAllExtracts_<?php echo $publication["idpublication"] ?>" ><?php echo $this->_("click to publish all extracts")?></a>	</td>
+				<?php endif;?>
+		
+			<td><label for="checkPublication_<?php echo $publication["idpublication"] ?>"><?php echo $publication["name"] ?></label>
+			</td>
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+
+
+			<?php
+			$session = Zend_Registry::get("session");
+			if(isset($session->user->access)){
+			    for($i=0;$i<sizeof($session->user->access);$i++){
+			        if($session->user->access[$i]["module"] == "pub" && $session->user->access[$i]["ressource"] ==  $publication["idpublication"] && $session->user->access[$i]["level"] == 0): ?>
+
+				<li><a class="edit"	href="javascript:setEnvironment('<?php echo $session->user->access[$i]["tmpaccess"] ?>', '<?php echo BASE_URL ?>pub/stock/manage/fkey/<?php echo $this->programReview[0]["keyprog"]?>')"><?php echo $this->_("re-edit")?></a></li>
+					<?php endif;
+			    }
+			}
+			?>
+
+			</ul>
+			</div>
+			</td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php echo $this->systemMessage( $this->_("Check the case in front of the publication you want to publish.") ,1)?>
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+function setEnvironment(environmentID,uri){
+	document.location.href = BASE_URL + "default/environment/setenvir/ressourceSelector/" + environmentID + "?uri=" + uri;	
+}
+	jQuery(document).ready(function(){
+		$("input[type=checkbox]", "#publicationListAffectation").change(function(){
+			$.ajax({
+				type:"post",
+				url:"<?php echo BASE_URL ?>prod/program/dispo",
+				data:{key:"<?php echo $this->key ?>",id:$(this).attr("id"),state:$(this).attr("checked")}
+			});
+		});
+
+		$("a.pextracts", "#publicationListAffectation").click(function(){
+			$.ajax({
+				type:"post",
+				url:"<?php echo BASE_URL ?>prod/program/pextracts",
+				data:{key:"<?php echo $this->key ?>",id:$(this).attr("id")},
+				success:function(){alert("<?php echo $this->_("done !","none") ?>")}
+			});
+		});
+	});
+//]]>
+</script>
+<?php $this->block()->end(); ?>

@@ -1,0 +1,86 @@
+<div id="sec_menu">
+<ul>
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Organizations") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/organizations/create"><?php echo $this->_("Create") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/organizations/list"><?php echo $this->_("List") ?></a></li>
+	</ul>
+	</li>
+
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Productions") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/productions/create"><?php echo $this->_("Create") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/productions/list"><?php echo $this->_("List") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/productions/menu"><?php echo $this->_("Menu") ?></a></li>
+	</ul>
+	</li>
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Publications") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/publications/create"><?php echo $this->_("Create") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/publications/list"><?php echo $this->_("List") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/publications/menu"><?php echo $this->_("Menu") ?></a></li>
+	</ul>
+	</li>
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Services") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/services/create"><?php echo $this->_("Create") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/services/list"><?php echo $this->_("List") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/services/menu"><?php echo $this->_("Menu") ?></a></li>
+	</ul>
+	</li>
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Users") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/users/create"><?php echo $this->_("Create") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/users/list"><?php echo $this->_("List") ?></a></li>
+	</ul>
+	</li>
+	<li>
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Menus") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/menu/listcomponents"><?php echo $this->_("Components") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/menu"><?php echo $this->_("Menu elements") ?></a></li>
+	</ul>
+
+	</li>
+
+
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Fields") ?></a></span></span></span>
+	<ul>
+		<li><a href="<?php echo BASE_URL?>sadmin/fields/createfield"><?php echo $this->_("Create field") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/fields/fieldlist"><?php echo $this->_("Fields list") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/fields/creategroup"><?php echo $this->_("Create group of fields") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/fields/grouplist"><?php echo $this->_("Group of fields list") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/fields/tablelist"><?php echo $this->_("Tables list") ?></a></li>
+	</ul>
+	</li>
+
+	<li><span class="drop"><span><span><a href="#" class="sm8"><?php echo $this->_("Tools") ?></a></span></span></span>
+	<ul>
+		<li><a
+			href="<?php echo BASE_URL?>sadmin/tools/filemanager/layout/standard"><?php echo $this->_("Explorer") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/tools/templates"><?php echo $this->_("Templates") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/billings/list"><?php echo $this->_("Billings list") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/encoding/listformat"><?php echo $this->_("Formats list") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/encoding/listprofil"><?php echo $this->_("Profiles list") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/semantic/editor"><?php echo $this->_("Ontology URI Mapping") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/semantic/listclass"><?php echo $this->_("Ontology Class Mapping") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/tools/vivoweb/"><?php echo $this->_("Ontology Editor") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/mms"><?php echo $this->_("MMS Update") ?></a></li>
+		<li><a href="<?php echo BASE_URL?>sadmin/cache/clear"><?php echo $this->_("Clear cache") ?></a></li>
+
+	</ul>
+	</li>
+	
+	</li>
+
+	<li>
+	
+    	<span class="nodrop">
+    		<a href="<?php echo $this->url(array("module"=>"sadmin","controller"=>"package","action" => "list"),null,true) ?>" class="sm9"><?php echo $this->_("Add / Suppress") ?></a>
+    	</span>
+	
+	</li>
+	
+</ul>
+<br style="clear:both" />
+</div>

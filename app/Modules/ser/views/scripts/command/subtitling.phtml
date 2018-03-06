@@ -1,0 +1,227 @@
+<?php if(hasService($this->id_type, 3)) : ?>
+<!-- Subtitling (Sous-titrage) -->
+<script type="text/javascript">
+	//
+	chb.push("subtitling");
+	//	
+	function subtitlingPosition(e)
+	{
+		//alert(e);
+		//watermarking_position = e;
+		$("input.threeSelector").css("border","none");
+		//document.getElementById(e).style.border = "2px solid #00E";
+		$("#justification-" + e +"-button").css("border", "2px solid #00E");
+		$("#subtitling_justification").attr("value", e);
+	}
+</script>
+
+<?php 
+	$locales = $this->simpleTable("locales","","code","libelle"); 
+?>
+
+<div class="blocInfos" id="subtitling_blocInfos" style="<?php if($this->getParam("action") != "view" && $this->getParam("action") != "processing") :?> display:none<?php endif; ?>">
+	<h2><?php echo $this->_("Subtitling") ?></h2>	
+	<span class="rubInfos">
+		<?php if($this->index == 1) : ?>
+			<?php echo $this->_("Edit service subtitling")?>
+		<?php else: ?>
+			<?php echo $this->_("View service subtitling"); ?>
+		<?php endif; ?>	
+	</span>	
+	<div class="moreinfos">
+			<fieldset>
+						
+			<p>
+				<label>
+					<?php echo $this->_ ( "Font" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<span> 
+						<select id="font_list_subtitling" name="font_list_subtitling">
+							<?php 							 
+								foreach ($this->font_families_sans_serif as $font)
+								{
+									echo "<option>" . $font . "</option>\n";
+								}	
+								echo "<option>" . "None" . "</option>\n";					
+							?>		
+						</select>			
+					</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->subtitling[0]["font"]; ?>						
+					</span>
+				<?php endif; ?>
+			</p>	
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Font Size" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span>				
+					<input
+					class="inputText" 
+					style="text-align:center;font-weight:bold;width:20px;"
+					name="subtitling_font_size_input" 
+					id="subtitling_font_size" 
+					value="16"
+					type="text" /> 
+				</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->subtitling[0]["font_size"]; ?>			
+					</span>
+				<?php endif; ?>
+			</p>
+			
+			<input type="hidden" name="subtitling_justification" value="middle" id="subtitling_justification" />			
+			<p>				
+				<label>
+					<?php echo $this->_ ( "Justification" )?>
+				</label>
+				<?php if($this->index == 1) : ?>
+				<span>
+				<table>
+					<caption>
+					</caption>				
+					<tr>
+						<td>
+							<input 	
+									class="threeSelector" 
+									style="background-image:url(<?php echo BASE_URL?>themes/system/services/text_left.png)"
+									type="button" 
+									id="justification-left-button" 
+									name="justification-left-button" 
+									value="" 
+									onclick="subtitlingPosition('left')" 
+									title="<?php echo $this->_ ( "Left" )?>"></input>
+							<input 	
+									class="threeSelector" 
+									style="background-image:url(<?php echo BASE_URL?>themes/system/services/text_center.png)"
+									type="button" 
+									id="justification-middle-button" 
+									name="justification-middle-button" 
+									value="" 
+									checked="true" 
+									onclick="subtitlingPosition('middle')" 
+									title="<?php echo $this->_ ( "Middle" )?>"></input>
+							<input 	
+									class="threeSelector" 
+									style="background-image:url(<?php echo BASE_URL?>themes/system/services/text_right.png)"
+									type="button" 
+									id="justification-right-button" 
+									name="justification-right-button" 
+									value="" 
+									onclick="subtitlingPosition('right')" 
+									title="<?php echo $this->_ ( "Right" )?>"></input>
+						</td>
+					</tr>
+				</table>
+				</span>	
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->_ ($this->subtitling[0]["justification"]) ?>
+					</span>
+				<?php endif; ?>					
+			</p>			
+			
+			<?php if($this->index == 1) : ?>
+				<script type="text/javascript">
+					// Sélection du bouton par défaut	
+					$("#justification-middle-button").css("border", "2px solid #00E");
+				</script>
+			<?php endif; ?>	
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Color" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<span> 
+						<input 
+						id="vtrColorPicker"
+						name="subtitling_font_color"
+						size="7" value="#FFFF00" 
+						type="text"  
+						style="width:100px;"/>						
+					</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->subtitling[0]["font_color"]; ?>			
+					</span>
+				<?php endif; ?>				
+			</p>
+	
+			<p>
+				<label>
+					<?php echo $this->_ ( "Language" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<span>
+						<?php echo $this->formSelect('subtitling_language',$this->_session->locale, null, $locales); ?>
+					</span>
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->subtitling[0]["language"]; ?>			
+					</span>
+				<?php endif; ?>	
+			</p>
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Comments" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<textarea
+						name="subtitling_comments" 
+						id="subtitling_comments" 
+						rows="15" 
+						cols="80"></textarea>
+				<?php else: ?>
+					<span class="TEXTAREA_value">
+						<?php echo nl2br($this->subtitling[0]["comments"]) ?>
+					</span>
+				<?php endif; ?>
+			</p>
+				
+			<?php if($this->index != 1) : ?>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Current status"  )?>
+					</label> 
+					<span class="TEXT_value">
+						<?php echo $this->_ ( $this->subtitling[0]["status"]) ?>
+					</span>				
+				</p>
+			<?php endif; ?>
+			
+			<?php if($this->index == 2
+			&& !isEnded($this->order[0]["status"])
+			&& !isEnded($this->subtitling[0]["status"])
+			) : ?>
+					<p>
+						<label>
+							<?php echo $this->_ ( "Status" )?>
+						</label> 
+						<span class="TEXT_value">
+							<?php
+								$service_states = serviceStateSelection($this->order[0]["status"], $this->subtitling[0]["status"]);								
+							?>							
+						<select id="subtitling_list_state" name="subtitling_list_state">
+							<?php 							 
+								foreach ($service_states as $state)
+								{
+									echo "<option>" . $this->_ ($state) . "</option>\n";
+								}	
+							?>		
+						</select>	
+						</span>				
+					</p>
+				<?php endif; ?>
+			
+    		</fieldset>
+    </div>
+</div>	
+
+<?php endif;?>

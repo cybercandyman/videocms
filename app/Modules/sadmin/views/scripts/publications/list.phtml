@@ -1,0 +1,108 @@
+<?php $this->placeholder("title")->set($this->_("List of publication accounts") )?>
+<script src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.min.js" 	type="text/javascript"></script>
+<script src="<?php echo BASE_URL?>embeded/js/jquery.tablesorter.pager.js" type="text/javascript"></script>
+
+
+
+<?php echo $this->sexybutton ("href", $this->_("create") , array("add_new",""),  BASE_URL."sadmin/publications/create",array()) ?>
+
+
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "ID" );?></th>
+			<th><?php echo $this->_ ( "Name" );?></th>
+			<th><?php echo $this->_ ( "Key" );?></th>
+			<th><?php echo $this->_ ( "Path" );?></th>
+
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php for($i = 0; $i < sizeof ( $this->list ); $i ++) :?>
+
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+			<td><?php echo $this->list[$i]["idpublication"]?></td>
+			<td><?php echo $this->list[$i]["name"]?></td>
+			<td><?php echo $this->list[$i]["key"]?></td>
+			<td><?php echo $this->list[$i]["pathcomponent"]?></td>
+
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+			
+				<li><a
+					href="<?php echo BASE_URL ?>sadmin/publications/edit/id/<?php echo $this->list[$i]["idpublication"]?>"
+					title="<?php echo $this->_("edit")?>" class="edit"><?php echo $this->_("edit")?></a></li>
+				<li><a
+					href="<?php echo BASE_URL ?>sadmin/publications/prodaccess/id/<?php echo $this->list[$i]["idpublication"]?>"
+					title="<?php echo $this->_("access")?>" class="edit"><?php echo $this->_("access")?></a></li>
+				<li><a
+					href="<?php echo BASE_URL?>sadmin/publications/editmenu/id/<?php echo $this->list[$i]["idpublication"]?>"
+					title="<?php echo $this->_("menu")?>" class="edit"><?php echo $this->_("menu")?></a></li>
+						<li><a
+					href="<?php echo BASE_URL ?>sadmin/publications/delete/id/<?php echo $this->list[$i]["idpublication"]?>"
+					title="<?php echo $this->_("delete")?>" class="delete"><?php echo $this->_("delete")?></a></li>
+			</ul>
+			</div>
+
+
+
+
+
+			</td>
+		</tr>
+
+		<?php endfor;?>
+	</tbody>
+</table>
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This publication account will be deleted. Are you sure ?") ?>
+</p>
+<p><label for="check_freespace"><?php echo $this->_("Free space")?></label>
+: <input type="checkbox" value="1" id="check_freespace"
+	name="check_freespace"></input></p>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+	var _destroyUrl;    	
+	   $('a.delete').click(function() {
+			$('#dialog').dialog('open');
+			_destroyUrl = $(this).attr("href");
+			return false;
+		});	
+	   $("#dialog").dialog({
+	   		
+	   		bgiframe: true,
+	   		resizable: false,
+	   		height:250,
+	   		modal: true,
+	   		autoOpen:false,
+	   		overlay: {
+	   			backgroundColor: '#000',
+	   			opacity: 0.5
+	   		},
+	   		buttons: {
+	   			'<?php echo $this->_("Delete")?>': function() {
+	   				$(this).dialog('close');
+	   				document.location.href = (_destroyUrl + "/" + "freespace/" + ($("#check_freespace").attr("checked")  ?"1":"0") );
+	   			},
+	   			<?php echo $this->_("Cancel")?>: function() {
+	   				$(this).dialog('close');
+	   			}
+	   		}
+	   	});
+        $("#data").tablesorter(); 
+    } 
+); 
+//]]>
+</script>

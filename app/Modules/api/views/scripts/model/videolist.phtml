@@ -1,0 +1,31 @@
+<videolist>
+
+<responses>
+<?php echo $this->videolist->countItems ?>
+</responses>
+
+<programs>
+<?php foreach($this->videolist->_programs as $program) : ?>
+
+<program>
+<infos>
+
+<title><?php echo htmlspecialchars($program->title) ?></title>
+<synopsis><?php echo htmlspecialchars($program->synopsis) ?></synopsis>
+<duration><?php echo htmlspecialchars($program->duration) ?></duration>
+<picture><?php echo htmlspecialchars($program->getPicture("videolist")) ?></picture>
+<date><?php echo htmlspecialchars($program->date) ?></date>
+<genre><?php echo htmlspecialchars($program->genre) ?></genre>
+<tcin><?php echo htmlspecialchars($program->tcin) ?></tcin>
+<tcout><?php echo htmlspecialchars($program->tcout) ?></tcout>
+<key><?php echo htmlspecialchars($program->keyprog) ?></key>
+<isextract><?php echo $program->isExtract() ? "true":"false"?></isextract>
+<url></url>
+<ressource><?php echo $program->getRestUrl()?></ressource>
+</infos>
+</program>
+
+<?php endforeach; ?>
+</programs>
+
+</videolist>

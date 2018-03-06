@@ -1,0 +1,74 @@
+<div id="params-update" class="dialog-form">
+	<div class="loader"></div>
+	<form id="dialog-options" class="dlgoptions" method="post" action="<?php echo $this->url ( array ("module" => "pub", "controller" => "integration", "action" => "saveoptions" ), null, true )?>"></form>
+</div>
+
+<script type="text/javascript">
+$(".dialog-form").hide();
+$(document).ready(function() {
+
+	var key = '<?php echo $this->key; ?>';
+	var view = '<?php echo $this->view; ?>';
+	var idpub = '<?php echo $this->_session->environment ["ressource"]; ?>';
+	var imageLoader = '<?php echo BASE_URL?>themes/liquid/css/layout/site/forms/loading.gif';
+	var dlgDiv = "#params-update";
+	
+	// Load dialog Form
+	$('a.edit-dialog').click(function( event ) {
+		var dialogTitle = $(this).attr('title');
+		$(dlgDiv).attr('title', dialogTitle);
+		var currentSelectID = $(this).parent().parent().find('select.inputSelect').attr('id');
+		var fullpath = $( "#" + currentSelectID ).val();		
+		var type = $(this).parent().parent().find('input[type="hidden"]').val();
+		var form = $(dlgDiv).find('form');
+		var formID = form.attr('id');
+
+		$('div.loader').empty();
+		$('div.loader').html('<img src="' + imageLoader + '" />').show();
+		$(form).empty().load("<?php echo BASE_URL ?>pub/integration/optionsdialog/", {elementType: type, fullpath:fullpath, key:key, view:view, idpub:idpub}, function() {
+			$(dlgDiv).find('div.loader').hide();
+		});
+				
+		var $dialog = $(dlgDiv)
+		.dialog({
+			autoOpen: false,
+			width:450,
+			buttons: {
+				'<?php echo $this->_("Cancel") ?>': function() {
+					$(this).dialog("close");
+				},
+				'<?php echo $this->_("Save") ?>': function() {
+					$("#dialog-options").submit();
+				}
+			},
+			close:function(event, ui) { 
+				$('.dialog-form form input[type="text"]').val('');
+			}	
+		});
+		
+		// Open dialog 
+		$dialog.dialog('open');
+		
+		// prevent the default action, e.g., following a link
+		return false;
+	});
+
+	$("#dialog-options").submit(function() {
+		$('div.loader').empty().html('<img src="' + imageLoader + '" />').show();
+		url = $(this).attr( 'action' );
+		var data = $(this).serialize();
+		$.ajax({
+			  type: 'POST',
+			  url: url,
+			  data: data,
+			  success: function(){
+				  $("div.loader").empty().html('<div class="alert alert-success"><p><?php echo $this->_ ( "Update process finished correctly !" ) ;?></p></div>');
+			  },
+			  error:function (xhr, ajaxOptions, thrownError){
+	              $(".loader").empty().html('<div class="alert alert-error"><?php echo $this->_("Error ");?>' + xhr.status + " - " + thrownError + '<p><?php echo $this->_ ( "Please, choose and Save your specific template first. " ) ;?></p></div>');
+	          } 
+		});
+		return false;
+	});
+});
+</script>

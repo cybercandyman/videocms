@@ -1,0 +1,19 @@
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.anchor.event.js") ?>
+
+<p>
+	vue
+</p>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function(){
+
+		$.anchor(function(anchor){
+			alert("l'anchor a changé ! : " + anchor);
+		});
+		
+	});
+
+</script>

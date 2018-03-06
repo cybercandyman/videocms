@@ -1,0 +1,94 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/Silverlight.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.videoinfos.js") ?>
+<div id="videozone">
+<p class="class1">
+    <select id="versionToExtract" name="versionToExtract" style="width:330px">
+    <?php foreach($this->versions as $version) : ?>
+    <option value="<?php echo $version["filename"] ?>"><?php echo $version["filename"] ?></option>
+    <?php endforeach;?>
+    </select>
+</p>
+<div id="ControlHost"></div>
+<div style="display: none" id="divFileName"><span class="filename"><?php echo $this->versions[0]["filename"] ?></span></div>
+</div>
+<script type="text/javascript">
+//<![CDATA[   
+var programKey = "<?php echo $this->programKey ?>";
+var svlObjectDialog;
+var currentElement ;
+var  mmspreview;
+var depositDirectory = "<?php echo $this->depositDirectory ?>";
+var streamDirectory = "<?php echo $this->streamDirectory ?>";
+var mms = "<?php echo $this->mms ?>";
+
+function onloadplayer() {	
+	svlObjectDialog = document.getElementById("silverlightControl");
+    try{                
+    	mmspreview = makemms($("#versionToExtract").val(),"stream");	
+    	svlObjectDialog.Content.SilverlightApp.loadVideo(mmspreview);
+    }catch(error){alert("nok");}
+}
+
+function makemms(filename,mode){
+
+	var reg=new RegExp("(%s)");
+	var uri = "";
+	
+	switch(mode){
+		case "deposit": uri = mms.replace(reg,depositDirectory+ "/" +filename );  break;
+		case "stream": uri = mms.replace(reg,streamDirectory+ "/" +filename );  break;
+		default: uri = mms.replace(reg,depositDirectory+ "/" +filename ); break;
+	}	
+	
+	var tmp = "";	
+	$.ajax({
+		url : '<?php echo BASE_URL ?>prod/program/getmms',
+		type: 'get',
+		data:{file:filename,key:programKey,uri:uri},
+		async:false,
+		success:function(result){
+			tmp = (result);
+		}
+	});
+	var t = new Date().getTime();
+	return tmp + "?t="+t;
+}
+
+jQuery(document).ready(function(){  
+	var currentElement = $("#divFileName");	
+	$("#versionToExtract").change(function(){
+		svlObjectDialog.Content.SilverlightApp.loadVideo(makemms($("#versionToExtract").val(),  "stream"));
+	});		
+    Silverlight.createObjectEx({
+        source: "<?php echo BASE_URL ?>embeded/silverlight/editVideo.xap",
+        parentElement: document.getElementById("ControlHost"),
+        id: "silverlightControl",
+        properties: {
+            width: "330",
+            height: "450",
+            version: "3.0.40624.0",
+            background: "transparent",
+            isWindowless: "true",
+            enableHtmlAccess: "true",
+            autoUpgrade: "false"
+        },
+        events: {
+    		onload:function(){  
+        	svlObjectDialog = document.getElementById("silverlightControl");
+            try{                   
+            	if($("#versionToExtract").val() != null){
+            		mmspreview = makemms($("#versionToExtract").val(),"stream");	
+                	svlObjectDialog.Content.SilverlightApp.loadVideo(mmspreview);
+            	}
+            	
+            }catch(error)
+            	{ 
+            		alert(error.message);
+            	}
+    		}
+            }
+    });
+});
+//]]>
+</script>
+		

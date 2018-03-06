@@ -1,0 +1,77 @@
+<?php if( sizeof($this->access)>0) : ?>
+
+
+<form method="post"
+	action="<?php echo BASE_URL ?>default/environment/setenvir"
+	id="environmentSelectorForm"><select id="ressourceSelector"
+	name="ressourceSelector">
+	<option value="">SELECT RESSOURCE</option>
+	<?php foreach($this->access as $access ):?>
+	<option value="<?php echo $access["tmpaccess"]?>"
+	<?php echo $this->tmpaccess == $access["tmpaccess"] ?  "selected=\"selected\"" : ""?>><?php echo $access["module"]?>-<?php echo $access["ressource"]?></option>
+	<?php endforeach;?>
+</select> <input type="hidden" name="comingFromPage" value="<?php echo $this->url()?>" /> 
+	
+	<?php echo $this->sexybutton ("submit", $this->_("submit"), array("send_form_btn"), null) ?>
+	
+	</form>
+
+	<?php endif;?>
+
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+
+});
+</script>
+
+
+<!-- 
+<div id="ongletRessource">
+
+
+<ul >
+	<?php if(sizeof($this->orderedAccessList["sadmin"])>0):?>		
+	<li >	
+    	<select>
+    	<?php foreach($this->orderedAccessList["sadmin"] as $access ):?>
+    		<option><?php echo $access["tmpaccess"]?></option>
+    	<?php endforeach;?>
+    	</select>
+	</li>
+	<?php endif;?>
+	
+	<?php if(sizeof($this->orderedAccessList["prod"])>0):?>
+	<li >		
+    	<select>
+    	<?php foreach($this->orderedAccessList["prod"] as $access ):?>
+    		<option><?php echo $access["tmpaccess"]?></option>
+    	<?php endforeach;?>
+    	</select>
+	</li >
+	<?php endif;?>
+
+    <?php if(sizeof($this->orderedAccessList["pub"])>0):?>
+	<li >			
+    	<select>
+    	<?php foreach($this->orderedAccessList["pub"] as $access ):?>
+    		<option><?php echo $access["tmpaccess"]?></option>
+    	<?php endforeach;?>
+    	</select>
+	</li>
+	<?php endif;?>
+
+    <?php if(sizeof($this->orderedAccessList["ser"])>0):?>
+	<li >			
+        <select>
+        <?php foreach($this->orderedAccessList["ser"] as $access ):?>
+        	<option><?php echo $access["tmpaccess"]?></option>
+        <?php endforeach;?>
+        </select>
+	</li>
+	<?php endif;?>
+	
+</ul>
+</div>
+ -->

@@ -1,0 +1,71 @@
+<table id="ChaptersList" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "IDCHAPTER" );?></th>
+			<th><?php echo $this->_ ( "Picture" );?></th>
+			<th><?php echo $this->_ ( "Title" );?></th>
+			<th><?php echo $this->_ ( "Timecode" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td width="40px"><?php echo $item["id"] ?></td>
+			<td width="40px" align="center"><?php if($item["details"]["picture"]["value"] != ""):?>
+			<img
+				src="<?php echo $item["details"]["picture"]["value"] != "" ? $item["details"]["picture"]["value"] : BASE_URL."themes/system/" ?>"
+				width="32px" height="32px" /> <?php endif;?></td>
+			<td width="800px"><?php echo $item["details"]["title"]["value"] ?></td>
+			<td width="100px"><?php echo $item["details"]["timecode"]["value"] ?></td>
+			<td  width="250px">
+
+			<div class="actions_menu">
+			<ul>
+
+			
+			<?php if($item["idplaylist"]>0):?>			
+				<li><a class="edit" href="<?php echo $this->url(array("controller"=>"playlist","action"=>"edit","module"=>$this->_session->environment["module"],"key"=>$item["playlistkey"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"] ?>" ><?php echo $this->_("edit") ?></a></li>				
+			<?php else:?>			
+        		<?php if($this->_session->environment["module"]=="prod"):?>
+        			<li><a class="edit" href="<?php echo $this->url(array("controller"=>"program","action"=>"chapters","module"=>$this->_session->environment["module"],"key"=>$item["keyprog"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"]?>" ><?php echo $this->_("edit") ?></a></li>
+        		<?php else:?>
+        			<li><a class="edit" href="<?php echo $this->url(array("controller"=>"stock","action"=>"editchapters","module"=>$this->_session->environment["module"],"key"=>$item["keyprog"],"fkey"=>$item["fromkeyprog"]),null,true) ?>#item_<?php echo $item["keyprog"] ?>/<?php echo $item["id"]?>" ><?php echo $this->_("edit") ?></a></li>
+        		<?php endif;?>				
+			<?php endif;?>			
+				<li><a class="save" href="javascript:addToKb('<?php echo $item["id"] ?>')"><?php echo $this->_("add to kb") ?></a></li>
+				
+			</ul>
+			</div>
+
+			</td>
+		</tr>
+		<?php endforeach; ?>
+
+	</tbody>
+</table>
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+ function addToKb(idchaptertoadd){
+	$.ajax({
+		type:'post',
+		url:'<?php echo $this->url(array('controller'=>'program','module'=>'prod','action'=>'addToKb','idview' =>  $this->idview != "" ? $this->idview : 0))?>',
+		data:{idchapter:idchaptertoadd},
+		success:function(msg){
+			alert("<?php echo $this->_("Successfull replication ","none") ?>")
+			 if('function' == typeof(loadChapterManager)){
+				 loadChapterManager();
+			 }
+		}
+	});
+ }
+
+
+//]]>
+</script>

@@ -1,0 +1,113 @@
+<div id="SearchKbZone">
+<form action="<?php echo BASE_URL ?>tools/virtualmanager" method="get"	id="kbFormSearch">
+<fieldset 		<?php if($this->mode == "integrated"):?>class="mini"<?php endif;?> >
+<p><label><?php echo $this->_("Search")?></label> <input type="text" name="fullTextFilter" id="fullTextFilter" /></p>
+<p><label><?php echo $this->_("Element type")?></label>
+
+
+
+<select name="kbFormSearchType" id="kbFormSearchType">
+<option value=""></option>
+	<?php  foreach ($this->itemType as $type ):
+	
+	$this->placeholder("formSpecificFields")->captureStart();
+	echo "<div id=\"kbFormSearchSpecificField_".$type["idtype"]."\" >";
+	//Zend_Debug::dump($type);	
+	echo $this->partial("genericsearchform.phtml",array("fields"=>$type["fields"] ,"filter"=>array(1)  ) ) ;
+	echo "</div>";
+	$this->placeholder("formSpecificFields")->captureEnd();
+	?>
+	
+	<?php if($type["visible"]==1):?>
+	<option value="<?php echo $type["idtype"] ?>"><?php echo  $type["title"] ?></option>
+	<?php endif;?>
+	
+	<?php endforeach; ?>
+</select></p>
+<p>
+<div id="kbFormSearchSpecificField"></div>
+</p>
+
+<p>
+
+<!-- 
+<label>&nbsp;</label>
+<span class="button cancel_btn" id="kbFormSearchBtnReset">
+<span><span><?php echo $this->_("reset")?></span></span><input 	type="reset" name="">
+</span>
+ -->
+<label>&nbsp;</label>
+
+<?php echo $this->sexybutton ("reset", $this->_("cancel"), array("grey_btn"), null,array("id"=>"kbFormSearchBtnReset")) ?>
+<?php echo $this->sexybutton ("button", $this->_("search"), array("grey_btn"), null,array("id"=>"kbFormSearchBtnFilter")) ?>
+
+
+</p>
+
+</fieldset>
+</form>
+</div>
+
+<form>
+<fieldset>
+<div id="formSpecificFields" style="display: none"><?php echo  $this->placeholder("formSpecificFields") ?>
+</div>
+</fieldset>
+</form>
+
+
+
+<script type="text/javascript">
+
+function resetKB(){
+	//$("#knowledgeTree").remove();
+	$("#kbFormSearchSpecificField div").appendTo("#formSpecificFields");
+	$("#kbresults").html("");	
+	$("#kbtree").css("display","block");	
+	
+}
+
+jQuery(document).ready(function(){
+
+
+	$("#kbFormSearchType").change(function(){		
+		
+		$("#kbFormSearchSpecificField div").appendTo("#formSpecificFields");		
+		if($("#kbFormSearchType").val()>0){			
+			$("#kbFormSearchSpecificField").append( $("#kbFormSearchSpecificField_"+$("#kbFormSearchType").val() ));
+		}
+						
+	});	
+
+ 	var searchFunction = function(){ 	 	
+    	function search(data){
+    		data = (data.replace(new  RegExp("[=&]", "g"),"/").replace(new  RegExp("%2F", "g"),"%252F"));     	
+    		loading();
+    		$.ajax({
+    			type:"get",
+    			url:"<?php echo BASE_URL ?>tools/virtualmanager/results/" + data,    			
+    			success:function(message){
+    				$("#kbresults").html(message);
+    			}
+    		});
+    	}    	
+    	function loading(){
+    		$("#kbtree").css("display","none");
+    		$("#kbresults").html("<img src=\"<?php echo BASE_URL ?>themes/system/pics/loading.gif\">");
+    	}    	
+    	$("#kbFormSearchBtnFilter").click(function(){
+    		var data = $("#kbFormSearch").serialize();
+    		search(data);
+    	});	
+    	$("#kbFormSearchBtnReset").click(function(){
+        	resetKB();
+    	});	
+    	$("#kbresults .paginationControl a,#kbresults table#data thead a,#kbresults table.tablesorter thead a").live("click",function(event){			
+    			loading();				
+    			$("#kbresults").load($(this).attr("href"));		
+    			event.preventDefault();
+    		}
+    	);	    	    	
+ 	}(); 		
+});
+</script>

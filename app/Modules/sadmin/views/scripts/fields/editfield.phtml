@@ -1,0 +1,122 @@
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+
+<?php $this->placeholder("title")->set($this->_("Edit a field"))?>
+<form action="<?php echo BASE_URL?>sadmin/fields/updatefield" id="fieldform"
+	method="post">
+
+
+
+<fieldset><legend></legend>
+
+<p><label><?php	echo $this->_ ( "Name" )?></label> <span><input class="validate[required]"	type="text" name="title" id="title" title="<?php echo $this->_("Name of the field." )?>"/></span></p>
+<p><label><?php	echo $this->_ ( "Code" )?></label> <span><input class="validate[required,custom[noSpecialCaracters]]"	type="text" name="code" id="code" title="<?php echo $this->_("Code of the field. No space and special characters allowed !" )?>"	<?php if($this->field[0]["is_editable"]==1):?> readonly="readonly"
+	<?php endif;?> /></span></p>
+<p><label><?php 	echo $this->_ ( "Type" )?></label> <span><select title="<?php echo $this->_("Type of the field. Cannot be changed once chosen." )?>"	id="type" disabled="disabled" name="type">
+	<option value="TEXT"><?php	echo $this->_ ( "text" )?></option>
+	<option value="ENUM"><?php	echo $this->_ ( "enum" )?></option>
+	<option value="DATE"><?php	echo $this->_ ( "date" )?></option>
+	<option value="BOOLEAN"><?php	echo $this->_ ( "boolean" )?></option>
+	<option value="TEXTAREA"><?php	echo $this->_ ( "textarea" )?></option>
+	<option value="COMPLEXBOOLEAN"><?php	echo $this->_ ( "complex boolean" )?>
+	</option>
+</select>&nbsp;<img 	src="<?php echo BASE_URL ?>themes/system/pics/critical.gif"
+	height="12px" width="12px" /> </span></p>
+<p><label><?php	echo $this->_ ( "Mask" )?></label> <span><input title="<?php echo $this->_("Input mask. For more documentation, you have to see jquery.meio.mask.js documentation." )?>" type="text" name="mask" id="mask" /></span></p>
+<p><label><?php	echo $this->_ ( "Default value" )?></label> <span><textarea	name="default_value" id="default_value" rows="5" cols="10" title="<?php echo $this->_("This is the default value of the field.") ?>"></textarea></span>
+</p>
+
+
+<p><label><?php	echo $this->_ ( "Category" )?></label> <span>
+<select	id="category" name="category" title="<?php echo $this->_("Grouping fields by personal affinities" )?>">
+	<option value=""></option>
+	<?php for($i=0;$i<sizeof($this->cat);$i++):?>
+	<option value="<?php echo $this->cat[$i]["id"] ?>"><?php echo $this->cat[$i]["value"] ?></option>
+	<?php endfor;?>
+</select> </span></p>
+
+<p><label><?php	echo $this->_ ( "Table" )?></label> <span><input type="text" disabled name="table_ref" id="table_ref" class="validate[optional]" title="<?php echo $this->_("Table name in BDD. Name is deducted from the code.")?>"/>&nbsp;<img	src="<?php echo BASE_URL ?>themes/system/pics/critical.gif"	height="12px" width="12px" /></span></p>
+
+<p><label><?php	echo $this->_ ( "Parent" )?></label> <span><input disabled type="text" name="parent" id="parent" class="validate[optional]" title="<?php echo $this->_("Parent is the code of another field.")?>"/>&nbsp;<img src="<?php echo BASE_URL ?>themes/system/pics/critical.gif"	height="12px" width="12px" /></span></p>
+
+
+<p><label><?php echo $this->_ ( "Help" )?></label> <span><textarea title="<?php echo $this->_("This is the tooltip of the field in the generated form.")?>" name="help" id="help" rows="5" cols="10"></textarea></span>
+</p>
+
+<p><label>&nbsp;<input type="hidden" name="udf_id" 	value="<?php echo $this->field[0]["idfield"] ?>" /></label> 
+	<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"")) ?>
+	
+
+<p><label>&nbsp;</label> <span> 
+<?php echo $this->sexybutton ("href", $this->_ ( "translations" ), array("send_form_btn"), BASE_URL."sadmin/translations/list/id/". $this->field[0]["idfield"]) ?>
+</p>
+
+</fieldset>
+</form>
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok?>];
+
+jQuery(document).ready(function(){
+	   $("#fieldform").validationEngine();  
+    $("form").submit(function(){
+    	var state = true;	    	
+    	if(!state)alert("<?php	echo $this->_ ( "Please check your entry, some fields are wrong." )?>");
+    	//return true;
+    	return state;    	
+    });    
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });
+
+
+    
+
+    
+    $("#fieldname").keyup(function(){checktitleoffield($(this).val());});
+    
+});
+
+
+
+function checktitleoffield(value) {
+        $.ajax({
+            type:"POST",
+            url:"<?php	echo BASE_URL?>admin/profil/checktitleoffield/format/ajax",
+            data:"&title=" + value,
+            success: function(msg){
+                //console.log('success : ' + msg);
+                if(msg == 1){
+                    $('#error').html("<?php	echo $this->_ ( "This name already exists." )?>");
+                    $('#error').css("display","block");
+                }                
+                else{
+                    $('#error').css("display","none");    
+                    $('#error').html("");
+                }
+          }
+    })
+}  
+//]]>
+</script>
+
+<?php echo $this->setFormValue($this->field[0])?> 
+																			
+<div class="error"
+	id="error" style="display: none"></div>
+<br />
+
+
+
+<?php echo $this->systemMessage( $this->_ ( "Check the searchable case to allow people to search with this criteria." ),1)?>
+<?php echo $this->systemMessage( $this->_ ( "By choosing 1,2,3,4,5, you have the possibility to aggregate fields according to your own criterias." ),1)?>
+
+
+
+
+

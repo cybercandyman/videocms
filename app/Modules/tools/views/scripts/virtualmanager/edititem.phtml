@@ -1,0 +1,65 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.meio.mask.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+
+<form method="post"	action="<?php echo BASE_URL ?>tools/virtualmanager/updateitem"	id="itemForm">
+
+<p style="padding: 15px;">
+<span><?php echo $this->_("Select first your item type") ?>: </span>
+<select id="typeSelect" name="typeSelect">
+<?php 	$includeJsPlomb = true;
+foreach ($this->groups as $group): ?>
+	
+	<option value="<?php echo $group["idtype"]?>" class="<?php echo $group["visible"] ? "visible" : "hidden" ?>"><?php echo $group["title"]?></option>
+    
+    <?php  $this->placeholder('form_type_'.$group["idtype"])->captureStart();?>	
+		<fieldset class="small"><?php echo $this->partial('genericform.phtml', array("fields"=>$group["fields"],"includeJS"=>$includeJsPlomb,"format"=>"mini")); ?>
+	<?php echo $this->formHidden("iditem",$this->item,null); ?> <!-- <p><label>&nbsp;</label></label><input type="submit" /></p> -->
+		</fieldset>	
+	<?php $includeJsPlomb = false;
+	     $this->placeholder('form_type_'.$group["idtype"])->captureEnd() ?>
+	<?php endforeach; ?>	
+</select>
+</p>
+
+
+
+<div id="formZone">
+    <?php if( $this->itemObject[0]["idtype"]>0) : ?>
+    <?php echo $this->placeholder('form_type_'.$this->itemObject[0]["idtype"]) ?>
+    <?php endif;?>
+</div>
+
+
+</form>
+
+<div id="formSpecificFields" style="display: none">
+    <?php foreach ($this->groups as $group): ?>
+        <div id="form_type_<?php echo $group["idtype"]?>">
+        <?php echo $this->placeholder('form_type_'.$group["idtype"]);?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){	
+	$("body").css("background","white");	
+	$("#typeSelect").change(function(){				
+		$("#formZone div").appendTo("#formSpecificFields");		
+		if($("#typeSelect").val()>0){			
+			$("#form_type_" +$("#typeSelect").val() ).appendTo ($("#formZone"));
+		}					
+	});		
+	<?php if( isset($this->itemObject) && $this->itemObject[0]["idtype"]>0) : ?>	
+		$("#typeSelect").val("<?php echo  $this->itemObject[0]["idtype"] ?>");
+		$("#typeSelect").attr("disabled","disabled");		
+	<?php else:?>
+
+	$("option.hidden").remove();
+	if($("#typeSelect").val()>0){			
+		$("#form_type_"+ $('#typeSelect option:first').val() ).appendTo( $("#formZone") );
+	}
+	<?php endif;?>
+});	
+</script>
+
+<?php echo $this->setFormValue($this->values ,array("key"=>array("keys"=>array("type","idfgroup"),"separator"=>"_"),"value"=>"original_value"))?>

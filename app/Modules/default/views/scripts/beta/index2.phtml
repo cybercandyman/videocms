@@ -1,0 +1,46 @@
+<div id="testZone"></div>
+
+<div id="ChapterManagerZone">
+
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery.get(BASE_URL + "tools/virtualmanager/index/mode/integrated",function(data){
+			jQuery("#ChapterManagerZone").html(data);
+			
+		});
+	});
+	Ext.onReady(function(){
+		
+		Ext.create("Ext.panel.Panel",{
+			html:'DROP HERE',
+			width:200,
+			height:100,
+			border:2,
+			renderTo:'testZone',
+			listeners:{
+					render:function(v){		
+						v.dropZone = new Ext.dd.DropTarget(v.getEl(),{
+								ddGroup:'DDZoneChapter',				
+								notifyDrop:function(source,e,data){
+								
+								}
+							});
+								/*		
+						v.dropZone = new Ext.dd.DDTarget(v.getEl(),'DDZoneChapter',{
+							isNotifyTarget : true,
+								b4DragDrop:function(e){
+									console.log("b4DragDrop");
+								}
+						});
+						*/
+					}
+			}
+		});
+		
+		//Ext.EventManager.addListener("treeChapter","pddalc",function(){console.log("a te voilà");});
+		//Ext.getCmp("treeChapter").addListener("pddalc",function(){console.log("pddalc")});
+	});
+</script>
+<script type="text/javascript" src="/embeded/js/jquery.linkedselect.js"></script>

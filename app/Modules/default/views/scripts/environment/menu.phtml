@@ -1,0 +1,45 @@
+<div id="main_menu">
+<ul>
+	<li><a href="<?php echo BASE_URL ?>default/environment/setenvir/mod/"
+		class="default"><span><span><?php echo $this->_("Home")?></span></span></a></li>
+		<?php if( sizeof($this->orderedAccessList["sadmin"]) > 0) :?>
+	<li><a
+		href="<?php echo BASE_URL ?>default/environment/setenvir/mod/sadmin"
+		class="sadmin"><span><span><?php echo $this->_("Super administration")?></span></span></a></li>
+		<?php endif; ?>
+		<?php if( sizeof($this->orderedAccessList["prod"]) > 0) :?>
+	<li><a
+		href="<?php echo BASE_URL ?>default/environment/setenvir/mod/prod"
+		class="prod"> <span><span> <?php echo $this->_("Production")?> </span></span>
+	</a></li>
+	<?php endif; ?>
+	<?php if( sizeof($this->orderedAccessList["pub"]) > 0) :?>
+	<li><a
+		href="<?php echo BASE_URL ?>default/environment/setenvir/mod/pub"
+		class="pub"><span><span><?php echo $this->_("Publication")?></span></span></a></li>
+		<?php endif; ?>
+		<?php if( sizeof($this->orderedAccessList["ser"]) > 0) :?>
+	<li class="last"><a
+		href="<?php echo BASE_URL ?>default/environment/setenvir/mod/ser"
+		class="ser"><span><span><?php echo $this->_("Service")?></span></span></a></li>
+		<?php endif; ?>
+</ul>
+
+<br style="clear:both" />
+</div>
+
+		<?php if($this->module != "default"):
+		switch ($this->module){
+		    case "sadmin" : echo $this->partial ("environment/menusadminpartial.phtml","default"); break;
+		    case "prod" : echo $this->navigation()->menu()->setPartial(array("environment/menussubpartial.phtml","default")); break;// echo $this->partial ("environment/menusprodpartial.phtml","default",array("menupart" => $this->menupart)); break;
+		    case "pub" :echo $this->navigation()->menu()->setPartial(array("environment/menussubpartial.phtml","default")); break;
+		    case "ser" : echo $this->navigation()->menu()->setPartial(array("environment/menussubpartial.phtml","default"));break;
+		    default:break;
+		}
+		endif;
+		?>
+
+<script type="text/javascript">
+	//var currentModule = "";
+	$("div#main_menu a.<?php echo $this->module ?>").addClass("selected");
+</script>

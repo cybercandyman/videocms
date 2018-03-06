@@ -1,0 +1,269 @@
+<?php $this->placeholder("title")->set($this->_( "Billing edition") )?>
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL?>themes/system/css/tablesorter_blue.print.css" />
+
+<h1><?php echo $this->_("Billing of ") ?><?php echo $this->billing["date"] ?></h1>
+
+<style>
+<!--
+ul {
+	list-style: none;
+}
+
+label {
+	width: 100px;
+	display: block;
+	float: left;
+	font-weight: bold;
+	text-align: right;
+}
+
+span.value {
+	display: block;
+	float: left;
+	padding-left: 30px;
+}
+
+ul li {
+	clear: both;
+}
+-->
+</style>
+
+
+<table width="100%">
+	<tr valign="top">
+		<td width="50%">
+
+
+		<ul>
+
+			<li><label>&nbsp;</label><span class="value"><?php echo $this->seller["name"]?></span>
+			</li>
+			<li><label>SIRET :</label><span class="value"><?php echo $this->seller["siret"]?></span>
+			</li>
+			<li><label><?php echo $this->_("Adress")?> :</label> <span
+				class="value"> <?php echo $this->seller["adress1"]?><br />
+				<?php echo $this->seller["adress2"]?><br />
+				<?php echo $this->seller["cp"]?><br />
+				<?php echo $this->seller["city"]?><br />
+				<?php echo $this->seller["country"]?><br />
+
+			</span></li>
+			<li><label><?php echo $this->_("Tel")?></label><span class="value"><?php echo $this->seller["tel1"]?></span>
+			</li>
+			<li><label><?php echo $this->_("Fax")?></label><span class="value"><?php echo $this->seller["fax"]?></span>
+			</li>
+			<li><label><?php echo $this->_("Email")?></label><span class="value"><?php echo $this->seller["email"]?></span>
+			</li>
+		</ul>
+		</br>
+
+
+		</td>
+		<td style="border: 1px dotted black">
+		<ul>
+		<?php $currency = "Eur";?>
+			<li><label><?php echo $this->_("Date")?> :</label><span class="value"><?php 
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($this->billing["date"] , "Y-m");
+			echo $date->toString("F Y");
+			?></span></li>
+			<li><label><?php echo $this->_("Client")?> :</label><span
+				class="value"><?php echo $this->organization[0]["name"]?></span></li>
+			<li><label><?php echo $this->_("Production")?> :</label><span
+				class="value"><?php echo $this->production[0]["name"]?></span></li>
+			<li><label><?php echo $this->_("Currency")?> :</label><span
+				class="value"><?php echo $currency ?></span></li>
+			<li><label><?php echo $this->_("Adress")?> :</label> <span
+				class="value"> <?php echo $this->organization[0]["adress1"]?><br />
+				<?php echo $this->organization[0]["adress2"]?><br />
+				<?php echo $this->organization[0]["postalcode"]?><br />
+				<?php echo $this->organization[0]["city"]?><br />
+				<?php echo $this->organization[0]["country"]?><br />
+
+			</span></li>
+		</ul>
+		</td>
+	</tr>
+</table>
+
+
+
+
+<fieldset class="panel"><legend><?php echo $this->_("CDN (Content Delivery Network) consumption")?></legend>
+
+<div>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><?php echo $this->_ ( "Type" );?></th>
+			<th><?php echo $this->_ ( "Amount (Giga Bytes)" );?></th>
+			<th><?php echo $this->_ ( "Unitary price (Giga Bytes)" );?></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php $total = 0;?>
+
+		<tr class="odd">
+			<td><?php echo $this->_("Storage")?></td>
+			<td><?php 
+			$bs = new Zend_Measure_Binary( $this->billing["bytes_stored"],Zend_Measure_Binary::BYTE);
+			$bs->convertTo(Zend_Measure_Binary::GIGABYTE) ;
+			echo $bs->toString(2) ?></td>
+			<td><?php echo $this->billing["gb_stored"] ?></td>
+			<td><?php $tmp =  round($this->billing["bytes_stored_cost"],2);
+			echo $tmp ;$total += $tmp?></td>
+		</tr>
+		<tr class="even">
+
+			<td><?php echo $this->_("Streaming")?></td>
+			<td><?php 
+			$bst = new Zend_Measure_Binary( $this->billing["bytes_streamed_logs"],Zend_Measure_Binary::BYTE);
+			$bst->convertTo(Zend_Measure_Binary::GIGABYTE) ;
+			echo $bst->toString(2)
+			?> <br />
+			<?php //echo $this->billing["bytes_streamed_logs"] ?></td>
+			<td><?php echo $this->billing["gb_streamed"] ?></td>
+			<td><?php $tmp = round($this->billing["bytes_streamed_cost"],2);echo $tmp ;$total += $tmp ?></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+<fieldset class="panel"><legend><?php echo $this->_("Additional")?> </legend>
+<div><?php if( $this->billing["billing_status"] == 0):?> 
+<?php echo $this->sexybutton ("href", $this->_("Add a billing line"), array("add_new"), "javascript:void(0)",array("id"=>"btnBillingLine")) ?>
+
+			<?php endif;?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->billlines["+"] as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td width="70%"><?php echo $item["libelle"]?></td>
+			<td><?php echo number_format($item["amount"],2);
+			$total += $item["amount"]?></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+</div>
+</fieldset>
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Discount")?></legend>
+<div><?php if( $this->billing["billing_status"] == 0):?> 
+	<?php echo $this->sexybutton ("href", $this->_("Add a discount line"), array("add_new"), "javascript:void(0)",array("id"=>"btnDiscountLine")) ?>
+		<?php endif;?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"></th>
+
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->billlines["-"] as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td width="70%"><?php echo $item["libelle"]?></td>
+			<td><?php echo number_format($item["amount"],2);
+			$total -= $item["amount"]?></td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+
+</div>
+</fieldset>
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Total resume")?></legend>
+<div><?php if( $this->billing["billing_status"] == 0):?> 
+<?php if($this->billing["rate_discount"] == "" || $this->billing["rate_discount"] == 0):?>
+		<?php echo $this->sexybutton ("href", $this->_("Add  discount rate"), array("add_new"), "javascript:addDiscountRate()",array("id"=>"btnDiscountLine")) ?>
+		<?php else :?> 
+		<?php echo $this->sexybutton ("href", $this->_("Remove discount rate"), array("red_btn","delete"), $this->url(array("action"=>"setrate","rate"=>0)) ,array("id"=>"")) ?>
+		<?php endif;?> 
+<?php endif;?>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr class="odd">
+			<td><?php echo $this->_("Total billing")?></td>
+			<td><?php echo number_format($total,2) ?></td>
+		</tr>
+
+		<?php if($this->billing["rate_discount"] > 0):?>
+		<tr class="even">
+			<td><?php echo $this->_("Discount rate %")?></td>
+			<td><?php echo number_format($this->billing["rate_discount"],2) ; $total -= $total * ($this->billing["rate_discount"] / 100)?></td>
+		</tr>
+		<?php endif; ?>
+		<tr class="odd">
+			<td><?php echo $this->_("Vat %")?></td>
+			<td><?php echo number_format($this->billing["vatrate"],2)?></td>
+		</tr>
+
+
+
+		<tr class="resume">
+			<td><?php echo $this->_("Total billing + vat")?></td>
+			<td><span id="totBilling"> <?php  echo number_format(ZN_Math::ceiling($total+ ($total*($this->billing["vatrate"]/100)),2),2) ?></span></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+
+
+<script type="text/javascript">
+
+function addDiscountRate(){
+	if( rate = prompt("<?php echo $this->_("Indicate the disount rate to apply to this billing") ?>") ){
+		document.location.href = "<?php echo $this->url(array("action"=>"setrate"))?>" + "/rate/"+rate;
+	}
+}
+	jQuery(document).ready(function(){
+
+			$("#formDiscountLine, #formBillingLine").css("display","none");
+			$("#btnDiscountLine").toggle(function(){
+				$("#formDiscountLine").css("display","block");
+			},function(){
+				$("#formDiscountLine").css("display","none");
+			});
+			$("#btnBillingLine").toggle(function(){
+				$("#formBillingLine").css("display","block");
+			},function(){
+				$("#formBillingLine").css("display","none");
+			});
+	});
+
+</script>

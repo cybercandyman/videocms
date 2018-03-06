@@ -1,0 +1,14 @@
+
+
+
+<h1><?php echo $this->_("Description")?></h1>
+<h2>uri : <a href="<?php echo $this->uri ?>"><?php echo $this->uri ?></a></h2>
+<h2>rdf : <a href="<?php echo $this->url(array("action"=>"data")) ?>"><?php echo $this->url(array("action"=>"data")) ?></a></h2>
+
+<div id="description">
+
+<?php foreach($this->result["details"] as $field):?>
+<p><label><?php echo $field["code"]?></label><span><?php echo $field["value"] ?></span><p>
+<?php endforeach;?>
+
+</div>

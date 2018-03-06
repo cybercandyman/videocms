@@ -1,0 +1,54 @@
+<?php
+	// Variable pour les vues "partial"
+	$var = 	array(
+			"index"=>2,	
+			"idorder"=>$this->idorder,
+			"order"=>$this->order, 
+			"id_type"=>$this->id_type,
+			"chaptering"=>$this->chaptering,
+			"encoding"=>$this->encoding,
+			"subtitling"=>$this->subtitling,
+			"translation"=>$this->translation,
+			"watermarking"=>$this->watermarking,
+			"formats"=>$this->formats,
+			"module_source"=>$this->module_source,
+	        "publication"=>$this->publication
+	);
+	//
+	echo $this->partial("command/index_view_links.phtml", $var);	
+	echo $this->partial("command/index_view_scripts.phtml", $var);	
+	echo $this->partial("command/index_view_php_scripts.phtml", $var);	
+	//
+?>
+<!-- Title -->
+<?php $this->placeholder("title")->set($this->_("Services"))?>
+
+<form 
+		name="order_informations_form" 
+		method="post" 
+		action="<?php echo BASE_URL ?>
+		ser/command/update/key/<?php echo $this->key ?>
+		/programTitle/<?php echo urlencode($this->programTitle) ?>
+		/idprog/<?php echo $this->idprog ?>
+		/idorder/<?php echo $this->idorder ?>">		
+
+<?php 	
+	// Zone d'informations
+	echo $this->partial("command/informations.phtml", $var);	
+	// Zone des services	
+	echo $this->partial("command/chapitrage.phtml", $var);	
+	echo $this->partial("command/encoding.phtml", $var);	
+	echo $this->partial("command/subtitling.phtml", $var);	
+	echo $this->partial("command/translation.phtml", $var);	
+	echo $this->partial("command/watermarking.phtml", $var);
+	//
+?>
+
+	<p>
+						<label>&nbsp; 
+						</label> 
+						<?php echo $this->sexybutton ("submit", $this->_("Submit"), array("send_form_btn"), null,array("id"=>"submitButtonCommand")) ?> 
+						
+					</p>
+
+</form>

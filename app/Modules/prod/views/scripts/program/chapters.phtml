@@ -1,0 +1,391 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.anchor.event.js") ?>
+
+<?php $this->placeholder("title")->set($this->_("Chapters editing"))?>
+<div id="topPage"></div>
+	 			
+		<div id="chapterZone"></div>
+		<div id="ExtjsChapterZone"></div>
+		<h5><?php echo $this->_("Chapter form")?></h5>		
+		
+		<form method="post"	action="<?php echo BASE_URL ?>prod/program/savechapter"	id="chapterForm" >			
+		<fieldset class="small chapters" >	
+		<div id="divChapterForm" >			
+    	<table cellspacing="2" class="chapterForm">    	
+    		<tr valign="top">
+    			<td>
+    				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("1"))); ?>
+    			</td>
+    			<td>
+    				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("2"))); ?>
+    				
+    			</td>
+    			<td>
+    				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"filter"=>array("3"))); ?>    
+    				<div>
+    					<div class="formButton">
+
+        					<?php echo $this->sexybutton ("reset", $this->_("cancel"), array("send_form_btn"), null,array("id"=>"btnReset")) ?>
+                    		<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+                    		<?php echo $this->formHidden("idproduction",$this->idproduction,null); ?>    				
+                    	    <?php echo $this->formHidden("key",$this->key,null); ?> <?php echo $this->formHidden("idchapter",null,null); ?>
+                    	    <?php echo $this->formHidden("idview",$this->idview,null); ?>
+                    	    
+                	    </div>                	       
+    				</div>
+    			</td>
+    		</tr>
+    		
+    	</table>	
+    	</div>    		
+		</fieldset>
+		</form>
+		
+		<?php  echo $this->naction("semantic","program","prod") ?>
+	
+	<h5><?php echo $this->_("Objects manager")?></h5>
+	<div id="vmanagerZone">
+	<?php echo $this->naction("index","virtualmanager","tools",array("mode"=>"integrated")) ?>
+	</div>
+
+
+
+<p id="TimeCodeButtons" >	
+	<?php echo $this->sexybutton ("button", $this->_("get"), array("grey_btn"), null,array("id"=>"shotFromVideo")) ?>
+	&nbsp;
+	<?php echo $this->sexybutton ("button", $this->_("preview"), array("grey_btn"), null,array("id"=>"shotFromChapter")) ?>	
+</p>
+
+<div id="#images"></div>
+<div id="loadingChapters" style="display: none; text-align: center;"><img src="<?php echo BASE_URL ?>themes/system/pics/loading.gif" /></div>
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<p><span class="ui-icon ui-icon-alert"	style="float: left; margin: 0 7px 20px 0;"></span><?php echo  $this->_("Are you sure to delete this chapter ?") ?></p>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ;?>];
+var _destroyUrl	;
+
+function deleteChapter(idChapter){
+	_destroyUrl	= "<?php echo BASE_URL ?>prod/program/deletechapter/format/ajax/key/<?php echo $this->key ?>/id/"  + idChapter;
+	jQuery("#dialog").dialog('open');
+}
+
+function addExtract(){	
+	jQuery("#dialogCreateExtractcreate").dialog('open');
+}
+
+function editChapter(idChapter){
+	jQuery("#btnReset").trigger("click");
+	var childrenSelect = new Array();
+	for(var i =0;i < chaptersJS.length;i++){
+		if(chaptersJS[i]["id"] == idChapter){
+			jQuery.each(chaptersJS[i]["details"], function(i,item){
+					var id = item["type"] + "_" + item["idfgroup"];
+					var value = item["original_value"];
+					if(item["type"]=="BOOLEAN" || item["type"]=="COMPLEXBOOLEAN"){
+						jQuery("#chapterForm input[name=" + id + "][value="+value+"]" ).attr("checked","checked");
+					}
+					else{
+						jQuery("#chapterForm #" + id ).val(value);
+						if(item["parent"] != ""){
+							childrenSelect.push(item);
+						}
+					}												
+					
+			 });
+			 for(var y = 0; y < childrenSelect.length;y++){
+				 jQuery.each(chaptersJS[i]["details"], function(z,itemparent){
+						if(childrenSelect[y]["parent"] == itemparent["code"] ){
+							var idparent = itemparent["type"] + "_" + itemparent["idfgroup"];
+							jQuery("#chapterForm #" + idparent ).trigger("change",childrenSelect[y]["original_value"]);
+						}
+					});
+			 }			
+			 jQuery("#idchapter","#chapterForm").val(chaptersJS[i]["id"]);	
+			 try{	
+			 	loadChapterSemantics(chaptersJS[i]["id"]);
+			 }catch(error){}
+		}
+	}
+}
+
+function loadChapters(){	
+	jQuery.ajax({		
+		type:'get',		
+		url:'<?php echo BASE_URL ?>prod/program/chapterslist/idview/<?php echo $this->idview ?>/format/ajax/key/<?php echo $this->key ?>',
+		success:function(data){		
+			$('#chapterZone').html(data);
+		}
+	});	
+	try{
+		resetSurface();
+	}	catch(error){}
+}
+function gotoTimeCode(timecode){
+	svlObjectDialog.Content.SilverlightApp.pausePlayer();
+	svlObjectDialog.Content.SilverlightApp.gotoPlayer(timecode.substr(0,8));
+	svlObjectDialog.Content.SilverlightApp.playPlayer();
+}   
+
+var ChapterManagerloaded = false;
+function loadChapterManager(){
+	/*
+	if(ChapterManagerloaded === false){
+		ChapterManagerloaded = true;
+		$.ajax({
+			type:'get',
+			url:BASE_URL + 'tools/virtualmanager/index/mode/integrated',
+			success:function(content){				
+				jQuery("#vmanagerZone").html(content);
+			}
+		});
+	}else{
+	*/
+		var treeChapter = Ext.getCmp("treeChapter");
+		if(typeof(treeChapter) != "undefined"){			
+			Ext.getCmp("treeChapter").getStore().getProxy().extraParams.NODE_ID = 0;
+			Ext.getCmp("treeChapter").getStore().load();		
+		}
+		
+	//}
+
+}
+
+jQuery(document).ready(function(){ 
+					    
+	$("#chapterForm input[rel=timecode]").parent().parent().after($("#TimeCodeButtons"));
+	$("#vmanagerDialog").dialog({
+	    	modal: false,
+	    	autoOpen: false,
+	    	width:700,	    	
+	    	buttons: {	    				
+	    			'<?php echo $this->_("Close")?>':function(){
+	    				$(this).dialog('close');
+	    			}
+	    		}
+	});		
+	<?php if($this->_session->environment["module"] == "prod" ): ?>
+	var btnExtract = "<a href=\"javascript:$('#createExtractFormcreate #tcincreate').val($('#'+fieldTimeCode).val()); addExtract()\" title=\"<?php echo $this->_("Create extract") ?>\"><img src=\"<?php echo BASE_URL ?>themes/system/pics/cut.png\" class=\"icones\"/></a>";
+	$("#chapterForm input[rel=timecode]").after(btnExtract);
+    <?php endif;?>
+	  
+	$("#btnReset").click(function(){
+		$("#chapterForm").trigger("reset");
+		$("#chapterForm #idchapter").val("");	
+		try{
+			resetSurface();
+		}	catch(error){}
+	});	
+    jQuery.each(field_not_ok, function() {
+    	$("#" + this).addClass("input_nok");
+    });     
+    $("#chapterForm").submit(function(){
+    	$("#chapterForm").ajaxSubmit({
+    		dataType:'json',
+			success: function (response){							
+						var idchapter = response.idchapter;
+						try{
+				    		saveChapterSemantics(idchapter);
+     		    			resetSurface();
+						}
+						catch(error){}																				
+						$("#btnReset").trigger("click");	
+						loadChapters();						
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+		});				
+		return false;
+    });
+    $("#shotFromVideo").click(function(){
+    	svlObjectDialog.Content.SilverlightApp.pausePlayer();
+    	var timecode = svlObjectDialog.Content.SilverlightApp.getCurrentTimeCode();    	
+    	$("#"+fieldTimeCode).val(timecode);
+    }); 
+ 
+    $("#shotFromChapter").click(function(){
+    	gotoTimeCode($("#"+fieldTimeCode).val());
+    });  
+       
+    $("#virtualManager").dialog({
+    	modal: false,
+    	autoOpen:false,
+    	width:350,
+    	height:250,	
+    	buttons: {					
+    			'<?php echo $this->_("Close")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	       
+    
+	$("#dialog").dialog({		
+		bgiframe: true,
+		resizable: false,
+		height:140,
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete")?>': function() {
+				$(this).dialog('close');
+				$.ajax({
+					url:_destroyUrl,
+					success:function(response){
+						loadChapters();
+					}
+				});
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+	 $.anchor(function(anchor){
+		 var  reg=new  RegExp("/", "g");
+		 var  array = window.location.hash.split(reg);			 
+		 if(array.length >=2){			
+	 		jQuery(document).bind('chaptersLoaded',function(){					
+				 editChapter(array[1]);
+			 });			 	 		 		
+		 }
+		 if(array.length >= 1){
+			 if(array[0] != "#")
+		 	$(array[0]).parent().parent().trigger("click");	
+		 } 			 
+	});
+	loadChapters();
+	//loadChapterManager();
+
+});
+
+/**
+ * DROP FROM CHAPTER MANAGER AND EXPLORER SEMANTIC 
+ */
+Ext.onReady(function(){
+	try{
+	
+		var ChapterdropZone = new Ext.dd.DropTarget('divChapterForm',{
+			ddGroup:'DDZoneChapter',		
+			notifyDrop:function(source,e,data){
+
+				if(source.ddGroup == "DDZoneChapter"){
+					for(var i = 0; i < data.records.length ; i++){
+						var record = data.records[i];				
+						if(record.get('attributes_rel') == 'item'){
+							Ext.MessageBox.confirm('<?php echo $this->_("Confirmation","none") ?>',"<?php echo $this->_("Fill the form with this item ?","none") ?>",function(btnId,text,opt){
+								if(btnId == 'yes')					
+									getDataNode(record.get('id'),'item');
+							});			
+						}
+					}
+					
+				}
+				if(source.ddGroup == "semobject"){
+					Ext.MessageBox.confirm('<?php echo $this->_("Confirmation","none") ?>',"<?php echo $this->_("Fill the form with this item ?","none") ?>",function(btnId,text,opt){
+						if(btnId == 'yes')	{
+							for(var i = 0; i < data.records.length ; i++){
+								var record = data.records[i];	
+								var objectURI = record.get('id');
+								setChapterFormWithObjSem(objectURI)
+							}
+						}				
+							
+					});			
+				}
+				
+				
+						
+			}
+		});	
+		ChapterdropZone.addToGroup('semobject');
+		
+	}
+	catch(error){}
+});
+
+/**
+ * GET DATA FROM THE OBJECT URI AND GET MAPPING BETWEEN GCV FIELDS AND THE ONTO CLASS
+ */
+function setChapterFormWithObjSem(objectURI){
+
+	  Ext.Ajax.request({
+		    url: BASE_URL + 'tools/semantic/getobjectvaluewithmapping',
+		    params: {
+		        objectURI: objectURI		        
+		    },
+		    success: function(response){
+		        var text = response.responseText;
+		        setFormData(jQuery.parseJSON( text ))	;	       
+		            
+		    }
+		});    
+	
+}
+function setFormData(classMap){
+	
+	jQuery("#btnReset").trigger("click");
+	var childrenSelect = new Array();
+	if(typeof(classMap['classes']) != 'undefined'){
+
+		$.each( classMap['classes'], function(index, i) { 
+			$.each(i.mapping, function(index, y) { 
+				if(typeof(y.value) != 'undefined'){
+					jQuery("[rel="+ y.fieldcode + "]","#divChapterForm").val(y.value);
+		 		}
+			} );
+		} );			
+	}	
+}
+//]]>
+
+
+/**
+if(chaptersJS[i]["id"] == idChapter){
+jQuery.each(chaptersJS[i]["details"], function(i,item){
+		var id = item["type"] + "_" + item["idfgroup"];
+		var value = item["original_value"];
+		if(item["type"]=="BOOLEAN" || item["type"]=="COMPLEXBOOLEAN"){
+			jQuery("#chapterForm input[name=" + id + "][value="+value+"]" ).attr("checked","checked");
+		}
+		else{
+			jQuery("#chapterForm #" + id ).val(value);
+			if(item["parent"] != ""){
+				childrenSelect.push(item);
+			}
+		}												
+		
+ });
+ for(var y = 0; y < childrenSelect.length;y++){
+	 jQuery.each(chaptersJS[i]["details"], function(z,itemparent){
+			if(childrenSelect[y]["parent"] == itemparent["code"] ){
+				var idparent = itemparent["type"] + "_" + itemparent["idfgroup"];
+				jQuery("#chapterForm #" + idparent ).trigger("change",childrenSelect[y]["original_value"]);
+			}
+		});
+ }			
+ jQuery("#idchapter","#chapterForm").val(chaptersJS[i]["id"]);	
+ try{	
+ 	loadChapterSemantics(chaptersJS[i]["id"]);
+ }catch(error){}
+}
+ */
+</script>
+<div id="extjsVmanagerDialog"></div>
+<div id="vmanagerDialog"></div>
+<div style="display:none">
+<?php $fkey = isset($this->programFrom) && sizeof($this->programFrom)>0 ? $this->programFrom["keyprog"]:null ?>
+<?php  echo $this->partial('program/dialogextract.phtml',"prod", array("key"=>$this->key, "fkey" => $fkey ,"infosversions"=>$this->infosversions,"method"=>"create","title"=> $this->_("Create extract"))); ?>
+</div>
+
+<?php $this->block()->end(); ?>

@@ -1,0 +1,14 @@
+
+<!-- 
+<ul id="crumbs">
+<li><a href="#">Home</a></li>
+<li><a href="#">Main section</a></li>
+<li><a href="#">Sub section</a></li>
+<li><a href="#">Sub sub section</a></li>
+<li>The page you are on right now</li>
+</ul>
+-->
+
+<ul id="crumbs">
+<?php echo $this->navigation()->breadcrumbs()->setPartial(array('breadcrumbs.phtml', 'default'));; ?>
+</ul>

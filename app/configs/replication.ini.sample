@@ -1,0 +1,6 @@
+wsdl = https://remote-gcv-app/api/appinterface/wsdl
+wsdl_login = silverlight	
+wsdl_password = silverlight
+videoRepository = c:/videos/ ; path to the local video
+deletevideo = false; delete video after upload
+streamercode = 1; use for upload video // May be a cdn or ftp/scp gcv server 

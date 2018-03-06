@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF PUBLIC "-//DUBLIN CORE//DCMES DTD 2002/07/31//EN"
+    "http://dublincore.org/documents/2002/07/31/dcmes-xml/dcmes-xml-dtd.dtd">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:media="http://purl.org/media#">
+         
+  <rdf:Description rdf:about="http://<?php echo $_SERVER["HTTP_HOST"]?><?php echo $_SERVER["REQUEST_URI"]?>">
+  	<dc:type>chapter</dc:type>
+	<dc:identifier><?php echo $this->getParam("idchapter")?></dc:identifier>
+	<media:position><?php echo $this->chapter->timecode?></media:position>
+  </rdf:Description>
+  
+</rdf:RDF>

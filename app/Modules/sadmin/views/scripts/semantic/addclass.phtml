@@ -1,0 +1,21 @@
+<?php $this->placeholder ( "title" )->set ( $this->_ ( "Class mapping" ) )?>
+
+<form action="" method="post">
+
+	
+<fieldset><legend></legend>
+
+
+<p><label><?php echo $this->_ ( "Class" )?></label> <span><?php echo $this->formSelect("classname",null,null,$this->ontoclasslist)?></span></p>
+
+
+<p><label>&nbsp;</label> <span> <?php echo $this->sexybutton ("submit", $this->_("next"), array("send_form_btn"), null) ?></span></p>
+
+
+</fieldset>
+	
+
+</form>
+
+<?php echo $this->systemMessage( $this->_("Choose a class in the list and click on next to begin the mapping."),1)?>
+

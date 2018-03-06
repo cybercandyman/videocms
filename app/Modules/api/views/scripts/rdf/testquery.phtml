@@ -1,0 +1,19 @@
+
+<form action="" method="get">
+
+<textarea rows="20" cols="100" name="query">
+
+<?php echo  $this->getParam("query","")?>
+
+</textarea>
+<br />
+<input type="submit" name="submit"> 
+
+</form>
+
+
+<div id="results">
+
+	<?php Zend_Debug::dump($this->results)?>
+
+</div>

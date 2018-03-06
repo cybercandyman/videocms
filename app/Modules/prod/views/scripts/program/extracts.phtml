@@ -1,0 +1,197 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php if($this->_session->environment["module"] == "prod") :?>
+<?php echo $this->sexybutton ("href", $this->_("create new extract"), array("add_new"), "javascript:addExtract()" ,array("id"=>"")) ?>
+
+<table id="extractsList" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><?php echo $this->_ ( "Title" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->extracts as $extract): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>
+			<ul>
+				<li class="draggableItem">
+				<div class="sortableItem">
+				<span
+					class="extract_<?php echo $extract["keyprog"] ?>"><?php echo $extract["details"]["title"]["original_value"]?></span>
+				</div>
+				</li>
+			</ul>
+			</td>
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit"
+					href="<?php echo BASE_URL ?>prod/program/manage/key/<?php echo $extract["keyprog"] ?>"
+					title="<?php echo $this->_("edit")?>"><?php echo $this->_("edit")?></a></li>
+			</ul>
+			</div>
+
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+<?php endif;?>
+<div class="sortExtract" id="div_promo_Extracts">
+<h3><?php echo $this->_("Promo")?></h3>
+<ul class="sortContent">
+<?php $lkey  = array();
+foreach($this->promoListExtract as $extract):?>
+	<li class="ui-state-default" >
+	<div class="sortableItem" >	
+		<?php if($this->_session->environment["module"] == "prod") :?>
+		<div class="cancel" style="float:right; cursor: pointer;" onclick="removeItem(this)"><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+		<?php endif;?>
+		<span  class="extract_<?php echo $extract["keyprog"] ?>"><?php echo $extract["details"]["title"]["original_value"]?></span>
+	&nbsp;		
+	</div>
+	</li>
+	<?php 
+	$lkey[]  = $extract["keyprog"];
+	endforeach;?>
+</ul>
+<?php if($this->_session->environment["module"] == "pub" && sizeof($lkey)>0) :?>
+	<a href="<?php echo BASE_URL ?>pub/playlist/qcreate?key=<?php echo $this->key ?>&type=promo&keyprog[]=<?php echo implode("&keyprog[]=",$lkey)?>"><?php echo $this->_("Create playlist")?></a>
+<?php endif;?>
+
+</div>
+
+
+
+
+<div class="sortExtract" id="div_top_Extracts">
+<h3><?php echo $this->_("Résumé")?></h3>
+<ul class="sortContent">
+<?php $lkey  = array();
+foreach($this->topListExtract as $extract):?>
+	<li class="ui-state-default">
+	<div class="sortableItem">
+		<?php if($this->_session->environment["module"] == "prod") :?>
+		<div class="cancel" style="float: right; cursor: pointer"	onclick="removeItem(this)"><img border="0"	src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+        <?php endif;?>
+	<span class="extract_<?php echo $extract["keyprog"] ?>"><?php echo $extract["details"]["title"]["original_value"]?></span>
+	&nbsp;
+		</div>
+	</li>
+	<?php 
+	$lkey[]  = $extract["keyprog"];
+	endforeach;?>
+</ul>
+<?php if($this->_session->environment["module"] == "pub"  && sizeof($lkey)>0) :?>
+	<a href="<?php echo BASE_URL ?>pub/playlist/qcreate?key=<?php echo $this->key ?>&type=top&keyprog[]=<?php echo implode("&keyprog[]=",$lkey)?>"><?php echo $this->_("Create playlist")?></a>
+<?php endif;?>
+</div>
+
+<div class="sortExtract" id="div_vb_Extracts">
+<h3><?php echo $this->_("Version B")?></h3>
+<ul class="sortContent">
+<?php 
+$lkey  = array();
+foreach($this->groupbListExtract as $extract):?>
+	<li class="ui-state-default">
+	
+	
+	
+	<div class="sortableItem">
+	<?php if($this->_session->environment["module"] == "prod") :?>
+	<div class="cancel" style="float: right; cursor: pointer"
+		onclick="removeItem(this)"><img border="0"
+		src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+	<?php endif;?>
+	<span
+		class="extract_<?php echo $extract["keyprog"] ?>"><?php echo $extract["details"]["title"]["original_value"]?></span>
+	&nbsp;
+
+	</div>
+	</li>
+	<?php 
+	$lkey[]  = $extract["keyprog"];
+	endforeach;?>
+</ul>
+<?php if($this->_session->environment["module"] == "pub"  && sizeof($lkey)>0) :?>
+	<a href="<?php echo BASE_URL ?>pub/playlist/qcreate?key=<?php echo $this->key ?>&type=b&keyprog[]=<?php echo implode("&keyprog[]=",$lkey)?>"><?php echo $this->_("Create playlist")?></a>
+<?php endif;?>
+</div>
+
+<?php if($this->_session->environment["module"] == "prod") :?>
+<script type="text/javascript">
+
+
+function removeItem(item){
+	jQuery(item).parent().parent().remove();	
+	saveContentOrdering();
+}
+function saveContentOrdering(){
+	jQuery(".sortContent").each(function(){
+		var listExtract = new Array();		
+		var type = $(this).parent().attr("id");
+		$("li div span",this).each(function(){
+			listExtract.push( $(this).attr("class") );
+		});	
+		var myObject = {
+			'extracts[]':listExtract
+		};
+		var encodedParam = jQuery.param(myObject) + "&key=<?php echo $this->key ?>&type="+type;
+		jQuery.ajax({
+			type:'post',
+			url:'<?php echo BASE_URL ?>prod/program/saveextractlist',
+			data:encodedParam
+		});	
+	});
+}
+jQuery(document).ready(function(){	
+
+	$(".sortContent").sortable({			
+		stop: function(event, ui) { 
+    		var result = ui.item.find("div.cancel");		
+    		if(result.length == 0){	
+    				$("span",ui.item) .parent().prepend('<div class="cancel" style="float:right;cursor:pointer" onclick="removeItem(this)" ><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"/></div>');
+    			}
+		},		
+		connectWith: 'ul.sortContent',	  
+		update: function(event, ui) {
+			$(".sortContent li").addClass("ui-state-default");
+			saveContentOrdering();
+		},		
+		 tolerance: 'pointer',
+		 placeholder: 'ui-state-highlight' ,
+		 dropOnEmpty: true,
+		 forcePlaceholderSize: true			 
+	});	
+	$(".draggableItem").draggable({
+		connectToSortable: 'ul.sortContent',
+		helper: 'clone',
+		iframeFix: true,
+		snap: true,
+		revert: 'invalid'
+					
+	});
+
+	
+});
+
+function addExtract(){	
+	jQuery("#dialogCreateExtractcreate").dialog('open');
+}
+
+
+</script>
+
+
+<br style="clear: both" />
+
+<?php echo $this->systemMessage( $this->_("Drag extract from the list.") ,1)?>
+<?php endif; ?>
+<br style="clear: both" />
+<?php echo $this->partial('program/dialogextract.phtml',"prod", array("key"=>$this->key,"infosversions"=>$this->infosversions,"method"=>"create","title"=> $this->_("Create extract"))); ?>
+
+<?php $this->block()->end(); ?>
+
+

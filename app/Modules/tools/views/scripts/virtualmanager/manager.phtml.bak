@@ -1,0 +1,65 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.modified.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.contextmenu.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.metadata.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.color.js") ?>
+
+<script type="text/javascript">
+	var site = { BASE_URL : "<?php echo BASE_URL ?>" };
+	Ext.Loader.setConfig({ enabled: true });
+</script>
+
+<div id="chaptermanager"></div>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/packs/ontoapp/chaptermanager.js") ?>
+<br style="clear: both" />
+
+<script type="text/javascript">
+//<![CDATA[  
+
+function getDataNode(id_item,type){
+	jQuery.ajax({
+		type:"post",
+		url:"<?php echo BASE_URL ?>tools/virtualmanager/getitemValues",
+		data:{id:id_item,type:type},
+		dataType:"json",
+		success:function(data, textStatus, XMLHttpRequest){				
+			setFieldsFromItem(data);
+		}
+	});
+}
+
+function setFieldsFromItem(kb_item){	
+	// Reset form
+	//$("button[type=reset]").trigger("click");	
+	vitem = kb_item;
+	jQuery.each(kb_item, function(i,field){			
+		if(field.type=='BOOLEAN' || field.type=="COMPLEXBOOLEAN"){
+			jQuery("input[rel="+ field.code +"]").removeAttr('checked');			
+			jQuery("input[rel="+ field.code +"][value="+ field.original_value +"]").attr('checked','checked');
+		}	
+		else{
+			jQuery("#chapterForm [rel="+ field.code +"]").val(field.original_value);
+			
+			jQuery.each(kb_item, function(y,fieldtmp){	
+    			if(field.code == fieldtmp.parent)
+    				jQuery("#chapterForm [rel="+ field.code +"]").trigger("change",fieldtmp.original_value);		
+    		});			
+		}				
+	});	
+}
+jQuery("#divChapterForm").droppable({
+	accept: ".kb_draggable_item",
+	over: function(event, ui) { 
+		if(TmpDragging.isdragging){			
+			TmpDragging.isdragging = false;
+			if(confirm("<?php echo $this->_("Fill the form with this item ?","none") ?>")){						
+				getDataNode(TmpDragging.id,"item");				
+			}
+		}				
+	}
+
+});
+
+var stat = <?php echo $this->rubriquesjs?>;
+//]]>
+</script>

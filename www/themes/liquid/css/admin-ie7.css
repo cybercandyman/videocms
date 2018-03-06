@@ -1,0 +1,11 @@
+fieldset.panel{	
+	position:relative;
+	background: transparent url(layout/site/fidelsetbg.gif) repeat-x top left;
+}
+fieldset.panel legend {
+	border-bottom:1px solid white;
+	
+}
+
+#knowledgeTree li[rel=item]  a ins { background-image:url(/www/themes/system/pics/file.png); }
+#explorerPanel li[rel=file]  a ins { background-image:url(/www/themes/system/pics/file.png); }

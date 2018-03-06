@@ -1,0 +1,181 @@
+
+<?php $this->placeholder("title")->set($this->_("List of views") )?>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.min.js"	) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tablesorter.pager.js" ) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js"	) ?>
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.meio.mask.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+
+
+
+<?php echo $this->sexybutton ("href", $this->_("create view"), array("add_new"), "javascript:void(0)"   ,array("onclick"=>"showAddForm()")) ?>
+<?php $locales = $this->simpleTable("locales","","code","libelle"); ?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><?php echo $this->_ ( "Name" );	?></th>
+			<th><?php echo $this->_ ( "Code" );	?></th>
+			<th><?php echo $this->_ ( "Locale" );?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php
+	for($i = 0; $i < sizeof ( $this->views ); $i ++) :
+	?>
+
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+
+			<td><?php echo $this->views [$i] ["viewname"];?></td>
+			<td><?php echo $this->views [$i] ["viewcode"]; ?></td>
+			<td><?php echo $locales[ $this->views [$i] ["locale"]] ?> (<?php echo $this->views [$i] ["locale"]; ?>)</td>
+			<td>
+
+			<div class="actions_menu"><?php if($this->views [$i] ["editable"] == 1):?>
+			
+			<ul>
+			
+				<li><a class="edit" href="javascript:void(0);" onclick="showEditForm('#editForm_<?php echo $this->views [$i] ["idview"] ?>');" title="<?php echo $this->_("edit") ?>"> <?php echo $this->_("edit") ?></a></li>
+				
+				<li>
+												
+				<a class="delete" href="<?php echo BASE_URL ?>pub/tools/deleteview/idview/<?php echo $this->views [$i] ["idview"] ?>" class="delete" title="<?php echo $this->_("delete")?>"><?php echo $this->_("delete")?></a>
+				</li>
+				
+				
+			</ul>
+			<?php endif;?></div>
+
+
+
+
+			<div id="editForm_<?php echo $this->views [$i] ["idview"]; ?>"	style="display: none">
+				
+			<form action="<?php echo BASE_URL ?>pub/tools/updateview" method="post" class="editViewForm">
+			
+			<fieldset>
+			<p><label><?php echo $this->_("Name");?></label> <span><?php echo $this->formText("viewname", $this->views [$i] ["viewname"],array("class"=>"validate[required,custom[noSpecialCaracters]]"))?>
+			</span></p>
+			<p><label><?php echo $this->_("Code");?></label> <span><?php echo $this->formText("viewcode", $this->views [$i] ["viewcode"],array("class"=>"validate[required,custom[noSpecialCaracters]]","alt"=>"zzzzzzzzzz"))?>
+			</span></p>
+			<p><label><?php echo $this->_("Locale");?></label> <span><?php echo $this->formSelect('locale',$this->views [$i] ["locale"], null, $locales); ?></span>
+			</p>
+			<p><label>&nbsp; <?php echo $this->formHidden("idview",$this->views [$i] ["idview"],null)  ?>
+			</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+			</fieldset>
+			
+			</form>
+			
+
+			</div>
+
+			</td>
+		</tr>
+
+		<?php endfor; ?>
+	</tbody>
+</table>
+
+
+
+<div id="addTrandlation" style="display: none;">
+
+
+<form action="<?php echo BASE_URL ?>pub/tools/addview" method="post" id="addViewForm">
+<fieldset>
+<p><label><?php echo $this->_("Name");?></label> <span><?php echo $this->formText("viewname","",array("class"=>"validate[required]") )?>
+</span></p>
+<p><label><?php echo $this->_("Code");?></label> <span><?php echo $this->formText("viewcode","",array("class"=>"validate[required,custom[noSpecialCaracters]]","alt"=>"zzzzzzzzzz"))?>
+</span></p>
+<p><label><?php echo $this->_("Locale");?></label> <span><?php echo $this->formSelect('locale',$this->_session->locale, null, $locales); ?></span>
+</p>
+<p><label>&nbsp; </label> <span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+</fieldset>
+</form>
+</div>
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span> <?php echo  $this->_("This view will be deleted. Are you sure ?") ?>
+
+</p>
+
+</div>
+
+<div id="editTranslation"></div>
+
+<script type="text/javascript">
+//<![CDATA[ 
+function showEditForm(content){
+
+	$("#editTranslation").html($(content).html());
+	$("#addTrandlation").css("display","none");
+	$("#editTranslation").css("display","block");
+	
+}
+function showAddForm(){
+
+	$("#addTrandlation").css("display","block");
+	$("#editTranslation").css("display","none");
+
+}
+jQuery(document).ready(function() 
+    { 
+        $("#data").tablesorter(); 
+        var _destroyUrl;    	
+        $('a.delete').click(function() {
+        	$('#dialog').dialog('open');
+        	_destroyUrl = $(this).attr("href");
+        	return false;
+        });
+        $("#addViewForm").validationEngine();  
+        $(".editViewForm").live("hover",
+        	function(){
+        	if (!$(this).data("init")) {
+        		$(this).data("init", true);
+        		$(this).validationEngine();
+        	}  
+        });
+
+        $('input:text').live("hover",function(){
+        	if (!$(this).data("init")) {
+				$(this).data("init", true);
+            	$(this).setMask();
+        	}
+        }); 
+        $("#dialog").dialog({
+    		
+    		bgiframe: true,
+    		resizable: false,
+    		
+    		modal: true,
+    		autoOpen:false,
+    		overlay: {
+    			backgroundColor: '#000',
+    			opacity: 0.5
+    		},
+    		buttons: {
+    			'<?php echo $this->_("Delete")?>': function() {
+    				$(this).dialog('close');
+    				document.location.href = (_destroyUrl);				
+    			},
+    			<?php echo $this->_("Cancel")?>: function() {
+    				$(this).dialog('close');
+    			}
+    		}
+    	});
+    	
+    } 
+); 
+//]]>
+</script>

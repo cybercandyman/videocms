@@ -1,0 +1,340 @@
+CREATE INDEX programs_idx1 on programs(state);
+CREATE INDEX programs_idx2 on programs(idpublication);
+CREATE INDEX programs_idx3 on programs(idprog_programs_of);
+CREATE INDEX programs_idx4 on programs(idprog);
+CREATE INDEX programs_idx5 on programs(idproduction);
+CREATE INDEX programs_idx6 on programs(idextfilm);
+CREATE INDEX programs_idx7 on programs(keyprog);
+CREATE INDEX programs_idx8 on programs(duration);
+CREATE INDEX programs_idx9 on programs(date);
+CREATE INDEX programs_idx10 on programs(tcin);
+CREATE INDEX programs_idx11 on programs(tcout);
+CREATE INDEX programs_idx12 on programs(type_extract);
+CREATE INDEX programs_idx13 on programs(viewof);
+
+CREATE INDEX programs_publications_idx1 on programs_publications(idpublication);
+
+CREATE INDEX programs_translations_idx1 on programs_translations(idprog);
+CREATE INDEX programs_translations_idx2 on programs_translations(id);
+CREATE INDEX programs_translations_idx3 on programs_translations(idview);
+
+CREATE INDEX programs_fields_idx1 on programs_fields(idfield);
+CREATE INDEX programs_fields_idx2 on programs_fields(title);
+CREATE INDEX programs_fields_idx3 on programs_fields(code);
+CREATE INDEX programs_fields_idx4 on programs_fields(type);
+CREATE INDEX programs_fields_idx5 on programs_fields(table_ref);
+CREATE INDEX programs_fields_idx6 on programs_fields(parent);
+CREATE INDEX programs_fields_idx7 on programs_fields(mask);
+CREATE INDEX programs_fields_idx8 on programs_fields(default_value);
+CREATE INDEX programs_fields_idx9 on programs_fields(help);
+CREATE INDEX programs_fields_idx10 on programs_fields(is_editable);
+CREATE INDEX programs_fields_idx11 on programs_fields(category);
+CREATE INDEX programs_fields_idx12 on programs_fields(indexable);
+
+
+CREATE INDEX programs_fields_group_fields_idx1 on programs_fields_group_fields(idfield);
+CREATE INDEX programs_fields_group_fields_idx2 on programs_fields_group_fields(idfgroup);
+CREATE INDEX programs_fields_group_fields_idx3 on programs_fields_group_fields(order_ext);
+CREATE INDEX programs_fields_group_fields_idx4 on programs_fields_group_fields(cat);
+
+CREATE INDEX productions_idx1 on productions(idproduction);
+CREATE INDEX productions_idx2 on productions(idgroup);
+CREATE INDEX productions_idx3 on productions(isdeleted);
+
+CREATE INDEX programs_fields_group_idx1 on programs_fields_group(idgroup);
+CREATE INDEX programs_fields_group_idx2 on programs_fields_group(name);
+CREATE INDEX programs_fields_group_idx3 on programs_fields_group(category);
+CREATE INDEX programs_fields_group_idx5 on programs_fields_group(system_gcv);
+CREATE INDEX programs_fields_group_idx6 on programs_fields_group(is_editable);
+
+
+
+
+
+
+
+
+
+-- Vues matérialisées
+
+-- Renommer programsview en programsview_v
+ALTER VIEW programsview RENAME to programsview_v;
+
+
+CREATE TABLE matviews (
+  mv_name NAME NOT NULL PRIMARY KEY
+  , v_name NAME NOT NULL
+  , last_refresh TIMESTAMP WITH TIME ZONE
+);
+
+CREATE OR REPLACE FUNCTION create_matview(NAME, NAME)
+ RETURNS VOID
+ SECURITY DEFINER
+ LANGUAGE plpgsql AS '
+ DECLARE
+     matview ALIAS FOR $1;
+     view_name ALIAS FOR $2;
+     entry matviews%ROWTYPE;
+ BEGIN
+     SELECT * INTO entry FROM matviews WHERE mv_name = matview;
+ 
+     IF FOUND THEN
+         RAISE EXCEPTION ''Materialized view ''''%'''' already exists.'',
+           matview;
+     END IF;
+ 
+     EXECUTE ''REVOKE ALL ON '' || view_name || '' FROM PUBLIC''; 
+ 
+     EXECUTE ''GRANT SELECT ON '' || view_name || '' TO PUBLIC'';
+ 
+     EXECUTE ''CREATE TABLE '' || matview || '' AS SELECT * FROM '' || view_name;
+ 
+     EXECUTE ''REVOKE ALL ON '' || matview || '' FROM PUBLIC'';
+ 
+     EXECUTE ''GRANT SELECT ON '' || matview || '' TO PUBLIC'';
+ 
+     INSERT INTO matviews (mv_name, v_name, last_refresh)
+       VALUES (matview, view_name, CURRENT_TIMESTAMP); 
+     
+     RETURN;
+ END
+ ';
+ 
+ CREATE OR REPLACE FUNCTION drop_matview(NAME) RETURNS VOID
+ SECURITY DEFINER
+ LANGUAGE plpgsql AS '
+ DECLARE
+     matview ALIAS FOR $1;
+     entry matviews%ROWTYPE;
+ BEGIN
+ 
+     SELECT * INTO entry FROM matviews WHERE mv_name = matview;
+ 
+     IF NOT FOUND THEN
+         RAISE EXCEPTION ''Materialized view % does not exist.'', matview;
+     END IF;
+ 
+     EXECUTE ''DROP TABLE '' || matview;
+     DELETE FROM matviews WHERE mv_name=matview;
+ 
+     RETURN;
+ END
+ ';
+ 
+ 
+ CREATE OR REPLACE FUNCTION refresh_matview(name) RETURNS VOID
+ SECURITY DEFINER
+ LANGUAGE plpgsql AS '
+ DECLARE 
+     matview ALIAS FOR $1;
+     entry matviews%ROWTYPE;
+ BEGIN
+ 
+     SELECT * INTO entry FROM matviews WHERE mv_name = matview;
+ 
+     IF NOT FOUND THEN
+         RAISE EXCEPTION ''Materialized view % does not exist.'', matview;
+    END IF;
+
+    EXECUTE ''DELETE FROM '' || matview;
+    EXECUTE ''INSERT INTO '' || matview
+        || '' SELECT * FROM '' || entry.v_name;
+
+    UPDATE matviews
+        SET last_refresh=CURRENT_TIMESTAMP
+        WHERE mv_name=matview;
+
+    RETURN;
+END
+';
+
+SELECT create_matview('programsview', 'programsview_v');
+
+CREATE FUNCTION programsview_refresh_row(programsview.idprog%TYPE) RETURNS VOID
+SECURITY DEFINER
+LANGUAGE 'plpgsql' AS '
+BEGIN
+  DELETE FROM programsview WHERE idprog = $1;
+  INSERT INTO programsview SELECT * FROM programsview_v WHERE idprog = $1;
+  RETURN;
+END
+';
+
+
+ 
+-- programs triggers
+CREATE FUNCTION programs_tr_up_vm() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  IF OLD.idprog = NEW.idprog THEN
+    PERFORM programsview_refresh_row(NEW.idprog);
+  ELSE
+    PERFORM programsview_refresh_row(NEW.idprog);
+    PERFORM programsview_refresh_row(OLD.idprog) ;
+  END IF;
+  RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_tr_dt_vm() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  PERFORM programsview_refresh_row(OLD.idprog) ;
+  RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_tr_dt_it() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  PERFORM programsview_refresh_row(NEW.idprog) ;
+  RETURN NULL;
+END
+';
+
+CREATE TRIGGER programs_tr_up AFTER UPDATE ON programs
+  FOR EACH ROW EXECUTE PROCEDURE programs_tr_up_vm(); 
+
+
+CREATE TRIGGER programs_tr_dt AFTER DELETE ON programs
+  FOR EACH ROW EXECUTE PROCEDURE programs_tr_dt_vm(); 
+
+
+CREATE TRIGGER programs_tr_it AFTER INSERT ON programs
+  FOR EACH ROW EXECUTE PROCEDURE programs_tr_dt_it(); 
+  
+  
+-- programs_fields triggers
+/*
+CREATE FUNCTION programs_fields_up() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+   PERFORM refresh_matview(''programsview'');
+   RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_fields_dl() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+   PERFORM refresh_matview(''programsview'');
+   RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_fields_in() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  PERFORM refresh_matview(''programsview'');
+  RETURN NULL;
+END
+';
+
+CREATE TRIGGER programs_fields_tr_up AFTER UPDATE ON programs_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_up(); 
+
+
+CREATE TRIGGER programs_fields_tr_dl AFTER DELETE ON programs_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_dl(); 
+
+
+CREATE TRIGGER programs_fields_tr_in AFTER INSERT ON programs_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_in(); 
+*/
+  
+  -- programs_translations triggers
+CREATE FUNCTION programs_translations_up() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+ IF OLD.idprog = NEW.idprog THEN
+    PERFORM programsview_refresh_row(NEW.idprog);
+  ELSE
+    PERFORM programsview_refresh_row(NEW.idprog);
+    PERFORM programsview_refresh_row(OLD.idprog) ;
+  END IF;  
+  RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_translations_dl() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+   PERFORM programsview_refresh_row(OLD.idprog) ;
+   RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_translations_in() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  PERFORM programsview_refresh_row(NEW.idprog) ;
+  RETURN NULL;
+END
+';
+
+CREATE TRIGGER programs_translations_tr_up AFTER UPDATE ON programs_translations
+  FOR EACH ROW EXECUTE PROCEDURE programs_translations_up(); 
+
+
+CREATE TRIGGER programs_translations_tr_dl AFTER DELETE ON programs_translations
+  FOR EACH ROW EXECUTE PROCEDURE programs_translations_dl(); 
+
+
+CREATE TRIGGER programs_translations_tr_in AFTER INSERT ON programs_translations
+  FOR EACH ROW EXECUTE PROCEDURE programs_translations_in(); 
+  
+  
+  
+--  programs_fields_group_fields
+CREATE FUNCTION programs_fields_group_fields_up() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+ IF OLD.idgroup = 1 THEN
+   PERFORM refresh_matview(''programsview'') ;
+  END IF;  
+  RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_fields_group_fields_dl() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+   IF OLD.idgroup = 1 THEN
+   PERFORM refresh_matview(''programsview'') ;
+  END IF;  
+   RETURN NULL;
+END
+';
+
+CREATE FUNCTION programs_fields_group_fields_in() RETURNS TRIGGER
+SECURITY DEFINER LANGUAGE 'plpgsql' AS '
+BEGIN
+  IF NEW.idgroup = 1 THEN
+   PERFORM refresh_matview(''programsview'') ;
+  END IF;  
+  RETURN NULL;
+END
+';
+
+CREATE TRIGGER programs_fields_group_fields_tr_up AFTER UPDATE ON programs_fields_group_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_group_fields_up(); 
+
+
+CREATE TRIGGER programs_fields_group_fields_tr_dl AFTER DELETE ON programs_fields_group_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_group_fields_dl(); 
+
+
+CREATE TRIGGER programs_fields_group_fields_tr_in AFTER INSERT ON programs_fields_group_fields
+  FOR EACH ROW EXECUTE PROCEDURE programs_fields_group_fields_in(); 
+  
+  
+CREATE INDEX programsview_idx1 on programsview(idprog);
+CREATE INDEX programsview_idx2 on programsview(idprog_programs_extract);
+CREATE INDEX programsview_idx3 on programsview(idproduction);
+CREATE INDEX programsview_idx4 on programsview(keyprog);
+CREATE INDEX programsview_idx5 on programsview(state);
+CREATE INDEX programsview_idx6 on programsview(idpublication);
+CREATE INDEX programsview_idx7 on programsview(idprog_programs_of);
+CREATE INDEX programsview_idx8 on programsview(idfield);
+CREATE INDEX programsview_idx9 on programsview(code);
+CREATE INDEX programsview_idx10 on programsview(programstate);

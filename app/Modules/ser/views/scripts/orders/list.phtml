@@ -1,0 +1,312 @@
+<?php
+
+	//$filtred = false;
+	//$in_progress_cb = false;	
+	echo $this->partial("orders/list_orders_scripts.phtml");		
+	echo $this->partial("prod/list_links.phtml");
+	echo $this->partial("prod/list_php_scripts.phtml");
+?>
+
+<?php $this->placeholder("title")->set($this->_("Orders List"))?>
+
+<?php 
+	//
+	$services_lines = new services_orders_lines();
+	$programs_access = new program();
+	//
+?>
+
+<div id="moreCriteria">
+<h3><?php echo $this->_("More criterias")?></h3>
+<div id="moreCriteriaContent" class="more_description">
+	<form action="<?php echo $this->url(array('controller'=>'orders','module'=>'ser','action'=>'list'),null,true)?>" method="post" id="filter_cb">
+			<fieldset>
+			<p>
+				<label>
+					<?php echo $this->_ ( "Received or In Progress" )?>
+				</label>
+				<span >
+					<?php 
+						
+						$params = $this->getParam("in_progress_cb","") == "in_progress_cb" ? array("checked"=>"checked"):array();
+						//var_dump($params);
+						//echo $this->getParam("in_progress_cb","");
+						if(!strlen($this->getParam("in_progress_cb","")))
+						{
+							//$params = array("checked"=>"checked");							
+						}
+						echo $this->formCheckbox("in_progress_cb","in_progress_cb", $params) ;
+					?>										
+				</span>
+			</p>
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Productions" )?>
+				</label>
+				<span >
+					<?php 
+						$params = $this->getParam("productions_cb","") == "productions_cb" ? array("checked"=>"checked"):array();
+						if(!strlen($this->getParam("productions_cb","")))
+						{
+							$params = array("checked"=>"checked");							
+						}
+						echo $this->formCheckbox("productions_cb","productions_cb", $params) ;
+					?>	
+					<select id="account_name_list_state" name="account_name_list_state">
+								<?php				 
+									foreach ($this->origines as $type)
+									{
+										if($this->getParam("account_name_list_state","") == $type)
+										{
+											echo "<option selected='selected'>" . $this->_ ($type) . "</option>\n";
+										}
+										else
+										{
+											echo "<option>" . $this->_ ($type) . "</option>\n";
+										}
+									}									
+								?>
+							</select>
+																
+				</span>
+			</p>
+			
+		
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Publications" )?>
+				</label>
+				<span >
+					<?php 
+						$params = $this->getParam("publications_cb","") == "publications_cb" ? array("checked"=>"checked"):array();
+						if(!strlen($this->getParam("publications_cb","")))
+						{
+							$params = array("checked"=>"checked");							
+						}
+						echo $this->formCheckbox("publications_cb","publications_cb", $params) ;
+					?>	
+						<select id="account_name2_list_state" name="account_name2_list_state">
+								<?php				 
+									foreach ($this->origines2 as $type)
+									{
+										if($this->getParam("account_name2_list_state","") == $type)
+										{
+											echo "<option selected='selected'>" . $this->_ ($type) . "</option>\n";
+										}
+										else
+										{
+											echo "<option>" . $this->_ ($type) . "</option>\n";
+										}
+									}									
+								?>
+							</select>									
+				</span>
+			</p>
+			
+			</fieldset>
+			
+	</form>
+	</div>
+	</div>
+	
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th>
+				<?php echo $this->_ ( "Message" );?>			
+			</th>
+						
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("idorder"))) ?>" >
+					#<?php echo $this->_ ( "IDORDER" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("date_of_creation"))) ?>" >
+					<?php echo $this->_ ( "creation date" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("desireddate"))) ?>" >
+					<?php echo $this->_ ( "expected date" );?>
+				</a>
+			</th>
+			
+			<th>
+					<?php echo $this->_ ( "origin" );?>				
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("account"))) ?>" >
+					<?php echo $this->_ ( "account" );?>
+				</a>
+			</th>
+								
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("status"))) ?>" >
+					<?php echo $this->_ ( "status" );?>
+				</a>
+			</th>
+			
+			<th>
+				<a 
+					class="link_sorter" 
+					href="<?php echo $this->url(array( "ord" => $this->order("delivery_date"))) ?>" >
+					<?php echo $this->_ ( "delivery date" );?>
+				</a>
+			</th>
+			
+			<th></th>
+					
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->paginator as $item): ?>
+		<?php 
+			$lines = $services_lines->getServicesOrdersLines($item["idorder"]);
+			//Zend_Debug::dump($truc->getServicesOrdersLines($item["idorder"]));
+			$count_item = count($lines);
+		?>
+		
+				<tr 
+				class="
+				<?php 
+					echo $this->cycle(array("odd","even"))->next()				
+				?>">
+					
+					<td>
+						<?php if($item["delay_warning"] == 1 && !isEnded($item["status"])) : ?>
+							<div class="red_warning"
+							title='<?php echo $this->_ ("delay warning : expected date expired")?>'
+							> &nbsp;														
+							</div>													
+						<?php endif; ?>	
+						<?php if($item["enclosed"]) : ?>
+							<div class="green_warning"
+							title='<?php echo $this->_ ("order enclosed")?>'
+							> &nbsp;														
+							</div>													
+						<?php endif; ?>	
+						<?php if($item["abort_demand"] && !isEnded($item["status"])) :?>
+							<div class="blue_warning"
+							title='<?php echo $this->_ ("abort request")?>'
+							> &nbsp;							
+							</div>							
+						<?php endif; ?>	
+					</td>
+					
+					<td>#<?php echo $item["idorder"]?></td>
+					
+					<td><?php echo $item["date_of_creation"]?></td>
+					
+					<td><?php echo $item["desireddate"]?></td>
+					
+					<td>
+						<?php 
+							//
+//							for ($i=0; $i<$count_item; ++$i)
+//							{
+//								$service_name = $services_lines->getServicesOrdersName($lines[$i]["idtype"]);
+//								echo $this->_ ($service_name[0]["title"]);
+//								if ($i!=(count($lines)-1))
+//								{
+//									echo ", ";
+//								}								
+//							}
+							//
+							echo $item["idproduction2"]
+						?>
+					</td>	
+					
+					<td>
+						<?php echo $this->_( $item["account"])?>
+					</td>
+					
+					<td>
+						<?php echo $this->_( $item["status"])?>
+					</td>
+					
+					<td>
+						<?php echo $this->_( $item["delivery_date"])?>
+					</td>
+					
+					<td>
+						<div class="actions_menu">
+							<ul>
+								<!-- Vue du détail de la commande -->
+								<li>
+									<a 
+										class="edit" 
+										href="<?php print BASE_URL ?>ser/command/processing/key/<?php echo $item["keyprog"] ?>/idprog/<?php echo $item["idprog"] ?>/idorder/<?php echo $item["idorder"] ?>">
+										<?php echo $this->_("details") ?>
+									</a>
+								</li>
+								
+								<?php if($item["abort_demand"] && !isEnded($item["status"])) : ?>							
+									
+									<li>
+										<a 
+											title='<?php echo $this->_("cancel");?>'
+											class='delete' 
+											href='<?php echo BASE_URL ?>ser/orders/cancel/keyToCancel/
+											<?php echo $item["idorder"]?>'>
+											<?php echo $this->_("cancel");?>
+										</a>
+									</li>
+								
+								<?php endif;?>	
+								
+									
+							</ul>
+						</div>
+					</td>
+					
+				</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php 
+	echo $this->paginationControl($this->paginator, 'Sliding', 'items_pagination.phtml'); 
+?>
+
+
+
+
+
+
+	<p><img src="<?php echo BASE_URL ?>themes/liquid/css/layout/site/forms/red_ico.png" />&nbsp;<?php echo $this->_("expected date expired") ?></p>
+	<p><img src="<?php echo BASE_URL ?>themes/liquid/css/layout/site/forms/blue_ico.png" />&nbsp;<?php echo $this->_("cancellation request pending") ?></p>
+
+<div id="dialog" title="<?php echo  $this->_("Delete service ?") ?>">
+		<form method="post" action="<?php echo BASE_URL ?>prod/program/delete" id="formProgramToDelete">
+			<p>
+			<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">
+			</span>
+			<?php echo  $this->_("This service will be deleted. Are you sure ?") ?>
+			<input type="hidden" id="keyToDelete" name="keyToDelete"  value="tata"/>
+			</p>
+		</form>									
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+
+});
+
+</script>

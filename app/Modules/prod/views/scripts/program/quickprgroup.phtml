@@ -1,0 +1,59 @@
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.asmselect.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/jquery.asmselect.css") ?>
+
+
+
+
+<?php if($this->_session->environment["module"] == "prod"):?>
+<select id="groupListProgram" multiple="multiple">
+
+<?php foreach($this->groups as $group):?>
+	<option value="<?php echo $group["idgroup"]?>"  <?php if(in_array($group["idgroup"],$this->affected)) :?>selected="selected"<?php endif;?>><?php echo $group["name"]?></option>
+<?php endforeach;?>
+</select>
+
+<?php else: ?>
+<?php $indice = 0; 
+foreach($this->affectedGroup as $group):?>
+<?php if($indice > 0):?>, <?php endif;?><?php echo $group["name"];$indice++;?>
+<?php endforeach;?>
+<?php endif;?>
+
+<!-- removeLabel:'<img src="<?php echo BASE_URL ?>themes/system/pics/editdelete.gif" class="deletePic">' -->
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#groupListProgram").asmSelect({
+		addItemTarget: 'bottom',
+		animate: false,
+		highlight: false,
+		sortable: false,
+		hideWhenAdded : true,
+		removeLabel:'<img src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" class="deletePic">'
+	});	
+
+	$(".asmListItem").live("mouseover",function(){
+		if (!$(this).data("init")) {
+
+			$(this).data("init", true);
+			$("span",this).attr("title","<?php echo $this->_("Click to modify") ?>");
+			$li = $(this);
+			$("span",this).click(function(){
+				 document.location.href = "<?php echo BASE_URL?>prod/group/edit/idgroup/" +  $("#" + $li.attr("rel")).attr('value');
+			});
+		}
+	});
+	
+	$("#groupListProgram").change(function(e, data) {
+		$.ajax({
+			type:'post',
+			url:'<?php echo BASE_URL ?>prod/program/quickprgroupaction',
+			data:{key:'<?php echo $this->key?>','ope_type':data.type,id_group:data.value},
+			success:function(msg){
+				
+			}			
+		});
+		
+	}); 
+
+}); 
+</script>

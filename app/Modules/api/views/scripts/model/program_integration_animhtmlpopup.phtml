@@ -1,0 +1,19 @@
+<embed type="application/x-shockwave-flash" allowScriptAccess="always"
+src="http://<?php echo $_SERVER["HTTP_HOST"] ?><?php echo BASE_URL ?>embeded/flash/slideshow.swf"
+id="slideshow" name="slideshow" bgcolor="black" quality="high"
+flashvars="url=<?php echo $this->program->getFlashVarsUrl()?>"
+height="305" width="320" wmode="transparent" />	
+<script type="text/javascript">
+
+var gcv_popup_width = 330;
+var gcv_popup_height = 520;
+
+
+
+function gcv_loadUrl(url){
+ var top=(screen.height-gcv_popup_height)/2;
+ var left=(screen.width-gcv_popup_width)/2;
+ window.open(url,"","WIDTH=" + gcv_popup_width +",HEIGHT=" + gcv_popup_height + ",left=" +left+ ",top="+top+",dependent");
+}       
+
+</script>

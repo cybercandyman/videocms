@@ -1,0 +1,90 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php
+	echo $this->partial("prod/list_scripts.phtml");	
+	echo $this->partial("prod/list_links.phtml");
+	echo $this->partial("prod/list_php_scripts.phtml");
+	
+	//$this->_session->environment["ressource"]";
+	//var_dump($this->_session->environment);
+?>
+
+<br />
+
+<?php $this->placeholder("title")->set($this->_("List of services"))?>
+
+<div style="display:none">
+
+
+				<form name="informations_form" method="post" action="<?php echo BASE_URL ?>ser/command/save">
+					<fieldset>
+						
+						<p>
+							<label><?php echo $this->_ ( "IDPROG" )?></label>
+							<span><input class="inputText"  name="idprog"  id="idprog"  readonly="readonly"  value="<?php echo $this->idprog ?>" type="text" /></span>
+						</p>
+						
+						<p>
+							<label><?php echo $this->_ ( "Key" )?></label><span><input	class="inputText"	name="keyprogram" id="keyprogram"	readonly="readonly" value="<?php echo $this->key ?>" type="text" /> 
+							</span>
+						</p>
+						
+						<p>
+							<label><?php echo $this->_ ( "Program name" )?></label>
+							<span><input class="inputText" name="programmename" id="programmename"	readonly="readonly"	value="<?php echo urldecode(urldecode($this->programTitle)) ?>" type="text" /></span>
+						</p>
+						
+						<p style="display:none">
+							<label><?php echo $this->_ ( "Production account" )?></label>
+							<span><input class="inputText"	name="accountproduction" id="accountproduction" readonly="readonly"	value="<?php echo $this->_session->environment["ressource"] ?>" type="text" /> 
+							</span>
+						</p> 						
+					</fieldset>
+				</form>		
+				
+						
+			
+
+
+</div>
+<?php $keyname =  ($this->_session->environment["module"] == "prod") ? "key" : "fkey" ;?>
+
+<?php echo $this->sexybutton ("href", $this->_("Create a service") , array("add_new",""), BASE_URL."ser/command/index/key/". $this->key."/programTitle/".urlencode($this->programTitle)."/idprog/".$this->idprog."/fkey/". $this->getParam("fkey"),array()) ?>	
+<?php 	
+		$var = array(
+			"paginator"=>$this->paginator,
+			"key"=>$this->key,
+			"programTitle"=>$this->programTitle,
+			"idprog"=>$this->idprog,
+			"fkey"=>$this->getParam("fkey")
+		);
+		
+		echo $this->partial("prod/list_pagination.phtml", $var);	
+		
+	?>		
+	
+
+				
+	<p><img src="<?php echo BASE_URL ?>themes/liquid/css/layout/site/forms/red_ico.png" />&nbsp;<?php echo $this->_("expected date expired") ?></p>
+	<p><img src="<?php echo BASE_URL ?>themes/liquid/css/layout/site/forms/blue_ico.png" />&nbsp;<?php echo $this->_("cancellation request pending") ?></p>
+	
+				
+
+
+	
+
+
+
+
+<div id="dialog" title="<?php echo  $this->_("Action") ?>">
+		<form method="post" action="<?php echo BASE_URL ?>prod/program/delete" id="formProgramToDelete">
+			<p>
+			<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">
+			</span>
+			<?php echo  $this->_("This service will be deleted. Are you sure ?") ?>
+			<input type="hidden" id="keyToDelete" name="keyToDelete"  value="tata"/>
+			</p>
+		</form>									
+</div>	
+
+<?php $this->block()->end(); ?>

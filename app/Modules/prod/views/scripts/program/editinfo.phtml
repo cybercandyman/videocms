@@ -1,0 +1,384 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php $this->placeholder("title")->set($this->_("Information edition"))?>
+<?php if($this->getParam("fkey",null) === null):?>
+<form method="post" action="<?php echo BASE_URL ?>prod/program/update">
+<?php else:?>
+<form method="post" action="<?php echo BASE_URL ?>pub/stock/updateprogram">
+<?php endif;?>
+
+
+<div  style="float:right;">
+<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+</div>
+<br style="clear:right"/>
+
+<div id="pageinfos_1">
+<table border="0" class="infoprog">
+
+<tr>
+	<td class="title">		
+		<label><?php echo  $this->_("Title") ?></label>			
+	</td>
+	<td colspan="3" ><span><?php echo $this->gcvForm( $this->fieldsAssocByCode["title"] )?></span></td>	
+</tr>
+
+<tr>
+	<td class="title"><?php echo $this->_("Identification")?></td>
+	<td>
+		<label><?php echo $this->fieldsAssocByCode["idext"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["idext"] )?></span>
+	</td>
+	<td>
+		<label><?php echo $this->fieldsAssocByCode["duration"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["duration"] )?></span>
+	</td>
+	<td >
+		<label><?php echo $this->fieldsAssocByCode["media"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["media"] )?></span>
+	</td>	
+</tr>
+
+
+<?php if($this->_session->environment["module"] == "prod") :?>
+<tr>
+	<td class="title"><?php echo $this->_("Group")?></td>
+	<td colspan="3">	
+	<a id="btnNewGroup" href="#"><?php echo $this->_("create new group") ?></a>	
+		<div id="groupInformations"></div>	
+	</td>	
+
+</tr>
+<?php elseif($this->_session->environment["module"] == "pub") :?>
+<tr>
+	<td class="title"><?php echo $this->_("Group")?></td>
+	<td colspan="3">	
+	
+		<div id="groupInformations"></div>		
+	</td>	
+</tr>
+<?php endif;?>
+
+<tr>
+	<td class="title"><?php echo $this->_("Production")?></td>	
+	<td>
+		<label><?php echo $this->fieldsAssocByCode["date"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["date"] )?></span>
+	</td>
+	<td colspan="2">
+	
+	<label><?php echo $this->fieldsAssocByCode["credits"]["title"]?>&nbsp;(<a href="#" id="addcredits"><?php echo $this->_("add credits")?></a>)</label>
+	
+	<div id="creditsZone" >
+		<div style="display:none">
+        <?php echo $this->gcvForm( $this->fieldsAssocByCode["credits"],array("rows"=>2) )?>
+        </div>        
+	
+    <ul id="creditslist"></ul>    
+    </div>		
+	</td>
+
+</tr>
+
+
+<tr>
+	<td class="title"><?php echo $this->_("Languages")?></td>
+	<td>
+		<label><?php echo $this->fieldsAssocByCode["language"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["language"] )?></span>
+	</td>	
+	<td>	
+		<label><?php echo $this->fieldsAssocByCode["sublanguage"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["sublanguage"] )?></span>		
+	</td>
+	<td>
+		<a class="" href="#" id="btn_transcription"><span><span><?php echo $this->_("transcription")?></span></span></a>
+	</td>
+</tr>
+
+<tr>
+	<td class="title"><?php echo $this->_("Activity")?></td>
+	<td>
+		<label><?php echo $this->fieldsAssocByCode["type1"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["type1"] )?></span>
+	</td>
+	<td>
+	<label><?php echo $this->fieldsAssocByCode["type2"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["type2"] )?></span>
+		</td>
+		<td>&nbsp;</td>
+</tr>
+
+<tr>
+	<td class="title"><?php echo $this->_("Genre")?></td>
+	<td>
+			<label><?php echo $this->fieldsAssocByCode["genre"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["genre"] )?></span>
+	</td>
+	<td>
+	<!-- 
+		<label><?php echo $this->fieldsAssocByCode["media"]["title"]?></label>
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["media"] )?></span>
+	 -->
+	</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td class="title"><?php echo $this->fieldsAssocByCode["tags"]["title"]?></td>
+	<td colspan="3"><span><?php echo $this->gcvForm( $this->fieldsAssocByCode["tags"] )?></span></td>
+</tr>
+
+
+<tr>
+	<td class="title"><?php echo $this->fieldsAssocByCode["chapo"]["title"]?></td>
+	<td colspan="3"><span><?php echo $this->gcvForm( $this->fieldsAssocByCode["chapo"],array("rows"=>2) )?></span></td>
+</tr>
+
+<tr>
+
+	<td class="title"><?php echo $this->fieldsAssocByCode["synopsis"]["title"]?></td>
+	<td colspan="3">
+	<div class="box">
+		<span><?php echo $this->gcvForm( $this->fieldsAssocByCode["synopsis"],array("rows"=>7) )?></span>
+	</div>
+	</td>
+</tr>
+
+
+<tr>
+	<td class="title">
+		<?php echo $this->_("Pictures")?>
+	</td>
+	<td colspan="3">		
+	<?php  echo $this->action("managepicture","program","prod",array("key"=>$this->key)); ?>	
+	</td>
+</tr>
+</table>
+
+<?php echo $this->gcvForm( $this->fieldsAssocByCode["transcription"],array("rows"=>8,"style"=>"width:99%;height:90%;display:none") )?>
+
+<div id="transcriptionDialog" title="<?php echo $this->_("Transcription") ?>">
+	<textarea style="width:99%;height:90%;" id="transTextarea" rows="10"></textarea>
+</div>
+
+<div style="margin-top: 5px" class="editinfo-buttons">	
+<?php echo $this->sexybutton ("href", $this->_("More description"), array("grey_btn",""), "javascript:void(0)",array("id"=>"btn_specifics")) ?>
+
+<div   class="savebutton">
+<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+</div>
+</div>
+</div>
+
+
+
+<div id="pageinfos_2">
+<fieldset>
+	<?php echo $this->partial("genericform.phtml",array("fields"=>$this->fields,"filter"=>array("2")))?>
+	<?php //echo $this->partial("genericform.phtml",array("fields"=>$this->fields,"filter"=>array("3")))?>
+	<div style="margin-top: 5px" class="editinfo-buttons">	
+		<?php echo $this->sexybutton ("href", $this->_("Back"), array("grey_btn",""), "javascript:void(0)",array("id"=>"btn_general")) ?>
+		<?php echo $this->sexybutton ("href", $this->_("Rights"), array("grey_btn",""), "javascript:void(0)",array("id"=>"btn_rights")) ?>
+
+			<div   class="savebutton">
+			<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+			</div>
+	</div>
+</fieldset>
+</div>
+
+
+
+<div id="pageinfos_3">
+<fieldset>
+	<?php echo $this->partial("genericform.phtml",array("fields"=>$this->fields,"filter"=>array("3")))?>
+	<div style="margin-top: 5px" class="editinfo-buttons">	
+		<?php echo $this->sexybutton ("href", $this->_("Back"), array("grey_btn",""), "javascript:void(0)",array("id"=>"btn_retspecifics")) ?>	
+		<div    class="savebutton">
+		<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?>
+		</div>
+	</div>
+</fieldset>
+</div>
+
+
+<?php echo $this->formHidden("idproduction",$this->idproduction,null); ?>
+<?php echo $this->formHidden("key",$this->key,null); ?> <?php echo $this->formHidden("state",$this->programReview[0]["state"],null); ?>
+<?php echo $this->formHidden("fkey",$this->fkey,null); ?> <?php echo $this->formHidden("idview",$this->idview,null); ?>
+<?php echo $this->formHidden("publicationKey",$this->getParam("publicationKey"),null); ?> 
+
+</form>
+<?php echo $this->action("quickgroup","program","prod",array("key"=>$this->key ))?>
+<?php echo $this->setFormValue($this->programReview[0]["details"],array("key"=>array(
+																			"keys"=>array("type","idfgroup"),
+																			"separator"=>"_"
+																			),
+																		"value"=>"original_value")
+																		)?> 
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.jpt.js") ?>
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ;?>];
+
+function loadGroupInformation(){
+	<?php if($this->_session->environment["module"] == "prod") :?>
+	$("#groupInformations").load("<?php echo BASE_URL ?>prod/program/quickprgroup/key/<?php echo $this->key  ?>");
+	<?php elseif ($this->_session->environment["module"] == "pub"):?>
+	$("#groupInformations").load("<?php echo BASE_URL ?>prod/program/quickprgroup/key/<?php echo $this->getParam("fkey")  ?>");
+	<?php endif;?>
+
+}
+
+jQuery(document).ready(function(){  
+	$("#btn_transcription").click(function(){$("#transcriptionDialog").dialog("open");});	
+	$("#transcriptionDialog").dialog({
+		modal: true,
+		autoOpen: false,
+		width:620,
+		height:280,	
+		open: function(event, ui) { $("#transTextarea").val($("#<?php echo $this->fieldsAssocByCode["transcription"]["formcode"]?>").val()) }	,	
+		buttons: {			
+				'<?php echo $this->_("close")?>':function(){
+			 $("#<?php echo $this->fieldsAssocByCode["transcription"]["formcode"]?>").val($("#transTextarea").val());
+				$(this).dialog('close');
+					
+				}
+			}
+	});
+	//$('#creditsZone').jScrollPane({autoReinitialise: true});			
+	loadGroupInformation();
+    jQuery.each(field_not_ok, function() {
+    	$("#" + this).addClass("input_nok");
+    });   
+    //	$("#informations").tabs();
+    
+    $("#pageinfos_2").css("display","none");
+    $("#pageinfos_3").css("display","none");
+    
+    $("#btn_specifics").click(function(){
+    	$("#pageinfos_1").hide();
+    	$("#pageinfos_2").show();
+    	$("#pageinfos_3").hide();
+    }); 
+    $("#btn_general").click(function(){
+    	$("#pageinfos_1").show();
+    	$("#pageinfos_2").hide();
+    	$("#pageinfos_3").hide();
+    });      
+    $("#btn_rights").click(function(){
+    	$("#pageinfos_1").hide();
+    	$("#pageinfos_2").hide();
+    	$("#pageinfos_3").show();
+    }); 
+    $("#btn_retspecifics").click(function(){
+    	$("#pageinfos_1").hide();
+    	$("#pageinfos_2").show();
+    	$("#pageinfos_3").hide();
+    }); 
+    
+    <?php     
+    		$idEXT = date("Ymd", time());
+    		$idEXT .= "-" . @$this->_session->environment["details"]["alias"];
+    ?>
+    		
+  
+
+
+    <?php if($this->programReview[0]["state"] == "CREATION"): ?>
+    
+    if($("input[rel=idext]").val() == ""){
+    	$("input[rel=idext]").val("<?php echo $idEXT ?>");
+    }
+    
+    if($("select[rel=organization]").val() == ""){
+    	$("select[rel=organization]").val("<?php echo $this->_session->environment["details"]["organization"] ?>");
+    }
+    if($("select[rel=organization2]").val() == ""){
+    	$("select[rel=organization2]").val("<?php echo $this->_session->environment["details"]["organization_details"] ?>");
+    }
+    if($("select[rel=media]").val() == ""){
+    	$("select[rel=media]").val(3);
+    }
+    if($("select[rel=language]").val() == ""){
+    	$("select[rel=language]").val(2);
+    }
+    <?php endif;?>
+    
+    $("#creditsDialogForm").validationEngine();
+    $.jpt.options.data =  $("textarea[rel=credits]").val();
+    $.jpt.options.libelle_save = "<?php echo $this->_("Save") ?>";
+    $.jpt.options.libelle_cancel = "<?php echo $this->_("Cancel") ?>";
+    $.jpt(); 
+
+
+	
+		
+	
+	
+});
+//]]>
+</script> 
+
+<?php $gcvForm = new Ma_View_Helper_gcvForm() ;
+echo $gcvForm->linkselect($this->fieldsAssocByCode["type2"],$this->fieldsAssocByCode["type1"]);
+?>
+
+<div id="creditsDialog" title="<?php echo $this->_("Credits editing")?>">
+		<form id="creditsDialogForm">
+		<fieldset class="small">
+    		<p>		
+    			<label><?php echo $this->_("Name")?></label><span><input class="validate[required]" type="text" id="txt_generals" /></span>		
+    		</p>	
+    		<p>
+    			<label><?php echo $this->_("Function")?></label><span><?php echo $this->formSelect("select_generals",null,array("class"=>"validate[required]"),$this->contentTable($this->fieldsAssocByCode["credits"]["default_value"]))?></span>
+    		</p>	
+		</fieldset>		
+		</form>
+</div>
+
+<?php $this->block()->end(); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

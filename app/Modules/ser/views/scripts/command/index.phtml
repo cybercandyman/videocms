@@ -1,0 +1,90 @@
+<?php $this->masterView('programlayout.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<?php 
+	// Variable pour les vues "partials"
+	$var = 	array(
+			"index"=>1,
+			"idorder"=>$this->idorder,
+			"id_type"=>$this->id_type,
+			"font_families_sans_serif"=>services_datas::getFontWithoutSerif(),
+			"font_families"=>services_datas::getFontWithSerif(),
+			"field_not_ok"=>$this->field_not_ok,
+			"chapitrage_checked"=>$this->chapitrage_checked,
+			"encoding_checked"=>$this->encoding_checked,
+			"subtitling_checked"=>$this->subtitling_checked,
+			"translation_checked"=>$this->translation_checked,
+			"watermarking_checked"=>$this->watermarking_checked,
+			"capture_miniature_checked"=>$this->capture_miniature_checked,
+			"mosaic_checked"=>$this->mosaic_checked,
+			"formats"=>$this->formats,		
+			"module_source"=>$this->module_source	
+	);
+	//
+	echo $this->partial("command/index_view_links.phtml", $var);	
+	echo $this->partial("command/index_view_scripts.phtml", $var);	
+	echo $this->partial("command/index_datepicker.phtml", $var);
+	echo $this->partial("command/index_view_php_scripts.phtml", $var);
+	//	
+?>
+
+<!-- Title -->
+<?php $this->placeholder("title")->set($this->_("Services"))?>
+
+<form 
+		name="order_informations_form" 
+		method="post" 
+		action="<?php echo BASE_URL ?>
+		ser/command/save/key/<?php echo $this->key ?>
+		/programTitle/<?php echo urlencode($this->programTitle) ?>
+		/idprog/<?php echo $this->idprog ?>
+		/idorder/<?php echo $this->idorder ?>/fkey/<?php echo $this->getParam("fkey")?>">							
+		
+<?php
+	// Zone d'informations
+	echo $this->partial("command/informations.phtml", $var);
+	// Zone des services	
+	echo $this->partial("command/chapitrage.phtml", $var);	
+	echo $this->partial("command/encoding.phtml", $var);	
+	echo $this->partial("command/subtitling.phtml", $var);	
+	echo $this->partial("command/translation.phtml", $var);	
+	echo $this->partial("command/watermarking.phtml", $var);	
+	//
+	echo $this->partial("command/files_explorer.phtml", $var);
+?>
+
+
+
+<br />
+
+<?php
+
+if($var["index"] && !isEnded(@$var["order"][0]["status"])) : ?>	
+					<p>
+						<label>&nbsp; 
+						</label> 
+						<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"submitButtonCommand")) ?>
+						
+					</p>
+				<?php endif; ?>				
+		
+		</form>
+						
+<script type="text/javascript">
+
+	jQuery(document).ready(function(){
+		
+	});
+
+	<?php 
+		$checkBox = array("chapitrage_cb", "encoding_cb", "subtitling_cb", "translation_cb", "watermarking_cb", "mosaic_cb", "capture_miniature_cb");
+		foreach ( $this->oldData as $key => $value ) {			
+	?>
+		<?php if (!in_array($key, $checkBox)) : ?>
+			$("#<?php echo $key?>").val("<?php echo $this->escapejs( $value ); ?>");
+		<?php endif ?>
+	<?php 
+		}
+	?>
+	
+</script>
+<?php $this->block()->end(); ?>

@@ -1,0 +1,83 @@
+<?php
+$date = explode(",", $this->getParam("period", date("Y-m-d", time() - 3600 * 24 * 30) . "," . date("Y-m-d", time() - 3600 * 24)));
+?>
+
+<table >
+	<tr>
+    	<td>    	    	
+            <p class="large">
+                <?php echo $this->javascriptfile(BASE_URL."embeded/packs/datepicker/js/datepicker.js") ?>
+                <?php echo $this->cssfile( BASE_URL."embeded/packs/datepicker/css/datepicker.css") ?>
+                <div id="datepicker"></div>              
+            </p>    	
+    	</td>
+    	<td>
+    	
+    	<h4><?php echo $this->_("Starting date")?></h4>
+    		<input type="text"  id="startDate"/>
+    	<h4><?php echo $this->_("End date")?></h4>
+    	<input type="text"  id="endDate"/>
+    	
+
+    	</td>
+	</tr>
+</table>
+
+  <form action="<?php echo $this->formAction?>"  	method="get">
+      <input type="hidden" id="period" name="period" value="" />
+      <?php echo $this->sexybutton ("submit", $this->_("Refresh chart"), array("send_form_btn"), null,array("id"=>"refreshButton")) ?> 
+    
+  </form>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	
+	$("#datepicker").DatePicker({
+		flat: true,
+		date: <?php echo "[\"" . implode("\",\"", $date) . "\"]" ?>,
+		current: '<?php echo date("Y-m-d", time())?>',
+		calendars: 3,
+		mode: 'range',
+		starts: 1,
+		onChange:function(){
+			
+			var tmp = $("#datepicker").DatePickerGetDate(true);			
+			$("#period").val( tmp  );
+			
+			$("#startDate").val(tmp[0]);
+			$("#endDate").val(tmp[1]);
+	
+		}
+	}); 
+	$('input#startDate').datepicker({
+		showButtonPanel:"true",                       		
+		changeMonth:true,
+		changeYear:true  ,
+		 onClose: function(dateText, inst) { 
+			if(dateText != "" && $('input#endDate').val() != ""){
+				$("#period").val( $('input#startDate').val() + ","+ $('input#endDate').val() );
+			}
+		 }		            				
+    });  
+	$('input#endDate').datepicker({
+		showButtonPanel:"true",                       		
+		changeMonth:true,
+		changeYear:true ,
+		onClose: function(dateText, inst) {
+    		if(dateText != "" && $('input#startDate').val() != ""){
+    			$("#period").val( $('input#startDate').val() + ","+ $('input#endDate').val() );
+    		}
+		}		 		            				
+    });          
+
+	$("#period").val("<?php echo  implode(",", $date) ?>");
+                
+	$('input#startDate').datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+	$('input#startDate').datepicker('option','dateFormat','yy-mm-dd');                                                   
+	$('input#endDate').datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+	$('input#endDate').datepicker('option','dateFormat','yy-mm-dd');    
+
+	$('input#startDate').datepicker( "setDate", $.datepicker.parseDate( "yy-mm-dd", "<?php echo $date[0] ?>" )   );
+	$('input#endDate').datepicker( "setDate", $.datepicker.parseDate( "yy-mm-dd", "<?php echo $date[1] ?>" )   );
+})
+</script>

@@ -1,0 +1,46 @@
+
+<?php $this->placeholder("title")->set($this->_("Profile"))?>
+
+<fieldset>
+<form action="<?php echo $this->url(array("controller"=>"encoding","action"=>$this->getParam("action") == "editprofil" ? "updateprofil":"saveprofil","module"=>$this->getParam("module")),null,true) ?>" method="post">
+
+
+
+	<p>
+		<label><?php echo $this->_("Title")?></label>
+		<span><?php echo $this->formText("title") ?></span>
+	</p>
+		
+		<fieldset class="panel">
+		<legend><?php echo $this->_("Formats")?></legend>
+		
+		<ul>
+		<?php foreach($this->formats as $format): ?>
+		
+		
+			<li>
+			<label><?php echo $format["title"] ?> : </label><?php $options = $format["checked"] == true ? array("checked"=>"checked"):array();
+			
+			echo $this->formCheckbox("formats[]",null,$options,array($format["idformat"],0))?></li>
+		
+		<?php endforeach;?>
+		</ul>
+		</fieldset>
+	<p>
+		<label>&nbsp;</label>
+		<span>
+			<?php echo $this->getParam("action") == "editprofil" ? $this->formHidden("idprofil",null) : ""?>
+			
+			<?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null,array("id"=>"btnSubmit")) ?>
+		</span>	
+	</p>
+	
+</fieldset>
+
+
+</form>
+
+<?php echo $this->setFormValue($this->rawData )?>
+
+
+

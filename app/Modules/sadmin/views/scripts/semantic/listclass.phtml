@@ -1,0 +1,85 @@
+<?php $this->placeholder ( "title" )->set ( $this->_ ( "Class mapping" ) )?>
+<?php echo $this->sexybutton ("href", $this->_("create") , array("add_new",""),  BASE_URL."sadmin/semantic/addclass"  ,array()) ?>
+
+
+<table id="data" class="tablesorter display table">
+
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "Class URI" );?></th>			
+			<th><?php echo $this->_ ( "Actions" );?></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php for($i = 0; $i < sizeof ( $this->listclass ); $i ++) :?>
+
+		<tr class="<?php if($i % 2) echo "odd"; else echo "even"; ?>">
+			
+			<td><?php echo $this->listclass[$i]['classuri'] ?></td>
+			<td>
+
+			<div class="actions_menu">
+	
+			<ul>
+					
+				<li><a	href="<?php	echo BASE_URL?>sadmin/semantic/editclass?classUri=<?php echo urlencode( $this->listclass[$i]['classuri']) ?>"	class="edit" title="<?php echo $this->_ ( "edit" )?>"><?php echo $this->_ ( "edit" )?></a></li>									
+				<li><a	href="<?php echo BASE_URL?>sadmin/semantic/deleteclass?classUri=<?php echo urlencode($this->listclass[$i]['classuri']) ?>" title="<?php echo $this->_ ( "delete" )?>" class="delete"><?php echo $this->_ ( "delete" ) ?></a></li>
+					
+			</ul>
+
+			</div>
+
+			</td>
+		</tr>
+
+		<?php endfor;?>
+	</tbody>
+</table>
+
+
+<div id="dialog" title="<?php echo $this->_("Confirmation") ?>">
+
+	<?php echo $this->_("Are you sure to delete the mapping for this classes ?")?>
+
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+ 
+ var _destroyUrl;
+    	
+        $('a.delete').click(function() {
+    		$('#dialog').dialog('open');
+    		_destroyUrl = $(this).attr("href");
+    		return false;
+    	});
+    	
+    	$("#dialog").dialog({
+    		
+    		bgiframe: true,
+    		resizable: false,
+    		height:140,
+    		modal: true,
+    		autoOpen:false,
+    		overlay: {
+    			backgroundColor: '#000',
+    			opacity: 0.5
+    		},
+    		buttons: {
+    			'Supprimer': function() {
+    				$(this).dialog('close');
+    				document.location.href = (_destroyUrl);
+    			},
+    			Annuler: function() {
+    				$(this).dialog('close');
+    			}
+    		}
+    	});
+    } 
+); 
+//]]>
+</script>

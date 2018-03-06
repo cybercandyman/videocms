@@ -1,0 +1,85 @@
+
+<?php $this->placeholder("title")->set($this->_("Edit menu"))?>
+<script
+	type="text/javascript"
+	src="<?php 	echo BASE_URL?>embeded/js/jquery.tree.js"></script>
+<script
+	type="text/javascript"
+	src="<?php 	echo BASE_URL?>embeded/js/jquery.json-2.2.min.js"></script>
+
+
+<div class="droparea folder">
+<h2><?php echo $this->_("Available menu elements")?></h2>
+<div id="zone1">
+<ul id="list1">
+<?php  foreach( $this->menusArrayDispo as   $keyValue ) :	?>
+	<li id="field_<?php echo$keyValue ["idmenu"]?>"><a href="#"><ins> </ins><?php echo $keyValue ["title"]?></a>
+	</li>
+	<?php endforeach;?>
+</ul>
+</div>
+</div>
+
+<div class="droparea folder">
+<h2><?php echo $this->_("Allocated menu elements")?></h2>
+<div id="zone2">
+<ul id="list2">
+</ul>
+</div>
+</div>
+
+
+<br style="clear: both" />
+
+
+<form id="formMenu"
+	action="<?php echo BASE_URL ?>sadmin/services/savemenu" method="post">
+
+<input type="hidden" name="listAffected" id="listAffected" value=""> <input
+	type="hidden" name="idservice" id="idservice"
+	value="<?php echo isset($this->idservice)?$this->idservice:0  ?>"> <?php if($this->idservice > 0):?>
+	<?php echo $this->sexybutton ("submit", $this->_("update"), array("send_form_btn"), null,array("id"=>"")) ?> 
+	 <?php else : ?>
+	 <?php echo $this->sexybutton ("submit", $this->_("update all services accounts"), array("send_form_btn"), null,array("id"=>"")) ?> 
+	  <?php endif;?></form>
+
+
+	<?php if($this->idservice > 0):?>
+
+<a class="button red_btn" href="<?php echo BASE_URL?>sadmin/services/delmenu/ressource/<?php echo $this->idservice?>"><span><span><?php echo $this->_("delete personalization")?></span></span></a>
+
+	<?php else : ?>
+	<?php echo $this->systemMessage($this->_("You can specify a different list and order for each service account. Go to the  services list and click menu for the service you want to edit."),1)?>
+
+	<?php endif;?>
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function(){ 
+
+	$("#formMenu").submit(function(){				
+		var str = $.toJSON(jQuery.tree.reference("#zone2" ).get(0,"json"));$("#listAffected").val(str);		
+	});
+	
+    $("#zone2").tree({
+ 	   "ui":{ "theme_path" : "<?php echo BASE_URL?>themes/system/css/tree/default/style.css"},
+ 	   "rules":{"multitree":"all"},
+ 	   "callback" : {
+     	   	"onmove":function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){ var str = $.toJSON(TREE_OBJ.get(0,"json"));$("#listAffected").val(str); },      	    
+     	   	"onload":function(TREE_OBJ) { var str = $.toJSON(TREE_OBJ.get(0,"json"));$("#listAffected").val(str); }
+     	   	
+	   	},
+	 	   "data":{
+		   		type : "json",
+		   		opts : {static :<?php echo $this->menusJsonOrderedAffected ?>} 
+ 	   }
+        });
+
+    $("#zone1").tree({    	
+ 	   "ui":{ "theme_path" : "<?php echo BASE_URL?>themes/system/css/tree/default/style.css"},
+ 	   "rules":{"multitree":"all"}
+     });
+});
+//]]>
+</script>
+
+

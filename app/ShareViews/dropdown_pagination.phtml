@@ -1,0 +1,21 @@
+<?php if ($this->pageCount): ?>
+<select id="paginationControl" size="1">
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php $selected = ($page == $this->current) ? ' selected="selected"' : ''; ?>
+  <option value="<?php
+        echo $this->url(array($this->var_page_keyname => $page));?>"<?php echo $selected ?>>
+    <?php echo $page; ?>
+  </option>
+<?php endforeach; ?>
+</select>
+<?php endif; ?>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery('#paginationControl').change( function() {
+    	alert("ok");
+        window.location = $(this).val();
+    });
+});
+</script>

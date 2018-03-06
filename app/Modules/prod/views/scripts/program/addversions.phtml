@@ -1,0 +1,11 @@
+<?php $this->placeholder("title")->set($this->_("Remote file directory"))?>
+<p class="paragraph"><?php if($this->state != program::STATE_CREATION):?>
+
+<?php echo $this->sexybutton ("href", $this->_("Return to the program"), array("send_form_btn"),  $this->url(array("action"=>"manage","module"=>"prod","controller"=>"program","key"=>$this->key))) ?>
+
+<?php endif;?>
+</p>
+
+<?php echo $this->action("videofile","program","prod",array("state"=>$this->state,"key"=>$this->key)); ?>
+
+

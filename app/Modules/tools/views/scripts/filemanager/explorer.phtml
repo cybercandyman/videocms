@@ -1,0 +1,399 @@
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/swfobject.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.uploadify.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.modified.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.contextmenu.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.tree.metadata.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/liquid/css/filemanager.css") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/jquery.treeTable.css") ?>
+
+
+<?php if($this->format == "maxi"):?>
+<table>
+	<tbody>
+		<tr>
+			<td valign="top">
+			<div id="toolsPanel">
+
+			<ul>
+				<li><a href="#uploadCart"><?php echo $this->_("Upload"); ?></a></li>		
+				<li><a href="#downloadCart"><?php echo $this->_("Download"); ?></a></li>
+				<li><a href="#infofile"><?php echo $this->_("Info"); ?></a></li>
+			</ul>
+
+			<div id="uploadCart" class="blocPanel">
+			<input type="file" name="files[]" id="inputfile" /> 
+			<a id="uploadifyLink" href="javascript:void(0)"><?php     echo $this->_("Upload")?></a>&nbsp;
+			<a href="javascript:$('#inputfile').uploadifyClearQueue();"><?php echo $this->_("Clear queue")?></a>
+
+
+			</div>
+			
+		
+			<div id="downloadCart" class="blocPanel">
+
+
+			<div class="downloadCartFiles"></div>
+
+			<a href="javascript:downloadCart()"><?php echo $this->_("Download")?></a>&nbsp;
+			<a href="javascript:clearDownloadCart();"><?php echo $this->_("Clear queue")?></a>
+			</div>
+
+			<div id="infofile" class="blocPanel">
+
+			<ul>
+				<li><label><?php echo $this->_("File name")?> : </label><span class="filename"></span></li>
+				<li><label><?php echo $this->_("File size")?> : </label><span class="filesize"></span></li>
+				<li><label><?php echo $this->_("File permission")?> : </label><span class="fileperms"></span></li>
+				<li><label></label><span class="imgpreview"></span></li>
+			</ul>
+
+			</div>
+
+			</div>
+
+			</td>
+
+			<td valign="top"><?php endif; ?>
+
+			<div id="explorerPanel" class="<?php echo $this->format ?>"></div>
+
+			<?php if($this->format == "maxi"):?></td>
+		</tr>
+	</tbody>
+</table>
+			<?php endif; ?>
+<br style="clear: both" />
+
+<script type="text/javascript">
+//<![CDATA[  
+var currentFolderNode = null;
+function displayData(file_caracteristics){
+
+	currentFolderNode = file_caracteristics;
+	
+	jQuery("ul", "#infofile").css("display","block");	
+	jQuery(".filename", "#infofile").html(file_caracteristics.name);	
+	jQuery(".filesize", "#infofile").html(file_caracteristics.size);	
+	jQuery(".fileperms", "#infofile").html(file_caracteristics.perms);	
+	if(file_caracteristics.ispic == "true"){
+		jQuery(".imgpreview", "#infofile").html('<img width="150px" style="margin-top:15px;"  src="'+ file_caracteristics.link + '" />');
+	}
+	else
+		jQuery(".imgpreview", "#infofile").html('');		
+}
+function removeFileFromCart(link){
+	jQuery(link).parent().parent().remove();
+}
+function clearDownloadCart(){
+	jQuery('.downloadCartFiles').html('');	
+}
+function addItemToDownload(path,name){
+	var tmp = '<span class="'+path+'">' + name + '</span>';
+	jQuery(".downloadCartFiles").append(  '<div class="uploadifyQueueItem"><div class="cancel"><a href="javascript:void(0);" onclick="javascript:removeFileFromCart(this)"><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"></a></div>' +  tmp  + "</div>" );    	
+}
+function filter(){
+	document.href.location = "";
+}
+function downloadCart(){
+	var filestodl = new Array();
+	jQuery("#downloadCart .uploadifyQueueItem span").each(function(){
+		filestodl.push( jQuery(this).attr("class") ) ;		
+	});
+	var myObject = {
+		'files[]':filestodl
+	};
+	var encodedParam = jQuery.param(myObject);
+	
+	if(filestodl.length  == 0) {
+			alert("<?php echo $this->_("Add to the download list","none") ?>");
+			return;
+	}
+	jQuery.ajax({
+		url:"<?php echo BASE_URL?>tools/filemanager/downloadfiles",
+		data:encodedParam,		
+		success:function(responseXML, textStatus, XMLHttpRequest){				
+			if( jQuery('status', responseXML).text() == "true"){									
+				var message =  jQuery('message',responseXML ).text();
+				jQuery("#downloadCart .uploadifyQueueItem").remove();
+				location.href =  message;
+					
+			}else{				
+				alert("error");								
+			} 								
+		},
+		dataTypeString:"xml",			
+		type:"get"
+	});	
+}
+
+function upadateFlashSettings(){
+
+	    if(typeof(currentFolderNode) != 'undefined' && currentFolderNode != 'undefined' && currentFolderNode != null){		 
+		    if(  (currentFolderNode.type == null  || typeof(currentFolderNode.type) =='undefined') || currentFolderNode.type =='dir'  ){			    	  
+				$('#inputfile').uploadifySettings('scriptData',{'selectedNode':currentFolderNode.fullpath},false);
+		    }
+	    }
+		 
+}
+
+jQuery(document).ready(function() {
+
+	$("#uploadifyLink").click(function(){
+		upadateFlashSettings();
+		javascript:$('#inputfile').uploadifyUpload();
+	});
+	
+
+    $('#inputfile').uploadify({
+        'uploader'  : '<?php     echo BASE_URL?>embeded/flash/uploadify.swf',
+        'script'    : '<?php     echo BASE_URL?>tools/filemanager/uploadfiles',
+        'cancelImg' : '<?php    echo BASE_URL?>themes/system/pics/cancel.png',
+        'buttonText'  : "<?php    echo $this->_("Choose files")?>",
+        'auto'      : false,    
+        'multi'		:true,
+        'scriptData':{sessionid:"<?php echo $this->sessionid?>"},
+         onAllComplete : function(var1,var2){		        
+    		location.reload();
+        },
+        onError : function(event, ID, fileObj, errorObj){
+            }
+    });
+   
+    $("#toolsPanel").tabs({ selected: 2 });
+
+    $.metadata.setType("attr", "metadata");
+
+    $("ul", "#infofile").css("display","none");
+    
+	var stat = <?php echo $this->listJson ?>;
+	var currentFile ;
+	
+	$("#explorerPanel").tree({
+	 	   "ui":{ "theme_path" : "<?php echo BASE_URL?>themes/system/css/tree/default/style.css"},
+	 	   "rules":{
+		 	   "multitree":"all",
+		 	   valid_children : ["root"]
+			 	   },    	  
+	 	   "callback" : {	     	   
+	     	   	"onload":function(TREE_OBJ) {  },
+	     	   	"onselect":function(NODE, TREE_OBJ) {
+		     	   	displayData ($(NODE).metadata());
+		     	},
+	     	    "beforedata":function(NODE, TREE_OBJ) {
+      	     	   	if(NODE == false) TREE_OBJ.settings.data.opts.static = stat; 
+      				else TREE_OBJ.settings.data.opts.static = false;
+      				return { path : $(NODE).attr("id") || 0 } 
+      			},
+      			"beforerename" : function(NODE, LANG, TREE_OBJ) { 
+      				currentFile =$(NODE).attr("id");
+      				return true;
+      	  		 },
+       	  		"beforedelete" : function(NODE, TREE_OBJ)  { 
+        			return confirm("<?php echo $this->_("Are you sure to delete : ") ?>" + TREE_OBJ.get_text(NODE));
+        	  		 },
+    	     	"onrename" : function (NODE, TREE_OBJ) {
+      				var ntitle =  TREE_OBJ.get_text(NODE);   
+      				if(currentFile == "")
+      					currentFile =  $(NODE).attr("id");   				
+      				$.ajax({
+    					type:"post",
+    					url:"<?php echo BASE_URL ?>tools/filemanager/renamefile",
+    					data:{id:$(NODE).attr("id"),oldfile:currentFile,newfile:ntitle,type:$(NODE).attr("rel"),method:"rename"},
+    					success:function(message){
+							var part1 =  $('part1',message ).text();
+							var part2 =  $('part2',message ).text();							
+							if( $('status', message).text() == "true"){									
+								$(NODE).metadata().fullpath = part1;
+								$(NODE).metadata().link = part2;
+								$(NODE).attr("id",part1);	
+								currentFile = 		part1;					
+							}else{
+								alert("error");								
+							} 
+						}
+          			});            			
+      			},    
+      			"onmove" : function (NODE,REF_NODE,TYPE,TREE_OBJ,RB) {               			    				
+          			var parent = TREE_OBJ.parent(NODE);              			 
+          			if(parent !=  -1  && parent != false)
+          				parent = parent.attr("id"); 
+          			     				            			     	
+          			$.ajax({
+						type:"post",
+						async:"false",
+						url:"<?php echo BASE_URL ?>tools/filemanager/renamefile",
+						data:{id:$(NODE).attr("id"),oldfile:$(NODE).attr("id"),newfile:parent,type:$(NODE).attr("rel"),method:"move"},
+						success:function(message){
+							var part1 =  $('part1',message ).text();
+							var part2 =  $('part2',message ).text();							
+							if( $('status', message).text() == "true"){									
+								$(NODE).metadata().fullpath = part1;
+								$(NODE).metadata().link = part2;
+								$(NODE).attr("id",part1);	
+								currentFile = 		part1;					
+							}else{
+								alert("error");								
+							} 
+						}
+          			});   
+      			},      			  			
+      			"ondelete" : function(NODE, TREE_OBJ, RB) {
+          	  			$.ajax({
+    							type:"post",
+    							url:"<?php echo BASE_URL ?>tools/filemanager/deletefile",
+    							data:{id:$(NODE).attr("id"),filenametodelete:$(NODE).attr("id"),type:$(NODE).attr("rel")}
+              			});
+          			 },
+          		"oncreate" : function(NODE, REF_NODE, TYPE, TREE_OBJ, RB) {
+                    		
+          					var parent = TREE_OBJ.parent(NODE);                      			
+                			if(parent !=  -1  && parent != false)
+                				parent = parent.attr("id");              				
+            	  			$.ajax({
+    							type:"post",
+    							url:"<?php echo BASE_URL ?>tools/filemanager/createfolder",
+    							data:{type:$(NODE).attr("rel"),parent:parent},
+    							success : function(message){
+    								var part1 =  $('part1',message ).text();
+    								var part2 =  $('part2',message ).text();							
+    								if( $('status', message).text() == "true"){									
+    									$(NODE).metadata().fullpath = part1;
+    									$(NODE).metadata().link = part2;
+    									$(NODE).attr("id",part1);
+    														
+    								}else{
+    									alert("error");								
+    								} 
+    							}      	      							
+                			});                  			
+            			 },      			
+      			"beforecreate" : function(NODE, REF_NODE, TYPE, TREE_OBJ) { return true }	
+      			
+		   	},
+		   	"plugins" : {
+				   	 
+			   		  "contextmenu" : {
+			   	       items : {
+							/*create : false,*/
+            		   		create  : {
+                				label:"<?php echo $this->_("Create Folder") ?>",
+                				icon : "create",
+                				visible	: function (NODE, TREE_OBJ) { 
+                				if(NODE.length != 1) return 0; 
+                					return TREE_OBJ.check("creatable", NODE); 
+                    			}, 						
+                    			action	: function (NODE, TREE_OBJ) { 
+                    				TREE_OBJ.create({ attributes : {"rel":"dir"} }, TREE_OBJ.get_node(NODE[0])); 
+                    			}											
+                			},
+                			adddownload  : {
+                				label:"<?php echo $this->_("Add to the download list") ?>",
+                				
+                				visible	: function (NODE, TREE_OBJ) { 
+                				if(NODE.length != 1) return 0; 
+                					return TREE_OBJ.check("downloadable", NODE); 
+                    			}, 						
+                    			action	: function (NODE, TREE_OBJ) {
+                    				addItemToDownload($(NODE).attr("id"),TREE_OBJ.get_text(NODE)); 
+                    				 
+                    			}											
+                			},		
+		   					rename : {
+		   						label	: "<?php echo $this->_("Rename") ?>", 
+		   						icon	: "rename",
+		   						visible	: function (NODE, TREE_OBJ) { 
+		   							if(NODE.length != 1) return false; 
+		   							return TREE_OBJ.check("renameable", NODE); 
+		   						}, 
+		   						action	: function (NODE, TREE_OBJ) { 
+		   							TREE_OBJ.rename(NODE); 
+		   						} 
+		   					},
+		   					open : {
+		   						label	: "<?php echo $this->_("Open") ?>", 
+		   						icon : "open",
+		   						visible	: function (NODE, TREE_OBJ) { 
+		   							if(NODE.length != 1) return false; 
+		   							return TREE_OBJ.check("openable", NODE); 
+		   						}, 
+		   						action	: function (NODE, TREE_OBJ) { 
+		   								window.open($(NODE).metadata().link);
+		   						} 
+			   					},
+		   					remove : {
+		   						label	: "<?php echo $this->_("Delete") ?>",
+		   						icon	: "remove",
+		   						visible	: function (NODE, TREE_OBJ) { 
+		   							var ok = false; 
+		   							if(TREE_OBJ.check("deletable", NODE)){
+			   							/*
+		   								$.each(NODE, function () { 
+				   							result = TREE_OBJ.children(NODE);			   							
+				   							if( !NODE.hasClass("closed") &&  (result.length == 0 || result == false) ){
+				   								ok = true;
+				   									return true;
+				   							}				   										   						
+			   							}); 
+			   							*/ok = true;
+		   							}	   								   						 							
+		   							return ok; 
+		   						}, 
+		   						action	: function (NODE, TREE_OBJ) { 
+		   							$.each(NODE, function () { 
+		   								TREE_OBJ.remove(this); 
+		   							}); 
+		   						} 
+		   					}		   					
+		   				}
+			   	   } 
+		   	 },	   			
+		"types" : {    			
+			"default" : {
+				"deletable" : false,
+				"renameable" : false,
+				"downloadable" : true	,
+				"openable":false			
+			},	
+			"root"	:{
+				"valid_children" : ["dir","file"] ,
+				"creatable":true	
+			},		
+			"dir" : {
+				"valid_children" : ["file","dir"]  ,
+				"deletable" : true	,
+				"renameable" : true	,
+				"creatable":true
+			},
+			"file" : {					
+				"valid_children" : "none",
+				"deletable" : true,				
+				"renameable" : true,
+				"icon" : { 
+					image : "<?php echo BASE_URL?>themes/system/pics/file.png"
+				},
+			    "edititem":true,
+			    "creatable":false,
+			    "openable":true
+			}
+		},   	   	   		   	   		
+ 	   "data":{
+	   			"type" : "json",
+		   		"async" :true,
+		   		"opts" : {
+					method: "POST",
+					url : "<?php echo BASE_URL ?>tools/filemanager/loadnode"
+    					} 
+     	   },
+     	"lang":{
+      		new_node : "<?php echo $this->_("New") ?>",
+         	loading : "<?php echo $this->_("Loading") ?> ..."
+     	   }  
+	  	     	   
+        });    
+    
+});
+//]]>
+</script>

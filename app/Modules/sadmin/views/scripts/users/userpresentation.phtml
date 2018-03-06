@@ -1,0 +1,10 @@
+
+<?php $this->placeholder("title")->set($this->_("Edit user"))?>
+<h2><?php echo $this->user["firstname"] ?> <?php echo $this->user["name"] ?>
+(<?php echo $this->user["ulogin"] ?>)</h2>
+
+<?php if($this->user["state"]== "1") : ?>
+<?php echo $this->_("This user is active.") ?>
+<?php else :?>
+<?php echo $this->_("This user is unactive.") ?>
+<?php endif ?>

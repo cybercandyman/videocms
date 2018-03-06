@@ -1,0 +1,69 @@
+<?php $this->placeholder("title")->set($this->_( "Billings list") )?>
+
+<div id="moreCriteria">
+<h3><?php echo $this->_("More criterias")?></h3>
+<div id="moreCriteriaContent" class="more_description">
+
+    <form action="<?php echo $this->url(array("action"=>"list","controller"=>"billings","module"=>"sadmin"),null,true) ?>"	method="get">
+    <fieldset class="small">
+    <p><label><?php echo $this->_("Production account") ?> :</label> <span>
+    <?php echo $this->formSelect("idproduction",$this->getParam("idproduction",""),null,$this->productions);?>
+    </span></p>
+    <p><label><?php echo $this->_("Date") ?> :</label> <span> <?php echo $this->formSelect("date",$this->getParam("date",""),null,$this->daterange); ?>
+    </span></p>
+    <p>
+    <p><label><?php echo $this->_("State") ?> :</label> <span> <?php echo $this->formSelect("state",$this->getParam("state",""),null,array(""=>"", "0" => $this->_("pending","none"), "1" => $this->_("issued","none"))); ?>
+    </span></p>
+    <p>
+    <?php echo $this->sexybutton ("submit", $this->_("filter"), array("send_form_btn"), null,array("id"=>"btnFilter")) ?>
+    </p>
+    </fieldset>
+    </form>
+
+</div>
+
+</div>
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo BASE_URL ?>themes/system/css/facebox.css" media="all" />
+
+<div>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("idbilling"))) ?>">#<?php echo $this->_ ( "idbilling" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("date"))) ?>"><?php echo $this->_ ( "date" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("name"))) ?>"><?php echo $this->_ ( "production name" );?></a></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $item["idbilling"]?></td>
+			<td><?php echo $item["date"]?></td>
+			<td><?php echo $item["name"]?></td>
+			<td>
+			<div class="actions_menu">
+			<ul>
+				<li><a class="edit"
+					href="<?php echo $this->url(array( "action" => "edit","controller"=>"billings","module"=>$this->getParam("module"),"idbilling"=>$item["idbilling"]),null,true) ?>"><?php echo $this->_("edit") ?></a></li>
+			</ul>
+			</div>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+</div>
+		<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+<script type="text/javascript">
+
+</script>

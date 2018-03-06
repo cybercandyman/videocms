@@ -1,0 +1,13 @@
+<?php $this->masterView('sidebar_module.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+<ul >
+	<li><a href="<?php echo BASE_URL ?>sadmin/users/list"><?php echo $this->_("Users list")?></a></li>
+	<li><a href="<?php echo BASE_URL ?>sadmin/productions/list"><?php echo $this->_("Productions list")?></a></li>
+	<li ><a href="<?php echo BASE_URL ?>sadmin/publications/list"><?php echo $this->_("Publications list")?></a></li>
+	<li class="last"><a href="<?php echo BASE_URL ?>sadmin/services/list"><?php echo $this->_("Services list")?></a></li>
+</ul>
+<?php $this->block()->end(); ?>
+
+<?php $this->block('title')->start(); ?>
+	<?php echo $this->_("Quick links")?>
+<?php $this->block()->end(); ?>									

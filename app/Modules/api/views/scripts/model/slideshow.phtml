@@ -1,0 +1,23 @@
+<playlist>
+<title><?php echo (htmlspecialchars($this->playlist->title)) ?></title>
+<description>
+<?php echo (htmlspecialchars($this->playlist->description)) ?>
+</description>
+<picture><?php echo (htmlspecialchars($this->playlist->picture)) ?></picture>
+<group><?php echo (htmlspecialchars($this->playlist->groupname)) ?></group>
+
+<programs>
+<?php
+$programs = $this->playlist->getPrograms();
+for($i=0 ; $i <sizeof($programs) ;$i++) : ?>
+
+<program>
+<infos>
+<title><?php echo (htmlspecialchars($programs[$i]->title)) ?></title>
+<picture><?php echo (htmlspecialchars($programs[$i]->getPicture("program"))) ?></picture>
+</infos>
+</program>
+
+<?php endfor;?>
+</programs>
+</playlist>

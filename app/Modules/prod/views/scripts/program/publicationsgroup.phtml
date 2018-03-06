@@ -1,0 +1,78 @@
+
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL?>embeded/js/jquery.form.js"></script>
+<script
+	type="text/javascript"
+	src="<?php echo BASE_URL?>embeded/js/jquery.blockUI.js"></script>
+
+
+<table class="tablesorter display table" id="publicationListAffectation">
+	<tbody>
+	<?php foreach ($this->listofpublications as $publication): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>
+				<?php echo $this->sexybutton ("button", $this->_("Publish"), array("send_form_btn"), null,array("onclick"=>"publish(".$publication["idpublication"].")")) ?>
+			</td>
+			<td><label
+				for="checkPublication_<?php echo $publication["idpublication"] ?>"><?php echo $publication["name"] ?></label>
+			</td>
+			<td>
+
+			<div class="actions_menu">
+			<ul>
+
+			<?php
+			$session = Zend_Registry::get("session");
+			if(isset($session->user->access)){
+			    for($i=0;$i<sizeof($session->user->access);$i++){
+			        if($session->user->access[$i]["module"] == "pub" && $session->user->access[$i]["ressource"] ==  $publication["idpublication"] && $session->user->access[$i]["level"] == 0): ?>
+				<li><a class="edit"
+					href="javascript:setEnvironment('<?php echo $session->user->access[$i]["tmpaccess"] ?>')"><?php echo $this->_("administrate")?></a></li>
+
+
+					<?php endif;
+			    }
+			}
+			?>
+
+			</ul>
+			</div>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+function setEnvironment(environmentID){	
+	document.location.href = BASE_URL + "default/environment/setenvir/ressourceSelector/" + environmentID;	
+}
+function publish(idpublication){
+	$.blockUI({message:"<h1><?php echo $this->_("Please wait") ?></h1>"});		
+	$.ajax({
+		type:"post",
+		url:"<?php echo BASE_URL ?>prod/program/publishgroup",
+		data:{idpublication:idpublication,idgroup:<?php echo $this->idgroup ?>},
+		success:function(data){
+			$.unblockUI();
+		}
+	
+	});	
+}
+
+jQuery(document).ready(function(){
+	$("input[type=checkbox]", "#publicationListAffectation").change(function(){
+		$.ajax({
+			type:"post",
+			url:"<?php echo BASE_URL ?>prod/program/dispo",
+			data:{key:"<?php echo $this->key ?>",id:$(this).attr("id"),state:$(this).attr("checked")}
+		});
+	});
+});
+
+	
+//]]>
+</script>

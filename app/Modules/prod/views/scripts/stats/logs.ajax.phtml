@@ -1,0 +1,49 @@
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("idlog"))) ?>">#<?php echo $this->_ ( "idlog" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("idprog"))) ?>"><?php echo $this->_ ( "keyprog" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("value"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("csuristem"))) ?>"><?php echo $this->_ ( "csuristem" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("datetime"))) ?>"><?php echo $this->_ ( "datetime" );?></a></th>
+
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("csuseragent"))) ?>"><?php echo $this->_ ( "csuseragent" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("protocol"))) ?>"><?php echo $this->_ ( "protocol" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("transport"))) ?>"><?php echo $this->_ ( "transport" );?></a></th>
+			<th><a class="link_sorter"
+				href="<?php echo $this->url(array( "ord" => $this->order("cip"))) ?>"><?php echo $this->_ ( "ip" );?></a></th>
+
+
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td>#<?php echo $item["idlog"]?></td>
+			<td><?php echo $item["idprog"]?></td>
+
+			<td><?php echo  $item["value"] ?></td>
+			<td><span title="<?php echo $item["csuristem"]?>"><?php echo substr($item["csuristem"],0,20)." ..."?></span>
+			</td>
+			<td><?php echo $item["datetime"]?></td>
+
+			<td><?php echo $item["csuseragent"]?></td>
+			<td><?php echo $item["protocol"]?></td>
+			<td><?php echo $item["transport"]?></td>
+			<td><?php echo $item["cip"]?></td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+<div id="paginator"><?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+</div>

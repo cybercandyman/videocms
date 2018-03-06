@@ -1,0 +1,10 @@
+<?php echo $this->_("Hello!") ?>,<br/><br/>
+
+<p>
+<?php echo $this->_("This email is sent to you because you  forgot your password.")?><br />
+<?php echo $this->_("The following url is valid only for the next 24 hours.")?>
+</p>
+<p>
+http://<?php echo $_SERVER["HTTP_HOST"] ?><?php echo BASE_URL ?>default/user/reset?email=<?php echo $this->email ?>&key=<?php  echo urlencode($this->encryptedValue)?>
+</p>
+<?php echo $this->_("Greetings")?>,

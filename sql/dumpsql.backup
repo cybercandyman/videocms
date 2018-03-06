@@ -1,0 +1,7685 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: postgres
+--
+
+CREATE PROCEDURAL LANGUAGE plpgsql;
+
+
+ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO postgres;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: productions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE productions (
+    idproduction integer NOT NULL,
+    idorganization bigint NOT NULL,
+    idgroup bigint NOT NULL,
+    name character varying NOT NULL,
+    pathdownload character varying NOT NULL,
+    key text NOT NULL,
+    pathstreaming_qt character varying,
+    pathstreaming_rm character varying,
+    pathstreaming_wm character varying,
+    pathpictures character varying NOT NULL,
+    pathcomponent character varying NOT NULL,
+    textbandeau character varying NOT NULL,
+    textwatermark text,
+    textcopyright text,
+    defaultwebcodec character varying,
+    defaultidperiode character varying,
+    dureegratuitemax integer,
+    logocatalogue character varying,
+    depositdirectory character varying,
+    streamdirectory character varying,
+    date_of_creation date,
+    date_of_closure date,
+    email character varying,
+    menu smallint,
+    streamercode integer,
+    alias character varying,
+    isdeleted integer DEFAULT 0 NOT NULL,
+    idservice bigint,
+    idprofil bigint,
+    email2 character varying,
+    mobilephone character varying,
+    phonenumber2 character varying,
+    organization character varying,
+    organization_details character varying,
+    title character varying,
+    work character varying,
+    notes character varying,
+    picture character varying
+);
+
+
+ALTER TABLE public.productions OWNER TO postgres;
+
+--
+-- Name: publications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE publications (
+    idpublication integer NOT NULL,
+    idorganization bigint NOT NULL,
+    key character varying NOT NULL,
+    name character varying NOT NULL,
+    alias character varying NOT NULL,
+    pathcomponent character varying NOT NULL,
+    state smallint,
+    description text,
+    url character varying,
+    menu smallint,
+    date_of_creation date,
+    idproduction bigint DEFAULT 0,
+    isdeleted integer DEFAULT 0,
+    email character varying,
+    idservice bigint,
+    email2 character varying,
+    mobilephone character varying,
+    phonenumber2 character varying,
+    organization character varying,
+    organization_details character varying,
+    title character varying,
+    work character varying,
+    notes character varying,
+    picture character varying
+);
+
+
+ALTER TABLE public.publications OWNER TO postgres;
+
+--
+-- Name: ressources_access; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE ressources_access (
+    iduser bigint NOT NULL,
+    idcomponent bigint DEFAULT 0 NOT NULL,
+    level smallint,
+    state integer,
+    authorization_type integer DEFAULT 0,
+    idacces integer NOT NULL,
+    module character varying,
+    ressource bigint
+);
+
+
+ALTER TABLE public.ressources_access OWNER TO postgres;
+
+--
+-- Name: services; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services (
+    idservice integer NOT NULL,
+    name character varying,
+    isdeleted integer DEFAULT 0,
+    menu integer,
+    key character varying,
+    email character varying,
+    email2 character varying,
+    mobilephone character varying,
+    phonenumber2 character varying,
+    organization character varying,
+    organization_details character varying,
+    title character varying,
+    work character varying,
+    notes character varying,
+    picture character varying
+);
+
+
+ALTER TABLE public.services OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    iduser integer NOT NULL,
+    idgroup bigint,
+    name character varying,
+    firstname character varying,
+    email character varying,
+    phonenumber character varying,
+    faxnumber character varying,
+    adress1 text,
+    adress2 text,
+    city text,
+    postalcode character varying,
+    ulogin character varying,
+    upassword character varying,
+    lastconnection timestamp without time zone,
+    state smallint,
+    userkey character varying,
+    lang character varying,
+    secretquestion character varying,
+    secretresponse character varying,
+    email2 character varying,
+    mobilephone character varying,
+    phonenumber2 character varying,
+    organization character varying,
+    organization_details character varying,
+    title character varying,
+    work character varying,
+    notes text,
+    picture character varying
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: access; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW access AS
+    SELECT ressources_access.iduser, ressources_access.idcomponent, ressources_access.level, ressources_access.state, ressources_access.authorization_type, ressources_access.idacces, ressources_access.module, ressources_access.ressource, users.state AS userstate, CASE ressources_access.module WHEN 'prod'::text THEN productions.key WHEN 'pub'::text THEN (publications.key)::text ELSE NULL::text END AS key, CASE ressources_access.module WHEN 'prod'::text THEN productions.isdeleted WHEN 'pub'::text THEN publications.isdeleted WHEN 'ser'::text THEN services.isdeleted ELSE NULL::integer END AS isdeleted FROM ((((ressources_access LEFT JOIN users ON ((ressources_access.iduser = users.iduser))) LEFT JOIN productions ON (((ressources_access.ressource = productions.idproduction) AND ((ressources_access.module)::text = 'prod'::text)))) LEFT JOIN publications ON (((ressources_access.ressource = publications.idpublication) AND ((ressources_access.module)::text = 'pub'::text)))) LEFT JOIN services ON (((ressources_access.ressource = services.idservice) AND ((ressources_access.module)::text = 'ser'::text))));
+
+
+ALTER TABLE public.access OWNER TO postgres;
+
+--
+-- Name: kb_rub; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE kb_rub (
+    id integer NOT NULL,
+    title character varying,
+    idparent bigint,
+    idkb bigint
+);
+
+
+ALTER TABLE public.kb_rub OWNER TO postgres;
+
+--
+-- Name: bc_rub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE bc_rub_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bc_rub_id_seq OWNER TO postgres;
+
+--
+-- Name: bc_rub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE bc_rub_id_seq OWNED BY kb_rub.id;
+
+
+--
+-- Name: bc_rub_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('bc_rub_id_seq', 35, true);
+
+
+--
+-- Name: billings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE billings (
+    idbilling integer NOT NULL,
+    idrate character varying DEFAULT 1 NOT NULL,
+    idproduction bigint NOT NULL,
+    bytes_streamed bigint DEFAULT 0,
+    bytes_stored bigint DEFAULT 0,
+    libelle_discount character varying,
+    amount_discount character varying,
+    rate_discount character varying,
+    libelle_rate_discount character varying,
+    billing_status character varying DEFAULT 0,
+    date character varying,
+    frozen_total character varying
+);
+
+
+ALTER TABLE public.billings OWNER TO postgres;
+
+--
+-- Name: billings_idbilling_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE billings_idbilling_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.billings_idbilling_seq OWNER TO postgres;
+
+--
+-- Name: billings_idbilling_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE billings_idbilling_seq OWNED BY billings.idbilling;
+
+
+--
+-- Name: billings_idbilling_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('billings_idbilling_seq', 6, true);
+
+
+--
+-- Name: billings_others; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE billings_others (
+    idbillingother integer NOT NULL,
+    idbilling bigint NOT NULL,
+    libelle text,
+    amount text,
+    type character varying
+);
+
+
+ALTER TABLE public.billings_others OWNER TO postgres;
+
+--
+-- Name: billings_others_idbillingother_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE billings_others_idbillingother_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.billings_others_idbillingother_seq OWNER TO postgres;
+
+--
+-- Name: billings_others_idbillingother_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE billings_others_idbillingother_seq OWNED BY billings_others.idbillingother;
+
+
+--
+-- Name: billings_others_idbillingother_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('billings_others_idbillingother_seq', 2, true);
+
+
+--
+-- Name: chapters; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE chapters (
+    id integer NOT NULL,
+    idprog integer,
+    idplaylist integer DEFAULT 0,
+    url character varying(128),
+    tcin character varying(128),
+    file character varying(128),
+    picture character varying(128)
+);
+
+
+ALTER TABLE public.chapters OWNER TO postgres;
+
+--
+-- Name: chapters_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE chapters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.chapters_id_seq OWNER TO postgres;
+
+--
+-- Name: chapters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE chapters_id_seq OWNED BY chapters.id;
+
+
+--
+-- Name: chapters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('chapters_id_seq', 20904, true);
+
+
+--
+-- Name: chapters_translations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE chapters_translations (
+    idchapter integer NOT NULL,
+    id bigint,
+    idfgroup bigint NOT NULL,
+    value text,
+    idview integer DEFAULT 0,
+    textsearchable_index_col tsvector
+);
+
+
+ALTER TABLE public.chapters_translations OWNER TO postgres;
+
+--
+-- Name: playlists; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE playlists (
+    idplaylist integer NOT NULL,
+    idpublication bigint NOT NULL,
+    title character varying,
+    description text,
+    picture character varying,
+    groupname character varying,
+    key character varying,
+    idview integer,
+    state character varying
+);
+
+
+ALTER TABLE public.playlists OWNER TO postgres;
+
+--
+-- Name: programs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs (
+    idprog integer NOT NULL,
+    idprog_programs_extract integer,
+    idproduction bigint NOT NULL,
+    idextfilm character varying(128),
+    keyprog character varying(128) NOT NULL,
+    duration character varying(128),
+    date date,
+    tcin character varying(128),
+    tcout character varying(128),
+    state character varying,
+    type_extract character varying,
+    viewof integer,
+    idpublication integer DEFAULT 0,
+    idprog_programs_of integer DEFAULT 0
+);
+
+
+ALTER TABLE public.programs OWNER TO postgres;
+
+--
+-- Name: programs_fields; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_fields (
+    idfield integer NOT NULL,
+    title character varying(255),
+    type character varying(128),
+    table_ref character varying(128),
+    parent character varying,
+    mask character varying,
+    default_value text,
+    help text,
+    is_editable integer DEFAULT 2,
+    category character varying,
+    indexable boolean,
+    code character varying
+);
+
+
+ALTER TABLE public.programs_fields OWNER TO postgres;
+
+--
+-- Name: programs_fields_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_fields_group (
+    idgroup integer NOT NULL,
+    name text,
+    category character varying,
+    system_gcv boolean,
+    is_editable boolean DEFAULT true
+);
+
+
+ALTER TABLE public.programs_fields_group OWNER TO postgres;
+
+--
+-- Name: programs_fields_group_fields; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_fields_group_fields (
+    idfield bigint NOT NULL,
+    idgroup bigint NOT NULL,
+    idfgroup integer NOT NULL,
+    order_ext integer,
+    cat character varying
+);
+
+
+ALTER TABLE public.programs_fields_group_fields OWNER TO postgres;
+
+--
+-- Name: chaptersview; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW chaptersview AS
+    SELECT DISTINCT c.id, c.idprog, c.idplaylist, ct.idfgroup, ct.value, p.state, p.idproduction, p.idpublication, pf.idfield, pf.title, pf.type, pf.table_ref, pf.parent, pf.mask, pf.default_value, pf.help, pf.is_editable, pf.category, pf.indexable, pf.code, playlists.key AS playlistkey, p.keyprog, poff.keyprog AS fromkeyprog, ct.textsearchable_index_col FROM ((((((((chapters c LEFT JOIN programs p ON ((c.idprog = p.idprog))) LEFT JOIN productions prod ON ((p.idproduction = prod.idproduction))) LEFT JOIN chapters_translations ct ON ((c.id = ct.idchapter))) LEFT JOIN programs_fields_group_fields pfgf ON ((ct.idfgroup = pfgf.idfgroup))) LEFT JOIN programs_fields_group pfg ON ((pfgf.idgroup = pfg.idgroup))) LEFT JOIN programs_fields pf ON ((pf.idfield = pfgf.idfield))) LEFT JOIN playlists ON ((c.idplaylist = playlists.idplaylist))) LEFT JOIN programs poff ON ((p.idprog_programs_of = poff.idprog))) WHERE ((p.state)::text = 'ACTIVATED'::text);
+
+
+ALTER TABLE public.chaptersview OWNER TO postgres;
+
+--
+-- Name: components; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE components (
+    idcomponent integer NOT NULL,
+    name character varying,
+    url text,
+    moduletype character varying,
+    controller character varying,
+    action character varying,
+    parameters character varying,
+    route character varying
+);
+
+
+ALTER TABLE public.components OWNER TO postgres;
+
+--
+-- Name: components_idcomponent_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE components_idcomponent_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.components_idcomponent_seq OWNER TO postgres;
+
+--
+-- Name: components_idcomponent_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE components_idcomponent_seq OWNED BY components.idcomponent;
+
+
+--
+-- Name: components_idcomponent_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('components_idcomponent_seq', 49, true);
+
+
+--
+-- Name: encoding_formats; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE encoding_formats (
+    idformat integer NOT NULL,
+    title character varying,
+    command character varying,
+    outputstring character varying,
+    coder character varying,
+    rate character varying,
+    height character varying,
+    width character varying
+);
+
+
+ALTER TABLE public.encoding_formats OWNER TO postgres;
+
+--
+-- Name: encoding_formats_idformat_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE encoding_formats_idformat_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.encoding_formats_idformat_seq OWNER TO postgres;
+
+--
+-- Name: encoding_formats_idformat_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE encoding_formats_idformat_seq OWNED BY encoding_formats.idformat;
+
+
+--
+-- Name: encoding_formats_idformat_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('encoding_formats_idformat_seq', 11, true);
+
+
+--
+-- Name: encoding_profils; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE encoding_profils (
+    idprofil integer NOT NULL,
+    title character varying
+);
+
+
+ALTER TABLE public.encoding_profils OWNER TO postgres;
+
+--
+-- Name: encoding_profils_formats; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE encoding_profils_formats (
+    idprofil integer,
+    idformat integer
+);
+
+
+ALTER TABLE public.encoding_profils_formats OWNER TO postgres;
+
+--
+-- Name: encoding_profils_idprofil_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE encoding_profils_idprofil_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.encoding_profils_idprofil_seq OWNER TO postgres;
+
+--
+-- Name: encoding_profils_idprofil_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE encoding_profils_idprofil_seq OWNED BY encoding_profils.idprofil;
+
+
+--
+-- Name: encoding_profils_idprofil_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('encoding_profils_idprofil_seq', 6, true);
+
+
+--
+-- Name: enum_action; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_action (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_action OWNER TO postgres;
+
+--
+-- Name: enum_action_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_action_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_action_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_action_id_seq OWNED BY enum_action.id;
+
+
+--
+-- Name: enum_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_action_id_seq', 5, true);
+
+
+--
+-- Name: enum_audience; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_audience (
+    id integer NOT NULL,
+    ref_text integer,
+    parent integer,
+    libelle character varying
+);
+
+
+ALTER TABLE public.enum_audience OWNER TO postgres;
+
+--
+-- Name: enum_audience_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_audience_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_audience_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_audience_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_audience_id_seq OWNED BY enum_audience.id;
+
+
+--
+-- Name: enum_audience_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_audience_id_seq', 5, true);
+
+
+--
+-- Name: enum_class; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_class (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_class OWNER TO postgres;
+
+--
+-- Name: enum_class2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_class2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_class2 OWNER TO postgres;
+
+--
+-- Name: enum_class2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_class2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_class2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_class2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_class2_id_seq OWNED BY enum_class2.id;
+
+
+--
+-- Name: enum_class2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_class2_id_seq', 37, true);
+
+
+--
+-- Name: enum_class_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_class_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_class_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_class_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_class_id_seq OWNED BY enum_class.id;
+
+
+--
+-- Name: enum_class_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_class_id_seq', 8, true);
+
+
+--
+-- Name: enum_countries; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_countries (
+    id integer NOT NULL,
+    ref_text integer,
+    parent integer,
+    libelle character varying
+);
+
+
+ALTER TABLE public.enum_countries OWNER TO postgres;
+
+--
+-- Name: enum_countries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_countries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_countries_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_countries_id_seq OWNED BY enum_countries.id;
+
+
+--
+-- Name: enum_countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_countries_id_seq', 280, true);
+
+
+--
+-- Name: enum_domaine; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_domaine (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_domaine OWNER TO postgres;
+
+--
+-- Name: enum_domaine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_domaine_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_domaine_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_domaine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_domaine_id_seq OWNED BY enum_domaine.id;
+
+
+--
+-- Name: enum_domaine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_domaine_id_seq', 19, true);
+
+
+--
+-- Name: enum_format; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_format (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_format OWNER TO postgres;
+
+--
+-- Name: enum_format_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_format_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_format_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_format_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_format_id_seq OWNED BY enum_format.id;
+
+
+--
+-- Name: enum_format_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_format_id_seq', 3, true);
+
+
+--
+-- Name: enum_function; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_function (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_function OWNER TO postgres;
+
+--
+-- Name: enum_function_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_function_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_function_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_function_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_function_id_seq OWNED BY enum_function.id;
+
+
+--
+-- Name: enum_function_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_function_id_seq', 12, true);
+
+
+--
+-- Name: enum_genre; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_genre (
+    id integer NOT NULL,
+    ref_text integer,
+    parent integer,
+    libelle character varying
+);
+
+
+ALTER TABLE public.enum_genre OWNER TO postgres;
+
+--
+-- Name: enum_genre_audiovisual; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_genre_audiovisual (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_genre_audiovisual OWNER TO postgres;
+
+--
+-- Name: enum_genre_audiovisual_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_genre_audiovisual_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_genre_audiovisual_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_genre_audiovisual_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_genre_audiovisual_id_seq OWNED BY enum_genre_audiovisual.id;
+
+
+--
+-- Name: enum_genre_audiovisual_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_genre_audiovisual_id_seq', 5, true);
+
+
+--
+-- Name: enum_genre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_genre_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_genre_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_genre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_genre_id_seq OWNED BY enum_genre.id;
+
+
+--
+-- Name: enum_genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_genre_id_seq', 20, true);
+
+
+--
+-- Name: enum_language; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_language (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_language OWNER TO postgres;
+
+--
+-- Name: enum_language_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_language_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_language_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_language_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_language_id_seq OWNED BY enum_language.id;
+
+
+--
+-- Name: enum_language_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_language_id_seq', 11, true);
+
+
+--
+-- Name: enum_lcid; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_lcid (
+    lcid integer,
+    ref_text integer,
+    parent integer,
+    libelle character varying
+);
+
+
+ALTER TABLE public.enum_lcid OWNER TO postgres;
+
+--
+-- Name: enum_lieu; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_lieu (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_lieu OWNER TO postgres;
+
+--
+-- Name: enum_lieu2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_lieu2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_lieu2 OWNER TO postgres;
+
+--
+-- Name: enum_lieu2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_lieu2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_lieu2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_lieu2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_lieu2_id_seq OWNED BY enum_lieu2.id;
+
+
+--
+-- Name: enum_lieu2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_lieu2_id_seq', 132, true);
+
+
+--
+-- Name: enum_lieu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_lieu_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_lieu_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_lieu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_lieu_id_seq OWNED BY enum_lieu.id;
+
+
+--
+-- Name: enum_lieu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_lieu_id_seq', 7, true);
+
+
+--
+-- Name: enum_media; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_media (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_media OWNER TO postgres;
+
+--
+-- Name: enum_media_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_media_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_media_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_media_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_media_id_seq OWNED BY enum_media.id;
+
+
+--
+-- Name: enum_media_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_media_id_seq', 3, true);
+
+
+--
+-- Name: enum_medium; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_medium (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_medium OWNER TO postgres;
+
+--
+-- Name: enum_medium_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_medium_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_medium_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_medium_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_medium_id_seq OWNED BY enum_medium.id;
+
+
+--
+-- Name: enum_medium_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_medium_id_seq', 10, true);
+
+
+--
+-- Name: enum_organization; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_organization (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_organization OWNER TO postgres;
+
+--
+-- Name: enum_organization2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_organization2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_organization2 OWNER TO postgres;
+
+--
+-- Name: enum_organization2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_organization2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_organization2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_organization2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_organization2_id_seq OWNED BY enum_organization2.id;
+
+
+--
+-- Name: enum_organization2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_organization2_id_seq', 33, true);
+
+
+--
+-- Name: enum_organization_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_organization_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_organization_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_organization_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_organization_id_seq OWNED BY enum_organization.id;
+
+
+--
+-- Name: enum_organization_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_organization_id_seq', 6, true);
+
+
+--
+-- Name: enum_personne; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_personne (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_personne OWNER TO postgres;
+
+--
+-- Name: enum_personne2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_personne2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_personne2 OWNER TO postgres;
+
+--
+-- Name: enum_personne2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_personne2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_personne2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_personne2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_personne2_id_seq OWNED BY enum_personne2.id;
+
+
+--
+-- Name: enum_personne2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_personne2_id_seq', 23, true);
+
+
+--
+-- Name: enum_personne_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_personne_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_personne_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_personne_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_personne_id_seq OWNED BY enum_personne.id;
+
+
+--
+-- Name: enum_personne_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_personne_id_seq', 16, true);
+
+
+--
+-- Name: enum_pointzoom; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_pointzoom (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_pointzoom OWNER TO postgres;
+
+--
+-- Name: enum_pointzoom_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_pointzoom_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_pointzoom_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_pointzoom_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_pointzoom_id_seq OWNED BY enum_pointzoom.id;
+
+
+--
+-- Name: enum_pointzoom_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_pointzoom_id_seq', 6, true);
+
+
+--
+-- Name: enum_profession; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_profession (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_profession OWNER TO postgres;
+
+--
+-- Name: enum_profession_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_profession_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_profession_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_profession_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_profession_id_seq OWNED BY enum_profession.id;
+
+
+--
+-- Name: enum_profession_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_profession_id_seq', 6, true);
+
+
+--
+-- Name: enum_public; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_public (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_public OWNER TO postgres;
+
+--
+-- Name: enum_public2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_public2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_public2 OWNER TO postgres;
+
+--
+-- Name: enum_public2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_public2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_public2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_public2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_public2_id_seq OWNED BY enum_public2.id;
+
+
+--
+-- Name: enum_public2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_public2_id_seq', 21, true);
+
+
+--
+-- Name: enum_public_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_public_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_public_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_public_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_public_id_seq OWNED BY enum_public.id;
+
+
+--
+-- Name: enum_public_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_public_id_seq', 5, true);
+
+
+--
+-- Name: enum_scoring; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_scoring (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_scoring OWNER TO postgres;
+
+--
+-- Name: enum_scoring_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_scoring_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_scoring_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_scoring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_scoring_id_seq OWNED BY enum_scoring.id;
+
+
+--
+-- Name: enum_scoring_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_scoring_id_seq', 5, true);
+
+
+--
+-- Name: enum_sector; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_sector (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_sector OWNER TO postgres;
+
+--
+-- Name: enum_sector_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_sector_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_sector_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_sector_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_sector_id_seq OWNED BY enum_sector.id;
+
+
+--
+-- Name: enum_sector_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_sector_id_seq', 2, true);
+
+
+--
+-- Name: enum_sublanguage; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_sublanguage (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_sublanguage OWNER TO postgres;
+
+--
+-- Name: enum_sublanguage_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_sublanguage_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_sublanguage_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_sublanguage_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_sublanguage_id_seq OWNED BY enum_sublanguage.id;
+
+
+--
+-- Name: enum_sublanguage_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_sublanguage_id_seq', 11, true);
+
+
+--
+-- Name: enum_theme; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_theme (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_theme OWNER TO postgres;
+
+--
+-- Name: enum_theme2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_theme2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_theme2 OWNER TO postgres;
+
+--
+-- Name: enum_theme2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_theme2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_theme2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_theme2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_theme2_id_seq OWNED BY enum_theme2.id;
+
+
+--
+-- Name: enum_theme2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_theme2_id_seq', 43, true);
+
+
+--
+-- Name: enum_theme_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_theme_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_theme_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_theme_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_theme_id_seq OWNED BY enum_theme.id;
+
+
+--
+-- Name: enum_theme_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_theme_id_seq', 8, true);
+
+
+--
+-- Name: enum_type1; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_type1 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_type1 OWNER TO postgres;
+
+--
+-- Name: enum_type1_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_type1_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_type1_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_type1_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_type1_id_seq OWNED BY enum_type1.id;
+
+
+--
+-- Name: enum_type1_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_type1_id_seq', 18, true);
+
+
+--
+-- Name: enum_type2; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE enum_type2 (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.enum_type2 OWNER TO postgres;
+
+--
+-- Name: enum_type2_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE enum_type2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enum_type2_id_seq OWNER TO postgres;
+
+--
+-- Name: enum_type2_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE enum_type2_id_seq OWNED BY enum_type2.id;
+
+
+--
+-- Name: enum_type2_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('enum_type2_id_seq', 14, true);
+
+
+--
+-- Name: extra_components_panel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE extra_components_panel (
+    idcomp integer NOT NULL,
+    title character varying,
+    install_date character varying,
+    type character varying,
+    classname character varying,
+    version character varying,
+    manifest text,
+    path character varying
+);
+
+
+ALTER TABLE public.extra_components_panel OWNER TO postgres;
+
+--
+-- Name: extra_components_panel_idcomp_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE extra_components_panel_idcomp_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.extra_components_panel_idcomp_seq OWNER TO postgres;
+
+--
+-- Name: extra_components_panel_idcomp_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE extra_components_panel_idcomp_seq OWNED BY extra_components_panel.idcomp;
+
+
+--
+-- Name: extra_components_panel_idcomp_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('extra_components_panel_idcomp_seq', 29, true);
+
+
+--
+-- Name: fields_idfield_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE fields_idfield_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fields_idfield_seq OWNER TO postgres;
+
+--
+-- Name: fields_idfield_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE fields_idfield_seq OWNED BY programs_fields.idfield;
+
+
+--
+-- Name: fields_idfield_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('fields_idfield_seq', 117, true);
+
+
+--
+-- Name: groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE groups (
+    idgroup integer NOT NULL,
+    idproduction bigint NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    type character varying,
+    code character varying
+);
+
+
+ALTER TABLE public.groups OWNER TO postgres;
+
+--
+-- Name: groups_idgroup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE groups_idgroup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.groups_idgroup_seq OWNER TO postgres;
+
+--
+-- Name: groups_idgroup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE groups_idgroup_seq OWNED BY groups.idgroup;
+
+
+--
+-- Name: groups_idgroup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('groups_idgroup_seq', 37, true);
+
+
+--
+-- Name: groups_programs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE groups_programs (
+    idgroup bigint NOT NULL,
+    idprog integer NOT NULL,
+    listorder bigint
+);
+
+
+ALTER TABLE public.groups_programs OWNER TO postgres;
+
+--
+-- Name: kb_items; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE kb_items (
+    id integer NOT NULL,
+    title character varying,
+    kb_rub_id bigint,
+    idtype integer
+);
+
+
+ALTER TABLE public.kb_items OWNER TO postgres;
+
+--
+-- Name: kb_items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE kb_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.kb_items_id_seq OWNER TO postgres;
+
+--
+-- Name: kb_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE kb_items_id_seq OWNED BY kb_items.id;
+
+
+--
+-- Name: kb_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('kb_items_id_seq', 81, true);
+
+
+--
+-- Name: kb_items_translations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE kb_items_translations (
+    iditem integer NOT NULL,
+    id bigint,
+    idfgroup bigint NOT NULL,
+    value text,
+    textsearchable_index_col tsvector
+);
+
+
+ALTER TABLE public.kb_items_translations OWNER TO postgres;
+
+--
+-- Name: kb_items_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE kb_items_type (
+    idtype integer NOT NULL,
+    title character varying,
+    idgroup integer,
+    visible integer DEFAULT 1
+);
+
+
+ALTER TABLE public.kb_items_type OWNER TO postgres;
+
+--
+-- Name: kb_items_type_group; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW kb_items_type_group AS
+    SELECT kb_items_type.idtype, kb_items_type.title, kb_items_type.idgroup, programs_fields_group.name, programs_fields_group.category, programs_fields_group.system_gcv, programs_fields_group.is_editable, kb_items_type.visible FROM kb_items_type, programs_fields_group WHERE (kb_items_type.idgroup = programs_fields_group.idgroup) ORDER BY kb_items_type.title;
+
+
+ALTER TABLE public.kb_items_type_group OWNER TO postgres;
+
+--
+-- Name: kb_items_type_idtype_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE kb_items_type_idtype_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.kb_items_type_idtype_seq OWNER TO postgres;
+
+--
+-- Name: kb_items_type_idtype_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE kb_items_type_idtype_seq OWNED BY kb_items_type.idtype;
+
+
+--
+-- Name: kb_items_type_idtype_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('kb_items_type_idtype_seq', 4, true);
+
+
+--
+-- Name: knowledge_base; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE knowledge_base (
+    idkb integer NOT NULL,
+    title character varying,
+    idowner bigint,
+    typeowner character varying
+);
+
+
+ALTER TABLE public.knowledge_base OWNER TO postgres;
+
+--
+-- Name: knowledge_base_idkb_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE knowledge_base_idkb_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.knowledge_base_idkb_seq OWNER TO postgres;
+
+--
+-- Name: knowledge_base_idkb_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE knowledge_base_idkb_seq OWNED BY knowledge_base.idkb;
+
+
+--
+-- Name: knowledge_base_idkb_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('knowledge_base_idkb_seq', 1537, true);
+
+
+--
+-- Name: locales; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE locales (
+    idlocale integer NOT NULL,
+    code character varying,
+    libelle character varying
+);
+
+
+ALTER TABLE public.locales OWNER TO postgres;
+
+--
+-- Name: locales_idlocale_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE locales_idlocale_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.locales_idlocale_seq OWNER TO postgres;
+
+--
+-- Name: locales_idlocale_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE locales_idlocale_seq OWNED BY locales.idlocale;
+
+
+--
+-- Name: locales_idlocale_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('locales_idlocale_seq', 185, true);
+
+
+--
+-- Name: logs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE logs (
+    idlog integer NOT NULL,
+    statutimport smallint DEFAULT (0)::smallint NOT NULL,
+    idproduction smallint,
+    idpublication smallint,
+    idvisionnage bigint,
+    iduser bigint,
+    idversion bigint,
+    cip text,
+    date date,
+    "time" time without time zone DEFAULT '00:00:00'::time without time zone NOT NULL,
+    cdns text,
+    csuristem text,
+    cstarttime timestamp(6) without time zone,
+    xduration bigint DEFAULT 0,
+    crate bigint,
+    cstatus bigint DEFAULT (0)::smallint,
+    cplayerid text,
+    cplayerversion text,
+    cplayerlanguage text,
+    csuseragent text,
+    csreferer text,
+    chostexe text,
+    chostexever text,
+    cos text,
+    cosversion text,
+    ccpu text,
+    filelength bigint,
+    filesize bigint,
+    avgbandwidth bigint,
+    protocol text,
+    transport text,
+    audiocodec text,
+    videocodec text,
+    channelurl text,
+    scbytes bigint,
+    cbytes bigint,
+    spktssent bigint,
+    cpktsreceived bigint,
+    cpktslostclient bigint,
+    cpktslostnet bigint,
+    cpktslostcontnet integer,
+    cresendreqs bigint,
+    cpktsrecoveredecc bigint,
+    cpktsrecoveredresent bigint,
+    cbuffercount bigint,
+    ctotalbuffertime bigint,
+    cquality bigint,
+    sip character varying(255),
+    sdns character varying(255),
+    stotalclients character varying(255),
+    scpuutil text,
+    csusername text,
+    ssessionid text,
+    scontentpath text,
+    csmedianame text,
+    cmaxbandwidth text,
+    csmediarole text,
+    sproxied text,
+    csurl text,
+    idprog bigint
+);
+
+
+ALTER TABLE public.logs OWNER TO postgres;
+
+--
+-- Name: logs_idlog_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE logs_idlog_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.logs_idlog_seq OWNER TO postgres;
+
+--
+-- Name: logs_idlog_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE logs_idlog_seq OWNED BY logs.idlog;
+
+
+--
+-- Name: logs_idlog_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('logs_idlog_seq', 9061, true);
+
+
+--
+-- Name: masters; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE masters (
+    idmaster integer NOT NULL,
+    title character varying,
+    duration character varying,
+    format character varying,
+    encoding character varying,
+    comments text,
+    languages character varying
+);
+
+
+ALTER TABLE public.masters OWNER TO postgres;
+
+--
+-- Name: masters_idmaster_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE masters_idmaster_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.masters_idmaster_seq OWNER TO postgres;
+
+--
+-- Name: masters_idmaster_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE masters_idmaster_seq OWNED BY masters.idmaster;
+
+
+--
+-- Name: masters_idmaster_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('masters_idmaster_seq', 2, true);
+
+
+--
+-- Name: menus_elements; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE menus_elements (
+    idcomponent bigint NOT NULL,
+    title character varying(128),
+    idmenu integer NOT NULL,
+    url character varying
+);
+
+
+ALTER TABLE public.menus_elements OWNER TO postgres;
+
+--
+-- Name: menus_elements_idmenu_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE menus_elements_idmenu_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menus_elements_idmenu_seq OWNER TO postgres;
+
+--
+-- Name: menus_elements_idmenu_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE menus_elements_idmenu_seq OWNED BY menus_elements.idmenu;
+
+
+--
+-- Name: menus_elements_idmenu_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('menus_elements_idmenu_seq', 79, true);
+
+
+--
+-- Name: organizations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE organizations (
+    idorganization integer NOT NULL,
+    society character varying(255),
+    adress1 text,
+    adress2 text,
+    postalcode character varying(128),
+    city character varying(255),
+    country integer,
+    phonenumber character varying(128),
+    faxnumber character varying(128),
+    email text,
+    alias character varying,
+    picture character varying,
+    siret character varying,
+    tvaintra character varying,
+    email2 character varying,
+    phonenumber2 character varying,
+    domaine character varying,
+    notes text
+);
+
+
+ALTER TABLE public.organizations OWNER TO postgres;
+
+--
+-- Name: organizations_contacts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE organizations_contacts (
+    idcontact integer NOT NULL,
+    idorganization bigint NOT NULL,
+    name character varying(255),
+    firstname character varying(255),
+    adress1 text,
+    adress2 text,
+    postalcode character varying(128),
+    city text,
+    country integer,
+    phonenumber character varying(128),
+    faxnumber character varying(128),
+    email character varying(255)
+);
+
+
+ALTER TABLE public.organizations_contacts OWNER TO postgres;
+
+--
+-- Name: organizations_contacts_idcontact_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE organizations_contacts_idcontact_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.organizations_contacts_idcontact_seq OWNER TO postgres;
+
+--
+-- Name: organizations_contacts_idcontact_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE organizations_contacts_idcontact_seq OWNED BY organizations_contacts.idcontact;
+
+
+--
+-- Name: organizations_contacts_idcontact_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('organizations_contacts_idcontact_seq', 2, true);
+
+
+--
+-- Name: organizations_idorganization_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE organizations_idorganization_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.organizations_idorganization_seq OWNER TO postgres;
+
+--
+-- Name: organizations_idorganization_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE organizations_idorganization_seq OWNED BY organizations.idorganization;
+
+
+--
+-- Name: organizations_idorganization_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('organizations_idorganization_seq', 9, true);
+
+
+--
+-- Name: p_field_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE p_field_category (
+    value character varying(255),
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.p_field_category OWNER TO postgres;
+
+--
+-- Name: p_field_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE p_field_category_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.p_field_category_id_seq OWNER TO postgres;
+
+--
+-- Name: p_field_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE p_field_category_id_seq OWNED BY p_field_category.id;
+
+
+--
+-- Name: p_field_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('p_field_category_id_seq', 27, true);
+
+
+--
+-- Name: playlists_idplaylist_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE playlists_idplaylist_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.playlists_idplaylist_seq OWNER TO postgres;
+
+--
+-- Name: playlists_idplaylist_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE playlists_idplaylist_seq OWNED BY playlists.idplaylist;
+
+
+--
+-- Name: playlists_idplaylist_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('playlists_idplaylist_seq', 53, true);
+
+
+--
+-- Name: playlists_programs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE playlists_programs (
+    idplaylist integer NOT NULL,
+    idprog integer NOT NULL,
+    listorder integer NOT NULL
+);
+
+
+ALTER TABLE public.playlists_programs OWNER TO postgres;
+
+--
+-- Name: productions_fields_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE productions_fields_group (
+    idproduction integer NOT NULL,
+    idgroup integer NOT NULL,
+    "order" integer NOT NULL
+);
+
+
+ALTER TABLE public.productions_fields_group OWNER TO postgres;
+
+--
+-- Name: productions_idproduction_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE productions_idproduction_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.productions_idproduction_seq OWNER TO postgres;
+
+--
+-- Name: productions_idproduction_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE productions_idproduction_seq OWNED BY productions.idproduction;
+
+
+--
+-- Name: productions_idproduction_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('productions_idproduction_seq', 63, true);
+
+
+--
+-- Name: productions_menus_elements; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE productions_menus_elements (
+    idproduction bigint NOT NULL,
+    idmenu bigint NOT NULL,
+    menu_order integer,
+    idparent integer DEFAULT 0,
+    iduser bigint DEFAULT 0
+);
+
+
+ALTER TABLE public.productions_menus_elements OWNER TO postgres;
+
+--
+-- Name: productions_publications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE productions_publications (
+    idproduction bigint NOT NULL,
+    idpublication bigint NOT NULL
+);
+
+
+ALTER TABLE public.productions_publications OWNER TO postgres;
+
+--
+-- Name: productions_rate; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE productions_rate (
+    idrate character(32) NOT NULL,
+    idproduction bigint NOT NULL,
+    idperiode character(32) NOT NULL,
+    starttime character(32),
+    endtime character(32),
+    status character(32)
+);
+
+
+ALTER TABLE public.productions_rate OWNER TO postgres;
+
+--
+-- Name: programs_credits; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_credits (
+    idcredit integer NOT NULL,
+    value character varying,
+    idfunction integer,
+    idprog bigint
+);
+
+
+ALTER TABLE public.programs_credits OWNER TO postgres;
+
+--
+-- Name: programs_credits_idcredit_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE programs_credits_idcredit_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.programs_credits_idcredit_seq OWNER TO postgres;
+
+--
+-- Name: programs_credits_idcredit_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE programs_credits_idcredit_seq OWNED BY programs_credits.idcredit;
+
+
+--
+-- Name: programs_credits_idcredit_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('programs_credits_idcredit_seq', 1, false);
+
+
+--
+-- Name: programs_extracts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_extracts (
+    idprog bigint,
+    ord integer,
+    groupname character varying,
+    idprog_programs_extract bigint
+);
+
+
+ALTER TABLE public.programs_extracts OWNER TO postgres;
+
+--
+-- Name: programs_fields_group_fields_idfgroup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE programs_fields_group_fields_idfgroup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.programs_fields_group_fields_idfgroup_seq OWNER TO postgres;
+
+--
+-- Name: programs_fields_group_fields_idfgroup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE programs_fields_group_fields_idfgroup_seq OWNED BY programs_fields_group_fields.idfgroup;
+
+
+--
+-- Name: programs_fields_group_fields_idfgroup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('programs_fields_group_fields_idfgroup_seq', 109, true);
+
+
+--
+-- Name: programs_fields_group_idgroup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE programs_fields_group_idgroup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.programs_fields_group_idgroup_seq OWNER TO postgres;
+
+--
+-- Name: programs_fields_group_idgroup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE programs_fields_group_idgroup_seq OWNED BY programs_fields_group.idgroup;
+
+
+--
+-- Name: programs_fields_group_idgroup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('programs_fields_group_idgroup_seq', 17, true);
+
+
+--
+-- Name: programs_idprog_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE programs_idprog_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.programs_idprog_seq OWNER TO postgres;
+
+--
+-- Name: programs_idprog_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE programs_idprog_seq OWNED BY programs.idprog;
+
+
+--
+-- Name: programs_idprog_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('programs_idprog_seq', 11963, true);
+
+
+--
+-- Name: programs_pictures; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_pictures (
+    idpicture integer NOT NULL,
+    uri character varying,
+    idprog bigint,
+    usage character varying
+);
+
+
+ALTER TABLE public.programs_pictures OWNER TO postgres;
+
+--
+-- Name: programs_pictures_idpicture_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE programs_pictures_idpicture_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.programs_pictures_idpicture_seq OWNER TO postgres;
+
+--
+-- Name: programs_pictures_idpicture_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE programs_pictures_idpicture_seq OWNED BY programs_pictures.idpicture;
+
+
+--
+-- Name: programs_pictures_idpicture_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('programs_pictures_idpicture_seq', 190170, true);
+
+
+--
+-- Name: programs_publications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_publications (
+    idprog integer NOT NULL,
+    idpublication bigint NOT NULL,
+    starttime date,
+    endtime date,
+    state character varying,
+    progshot text,
+    notification character varying
+);
+
+
+ALTER TABLE public.programs_publications OWNER TO postgres;
+
+--
+-- Name: programs_publications_state; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW programs_publications_state AS
+    SELECT pp.idprog, pp.idpublication, pp.starttime, pp.endtime, pp.state, p.state AS programstate, pp.progshot, pp.notification FROM (programs_publications pp LEFT JOIN programs p ON ((pp.idprog = p.idprog)));
+
+
+ALTER TABLE public.programs_publications_state OWNER TO postgres;
+
+--
+-- Name: programs_translations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_translations (
+    idprog integer NOT NULL,
+    id bigint,
+    idfgroup bigint NOT NULL,
+    value text,
+    idview integer DEFAULT 0 NOT NULL,
+    textsearchable_index_col tsvector
+);
+
+
+ALTER TABLE public.programs_translations OWNER TO postgres;
+
+--
+-- Name: programs_versions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE programs_versions (
+    idprog integer NOT NULL,
+    idversion bigint NOT NULL
+);
+
+
+ALTER TABLE public.programs_versions OWNER TO postgres;
+
+--
+-- Name: programsview; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW programsview AS
+    SELECT DISTINCT p.idprog, p.idprog_programs_extract, p.idproduction, p.idextfilm, p.keyprog, p.duration, p.date, p.tcin, p.tcout, p.state, p.type_extract, p.viewof, p.idpublication, p.idprog_programs_of, pf.idfield, pf.title, pf.type, pf.table_ref, pf.parent, pf.mask, pf.default_value, pf.help, pf.is_editable, pf.category, pf.indexable, pf.code, pt.value, pt.idview, p2.state AS programstate, pt.textsearchable_index_col, prod.alias FROM ((((((programs p LEFT JOIN productions prod ON ((p.idproduction = prod.idproduction))) LEFT JOIN programs_fields_group pfg ON ((prod.idgroup = pfg.idgroup))) LEFT JOIN programs_fields_group_fields pfgf ON ((pfg.idgroup = pfgf.idgroup))) LEFT JOIN programs_fields pf ON ((pfgf.idfield = pf.idfield))) LEFT JOIN programs_translations pt ON (((pt.idfgroup = pfgf.idfgroup) AND (pt.idprog = p.idprog)))) LEFT JOIN programs p2 ON ((p.idprog_programs_of = p2.idprog))) WHERE (((p.state)::text = 'ACTIVATED'::text) AND (prod.isdeleted = 0)) ORDER BY p.idprog;
+
+
+ALTER TABLE public.programsview OWNER TO postgres;
+
+--
+-- Name: publications_identifications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE publications_identifications (
+    pubkey character varying,
+    key character varying,
+    type character varying,
+    mode character varying
+);
+
+
+ALTER TABLE public.publications_identifications OWNER TO postgres;
+
+--
+-- Name: publications_idpublication_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE publications_idpublication_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.publications_idpublication_seq OWNER TO postgres;
+
+--
+-- Name: publications_idpublication_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE publications_idpublication_seq OWNED BY publications.idpublication;
+
+
+--
+-- Name: publications_idpublication_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('publications_idpublication_seq', 116, true);
+
+
+--
+-- Name: publications_menus_elements; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE publications_menus_elements (
+    idpublication bigint NOT NULL,
+    idmenu bigint NOT NULL,
+    menu_order integer,
+    idparent integer DEFAULT 0,
+    iduser bigint DEFAULT 0
+);
+
+
+ALTER TABLE public.publications_menus_elements OWNER TO postgres;
+
+--
+-- Name: publications_views; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE publications_views (
+    idview integer NOT NULL,
+    idpublication bigint NOT NULL,
+    viewname character varying,
+    viewcode character varying,
+    locale character varying,
+    editable integer DEFAULT 1
+);
+
+
+ALTER TABLE public.publications_views OWNER TO postgres;
+
+--
+-- Name: rates; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rates (
+    idrate character varying NOT NULL,
+    vatrate character varying,
+    currency character varying,
+    gb_stored character varying,
+    gb_streamed character varying
+);
+
+
+ALTER TABLE public.rates OWNER TO postgres;
+
+--
+-- Name: ressources_access_idaccess_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE ressources_access_idaccess_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ressources_access_idaccess_seq OWNER TO postgres;
+
+--
+-- Name: ressources_access_idaccess_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE ressources_access_idaccess_seq OWNED BY ressources_access.idacces;
+
+
+--
+-- Name: ressources_access_idaccess_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('ressources_access_idaccess_seq', 2, true);
+
+
+--
+-- Name: services_idservice_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_idservice_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_idservice_seq OWNER TO postgres;
+
+--
+-- Name: services_idservice_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_idservice_seq OWNED BY services.idservice;
+
+
+--
+-- Name: services_idservice_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_idservice_seq', 14, true);
+
+
+--
+-- Name: services_menus_elements; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_menus_elements (
+    idservice bigint NOT NULL,
+    idmenu bigint NOT NULL,
+    menu_order integer,
+    idparent integer DEFAULT 0,
+    iduser bigint DEFAULT 0
+);
+
+
+ALTER TABLE public.services_menus_elements OWNER TO postgres;
+
+--
+-- Name: services_orders; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders (
+    idorder integer NOT NULL,
+    idprog bigint NOT NULL,
+    keyprog character varying,
+    idressource bigint,
+    date_of_creation date,
+    desireddate date,
+    source_file character varying,
+    status character varying,
+    abort_demand boolean,
+    delivery_date date,
+    enclosed boolean,
+    account character varying,
+    idservice bigint
+);
+
+
+ALTER TABLE public.services_orders OWNER TO postgres;
+
+--
+-- Name: services_orders_chapitrage; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_chapitrage (
+    idchapitrage integer NOT NULL,
+    idorderline bigint,
+    chapitrage_file character varying,
+    comments character varying,
+    capture_miniature boolean,
+    status character varying
+);
+
+
+ALTER TABLE public.services_orders_chapitrage OWNER TO postgres;
+
+--
+-- Name: services_orders_chapitrage_idchapitrage_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_chapitrage_idchapitrage_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_chapitrage_idchapitrage_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_chapitrage_idchapitrage_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_chapitrage_idchapitrage_seq OWNED BY services_orders_chapitrage.idchapitrage;
+
+
+--
+-- Name: services_orders_chapitrage_idchapitrage_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_chapitrage_idchapitrage_seq', 27, true);
+
+
+--
+-- Name: services_orders_encoding; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_encoding (
+    idencoding bigint NOT NULL,
+    idorderline bigint,
+    status character varying,
+    comments character varying
+);
+
+
+ALTER TABLE public.services_orders_encoding OWNER TO postgres;
+
+--
+-- Name: services_orders_encoding_idencoding_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_encoding_idencoding_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_encoding_idencoding_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_encoding_idencoding_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_encoding_idencoding_seq OWNED BY services_orders_encoding.idencoding;
+
+
+--
+-- Name: services_orders_encoding_idencoding_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_encoding_idencoding_seq', 3, true);
+
+
+--
+-- Name: services_orders_idorder_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_idorder_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_idorder_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_idorder_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_idorder_seq OWNED BY services_orders.idorder;
+
+
+--
+-- Name: services_orders_idorder_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_idorder_seq', 45, true);
+
+
+--
+-- Name: services_orders_lines; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_lines (
+    idorderline integer NOT NULL,
+    idorder bigint,
+    idtype bigint
+);
+
+
+ALTER TABLE public.services_orders_lines OWNER TO postgres;
+
+--
+-- Name: services_orders_lines_idorderline_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_lines_idorderline_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_lines_idorderline_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_lines_idorderline_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_lines_idorderline_seq OWNED BY services_orders_lines.idorderline;
+
+
+--
+-- Name: services_orders_lines_idorderline_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_lines_idorderline_seq', 57, true);
+
+
+--
+-- Name: services_orders_subtitling; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_subtitling (
+    idsubtitling integer NOT NULL,
+    idorderline bigint,
+    font character varying,
+    font_size integer,
+    font_color character varying,
+    language character varying,
+    status character varying,
+    justification character varying,
+    comments character varying
+);
+
+
+ALTER TABLE public.services_orders_subtitling OWNER TO postgres;
+
+--
+-- Name: services_orders_subtitling_idsubtitling_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_subtitling_idsubtitling_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_subtitling_idsubtitling_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_subtitling_idsubtitling_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_subtitling_idsubtitling_seq OWNED BY services_orders_subtitling.idsubtitling;
+
+
+--
+-- Name: services_orders_subtitling_idsubtitling_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_subtitling_idsubtitling_seq', 15, true);
+
+
+--
+-- Name: services_orders_translation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_translation (
+    idtranslation integer NOT NULL,
+    idorderline bigint,
+    language character varying,
+    status character varying,
+    comments character varying
+);
+
+
+ALTER TABLE public.services_orders_translation OWNER TO postgres;
+
+--
+-- Name: services_orders_translation_idtranslation_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_translation_idtranslation_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_translation_idtranslation_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_translation_idtranslation_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_translation_idtranslation_seq OWNED BY services_orders_translation.idtranslation;
+
+
+--
+-- Name: services_orders_translation_idtranslation_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_translation_idtranslation_seq', 13, true);
+
+
+--
+-- Name: services_orders_watermarking; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_orders_watermarking (
+    idwatermarking integer NOT NULL,
+    idorderline bigint,
+    text character varying,
+    font character varying,
+    font_size integer,
+    font_color character varying,
+    image_file character varying,
+    orientation integer,
+    "position" character varying,
+    mosaic boolean,
+    opacity integer,
+    comments character varying,
+    status character varying
+);
+
+
+ALTER TABLE public.services_orders_watermarking OWNER TO postgres;
+
+--
+-- Name: services_orders_watermarking_idwatermarking_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_orders_watermarking_idwatermarking_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_orders_watermarking_idwatermarking_seq OWNER TO postgres;
+
+--
+-- Name: services_orders_watermarking_idwatermarking_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_orders_watermarking_idwatermarking_seq OWNED BY services_orders_watermarking.idwatermarking;
+
+
+--
+-- Name: services_orders_watermarking_idwatermarking_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_orders_watermarking_idwatermarking_seq', 2, true);
+
+
+--
+-- Name: services_types; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_types (
+    idtype integer NOT NULL,
+    title character varying,
+    description text
+);
+
+
+ALTER TABLE public.services_types OWNER TO postgres;
+
+--
+-- Name: services_types_idtype_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE services_types_idtype_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_types_idtype_seq OWNER TO postgres;
+
+--
+-- Name: services_types_idtype_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE services_types_idtype_seq OWNED BY services_types.idtype;
+
+
+--
+-- Name: services_types_idtype_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('services_types_idtype_seq', 6, true);
+
+
+--
+-- Name: services_types_selected; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE services_types_selected (
+    idservice bigint,
+    idtype bigint
+);
+
+
+ALTER TABLE public.services_types_selected OWNER TO postgres;
+
+--
+-- Name: tasks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tasks (
+    idtask integer NOT NULL,
+    type character varying,
+    querytime character varying,
+    starttime character varying,
+    endtime character varying,
+    command character varying,
+    comments character varying,
+    state character varying
+);
+
+
+ALTER TABLE public.tasks OWNER TO postgres;
+
+--
+-- Name: tasks_idtask_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tasks_idtask_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tasks_idtask_seq OWNER TO postgres;
+
+--
+-- Name: tasks_idtask_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tasks_idtask_seq OWNED BY tasks.idtask;
+
+
+--
+-- Name: tasks_idtask_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tasks_idtask_seq', 35, true);
+
+
+--
+-- Name: themes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE themes (
+    id integer NOT NULL,
+    folder character varying,
+    ressource_type character varying,
+    idpublication integer,
+    idview integer DEFAULT 0,
+    ressource2 bigint DEFAULT 0,
+    ressource character varying DEFAULT 0
+);
+
+
+ALTER TABLE public.themes OWNER TO postgres;
+
+--
+-- Name: themes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE themes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.themes_id_seq OWNER TO postgres;
+
+--
+-- Name: themes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE themes_id_seq OWNED BY themes.id;
+
+
+--
+-- Name: themes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('themes_id_seq', 2816, true);
+
+
+--
+-- Name: tokens; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tokens (
+    idtoken integer NOT NULL,
+    token text,
+    key character varying,
+    "time" bigint
+);
+
+
+ALTER TABLE public.tokens OWNER TO postgres;
+
+--
+-- Name: tokens_idtoken_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tokens_idtoken_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tokens_idtoken_seq OWNER TO postgres;
+
+--
+-- Name: tokens_idtoken_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tokens_idtoken_seq OWNED BY tokens.idtoken;
+
+
+--
+-- Name: tokens_idtoken_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tokens_idtoken_seq', 64, true);
+
+
+--
+-- Name: translations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE translations (
+    id integer NOT NULL,
+    value text,
+    column_title character varying(128),
+    lang character varying(128),
+    table_name character varying(128),
+    ref_num integer,
+    ref_alpha character varying
+);
+
+
+ALTER TABLE public.translations OWNER TO postgres;
+
+--
+-- Name: traduction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE traduction_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.traduction_id_seq OWNER TO postgres;
+
+--
+-- Name: traduction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE traduction_id_seq OWNED BY translations.id;
+
+
+--
+-- Name: traduction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('traduction_id_seq', 78, true);
+
+
+--
+-- Name: users_environment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_environment (
+    iduser bigint NOT NULL,
+    dataname character varying NOT NULL,
+    datavalue text
+);
+
+
+ALTER TABLE public.users_environment OWNER TO postgres;
+
+--
+-- Name: users_fields; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_fields (
+    idfield integer NOT NULL,
+    title character varying(128),
+    type character varying(128),
+    table_ref character varying(128)
+);
+
+
+ALTER TABLE public.users_fields OWNER TO postgres;
+
+--
+-- Name: users_fields_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_fields_group (
+    idgroup integer NOT NULL,
+    name text
+);
+
+
+ALTER TABLE public.users_fields_group OWNER TO postgres;
+
+--
+-- Name: users_fields_group_fields; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_fields_group_fields (
+    idfield bigint NOT NULL,
+    idgroup bigint NOT NULL
+);
+
+
+ALTER TABLE public.users_fields_group_fields OWNER TO postgres;
+
+--
+-- Name: users_fields_group_idgroup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_fields_group_idgroup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_fields_group_idgroup_seq OWNER TO postgres;
+
+--
+-- Name: users_fields_group_idgroup_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_fields_group_idgroup_seq OWNED BY users_fields_group.idgroup;
+
+
+--
+-- Name: users_fields_group_idgroup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_fields_group_idgroup_seq', 1, true);
+
+
+--
+-- Name: users_fields_idfield_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_fields_idfield_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_fields_idfield_seq OWNER TO postgres;
+
+--
+-- Name: users_fields_idfield_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_fields_idfield_seq OWNED BY users_fields.idfield;
+
+
+--
+-- Name: users_fields_idfield_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_fields_idfield_seq', 1, false);
+
+
+--
+-- Name: users_fields_value; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_fields_value (
+    idfield bigint NOT NULL,
+    iduser bigint NOT NULL,
+    value text
+);
+
+
+ALTER TABLE public.users_fields_value OWNER TO postgres;
+
+--
+-- Name: users_iduser_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_iduser_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_iduser_seq OWNER TO postgres;
+
+--
+-- Name: users_iduser_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_iduser_seq OWNED BY users.iduser;
+
+
+--
+-- Name: users_iduser_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_iduser_seq', 2, true);
+
+
+--
+-- Name: users_reset; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users_reset (
+    email character varying NOT NULL,
+    key character varying
+);
+
+
+ALTER TABLE public.users_reset OWNER TO postgres;
+
+--
+-- Name: versions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE versions (
+    idversion integer NOT NULL,
+    filename character varying,
+    codec character varying(128),
+    filesize bigint,
+    rate character varying,
+    duration time without time zone,
+    state integer,
+    is_deleted integer,
+    date_of_upload date,
+    date_of_deletion date,
+    uri character varying,
+    lcid character varying,
+    resolution character varying,
+    ratio character varying
+);
+
+
+ALTER TABLE public.versions OWNER TO postgres;
+
+--
+-- Name: versions_idversion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE versions_idversion_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.versions_idversion_seq OWNER TO postgres;
+
+--
+-- Name: versions_idversion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE versions_idversion_seq OWNED BY versions.idversion;
+
+
+--
+-- Name: versions_idversion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('versions_idversion_seq', 49399, true);
+
+
+--
+-- Name: videoratio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE videoratio (
+    id integer NOT NULL,
+    libelle text,
+    parent smallint,
+    ref_text character varying(255)
+);
+
+
+ALTER TABLE public.videoratio OWNER TO postgres;
+
+--
+-- Name: videoratio_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE videoratio_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.videoratio_id_seq OWNER TO postgres;
+
+--
+-- Name: videoratio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE videoratio_id_seq OWNED BY videoratio.id;
+
+
+--
+-- Name: videoratio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('videoratio_id_seq', 3, true);
+
+
+--
+-- Name: view1; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW view1 AS
+    SELECT DISTINCT p.idprog, p.idprog_programs_extract, pt.idview, p.idproduction, p.idextfilm, p.keyprog, p.duration, p.date, p.tcin, p.tcout, p.state, p.type_extract, pt.id AS idvalue, pt.value, pf.idfield, pf.title, pf.type, pf.table_ref, pf.parent, pf.mask, pf.default_value, pf.help, pf.is_editable, pf.indexable, pf.code, pfg.idgroup, pfg.name, pfg.category, pfg.system_gcv, p.viewof, p.idpublication, p.idprog_programs_of, p2.state AS programstate FROM (((((programs p LEFT JOIN programs_translations pt ON ((pt.idprog = p.idprog))) LEFT JOIN programs_fields_group_fields pfgf ON ((pfgf.idfgroup = pt.idfgroup))) LEFT JOIN programs_fields pf ON ((pf.idfield = pfgf.idfield))) LEFT JOIN programs_fields_group pfg ON ((pfgf.idgroup = pfg.idgroup))) LEFT JOIN programs p2 ON ((p.idprog_programs_of = p2.idprog))) WHERE ((p.state)::text = 'ACTIVATED'::text) ORDER BY p.idprog;
+
+
+ALTER TABLE public.view1 OWNER TO postgres;
+
+--
+-- Name: view2; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW view2 AS
+    SELECT DISTINCT view1.idprog, view1.idprog_programs_extract, view1.idview, view1.idproduction, view1.idextfilm, view1.keyprog, view1.duration, view1.date, view1.tcin, view1.tcout, view1.state, view1.type_extract, array_agg(view1.value) AS "values", array_agg(view1.type) AS type, array_agg(view1.title) AS title, array_agg(view1.table_ref) AS table_ref, array_agg(view1.parent) AS parent, array_agg(view1.mask) AS mask, array_agg(view1.default_value) AS default_value, array_agg(view1.help) AS help, array_agg(view1.indexable) AS indexable, array_agg(view1.code) AS code, array_agg(view1.idgroup) AS idgroup, array_agg(view1.name) AS groupname, array_agg(view1.system_gcv) AS system_gcv, array_agg(view1.is_editable) AS is_editable FROM view1 GROUP BY view1.idprog, view1.idprog_programs_extract, view1.idview, view1.idproduction, view1.idextfilm, view1.keyprog, view1.duration, view1.date, view1.tcin, view1.tcout, view1.state, view1.type_extract;
+
+
+ALTER TABLE public.view2 OWNER TO postgres;
+
+--
+-- Name: views_idview_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE views_idview_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.views_idview_seq OWNER TO postgres;
+
+--
+-- Name: views_idview_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE views_idview_seq OWNED BY publications_views.idview;
+
+
+--
+-- Name: views_idview_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('views_idview_seq', 948, true);
+
+
+--
+-- Name: idbilling; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE billings ALTER COLUMN idbilling SET DEFAULT nextval('billings_idbilling_seq'::regclass);
+
+
+--
+-- Name: idbillingother; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE billings_others ALTER COLUMN idbillingother SET DEFAULT nextval('billings_others_idbillingother_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE chapters ALTER COLUMN id SET DEFAULT nextval('chapters_id_seq'::regclass);
+
+
+--
+-- Name: idcomponent; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE components ALTER COLUMN idcomponent SET DEFAULT nextval('components_idcomponent_seq'::regclass);
+
+
+--
+-- Name: idformat; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE encoding_formats ALTER COLUMN idformat SET DEFAULT nextval('encoding_formats_idformat_seq'::regclass);
+
+
+--
+-- Name: idprofil; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE encoding_profils ALTER COLUMN idprofil SET DEFAULT nextval('encoding_profils_idprofil_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_action ALTER COLUMN id SET DEFAULT nextval('enum_action_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_audience ALTER COLUMN id SET DEFAULT nextval('enum_audience_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_class ALTER COLUMN id SET DEFAULT nextval('enum_class_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_class2 ALTER COLUMN id SET DEFAULT nextval('enum_class2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_countries ALTER COLUMN id SET DEFAULT nextval('enum_countries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_domaine ALTER COLUMN id SET DEFAULT nextval('enum_domaine_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_format ALTER COLUMN id SET DEFAULT nextval('enum_format_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_function ALTER COLUMN id SET DEFAULT nextval('enum_function_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_genre ALTER COLUMN id SET DEFAULT nextval('enum_genre_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_genre_audiovisual ALTER COLUMN id SET DEFAULT nextval('enum_genre_audiovisual_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_language ALTER COLUMN id SET DEFAULT nextval('enum_language_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_lieu ALTER COLUMN id SET DEFAULT nextval('enum_lieu_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_lieu2 ALTER COLUMN id SET DEFAULT nextval('enum_lieu2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_media ALTER COLUMN id SET DEFAULT nextval('enum_media_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_medium ALTER COLUMN id SET DEFAULT nextval('enum_medium_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_organization ALTER COLUMN id SET DEFAULT nextval('enum_organization_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_organization2 ALTER COLUMN id SET DEFAULT nextval('enum_organization2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_personne ALTER COLUMN id SET DEFAULT nextval('enum_personne_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_personne2 ALTER COLUMN id SET DEFAULT nextval('enum_personne2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_pointzoom ALTER COLUMN id SET DEFAULT nextval('enum_pointzoom_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_profession ALTER COLUMN id SET DEFAULT nextval('enum_profession_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_public ALTER COLUMN id SET DEFAULT nextval('enum_public_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_public2 ALTER COLUMN id SET DEFAULT nextval('enum_public2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_scoring ALTER COLUMN id SET DEFAULT nextval('enum_scoring_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_sector ALTER COLUMN id SET DEFAULT nextval('enum_sector_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_sublanguage ALTER COLUMN id SET DEFAULT nextval('enum_sublanguage_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_theme ALTER COLUMN id SET DEFAULT nextval('enum_theme_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_theme2 ALTER COLUMN id SET DEFAULT nextval('enum_theme2_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_type1 ALTER COLUMN id SET DEFAULT nextval('enum_type1_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE enum_type2 ALTER COLUMN id SET DEFAULT nextval('enum_type2_id_seq'::regclass);
+
+
+--
+-- Name: idcomp; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE extra_components_panel ALTER COLUMN idcomp SET DEFAULT nextval('extra_components_panel_idcomp_seq'::regclass);
+
+
+--
+-- Name: idgroup; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE groups ALTER COLUMN idgroup SET DEFAULT nextval('groups_idgroup_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE kb_items ALTER COLUMN id SET DEFAULT nextval('kb_items_id_seq'::regclass);
+
+
+--
+-- Name: idtype; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE kb_items_type ALTER COLUMN idtype SET DEFAULT nextval('kb_items_type_idtype_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE kb_rub ALTER COLUMN id SET DEFAULT nextval('bc_rub_id_seq'::regclass);
+
+
+--
+-- Name: idkb; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE knowledge_base ALTER COLUMN idkb SET DEFAULT nextval('knowledge_base_idkb_seq'::regclass);
+
+
+--
+-- Name: idlocale; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE locales ALTER COLUMN idlocale SET DEFAULT nextval('locales_idlocale_seq'::regclass);
+
+
+--
+-- Name: idlog; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE logs ALTER COLUMN idlog SET DEFAULT nextval('logs_idlog_seq'::regclass);
+
+
+--
+-- Name: idmaster; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE masters ALTER COLUMN idmaster SET DEFAULT nextval('masters_idmaster_seq'::regclass);
+
+
+--
+-- Name: idmenu; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE menus_elements ALTER COLUMN idmenu SET DEFAULT nextval('menus_elements_idmenu_seq'::regclass);
+
+
+--
+-- Name: idorganization; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE organizations ALTER COLUMN idorganization SET DEFAULT nextval('organizations_idorganization_seq'::regclass);
+
+
+--
+-- Name: idcontact; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE organizations_contacts ALTER COLUMN idcontact SET DEFAULT nextval('organizations_contacts_idcontact_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE p_field_category ALTER COLUMN id SET DEFAULT nextval('p_field_category_id_seq'::regclass);
+
+
+--
+-- Name: idplaylist; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE playlists ALTER COLUMN idplaylist SET DEFAULT nextval('playlists_idplaylist_seq'::regclass);
+
+
+--
+-- Name: idproduction; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE productions ALTER COLUMN idproduction SET DEFAULT nextval('productions_idproduction_seq'::regclass);
+
+
+--
+-- Name: idprog; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs ALTER COLUMN idprog SET DEFAULT nextval('programs_idprog_seq'::regclass);
+
+
+--
+-- Name: idcredit; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs_credits ALTER COLUMN idcredit SET DEFAULT nextval('programs_credits_idcredit_seq'::regclass);
+
+
+--
+-- Name: idfield; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs_fields ALTER COLUMN idfield SET DEFAULT nextval('fields_idfield_seq'::regclass);
+
+
+--
+-- Name: idgroup; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs_fields_group ALTER COLUMN idgroup SET DEFAULT nextval('programs_fields_group_idgroup_seq'::regclass);
+
+
+--
+-- Name: idfgroup; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs_fields_group_fields ALTER COLUMN idfgroup SET DEFAULT nextval('programs_fields_group_fields_idfgroup_seq'::regclass);
+
+
+--
+-- Name: idpicture; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE programs_pictures ALTER COLUMN idpicture SET DEFAULT nextval('programs_pictures_idpicture_seq'::regclass);
+
+
+--
+-- Name: idpublication; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE publications ALTER COLUMN idpublication SET DEFAULT nextval('publications_idpublication_seq'::regclass);
+
+
+--
+-- Name: idview; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE publications_views ALTER COLUMN idview SET DEFAULT nextval('views_idview_seq'::regclass);
+
+
+--
+-- Name: idacces; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ressources_access ALTER COLUMN idacces SET DEFAULT nextval('ressources_access_idaccess_seq'::regclass);
+
+
+--
+-- Name: idservice; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services ALTER COLUMN idservice SET DEFAULT nextval('services_idservice_seq'::regclass);
+
+
+--
+-- Name: idorder; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders ALTER COLUMN idorder SET DEFAULT nextval('services_orders_idorder_seq'::regclass);
+
+
+--
+-- Name: idchapitrage; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_chapitrage ALTER COLUMN idchapitrage SET DEFAULT nextval('services_orders_chapitrage_idchapitrage_seq'::regclass);
+
+
+--
+-- Name: idencoding; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_encoding ALTER COLUMN idencoding SET DEFAULT nextval('services_orders_encoding_idencoding_seq'::regclass);
+
+
+--
+-- Name: idorderline; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_lines ALTER COLUMN idorderline SET DEFAULT nextval('services_orders_lines_idorderline_seq'::regclass);
+
+
+--
+-- Name: idsubtitling; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_subtitling ALTER COLUMN idsubtitling SET DEFAULT nextval('services_orders_subtitling_idsubtitling_seq'::regclass);
+
+
+--
+-- Name: idtranslation; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_translation ALTER COLUMN idtranslation SET DEFAULT nextval('services_orders_translation_idtranslation_seq'::regclass);
+
+
+--
+-- Name: idwatermarking; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_orders_watermarking ALTER COLUMN idwatermarking SET DEFAULT nextval('services_orders_watermarking_idwatermarking_seq'::regclass);
+
+
+--
+-- Name: idtype; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE services_types ALTER COLUMN idtype SET DEFAULT nextval('services_types_idtype_seq'::regclass);
+
+
+--
+-- Name: idtask; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE tasks ALTER COLUMN idtask SET DEFAULT nextval('tasks_idtask_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE themes ALTER COLUMN id SET DEFAULT nextval('themes_id_seq'::regclass);
+
+
+--
+-- Name: idtoken; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE tokens ALTER COLUMN idtoken SET DEFAULT nextval('tokens_idtoken_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE translations ALTER COLUMN id SET DEFAULT nextval('traduction_id_seq'::regclass);
+
+
+--
+-- Name: iduser; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE users ALTER COLUMN iduser SET DEFAULT nextval('users_iduser_seq'::regclass);
+
+
+--
+-- Name: idfield; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE users_fields ALTER COLUMN idfield SET DEFAULT nextval('users_fields_idfield_seq'::regclass);
+
+
+--
+-- Name: idgroup; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE users_fields_group ALTER COLUMN idgroup SET DEFAULT nextval('users_fields_group_idgroup_seq'::regclass);
+
+
+--
+-- Name: idversion; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE versions ALTER COLUMN idversion SET DEFAULT nextval('versions_idversion_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE videoratio ALTER COLUMN id SET DEFAULT nextval('videoratio_id_seq'::regclass);
+
+
+--
+-- Data for Name: billings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY billings (idbilling, idrate, idproduction, bytes_streamed, bytes_stored, libelle_discount, amount_discount, rate_discount, libelle_rate_discount, billing_status, date, frozen_total) FROM stdin;
+\.
+
+
+--
+-- Data for Name: billings_others; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY billings_others (idbillingother, idbilling, libelle, amount, type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: chapters; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY chapters (id, idprog, idplaylist, url, tcin, file, picture) FROM stdin;
+\.
+
+
+--
+-- Data for Name: chapters_translations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY chapters_translations (idchapter, id, idfgroup, value, idview, textsearchable_index_col) FROM stdin;
+\.
+
+
+--
+-- Data for Name: components; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY components (idcomponent, name, url, moduletype, controller, action, parameters, route) FROM stdin;
+14	create program		prod	program	create		\N
+15	group of program		prod	group	list		\N
+16	create group of program		prod	group	create		\N
+17	list of program		pub	stock	programslist		\N
+18	views		pub	tools	views		\N
+21	virtual manager		tools	virtualmanager	index		\N
+25	playlist list		pub	playlist	list		\N
+26	create playlist		pub	playlist	create		\N
+27	video list integration		pub	integration	videolist		\N
+28	Orders		ser	orders	list		\N
+29	affect theme		pub	integration	affecttheme		\N
+30	publish		prod	pub	list		\N
+20	templates		pub	tools	templates		\N
+31	templates		prod	tools	templates		\N
+34	vmanager		prod	tools	vmanager		\N
+35	vmanager		pub	tools	vmanager		\N
+32	explorer		prod	tools	explorer	layout=standard	\N
+33	explorer		pub	tools	explorer	layout=standard	\N
+36	quickmatch		prod	program	create2		\N
+37	users		pub	users	list		\N
+38	Home		prod	index	index		\N
+39	Home		pub	index	index		\N
+40	stats publications		prod	stats	publications		\N
+41	stats programs		prod	stats	programs		\N
+42	stats publication		pub	stats	publication		\N
+10	list of program		prod	program	programslist		\N
+43	stats per production		pub	stats	productions		\N
+44	import		prod	data	import		\N
+45	Billings list		prod	billings	list		\N
+48	Champ de test						\N
+\.
+
+
+--
+-- Data for Name: encoding_formats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY encoding_formats (idformat, title, command, outputstring, coder, rate, height, width) FROM stdin;
+\.
+
+
+--
+-- Data for Name: encoding_profils; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY encoding_profils (idprofil, title) FROM stdin;
+\.
+
+
+--
+-- Data for Name: encoding_profils_formats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY encoding_profils_formats (idprofil, idformat) FROM stdin;
+\.
+
+
+--
+-- Data for Name: enum_action; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_action (id, libelle, parent, ref_text) FROM stdin;
+2	question	3	\N
+3	réponse	3	\N
+4	commentaire	3	\N
+1	exposé	3	\N
+\.
+
+
+--
+-- Data for Name: enum_audience; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_audience (id, ref_text, parent, libelle) FROM stdin;
+2	\N	0	Grand public
+1	\N	0	Professionnels
+4	\N	0	Experts
+5	\N	0	Agents
+\.
+
+
+--
+-- Data for Name: enum_class; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_class (id, libelle, parent, ref_text) FROM stdin;
+1	personne	0	\N
+2	organisation	0	\N
+3	action	0	\N
+5	lieu	0	\N
+6	document	0	\N
+7	statistiques	0	\N
+4	notation	0	\N
+\.
+
+
+--
+-- Data for Name: enum_class2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_class2 (id, libelle, parent, ref_text) FROM stdin;
+11	excellent	4	\N
+12	bon	4	\N
+13	moyen	4	\N
+14	question	3	\N
+16	réponse	3	\N
+17	commentaire	3	\N
+19	médiocre	4	\N
+20	mauvais	4	\N
+15	exposé	3	\N
+21	presentation	6	\N
+22	text	6	\N
+23	video	6	\N
+24	audio	6	\N
+25	administration publique	2	\N
+27	société de droit privé	2	\N
+28	membre d'un gouvernement	1	\N
+29	fonctionnaire	1	\N
+30	journaliste	1	\N
+31	expert	1	\N
+32	membre de la société civile	1	\N
+33	privé	5	\N
+34	public	5	\N
+35	public	5	\N
+26	non gouvernemental	2	\N
+36	source publique	7	\N
+37	source privée	7	\N
+\.
+
+
+--
+-- Data for Name: enum_countries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_countries (id, ref_text, parent, libelle) FROM stdin;
+1	\N	\N	LIBCOG
+2	\N	\N	FRANCE
+3	\N	\N	GUADELOUPE
+4	\N	\N	GUYANE
+5	\N	\N	MARTINIQUE
+6	\N	\N	NOUVELLE-CALEDONIE
+7	\N	\N	POLYNESIE FRANCAISE
+8	\N	\N	LA REUNION
+9	\N	\N	SAINT-PIERRE-ET-MIQUELON
+10	\N	\N	TERRES AUSTRALES FRANCAISES
+11	\N	\N	WALLIS-ET-FUTUNA
+12	\N	\N	MAYOTTE
+13	\N	\N	SAINT-BARTHELEMY
+14	\N	\N	SAINT-MARTIN
+15	\N	\N	ÀLE CLIPPERTON
+16	\N	\N	DANEMARK
+17	\N	\N	FEROE (ILES)
+18	\N	\N	ISLANDE
+19	\N	\N	BOUVET (ILE)
+20	\N	\N	NORVEGE
+21	\N	\N	SVALBARD et ILE JAN MAYEN
+22	\N	\N	SUEDE
+23	\N	\N	FINLANDE
+24	\N	\N	ESTONIE
+25	\N	\N	LETTONIE
+26	\N	\N	LITUANIE
+27	\N	\N	ALLEMAGNE
+28	\N	\N	AUTRICHE
+29	\N	\N	BULGARIE
+30	\N	\N	HONGRIE
+31	\N	\N	LIECHTENSTEIN
+32	\N	\N	ROUMANIE
+33	\N	\N	TCHECOSLOVAQUIE
+34	\N	\N	TCHEQUE (REPUBLIQUE)
+35	\N	\N	SLOVAQUIE
+36	\N	\N	BOSNIE-HERZEGOVINE
+37	\N	\N	CROATIE
+38	\N	\N	MONTENEGRO
+39	\N	\N	SERBIE
+40	\N	\N	POLOGNE
+41	\N	\N	RUSSIE
+42	\N	\N	TURQUIE D'EUROPE
+43	\N	\N	ALBANIE
+44	\N	\N	GRECE
+45	\N	\N	ITALIE
+46	\N	\N	SAINT-MARIN
+47	\N	\N	VATICAN, ou SAINT-SIEGE
+48	\N	\N	ANDORRE
+49	\N	\N	BELGIQUE
+50	\N	\N	ROYAUME-UNI
+51	\N	\N	JERSEY
+52	\N	\N	GUERNESEY
+53	\N	\N	MAN (ILE)
+54	\N	\N	GIBRALTAR
+55	\N	\N	ESPAGNE
+56	\N	\N	PAYS-BAS
+57	\N	\N	IRLANDE, ou EIRE
+58	\N	\N	LUXEMBOURG
+59	\N	\N	MONACO
+60	\N	\N	PORTUGAL
+61	\N	\N	SUISSE
+62	\N	\N	REPUBLIQUE DEMOCRATIQUE ALLEMANDE
+63	\N	\N	REPUBLIQUE FEDERALE D'ALLEMAGNE
+64	\N	\N	MALTE
+65	\N	\N	SLOVENIE
+66	\N	\N	BIELORUSSIE
+67	\N	\N	MOLDAVIE
+68	\N	\N	UKRAINE
+69	\N	\N	EX-REPUBLIQUE YOUGOSLAVE DE MACEDOINE
+70	\N	\N	KOSOVO
+71	\N	\N	ARABIE SAOUDITE
+72	\N	\N	YEMEN (REPUBLIQUE ARABE DU)
+73	\N	\N	IRAQ
+74	\N	\N	IRAN
+75	\N	\N	LIBAN
+76	\N	\N	SYRIE
+77	\N	\N	ISRAEL
+78	\N	\N	TURQUIE
+79	\N	\N	SIBERIE
+80	\N	\N	TURKESTAN RUSSE
+81	\N	\N	KAMTCHATKA
+82	\N	\N	AFGHANISTAN
+83	\N	\N	PAKISTAN
+84	\N	\N	BHOUTAN
+85	\N	\N	NEPAL
+86	\N	\N	CHINE
+87	\N	\N	JAPON
+88	\N	\N	MANDCHOURIE
+89	\N	\N	THAILANDE
+90	\N	\N	PHILIPPINES
+91	\N	\N	POSSESSIONS BRITANNIQUES AU PROCHE-ORIENT
+92	\N	\N	JORDANIE
+93	\N	\N	GOA
+94	\N	\N	INDE
+95	\N	\N	BIRMANIE
+96	\N	\N	BRUNEI
+97	\N	\N	SINGAPOUR
+98	\N	\N	MALAISIE
+99	\N	\N	ETATS MALAIS NON FEDERES
+100	\N	\N	MALDIVES
+101	\N	\N	HONG-KONG
+102	\N	\N	INDONESIE
+103	\N	\N	MACAO
+104	\N	\N	YEMEN DEMOCRATIQUE
+105	\N	\N	CAMBODGE
+106	\N	\N	SRI LANKA
+107	\N	\N	TAIWAN
+108	\N	\N	COREE
+109	\N	\N	COREE (REPUBLIQUE POPULAIRE DEMOCRATIQUE DE)
+110	\N	\N	COREE (REPUBLIQUE DE)
+111	\N	\N	KOWEIT
+112	\N	\N	LAOS
+113	\N	\N	MONGOLIE
+114	\N	\N	VIET NAM
+115	\N	\N	VIET NAM DU NORD
+116	\N	\N	VIET NAM DU SUD
+117	\N	\N	BANGLADESH
+118	\N	\N	EMIRATS ARABES UNIS
+119	\N	\N	QATAR
+120	\N	\N	BAHREIN
+121	\N	\N	OMAN
+122	\N	\N	YEMEN
+123	\N	\N	ARMENIE
+124	\N	\N	AZERBAIDJAN
+125	\N	\N	CHYPRE
+126	\N	\N	GEORGIE
+127	\N	\N	KAZAKHSTAN
+128	\N	\N	KIRGHIZISTAN
+129	\N	\N	OUZBEKISTAN
+130	\N	\N	TADJIKISTAN
+131	\N	\N	TURKMENISTAN
+132	\N	\N	PALESTINE
+133	\N	\N	TIMOR ORIENTAL
+134	\N	\N	EGYPTE
+135	\N	\N	LIBERIA
+136	\N	\N	AFRIQUE DU SUD
+137	\N	\N	GAMBIE
+138	\N	\N	CAMEROUN ET TOGO
+139	\N	\N	SAINTE-HELENE
+140	\N	\N	SOUDAN ANGLO-EGYPTIEN, KENYA, OUGANDA
+141	\N	\N	OCEAN INDIEN (TERRITOIRE BRITANNIQUE DE L')
+142	\N	\N	ZANZIBAR
+143	\N	\N	TANZANIE
+144	\N	\N	ZIMBABWE
+145	\N	\N	NAMIBIE
+146	\N	\N	CONGO (REPUBLIQUE DEMOCRATIQUE)
+147	\N	\N	CANARIES (ILES)
+148	\N	\N	PRESIDES
+149	\N	\N	PROVINCES ESPAGNOLES D'AFRIQUE
+150	\N	\N	GUINEE EQUATORIALE
+151	\N	\N	ETHIOPIE
+152	\N	\N	LIBYE
+153	\N	\N	ERYTHREE
+154	\N	\N	SOMALIE
+155	\N	\N	ACORES, MADERE
+156	\N	\N	ILES PORTUGAISES DE L'OCEAN INDIEN
+157	\N	\N	BURUNDI
+158	\N	\N	CAMEROUN
+159	\N	\N	CENTRAFRICAINE (REPUBLIQUE)
+160	\N	\N	CONGO
+161	\N	\N	TANGER
+162	\N	\N	COTE D'IVOIRE
+163	\N	\N	BENIN
+164	\N	\N	GABON
+165	\N	\N	GHANA
+166	\N	\N	GUINEE
+167	\N	\N	BURKINA
+168	\N	\N	KENYA
+169	\N	\N	MADAGASCAR
+170	\N	\N	MALAWI
+171	\N	\N	MALI
+172	\N	\N	MAURITANIE
+173	\N	\N	NIGER
+174	\N	\N	NIGERIA
+175	\N	\N	OUGANDA
+176	\N	\N	RWANDA
+177	\N	\N	SENEGAL
+178	\N	\N	SIERRA LEONE
+179	\N	\N	SOUDAN
+180	\N	\N	TCHAD
+181	\N	\N	TOGO
+182	\N	\N	ZAMBIE
+183	\N	\N	BOTSWANA
+184	\N	\N	LESOTHO
+185	\N	\N	MAROC
+186	\N	\N	TUNISIE
+187	\N	\N	ALGERIE
+188	\N	\N	SAHARA OCCIDENTAL
+189	\N	\N	MAURICE
+190	\N	\N	SWAZILAND
+191	\N	\N	GUINEE-BISSAU
+192	\N	\N	MOZAMBIQUE
+193	\N	\N	SAO TOME-ET-PRINCIPE
+194	\N	\N	ANGOLA
+195	\N	\N	CAP-VERT
+196	\N	\N	COMORES
+197	\N	\N	SEYCHELLES
+198	\N	\N	DJIBOUTI
+199	\N	\N	CANADA
+200	\N	\N	TERRE-NEUVE
+201	\N	\N	LABRADOR
+202	\N	\N	ALASKA
+203	\N	\N	ETATS-UNIS
+204	\N	\N	MEXIQUE
+205	\N	\N	COSTA RICA
+206	\N	\N	CUBA
+207	\N	\N	DOMINICAINE (REPUBLIQUE)
+208	\N	\N	GUATEMALA
+209	\N	\N	HAITI
+210	\N	\N	HONDURAS
+211	\N	\N	NICARAGUA
+212	\N	\N	PANAMA
+213	\N	\N	EL SALVADOR
+214	\N	\N	ARGENTINE
+215	\N	\N	BRESIL
+216	\N	\N	CHILI
+217	\N	\N	BOLIVIE
+218	\N	\N	COLOMBIE
+219	\N	\N	EQUATEUR
+220	\N	\N	PARAGUAY
+221	\N	\N	PEROU
+222	\N	\N	URUGUAY
+223	\N	\N	VENEZUELA
+224	\N	\N	ANGUILLA
+225	\N	\N	BERMUDES
+226	\N	\N	CAIMANES (ILES)
+227	\N	\N	MONTSERRAT
+228	\N	\N	TERRITOIRES DU ROYAUME-UNI AUX ANTILLES
+229	\N	\N	TURKS ET CAIQUES (ILES)
+230	\N	\N	VIERGES BRITANNIQUES (ILES)
+231	\N	\N	JAMAIQUE
+232	\N	\N	MALOUINES, OU FALKLAND (ILES)
+233	\N	\N	TERR. DU ROYAUME-UNI DANS L'ATLANTIQUE SUD
+234	\N	\N	GEORGIE DU SUD ET LES ILES SANDWICH DU SUD
+235	\N	\N	GUYANA
+236	\N	\N	BELIZE
+237	\N	\N	GROENLAND
+238	\N	\N	ANTILLES NEERLANDAISES
+239	\N	\N	ARUBA
+240	\N	\N	TERRITOIRE DES PAYS-BAS
+241	\N	\N	PORTO RICO
+242	\N	\N	TERR. DES ETATS-UNIS D'AMERIQUE EN AMERIQUE
+243	\N	\N	VIERGES DES ETATS-UNIS (ILES)
+244	\N	\N	TRINITE-ET-TOBAGO
+245	\N	\N	BARBADE
+246	\N	\N	GRENADE
+247	\N	\N	BAHAMAS
+248	\N	\N	SURINAME
+249	\N	\N	DOMINIQUE
+250	\N	\N	SAINTE-LUCIE
+251	\N	\N	SAINT-VINCENT-ET-LES GRENADINES
+252	\N	\N	ANTIGUA-ET-BARBUDA
+253	\N	\N	SAINT-CHRISTOPHE-ET-NIEVES
+254	\N	\N	AUSTRALIE
+255	\N	\N	CHRISTMAS (ILE)
+256	\N	\N	COCOS ou KEELING (ILES)
+257	\N	\N	HEARD ET MACDONALD (ILES)
+258	\N	\N	NORFOLK (ILE)
+259	\N	\N	COOK (ILES)
+260	\N	\N	NIUE
+261	\N	\N	NOUVELLE-ZELANDE
+262	\N	\N	TOKELAU
+263	\N	\N	PITCAIRN (ILE)
+264	\N	\N	HAWAII (ILES)
+265	\N	\N	GUAM
+266	\N	\N	MARIANNES DU NORD (ILES)
+267	\N	\N	SAMOA AMERICAINES
+268	\N	\N	TERR. DES ETATS-UNIS D'AMERIQUE EN OCEANIE
+269	\N	\N	SAMOA OCCIDENTALES
+270	\N	\N	NAURU
+271	\N	\N	FIDJI
+272	\N	\N	TONGA
+273	\N	\N	PAPOUASIE-NOUVELLE-GUINEE
+274	\N	\N	TUVALU
+275	\N	\N	SALOMON (ILES)
+276	\N	\N	KIRIBATI
+277	\N	\N	VANUATU
+278	\N	\N	MARSHALL (ILES)
+279	\N	\N	MICRONESIE (ETATS FEDERES DE)
+280	\N	\N	PALAOS (ILES)
+\.
+
+
+--
+-- Data for Name: enum_domaine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_domaine (id, libelle, parent, ref_text) FROM stdin;
+1	Agriculture	\N	
+3	Communication	\N	
+4	Culture	\N	
+5	Défense	\N	
+7	Education	\N	
+8	Emploi	\N	
+9	Environnement	\N	
+10	Etat	\N	
+11	Europe	\N	
+12	Justice	\N	
+14	Santé	\N	
+15	Sécurité	\N	
+17	Société	\N	
+18	Sport	\N	
+13	Politique étrangère	\N	
+16	Social	\N	
+2	Aménagement du territoire	\N	
+6	Economie et Finances	0	
+\.
+
+
+--
+-- Data for Name: enum_format; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_format (id, libelle, parent, ref_text) FROM stdin;
+1	PAL	0	\N
+2	NTSC	0	\N
+3	SECAM	0	\N
+\.
+
+
+--
+-- Data for Name: enum_function; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_function (id, libelle, parent, ref_text) FROM stdin;
+1	Actor	0	\N
+2	Anchor	0	\N
+3	Candidate	0	\N
+4	Costume	0	\N
+5	Director	0	\N
+6	Editing	0	\N
+7	Journalist	0	\N
+8	Music	0	\N
+9	Producer	0	\N
+10	Scenarist	0	\N
+11	Set	0	\N
+12	Special effects	0	\N
+\.
+
+
+--
+-- Data for Name: enum_genre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_genre (id, ref_text, parent, libelle) FROM stdin;
+3	\N	0	Conférence de presse
+2	\N	0	Conférence
+4	\N	0	Cérémonie
+6	\N	0	Promotion
+7	\N	0	Séminaire
+8	\N	0	Interview
+9	\N	0	Publicité
+10	\N	0	Journal
+11	\N	0	Magazine
+12	\N	0	Documentaire
+13	\N	0	Fiction
+15	\N	0	Colloque
+16	\N	0	Cours
+17	\N	0	Débat
+18	\N	0	Déclaration
+19	\N	0	Didacticiel
+20	\N	0	Reportage
+\.
+
+
+--
+-- Data for Name: enum_genre_audiovisual; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_genre_audiovisual (id, libelle, parent, ref_text) FROM stdin;
+1	journal	0	\N
+2	magazine	0	\N
+3	fiction	0	\N
+4	plateau	0	\N
+5	reportage	0	\N
+\.
+
+
+--
+-- Data for Name: enum_language; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_language (id, libelle, parent, ref_text) FROM stdin;
+1	Arabe - classique	0	\N
+2	Français	0	\N
+3	Anglais	0	\N
+4	Allemand	0	\N
+5	Hindi	0	\N
+6	Italien	0	\N
+7	Japonais	0	\N
+8	Russe	0	\N
+9	Espagnol	0	\N
+10	Chinois - Mandarin	0	\N
+11	aucune sélection	0	\N
+\.
+
+
+--
+-- Data for Name: enum_lcid; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_lcid (lcid, ref_text, parent, libelle) FROM stdin;
+1025	\N	\N	Arabic
+1026	\N	\N	Bulgarian
+1027	\N	\N	Catalan
+1028	\N	\N	Chinese (Traditional)
+1029	\N	\N	Czech
+1030	\N	\N	Danish
+1031	\N	\N	German
+1032	\N	\N	Greek
+1033	\N	\N	English (U.S.)
+1034	\N	\N	Spanish (Traditional)
+1035	\N	\N	Finnish
+1036	\N	\N	French
+1037	\N	\N	Hebrew
+1038	\N	\N	Hungarian
+1039	\N	\N	Icelandic
+1040	\N	\N	Italian
+1041	\N	\N	Japanese
+1042	\N	\N	Korean
+1043	\N	\N	Dutch
+1044	\N	\N	Norwegian Bokmal
+1045	\N	\N	Polish
+1046	\N	\N	Portuguese (Brazil)
+1048	\N	\N	Romanian
+1049	\N	\N	Russian
+1050	\N	\N	Croatian
+1051	\N	\N	Slovak
+1052	\N	\N	Albanian
+1053	\N	\N	Swedish
+1054	\N	\N	Thai
+1055	\N	\N	Turkish
+1056	\N	\N	Urdu
+1057	\N	\N	Indonesian
+1058	\N	\N	Ukrainian
+1059	\N	\N	Belarusian
+1060	\N	\N	Slovenian
+1061	\N	\N	Estonian
+1062	\N	\N	Latvian
+1063	\N	\N	Lithuanian
+1065	\N	\N	Farsi
+1066	\N	\N	Vietnamese
+1067	\N	\N	Armenian *
+1068	\N	\N	Azeri (Latin)
+1069	\N	\N	Basque
+1071	\N	\N	Macedonian (FYROM)
+1078	\N	\N	Afrikaans
+1079	\N	\N	Georgian *
+1080	\N	\N	Faeroese
+1081	\N	\N	Hindi
+1086	\N	\N	Malay
+1087	\N	\N	Kazakh
+1089	\N	\N	Swahili
+1091	\N	\N	Uzbek (Latin)
+1092	\N	\N	Tatar
+1093	\N	\N	Bengali
+1094	\N	\N	Punjabi
+1095	\N	\N	Gujarati
+1096	\N	\N	Oriya
+1097	\N	\N	Tamil
+1098	\N	\N	Telugu
+1099	\N	\N	Kannada
+1100	\N	\N	Malayalam
+1101	\N	\N	Assamese
+1102	\N	\N	Marathi
+1103	\N	\N	Sanskrit
+1111	\N	\N	Konkani
+1112	\N	\N	Manipuri
+1113	\N	\N	Sindhi
+1120	\N	\N	Kashmiri
+1121	\N	\N	Nepali
+1122	\N	\N	Frisian
+2052	\N	\N	Chinese (Simplified)
+2055	\N	\N	German (Swiss)
+2057	\N	\N	English (U.K.)
+2068	\N	\N	Norwegian Nynorsk
+2070	\N	\N	Portuguese (Portugal)
+2074	\N	\N	Serbian (Latin)
+2087	\N	\N	Lithuanian (Classic)
+2092	\N	\N	Azeri (Cyrillic)
+2115	\N	\N	Uzbek (Cyrillic)
+3079	\N	\N	German (Austrian)
+3081	\N	\N	English (Australian)
+3082	\N	\N	Spanish
+3084	\N	\N	Original version
+3098	\N	\N	Serbian (Cyrillic)
+4105	\N	\N	English (Canadian)
+\.
+
+
+--
+-- Data for Name: enum_lieu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_lieu (id, libelle, parent, ref_text) FROM stdin;
+1	France	1	
+2	Europe	2	
+3	Afrique	3	
+4	Amériques 	4	
+5	Asie	5	
+6	Océanie	6	
+7	Monde	7	
+\.
+
+
+--
+-- Data for Name: enum_lieu2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_lieu2 (id, libelle, parent, ref_text) FROM stdin;
+1	Alsace	1	
+2	Aquitaine	1	
+130	Australie	6	
+131	Nouvelle Zélande	6	
+132	Océanie - Autres Etats	6	
+3	Auvergne	1	
+4	Basse Normandie	1	
+5	Bassin Parisien	1	
+6	Bourgogne	1	
+7	Bretagne	1	
+9	Corse	1	
+10	Département d'Outre Mer	1	
+11	Franche Comté	1	
+12	Haute Normandie	1	
+13	Ile de France	1	
+14	Languedoc Roussillon	1	
+15	Limousin	1	
+16	Lorraine	1	
+17	Mayotte	1	
+18	Midi Pyrénnée	1	
+19	Nord Pas de Calais	1	
+20	Pays de la Loire	1	
+21	Picardie	1	
+22	Poitou Charentes	1	
+23	Provence Alpes Côte d'Azur	1	
+24	Région Centre	1	
+25	Rhône Alpes	1	
+26	Saint Pierre et Miquelon	1	
+27	Territoire d'Outre Mer	1	
+28	Albanie	2	
+29	Allemagne	2	
+30	Andorre	2	
+31	Arménie	2	
+32	Autriche	2	
+33	Azerbaïdjan	2	
+34	Belgique	2	
+35	Biélorussie	2	
+36	Bulgarie	2	
+37	Chypre	2	
+38	Croatie	2	
+39	Danemark	2	
+40	Espagne	2	
+41	Estonie	2	
+42	Europe Centrale	2	
+43	Europe du Nord	2	
+44	Pays Baltes	2	
+45	Pays Scandinaves	2	
+46	Europe du Sud	2	
+47	Europe Occidentale	2	
+48	Europe Orientale	2	
+49	Ex RDA	2	
+50	Ex RFA	2	
+51	Ex URSS	2	
+52	Ex Yougoslavie	2	
+53	Finlande	2	
+54	Georgie	2	
+55	Grece	2	
+56	Hongrie	2	
+57	Irlande	2	
+58	Islande	2	
+59	Italie	2	
+60	Kazakhstan	2	
+61	Kirghizistan	2	
+62	Lettonie	2	
+63	Liechtenstein	2	
+64	Lituanie	2	
+65	Luxembourg	2	
+66	Macédoine	2	
+67	Malte	2	
+68	Moldavie	2	
+69	Monténégro	2	
+70	Norvège	2	
+71	Ouzbékistan	2	
+72	Pays Bas	2	
+73	Pologne	2	
+74	Portugal	2	
+75	RDA	2	
+76	République Tcheque	2	
+77	RFA	2	
+78	Roumanie	2	
+79	Royaume Uni	2	
+80	Russie	2	
+81	Saint Marin	2	
+82	Serbie	2	
+83	Slovaquie	2	
+84	Slovénie	2	
+85	Suéde	2	
+86	Suisse	2	
+87	Tadjikistan	2	
+88	Tchécoslovaquie	2	
+89	Turkménistan	2	
+90	Turquie	2	
+91	Ukraine	2	
+92	URSS	2	
+93	Vatican	2	
+94	Yougoslavie	2	
+95	Afrique Anglophone	3	
+96	Afrique Arabophone	3	
+97	Afrique Australe	3	
+98	Afrique Centrale 	3	
+99	Afrique du Nord	3	
+100	Afrique du Sud	3	
+101	Afrique Francophone	3	
+102	Afrique Lusophone	3	
+103	Afrique Occidentale	3	
+104	Afrique Orientale	3	
+105	Afrique Subsaharienne	3	
+106	Amérique Centrale	4	
+107	Amérique du Nord	4	
+108	Amérique du Sud	4	
+109	Amérique Latine 	4	
+110	Etats Unis	4	
+111	Canada	4	
+112	Mexique	4	
+113	Brésil	4	
+114	Arabie Saoudite	5	
+115	Asie Centrale	5	
+116	Asie du Sud Est	5	
+117	Chine	5	
+118	Extreme Orient	5	
+119	Inde	5	
+120	Indonésie	5	
+121	Irak	5	
+122	Iran	5	
+123	Israël	5	
+124	Japon	5	
+125	Jordanie	5	
+126	Moyen Orient	5	
+127	Pakistan	5	
+128	Penninsule Arabique	5	
+129	Philippines	5	
+8	Champagne Ardennes	1	
+\.
+
+
+--
+-- Data for Name: enum_media; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_media (id, libelle, parent, ref_text) FROM stdin;
+1	audio	0	\N
+3	audio vidéo	0	\N
+2	vidéo	0	\N
+\.
+
+
+--
+-- Data for Name: enum_medium; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_medium (id, libelle, parent, ref_text) FROM stdin;
+1	DVD	0	\N
+2	TV  gratuite	0	\N
+3	TV payante	0	\N
+4	Internet	0	\N
+5	Salle	0	\N
+6	Telephonie mobile	0	\N
+7	Tablette	0	\N
+8	VaD	0	\N
+9	Radio	0	\N
+\.
+
+
+--
+-- Data for Name: enum_organization; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_organization (id, libelle, parent, ref_text) FROM stdin;
+1	Ministere de l'economie, de l'industrie et de l'emploi	\N	
+3	Secrétariat d'état chargé de l'emploi	\N	
+4	Secrétariat d'état chargé de l'industrie et de la consommation	\N	
+5	Secrétariat d'état chargé du commerce, de l'artisanat, des petites et moyennes entreprises, du tourisme et des services	\N	
+6	Secrétariat chargé de la fonction publique	\N	
+2	Ministere du budget, des comptes publics et de la réforme de l'Etat	0	
+\.
+
+
+--
+-- Data for Name: enum_organization2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_organization2 (id, libelle, parent, ref_text) FROM stdin;
+3	AIFE	\N	
+4	APIE	\N	
+5	ATSCAF	\N	
+6	BC	\N	
+7	CBCM	\N	
+8	CGEFI	\N	
+9	CGIET	\N	
+10	CGTI	\N	
+11	DAJ	\N	
+12	DB	\N	
+13	DGAFP	\N	
+14	DGCCRF	\N	
+15	DGCIS	\N	
+16	DGDDI	\N	
+17	DGE	\N	
+18	DGEFP	\N	
+19	DGEMP	\N	
+20	DGFIP	\N	
+21	DGME	\N	
+23	DPAEP	\N	
+24	DSS	\N	
+25	DT	\N	
+26	HFDS	\N	
+27	IGPDE	\N	
+28	INSEE	\N	
+30	SGAE	\N	
+31	SIRCOM	\N	
+32	SP	\N	
+33	TRACFIN	\N	
+22	DGTPE	1	
+29	SG	1	
+\.
+
+
+--
+-- Data for Name: enum_personne; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_personne (id, libelle, parent, ref_text) FROM stdin;
+7	prise de vue	0	\N
+8	montage	0	\N
+9	effets spéciaux	0	\N
+10	son	0	\N
+11	musique	0	\N
+12	documentation	0	\N
+6	réalisation	0	\N
+5	création	0	\N
+13	production	0	\N
+14	traduction	0	\N
+15	interprétariat	0	\N
+16	moyens techniques	0	\N
+\.
+
+
+--
+-- Data for Name: enum_personne2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_personne2 (id, libelle, parent, ref_text) FROM stdin;
+1	auteur 1	1	
+2	auteur 2	1	
+3	réalisateur	1	
+4	autre 1	1	
+5	autre 2	1	
+6	principal 1	2	
+7	principal 2	2	
+8	principal 3	2	
+9	secondaire 1	2	
+10	secondaire 2	2	
+11	secondaire 3	2	
+12	principal 1	3	
+13	principal 2	3	
+14	principal 3	3	
+15	secondaire 1	3	
+16	secondaire 2	3	
+17	secondaire 3	3	
+18	principal 1	4	
+19	principal 2	4	
+20	principal 3	4	
+21	secondaire 1	4	
+22	secondaire 2	4	
+23	secondaire 3	4	
+1	auteur 1	1	
+2	auteur 2	1	
+3	réalisateur	1	
+4	autre 1	1	
+5	autre 2	1	
+6	principal 1	2	
+7	principal 2	2	
+8	principal 3	2	
+9	secondaire 1	2	
+10	secondaire 2	2	
+11	secondaire 3	2	
+12	principal 1	3	
+13	principal 2	3	
+14	principal 3	3	
+15	secondaire 1	3	
+16	secondaire 2	3	
+17	secondaire 3	3	
+18	principal 1	4	
+19	principal 2	4	
+20	principal 3	4	
+21	secondaire 1	4	
+22	secondaire 2	4	
+23	secondaire 3	4	
+\.
+
+
+--
+-- Data for Name: enum_pointzoom; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_pointzoom (id, libelle, parent, ref_text) FROM stdin;
+1	Actualités	\N	\N
+2	Economie	\N	\N
+3	Carrière	\N	\N
+4	Pratique	\N	\N
+5	Culture	\N	\N
+6	Devises	\N	\N
+\.
+
+
+--
+-- Data for Name: enum_profession; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_profession (id, libelle, parent, ref_text) FROM stdin;
+1	informatique	0	\N
+2	communication	0	\N
+3	audiovisuel	0	\N
+4	droit	0	\N
+5	ressources humaines	0	\N
+6	expertise sectorielle	0	\N
+\.
+
+
+--
+-- Data for Name: enum_public; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_public (id, libelle, parent, ref_text) FROM stdin;
+3	Europe	\N	
+1	Agents Ministères financiers	0	
+4	Grand public Monde	0	
+2	Grand public France	0	
+\.
+
+
+--
+-- Data for Name: enum_public2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_public2 (id, libelle, parent, ref_text) FROM stdin;
+1	Ministre & Directeurs	1	
+2	Administration Centrale - tous	1	
+3	Services Déconcentrés - tous	1	
+4	Minefi - tous	1	
+5	Grand Public - jeunes	2	
+6	Grand Public - actifs	2	
+7	Grand Public - sans emploi	2	
+8	Grand Public - retraités	2	
+9	Grand Public - tous	2	
+10	Collectivités locales - Régions	2	
+11	Collectivités locales - Départements	2	
+12	Collectivités locales - Villes	2	
+13	Collectivités locales - toutes	2	
+14	Entreprises - grandes	2	
+15	Entreprises - PME	2	
+16	Entreprises - professions libérales	2	
+17	Entreprises - commerce & artisanat	2	
+18	Entreprises - toutes	2	
+19	Institutions Europe	3	
+20	Institutions Régionales (hors Europe)	3	
+21	Institutions Monde	3	
+\.
+
+
+--
+-- Data for Name: enum_scoring; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_scoring (id, libelle, parent, ref_text) FROM stdin;
+1	excellent	4	\N
+2	bon	4	\N
+3	moyen	4	\N
+4	médiocre	4	\N
+5	mauvais	4	\N
+\.
+
+
+--
+-- Data for Name: enum_sector; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_sector (id, libelle, parent, ref_text) FROM stdin;
+1	commercial	0	\N
+2	non commercial	0	\N
+\.
+
+
+--
+-- Data for Name: enum_sublanguage; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_sublanguage (id, libelle, parent, ref_text) FROM stdin;
+1	Arabe - classique	0	\N
+2	Français	0	\N
+3	Anglais	0	\N
+4	Allemand	0	\N
+5	Hindi	0	\N
+6	Italien	0	\N
+7	Japonais	0	\N
+8	Russe	0	\N
+9	Espagnol	0	\N
+10	Chinois - Mandarin	0	\N
+11	aucune sélection	0	\N
+\.
+
+
+--
+-- Data for Name: enum_theme; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_theme (id, libelle, parent, ref_text) FROM stdin;
+3	Environnement économique et social	\N	
+1	Environnement juridique et institutionnel	\N	
+8	Environnement professionel	\N	
+5	Environnement culturel et sociétal	\N	
+2	Finances publiques	\N	
+4	Questions Financières	\N	
+6	Questions internationales	\N	
+7	Union européenne	\N	
+\.
+
+
+--
+-- Data for Name: enum_theme2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_theme2 (id, libelle, parent, ref_text) FROM stdin;
+9	Régulation de la consommation	3	
+43	Revenu	3	
+30	Santé	3	
+1	Droit	1	
+3	Gestion du secteur public	1	
+2	Organisation administrative et politique	1	
+39	Entreprise	8	
+40	Formation professionnelle	8	
+41	Gestion de l'information	8	
+42	Technologie de l'information et de la communication	8	
+4	Budget	2	
+6	Domaine de l'Etat	2	
+5	Fiscalité	2	
+17	Crédit	4	
+18	Epargne	4	
+21	Service financier	4	
+23	Système financier	4	
+22	Moyen de paiement	4	
+20	Monnaie	4	
+19	Marché des capitaux	4	
+24	Culture	5	
+25	Enseignement	5	
+27	Population	5	
+31	Société	5	
+33	Economie internationale	6	
+32	Finances Internationales	6	
+34	Relations internationales	6	
+35	Construction européenne	7	
+36	Droit communautaire	7	
+37	Organisation communautaire	7	
+10	Agriculture	3	
+16	Aménagement du territoire	3	
+8	Commerce extérieur	3	
+7	Economie	3	
+15	Emploi	3	
+13	Energie et matières premières	3	
+14	Environnement	3	
+12	Politique industrielle	3	
+11	Transport	3	
+38	Politique communautaire	7	
+\.
+
+
+--
+-- Data for Name: enum_type1; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_type1 (id, libelle, parent, ref_text) FROM stdin;
+1	Agriculture	0	
+2	Aménagement du territoire	0	
+3	Communication	0	
+4	Culture	0	
+5	Défense	0	\N
+6	Economie et Finances	0	\N
+7	Education	0	\N
+8	Emploi	0	\N
+9	Environnement	0	\N
+10	Etat	0	\N
+11	Europe	0	\N
+12	Justice	0	\N
+16	Social	0	\N
+18	Sport	0	\N
+13	Politique étrangére	0	\N
+14	Santé	0	\N
+15	Sécurité	0	\N
+17	Société	0	\N
+\.
+
+
+--
+-- Data for Name: enum_type2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY enum_type2 (id, libelle, parent, ref_text) FROM stdin;
+3	Emploi	6	
+2	Industrie	6	
+1	Economie	6	
+6	Réforme de l'Etat	6	
+5	Comptes publics	6	
+4	Budget	6	
+\.
+
+
+--
+-- Data for Name: extra_components_panel; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY extra_components_panel (idcomp, title, install_date, type, classname, version, manifest, path) FROM stdin;
+\.
+
+
+--
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY groups (idgroup, idproduction, name, description, type, code) FROM stdin;
+\.
+
+
+--
+-- Data for Name: groups_programs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY groups_programs (idgroup, idprog, listorder) FROM stdin;
+\.
+
+
+--
+-- Data for Name: kb_items; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY kb_items (id, title, kb_rub_id, idtype) FROM stdin;
+\.
+
+
+--
+-- Data for Name: kb_items_translations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY kb_items_translations (iditem, id, idfgroup, value, textsearchable_index_col) FROM stdin;
+\.
+
+
+--
+-- Data for Name: kb_items_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY kb_items_type (idtype, title, idgroup, visible) FROM stdin;
+1	chapters	5	1
+3	objects	16	0
+\.
+
+
+--
+-- Data for Name: kb_rub; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY kb_rub (id, title, idparent, idkb) FROM stdin;
+\.
+
+
+--
+-- Data for Name: knowledge_base; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY knowledge_base (idkb, title, idowner, typeowner) FROM stdin;
+\.
+
+
+--
+-- Data for Name: locales; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY locales (idlocale, code, libelle) FROM stdin;
+1	aa	Afar
+2	ab	Abkhazian
+3	af	Afrikaans
+4	ak	Akan
+5	sq	Albanian
+6	am	Amharic
+7	ar	Arabic
+8	an	Aragonese
+9	hy	Armenian
+10	as	Assamese
+11	av	Avaric
+12	ae	Avestan
+13	ay	Aymara
+14	az	Azerbaijani
+15	ba	Bashkir
+16	bm	Bambara
+17	eu	Basque
+18	be	Belarusian
+19	bn	Bengali
+20	bh	Bihari
+21	bi	Bislama
+22	bs	Bosnian
+23	br	Breton
+24	bg	Bulgarian
+25	my	Burmese
+26	ca	Catalan; Valencian
+27	ch	Chamorro
+28	ce	Chechen
+29	zh	Chinese
+30	cu	Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
+31	cv	Chuvash
+32	kw	Cornish
+33	co	Corsican
+34	cr	Cree
+35	cs	Czech
+36	da	Danish
+37	dv	Divehi; Dhivehi; Maldivian
+38	nl	Dutch; Flemish
+39	dz	Dzongkha
+40	en	English
+41	eo	Esperanto
+42	et	Estonian
+43	ee	Ewe
+44	fo	Faroese
+45	fj	Fijian
+46	fi	Finnish
+47	fr	French
+48	fy	Western Frisian
+49	ff	Fulah
+50	ka	Georgian
+51	de	German
+52	gd	Gaelic; Scottish Gaelic
+53	ga	Irish
+54	gl	Galician
+55	gv	Manx
+56	el	Greek, Modern (1453-)
+57	gn	Guarani
+58	gu	Gujarati
+59	ht	Haitian; Haitian Creole
+60	ha	Hausa
+61	he	Hebrew
+62	hz	Herero
+63	hi	Hindi
+64	ho	Hiri Motu
+65	hr	Croatian
+66	hu	Hungarian
+67	ig	Igbo
+68	is	Icelandic
+69	io	Ido
+70	ii	Sichuan Yi; Nuosu
+71	iu	Inuktitut
+72	ie	Interlingue; Occidental
+73	ia	Interlingua (International Auxiliary Language Association)
+74	id	Indonesian
+75	ik	Inupiaq
+76	it	Italian
+77	jv	Javanese
+78	ja	Japanese
+79	kl	Kalaallisut; Greenlandic
+80	kn	Kannada
+81	ks	Kashmiri
+82	kr	Kanuri
+83	kk	Kazakh
+84	km	Central Khmer
+85	ki	Kikuyu; Gikuyu
+86	rw	Kinyarwanda
+87	ky	Kirghiz; Kyrgyz
+88	kv	Komi
+89	kg	Kongo
+90	ko	Korean
+91	kj	Kuanyama; Kwanyama
+92	ku	Kurdish
+93	lo	Lao
+94	la	Latin
+95	lv	Latvian
+96	li	Limburgan; Limburger; Limburgish
+97	ln	Lingala
+98	lt	Lithuanian
+99	lb	Luxembourgish; Letzeburgesch
+100	lu	Luba-Katanga
+101	lg	Ganda
+102	mk	Macedonian
+103	mh	Marshallese
+104	ml	Malayalam
+105	mi	Maori
+106	mr	Marathi
+107	ms	Malay
+108	mg	Malagasy
+109	mt	Maltese
+110	mn	Mongolian
+111	na	Nauru
+112	nv	Navajo; Navaho
+113	nr	Ndebele, South; South Ndebele
+114	nd	Ndebele, North; North Ndebele
+115	ng	Ndonga
+116	ne	Nepali
+117	nn	Norwegian Nynorsk; Nynorsk, Norwegian
+118	nb	Bokmål, Norwegian; Norwegian Bokmål
+119	no	Norwegian
+120	ny	Chichewa; Chewa; Nyanja
+121	oc	Occitan (post 1500); Provençal
+122	oj	Ojibwa
+123	or	Oriya
+124	om	Oromo
+125	os	Ossetian; Ossetic
+126	pa	Panjabi; Punjabi
+127	fa	Persian
+128	pi	Pali
+129	pl	Polish
+130	pt	Portuguese
+131	ps	Pushto; Pashto
+132	qu	Quechua
+133	rm	Romansh
+134	ro	Romanian; Moldavian; Moldovan
+135	rn	Rundi
+136	ru	Russian
+137	sg	Sango
+138	sa	Sanskrit
+139	si	Sinhala; Sinhalese
+140	sk	Slovak
+141	sl	Slovenian
+142	se	Northern Sami
+143	sm	Samoan
+144	sn	Shona
+145	sd	Sindhi
+146	so	Somali
+147	st	Sotho, Southern
+148	es	Spanish; Castilian
+149	sc	Sardinian
+150	sr	Serbian
+151	ss	Swati
+152	su	Sundanese
+153	sw	Swahili
+154	sv	Swedish
+155	ty	Tahitian
+156	ta	Tamil
+157	tt	Tatar
+158	te	Telugu
+159	tg	Tajik
+160	tl	Tagalog
+161	th	Thai
+162	bo	Tibetan
+163	ti	Tigrinya
+164	to	Tonga (Tonga Islands)
+165	tn	Tswana
+166	ts	Tsonga
+167	tk	Turkmen
+168	tr	Turkish
+169	tw	Twi
+170	ug	Uighur; Uyghur
+171	uk	Ukrainian
+172	ur	Urdu
+173	uz	Uzbek
+174	ve	Venda
+175	vi	Vietnamese
+176	vo	Volapük
+177	cy	Welsh
+178	wa	Walloon
+179	wo	Wolof
+180	xh	Xhosa
+181	yi	Yiddish
+182	yo	Yoruba
+183	za	Zhuang; Chuang
+184	zu	Zulu
+\.
+
+
+--
+-- Data for Name: logs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY logs (idlog, statutimport, idproduction, idpublication, idvisionnage, iduser, idversion, cip, date, "time", cdns, csuristem, cstarttime, xduration, crate, cstatus, cplayerid, cplayerversion, cplayerlanguage, csuseragent, csreferer, chostexe, chostexever, cos, cosversion, ccpu, filelength, filesize, avgbandwidth, protocol, transport, audiocodec, videocodec, channelurl, scbytes, cbytes, spktssent, cpktsreceived, cpktslostclient, cpktslostnet, cpktslostcontnet, cresendreqs, cpktsrecoveredecc, cpktsrecoveredresent, cbuffercount, ctotalbuffertime, cquality, sip, sdns, stotalclients, scpuutil, csusername, ssessionid, scontentpath, csmedianame, cmaxbandwidth, csmediarole, sproxied, csurl, idprog) FROM stdin;
+\.
+
+
+--
+-- Data for Name: masters; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY masters (idmaster, title, duration, format, encoding, comments, languages) FROM stdin;
+\.
+
+
+--
+-- Data for Name: menus_elements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY menus_elements (idcomponent, title, idmenu, url) FROM stdin;
+10	List of programs	42	
+0	Programs	40	#
+0	Group	45	#
+15	List of group	47	
+17	List of programs	48	
+0	Tools	49	#
+18	Views	50	
+16	Create group	46	
+20	Template editing	52	
+0	Integration	54	#
+26	Create playlist	59	
+25	List of playlists	60	
+0	Playlist	58	#
+27	Videolist integration	61	
+28	Orders	62	
+29	Template allocation	63	
+30	Publish	64	
+32	Explorer	66	
+33	Explorer	67	
+36	Quick matching	68	
+37	Users	69	
+38	Home	70	
+39	Home	71	
+44	Import	77	
+45	Billings list	78	
+14	Create program	1	
+0	Videolist	2	#
+0	Statistics	74	#
+43	Statistics per production	76	
+40	Statistics per publication	72	
+41	Statistics per program	73	
+42	Statistics per program	75	
+34	Chapters manager	53	
+35	Chapters manager	65	
+\.
+
+
+--
+-- Data for Name: organizations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY organizations (idorganization, society, adress1, adress2, postalcode, city, country, phonenumber, faxnumber, email, alias, picture, siret, tvaintra, email2, phonenumber2, domaine, notes) FROM stdin;
+8	Minefe					2			video@finances.gouv.fr	minefe				video@finances.gouv.fr			
+\.
+
+
+--
+-- Data for Name: organizations_contacts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY organizations_contacts (idcontact, idorganization, name, firstname, adress1, adress2, postalcode, city, country, phonenumber, faxnumber, email) FROM stdin;
+\.
+
+
+--
+-- Data for Name: p_field_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY p_field_category (value, id) FROM stdin;
+A	1
+B	2
+C	3
+D	4
+E	5
+F	6
+G	7
+H	8
+I	9
+J	10
+K	11
+L	12
+M	13
+N	14
+O	15
+P	16
+Q	17
+R	18
+S	19
+T	20
+U	21
+V	22
+W	23
+X	24
+Y	25
+Z	26
+\.
+
+
+--
+-- Data for Name: playlists; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY playlists (idplaylist, idpublication, title, description, picture, groupname, key, idview, state) FROM stdin;
+\.
+
+
+--
+-- Data for Name: playlists_programs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY playlists_programs (idplaylist, idprog, listorder) FROM stdin;
+\.
+
+
+--
+-- Data for Name: productions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY productions (idproduction, idorganization, idgroup, name, pathdownload, key, pathstreaming_qt, pathstreaming_rm, pathstreaming_wm, pathpictures, pathcomponent, textbandeau, textwatermark, textcopyright, defaultwebcodec, defaultidperiode, dureegratuitemax, logocatalogue, depositdirectory, streamdirectory, date_of_creation, date_of_closure, email, menu, streamercode, alias, isdeleted, idservice, idprofil, email2, mobilephone, phonenumber2, organization, organization_details, title, work, notes, picture) FROM stdin;
+\.
+
+
+--
+-- Data for Name: productions_fields_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY productions_fields_group (idproduction, idgroup, "order") FROM stdin;
+\.
+
+
+--
+-- Data for Name: productions_menus_elements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY productions_menus_elements (idproduction, idmenu, menu_order, idparent, iduser) FROM stdin;
+60	40	0	\N	0
+60	1	0	40	0
+60	42	1	40	0
+60	74	1	\N	0
+60	73	0	74	0
+60	72	1	74	0
+0	70	0	\N	0
+0	40	1	\N	0
+0	1	0	40	0
+0	42	1	40	0
+0	68	2	40	0
+0	46	3	40	0
+0	47	4	40	0
+0	49	2	\N	0
+0	66	0	49	0
+0	64	1	49	0
+0	53	2	49	0
+0	77	3	49	0
+0	78	4	49	0
+0	74	3	\N	0
+0	72	0	74	0
+0	73	1	74	0
+\.
+
+
+--
+-- Data for Name: productions_publications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY productions_publications (idproduction, idpublication) FROM stdin;
+\.
+
+
+--
+-- Data for Name: productions_rate; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY productions_rate (idrate, idproduction, idperiode, starttime, endtime, status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs (idprog, idprog_programs_extract, idproduction, idextfilm, keyprog, duration, date, tcin, tcout, state, type_extract, viewof, idpublication, idprog_programs_of) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_credits; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_credits (idcredit, value, idfunction, idprog) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_extracts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_extracts (idprog, ord, groupname, idprog_programs_extract) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_fields; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_fields (idfield, title, type, table_ref, parent, mask, default_value, help, is_editable, category, indexable, code) FROM stdin;
+1	title	TEXT	\N	\N			\N	1	\N	f	title
+22	copyright	COMPLEXBOOLEAN	\N	\N			\N	2	\N	f	copyright
+13	fullversion	BOOLEAN	\N	\N			\N	2	\N	f	fullversion
+29	picture	PICTURE	\N	\N			\N	1	\N	f	picture
+2	synopsis	TEXTAREA	\N	\N			\N	1	\N	f	synopsis
+3	audience	ENUM	enum_audience	\N			\N	1	\N	f	audience
+23	date	DATE	\N	\N			\N	1	\N	f	date
+27	description	TEXTAREA	\N	\N			\N	1	\N	f	description
+64	video ratio	ENUM	videoratio				\N	2	\N	f	videoratio
+65	idext	TEXT	\N	\N			\N	2	\N	f	idext
+66	language	ENUM	enum_language				\N	2	\N	f	language
+68	subtitles language	ENUM	enum_sublanguage				\N	2	\N	f	sublanguage
+69	organization	ENUM	enum_organization				\N	2	\N	f	organization
+71	theme	ENUM	enum_theme				\N	2	\N	f	theme
+72	theme details	ENUM	enum_theme2	theme			\N	2	\N	f	theme2
+76	media	ENUM	enum_media				\N	2	\N	f	media
+59	format	ENUM	enum_format				\N	2	\N	f	format
+80	public	ENUM	enum_public				\N	2	\N	f	public
+81	public details	ENUM	enum_public2	public			\N	2	\N	f	public2
+82	personne	ENUM	enum_personne				\N	2	\N	f	personne
+83	personne details	ENUM	enum_personne2	personne			\N	2	\N	f	personne2
+86	flv	TEXT	\N	\N			\N	2	\N	f	flv
+87	mp4	TEXT	\N	\N			\N	2	\N	f	mp4
+88	salle	TEXT	\N	\N			\N	2	\N	f	salle
+91	tags	TEXT	\N	\N			\N	2	\N	f	tags
+92	pointzoom	ENUM	enum_pointzoom				\N	2	\N	f	pointzoom
+97	function	ENUM	enum_function					2	\N	f	function
+74	lieu details	ENUM	enum_lieu2	lieu				2	\N	f	lieu2
+84	type 1	ENUM	enum_type1					2	\N	f	type1
+30	file	FILE	\N	\N				1	\N	f	file
+98	credits	TEXTAREA	\N	\N		enum_personne		1	\N	f	credits
+85	type 2	ENUM	enum_type2	type1				2	\N	f	type2
+96	transcription	TEXTAREA	\N	\N				2	\N	f	transcription
+102	action	ENUM	enum_action	class				2	\N	f	action
+103	subclass	ENUM	enum_class2	class				2	\N	f	class2
+104	scoring	ENUM	enum_scoring	class				2	\N	f	scoring
+105	file 2	FILE	\N	\N				2	\N	f	file2
+106	url 2	TEXT	\N	\N				2	\N	f	url2
+107	url 2 title	TEXT	\N	\N				2	\N	f	url2title
+108	statistics	FILE	\N	\N				2	\N	f	statistics
+109	timecode out	TEXT	\N	\N				2	\N	f	timecodeout
+110	period (end)	DATE	\N	\N				2	\N	f	period_end
+70	organization details	ENUM	enum_organization2	organization			\N	2	\N	f	organization2
+111	profession	ENUMMULTI	enum_profession					2	\N	f	profession
+25	url 1	TEXT	\N	\N				1	\N	f	url
+26	url title 1	TEXT	\N	\N				1	\N	f	urltitle
+24	timecode in	TEXT	\N	\N	99:59:59.99	00:00:00.00		1	\N	f	timecode
+75	period (start)	DATE	\N	\N				2	\N	f	periode
+112	sector	ENUMMULTI	enum_sector					2	\N	f	sector
+78	domain	ENUM	enum_domaine					2	\N	f	domaine
+4	genre	ENUM	enum_genre	\N				1	\N	f	genre
+90	chapô	TEXTAREA	\N	\N				2	\N	f	chapo
+73	lieu	ENUM	enum_lieu					2	\N	f	lieu
+113	medium	ENUMMULTI	enum_medium					2	\N	f	medium
+114	class	ENUM	enum_class					2	\N	f	class
+115	remark	TEXTAREA	\N	\N				2	\N	f	remark
+116	genre audiovisual	ENUM	enum_genre_audiovisual					2	\N	f	genre_audiovisual
+79	droits	TEXT	enum_droits				\N	2	\N	f	droits
+33	duration	TEXT	\N	\N	99:59:59	00:00:00		1	\N	f	duration
+\.
+
+
+--
+-- Data for Name: programs_fields_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_fields_group (idgroup, name, category, system_gcv, is_editable) FROM stdin;
+1	default	\N	t	t
+5	chapters	\N	t	t
+16	objects	\N	\N	t
+\.
+
+
+--
+-- Data for Name: programs_fields_group_fields; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_fields_group_fields (idfield, idgroup, idfgroup, order_ext, cat) FROM stdin;
+23	2	32	0	\N
+1	2	33	1	\N
+3	2	34	2	\N
+1	1	1	0	1
+65	1	49	1	1
+23	1	10	2	1
+4	1	4	3	1
+2	1	5	4	1
+3	1	3	5	1
+33	1	26	6	1
+66	1	50	7	1
+68	1	51	8	1
+96	1	75	9	1
+91	1	67	10	1
+90	1	71	11	1
+76	1	62	12	1
+84	1	60	13	1
+85	1	61	14	1
+98	1	78	15	1
+26	1	80	16	1
+64	1	81	17	1
+71	1	54	18	2
+72	1	55	19	2
+69	1	56	20	2
+3	3	84	0	1
+70	1	57	21	2
+87	1	69	22	2
+86	1	70	23	2
+92	1	72	24	2
+113	1	90	25	3
+112	1	87	26	3
+75	1	58	27	3
+110	1	88	28	3
+73	1	52	29	3
+74	1	53	30	3
+115	1	89	31	3
+114	5	91	0	1
+103	5	92	1	1
+1	5	13	2	1
+29	5	21	3	1
+24	5	15	4	1
+26	6	76	0	1
+25	6	77	1	1
+27	5	14	5	2
+91	5	93	6	2
+30	5	20	7	3
+25	5	16	8	3
+26	5	17	9	3
+106	5	94	10	3
+107	5	95	11	3
+114	16	96	0	1
+1	16	97	1	1
+29	16	98	2	1
+24	16	99	3	1
+27	16	100	4	2
+91	16	101	5	2
+23	16	102	6	2
+30	16	103	7	3
+105	16	104	8	3
+25	16	105	9	3
+26	16	106	10	3
+106	16	107	11	3
+107	16	108	12	3
+\.
+
+
+--
+-- Data for Name: programs_pictures; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_pictures (idpicture, uri, idprog, usage) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_publications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_publications (idprog, idpublication, starttime, endtime, state, progshot, notification) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_translations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_translations (idprog, id, idfgroup, value, idview, textsearchable_index_col) FROM stdin;
+\.
+
+
+--
+-- Data for Name: programs_versions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY programs_versions (idprog, idversion) FROM stdin;
+\.
+
+
+--
+-- Data for Name: publications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY publications (idpublication, idorganization, key, name, alias, pathcomponent, state, description, url, menu, date_of_creation, idproduction, isdeleted, email, idservice, email2, mobilephone, phonenumber2, organization, organization_details, title, work, notes, picture) FROM stdin;
+\.
+
+
+--
+-- Data for Name: publications_identifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY publications_identifications (pubkey, key, type, mode) FROM stdin;
+\.
+
+
+--
+-- Data for Name: publications_menus_elements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY publications_menus_elements (idpublication, idmenu, menu_order, idparent, iduser) FROM stdin;
+0	71	0	\N	0
+0	40	1	\N	0
+0	48	0	40	0
+0	2	2	\N	0
+0	61	0	2	0
+0	58	3	\N	0
+0	59	0	58	0
+0	60	1	58	0
+0	49	4	\N	0
+0	67	0	49	0
+0	52	1	49	0
+0	63	2	49	0
+0	50	3	49	0
+0	65	4	49	0
+0	69	5	49	0
+0	74	5	\N	0
+0	75	0	74	0
+0	76	1	74	0
+\.
+
+
+--
+-- Data for Name: publications_views; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY publications_views (idview, idpublication, viewname, viewcode, locale, editable) FROM stdin;
+\.
+
+
+--
+-- Data for Name: rates; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY rates (idrate, vatrate, currency, gb_stored, gb_streamed) FROM stdin;
+1	19.6	eur	15.22568	25.6558
+\.
+
+
+--
+-- Data for Name: ressources_access; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY ressources_access (iduser, idcomponent, level, state, authorization_type, idacces, module, ressource) FROM stdin;
+1	0	0	1	0	1	sadmin	1
+\.
+
+
+--
+-- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services (idservice, name, isdeleted, menu, key, email, email2, mobilephone, phonenumber2, organization, organization_details, title, work, notes, picture) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_menus_elements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_menus_elements (idservice, idmenu, menu_order, idparent, iduser) FROM stdin;
+0	62	0	\N	0
+\.
+
+
+--
+-- Data for Name: services_orders; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders (idorder, idprog, keyprog, idressource, date_of_creation, desireddate, source_file, status, abort_demand, delivery_date, enclosed, account, idservice) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_chapitrage; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_chapitrage (idchapitrage, idorderline, chapitrage_file, comments, capture_miniature, status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_encoding; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_encoding (idencoding, idorderline, status, comments) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_lines; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_lines (idorderline, idorder, idtype) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_subtitling; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_subtitling (idsubtitling, idorderline, font, font_size, font_color, language, status, justification, comments) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_translation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_translation (idtranslation, idorderline, language, status, comments) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_orders_watermarking; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_orders_watermarking (idwatermarking, idorderline, text, font, font_size, font_color, image_file, orientation, "position", mosaic, opacity, comments, status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: services_types; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_types (idtype, title, description) FROM stdin;
+2	Encoding	\N
+3	Subtitling	\N
+4	Translation	\N
+5	Watermarking	\N
+1	Chaptering	\N
+\.
+
+
+--
+-- Data for Name: services_types_selected; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY services_types_selected (idservice, idtype) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tasks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tasks (idtask, type, querytime, starttime, endtime, command, comments, state) FROM stdin;
+\.
+
+
+--
+-- Data for Name: themes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY themes (id, folder, ressource_type, idpublication, idview, ressource2, ressource) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tokens (idtoken, token, key, "time") FROM stdin;
+\.
+
+
+--
+-- Data for Name: translations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY translations (id, value, column_title, lang, table_name, ref_num, ref_alpha) FROM stdin;
+1	trad1	libelle	fr	enum_level3	1	\N
+7	Liste des factures	title	fr	menus_elements	78	\N
+8	Créer un groupe	title	fr	menus_elements	46	\N
+9	Créer un programme	title	fr	menus_elements	1	\N
+10	Créer une playlist	title	fr	menus_elements	59	\N
+11	Explorateur	title	fr	menus_elements	67	\N
+12	Explorateur	title	fr	menus_elements	66	\N
+13	Groupe	title	fr	menus_elements	45	\N
+14	Accueil	title	fr	menus_elements	71	\N
+15	Importer	title	fr	menus_elements	77	\N
+16	Intégration	title	fr	menus_elements	54	\N
+17	Liste des groupes	title	fr	menus_elements	47	\N
+18	Liste des playlists	title	fr	menus_elements	60	\N
+19	Vidéoliste	title	fr	menus_elements	2	\N
+20	Programmes	title	fr	menus_elements	40	\N
+21	Liste des programmes	title	fr	menus_elements	48	\N
+22	Outils	title	fr	menus_elements	49	\N
+23	Vues	title	fr	menus_elements	50	\N
+24	Edition de template	title	fr	menus_elements	52	\N
+25	Intégration vidéoliste	title	fr	menus_elements	61	\N
+27	Commandes	title	fr	menus_elements	62	\N
+28	Affectation des templates	title	fr	menus_elements	63	\N
+29	Publier	title	fr	menus_elements	64	\N
+30	Utilisateurs	title	fr	menus_elements	69	\N
+31	Accueil	title	fr	menus_elements	70	\N
+32	Statistiques par publication	title	fr	menus_elements	72	\N
+33	Statistiques par programme	title	fr	menus_elements	73	\N
+34	Statistiques	title	fr	menus_elements	74	\N
+35	Statistiques par programme	title	fr	menus_elements	75	\N
+36	Statistiques par production	title	fr	menus_elements	76	\N
+37	Liste des programmes	title	fr	menus_elements	42	\N
+38	crédits	title	fr	programs_fields	98	\N
+39	domaine	title	fr	programs_fields	84	\N
+40	durée	title	fr	programs_fields	33	\N
+41	fonction	title	fr	programs_fields	97	\N
+42	Institutionnel	title	fr	programs_fields	4	\N
+43	signal	title	fr	programs_fields	76	\N
+44	Institutionnal	title	en	programs_fields	4	\N
+45	organisation	title	fr	programs_fields	69	\N
+46	organisation details	title	fr	programs_fields	70	\N
+47	période (début)	title	fr	programs_fields	75	\N
+48	image	title	fr	programs_fields	29	\N
+49	personne	title	fr	programs_fields	82	\N
+50	person	title	en	programs_fields	82	\N
+51	personne details	title	fr	programs_fields	83	\N
+52	person details	title	en	programs_fields	83	\N
+56	subdomain	title	en	programs_fields	85	\N
+55	sous-domaine	title	fr	programs_fields	85	\N
+58	room	title	en	programs_fields	88	\N
+59	url titre 1	title	fr	programs_fields	26	\N
+60	place	title	en	programs_fields	73	\N
+61	place details	title	en	programs_fields	74	\N
+62	domaine	title	fr	programs_fields	78	\N
+63	sous-classe objet	title	fr	programs_fields	103	\N
+64	notation	title	fr	programs_fields	104	\N
+54	repertory 1	title	en	programs_fields	30	\N
+53	répertoire 1	title	fr	programs_fields	30	\N
+65	répertoire 2	title	fr	programs_fields	105	\N
+66	repertory 2	title	en	programs_fields	105	\N
+67	url 2 titre	title	fr	programs_fields	107	\N
+68	statistiques	title	fr	programs_fields	108	\N
+69	période (fin)	title	fr	programs_fields	110	\N
+70	secteur	title	fr	programs_fields	112	\N
+71	support	title	fr	programs_fields	113	\N
+72	classe	title	fr	programs_fields	114	\N
+73	remarque	title	fr	programs_fields	115	\N
+74	audiovisuel	title	fr	programs_fields	116	\N
+76	Gestionnaire de chapitre	title	fr	menus_elements	53	\N
+77	Gestionnaire de chapitre	title	fr	menus_elements	65	\N
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (iduser, idgroup, name, firstname, email, phonenumber, faxnumber, adress1, adress2, city, postalcode, ulogin, upassword, lastconnection, state, userkey, lang, secretquestion, secretresponse, email2, mobilephone, phonenumber2, organization, organization_details, title, work, notes, picture) FROM stdin;
+1	0										administrateur	19ad89bc3e3c9d7ef68b89523eff1987	\N	1	6b3f0354e74163385d03	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: users_environment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_environment (iduser, dataname, datavalue) FROM stdin;
+544	prod_last_access	a:4:{s:6:"module";s:4:"prod";s:9:"ressource";s:2:"56";s:9:"tmpaccess";s:32:"d36049b2748c07b60066f79ab1bc5882";s:7:"details";a:27:{s:12:"idproduction";i:56;s:7:"idgroup";s:1:"1";s:14:"idorganization";s:1:"3";s:4:"name";s:14:"Compte de test";s:12:"pathdownload";s:13:"4c8f88377281f";s:3:"key";s:20:"21e44c8c1952d137e7bc";s:16:"pathstreaming_wm";s:13:"4c8f88377281f";s:12:"pathpictures";s:13:"4c8f88377281f";s:13:"pathcomponent";s:13:"4c8f88377281f";s:11:"textbandeau";s:0:"";s:13:"textwatermark";s:0:"";s:13:"textcopyright";s:0:"";s:15:"defaultwebcodec";N;s:16:"defaultidperiode";N;s:16:"dureegratuitemax";N;s:13:"logocatalogue";N;s:16:"depositdirectory";s:13:"4c8f88377281f";s:15:"streamdirectory";s:13:"4c8f88377281f";s:16:"date_of_creation";s:10:"2010-09-14";s:15:"date_of_closure";N;s:5:"email";s:19:"video@bercy.gouv.fr";s:4:"menu";i:0;s:12:"streamercode";i:3;s:5:"alias";s:4:"test";s:9:"idservice";s:1:"9";s:8:"idprofil";s:1:"3";s:11:"broadcaster";a:11:{s:4:"name";s:18:"Windows 2003 local";s:7:"address";s:15:"192.168.100.203";s:5:"login";s:5:"cyril";s:8:"password";s:6:"chocho";s:4:"mode";s:3:"FTP";s:13:"rootDirectory";s:1:"/";s:15:"streamDirectory";s:7:"/Video/";s:16:"depositDirectory";s:7:"/Depot/";s:9:"uriSchema";s:34:"mms://192.168.100.203/gcv/Video/%s";s:12:"streamercode";s:1:"3";s:5:"proxy";s:12:"/mirror/wms/";}}}
+1	lang	fr
+544	pub_last_access	a:4:{s:6:"module";s:3:"pub";s:9:"ressource";s:3:"112";s:9:"tmpaccess";s:32:"3c3ecd60e0987e4dd8ae03f5ab4f440c";s:7:"details";a:13:{s:13:"idpublication";i:112;s:14:"idorganization";s:1:"4";s:3:"key";s:20:"791f1800bab17aef56fb";s:4:"name";s:23:"Ma poublikaction à moa";s:5:"alias";s:9:"poublimoa";s:13:"pathcomponent";s:13:"4cb2d84702f58";s:5:"state";i:1;s:11:"description";s:27:"Ma super description à moa";s:3:"url";s:0:"";s:4:"menu";i:0;s:16:"date_of_creation";s:10:"2010-10-11";s:5:"email";s:11:"moa@moa.moa";s:9:"idservice";s:1:"9";}}
+1	ser_last_access	a:4:{s:6:"module";s:3:"ser";s:9:"ressource";s:1:"9";s:9:"tmpaccess";s:32:"5e3cf4eb1b64e8cc307c8b3c233ebb0f";s:7:"details";a:15:{s:9:"idservice";i:9;s:4:"name";s:18:"Mon service à moa";s:9:"isdeleted";i:0;s:4:"menu";i:0;s:3:"key";s:20:"3f62c35ab7c4363e0503";s:5:"email";N;s:6:"email2";N;s:11:"mobilephone";N;s:12:"phonenumber2";N;s:12:"organization";N;s:20:"organization_details";N;s:5:"title";N;s:4:"work";N;s:5:"notes";N;s:7:"picture";N;}}
+1	prod_last_access	a:4:{s:6:"module";s:4:"prod";s:9:"ressource";s:2:"56";s:9:"tmpaccess";s:32:"b31997f5cc066bc5370f7a763806d4f7";s:7:"details";a:36:{s:12:"idproduction";i:56;s:7:"idgroup";s:1:"1";s:14:"idorganization";s:1:"3";s:4:"name";s:14:"Compte de test";s:12:"pathdownload";s:13:"4c8f88377281f";s:3:"key";s:20:"21e44c8c1952d137e7bc";s:16:"pathstreaming_wm";s:13:"4c8f88377281f";s:12:"pathpictures";s:13:"4c8f88377281f";s:13:"pathcomponent";s:13:"4c8f88377281f";s:11:"textbandeau";s:0:"";s:13:"textwatermark";s:0:"";s:13:"textcopyright";s:0:"";s:15:"defaultwebcodec";N;s:16:"defaultidperiode";N;s:16:"dureegratuitemax";N;s:13:"logocatalogue";N;s:16:"depositdirectory";s:13:"4c8f88377281f";s:15:"streamdirectory";s:13:"4c8f88377281f";s:16:"date_of_creation";s:10:"2010-09-14";s:15:"date_of_closure";N;s:5:"email";s:19:"video@bercy.gouv.fr";s:4:"menu";i:0;s:12:"streamercode";i:3;s:5:"alias";s:4:"test";s:9:"idservice";s:1:"9";s:8:"idprofil";s:1:"3";s:6:"email2";s:0:"";s:11:"mobilephone";s:0:"";s:12:"phonenumber2";s:0:"";s:12:"organization";s:1:"1";s:20:"organization_details";s:1:"9";s:5:"title";s:0:"";s:4:"work";s:0:"";s:5:"notes";s:0:"";s:7:"picture";s:0:"";s:11:"broadcaster";a:11:{s:4:"name";s:18:"Windows 2003 local";s:7:"address";s:15:"192.168.100.203";s:5:"login";s:5:"cyril";s:8:"password";s:6:"chocho";s:4:"mode";s:3:"FTP";s:13:"rootDirectory";s:1:"/";s:15:"streamDirectory";s:7:"/Video/";s:16:"depositDirectory";s:7:"/Depot/";s:9:"uriSchema";s:34:"mms://192.168.100.203/gcv/Video/%s";s:12:"streamercode";s:1:"3";s:5:"proxy";s:12:"/mirror/wms/";}}}
+1	pub_last_access	a:4:{s:6:"module";s:3:"pub";s:9:"ressource";s:3:"112";s:9:"tmpaccess";s:32:"d30d0a7a17490663a326a3f308333bc2";s:7:"details";a:22:{s:13:"idpublication";i:112;s:14:"idorganization";s:1:"4";s:3:"key";s:20:"791f1800bab17aef56fb";s:4:"name";s:23:"Ma poublikaction à moa";s:5:"alias";s:9:"poublimoa";s:13:"pathcomponent";s:13:"4cb2d84702f58";s:5:"state";i:1;s:11:"description";s:27:"Ma super description à moa";s:3:"url";s:0:"";s:4:"menu";i:0;s:16:"date_of_creation";s:10:"2010-10-11";s:5:"email";s:11:"moa@moa.moa";s:9:"idservice";s:1:"9";s:6:"email2";N;s:11:"mobilephone";N;s:12:"phonenumber2";N;s:12:"organization";N;s:20:"organization_details";N;s:5:"title";N;s:4:"work";N;s:5:"notes";N;s:7:"picture";N;}}
+544	ser_last_access	a:4:{s:6:"module";s:3:"ser";s:9:"ressource";s:1:"6";s:9:"tmpaccess";s:32:"9aa1c2c64c50b35f193288b8be17257d";s:7:"details";a:5:{s:9:"idservice";i:6;s:4:"name";s:9:"MyService";s:9:"isdeleted";i:0;s:4:"menu";i:0;s:3:"key";s:20:"fa90b37f56f636a265c7";}}
+1	sadmin_last_access	a:4:{s:6:"module";s:6:"sadmin";s:9:"ressource";s:1:"1";s:9:"tmpaccess";s:32:"8e97a484844480dcff15163cc5e9416a";s:7:"details";a:0:{}}
+\.
+
+
+--
+-- Data for Name: users_fields; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_fields (idfield, title, type, table_ref) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_fields_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_fields_group (idgroup, name) FROM stdin;
+0	none
+\.
+
+
+--
+-- Data for Name: users_fields_group_fields; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_fields_group_fields (idfield, idgroup) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_fields_value; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_fields_value (idfield, iduser, value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_reset; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users_reset (email, key) FROM stdin;
+cybercandyman@yahoo.fr	,Wdjj(xB%&02[l%Z{_V@EIF}r[2]}>/:}
+\.
+
+
+--
+-- Data for Name: versions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY versions (idversion, filename, codec, filesize, rate, duration, state, is_deleted, date_of_upload, date_of_deletion, uri, lcid, resolution, ratio) FROM stdin;
+\.
+
+
+--
+-- Data for Name: videoratio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY videoratio (id, libelle, parent, ref_text) FROM stdin;
+1	4/3	0	\N
+2	16/9	0	\N
+\.
+
+
+--
+-- Name: encoding_formats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY encoding_formats
+    ADD CONSTRAINT encoding_formats_pkey PRIMARY KEY (idformat);
+
+
+--
+-- Name: encoding_profils_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY encoding_profils
+    ADD CONSTRAINT encoding_profils_pkey PRIMARY KEY (idprofil);
+
+
+--
+-- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY logs
+    ADD CONSTRAINT logs_pkey PRIMARY KEY (idlog);
+
+
+--
+-- Name: pk_billings; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY billings
+    ADD CONSTRAINT pk_billings PRIMARY KEY (idbilling);
+
+
+--
+-- Name: pk_billings_others; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY billings_others
+    ADD CONSTRAINT pk_billings_others PRIMARY KEY (idbillingother);
+
+
+--
+-- Name: pk_chapters; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY chapters
+    ADD CONSTRAINT pk_chapters PRIMARY KEY (id);
+
+
+--
+-- Name: pk_components; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY components
+    ADD CONSTRAINT pk_components PRIMARY KEY (idcomponent);
+
+
+--
+-- Name: pk_extra_components_panel; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY extra_components_panel
+    ADD CONSTRAINT pk_extra_components_panel PRIMARY KEY (idcomp);
+
+
+--
+-- Name: pk_fields; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_fields
+    ADD CONSTRAINT pk_fields PRIMARY KEY (idfield);
+
+
+--
+-- Name: pk_groups; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT pk_groups PRIMARY KEY (idgroup);
+
+
+--
+-- Name: pk_groups_programs; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY groups_programs
+    ADD CONSTRAINT pk_groups_programs PRIMARY KEY (idgroup, idprog);
+
+
+--
+-- Name: pk_idkb; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY knowledge_base
+    ADD CONSTRAINT pk_idkb PRIMARY KEY (idkb);
+
+
+--
+-- Name: pk_kb_items_type; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY kb_items_type
+    ADD CONSTRAINT pk_kb_items_type PRIMARY KEY (idtype);
+
+
+--
+-- Name: pk_kb_rub; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY kb_rub
+    ADD CONSTRAINT pk_kb_rub PRIMARY KEY (id);
+
+
+--
+-- Name: pk_organizations; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT pk_organizations PRIMARY KEY (idorganization);
+
+
+--
+-- Name: pk_organizations_contacts; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY organizations_contacts
+    ADD CONSTRAINT pk_organizations_contacts PRIMARY KEY (idcontact);
+
+
+--
+-- Name: pk_pfc; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY p_field_category
+    ADD CONSTRAINT pk_pfc PRIMARY KEY (id);
+
+
+--
+-- Name: pk_playlists; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY playlists
+    ADD CONSTRAINT pk_playlists PRIMARY KEY (idplaylist);
+
+
+--
+-- Name: pk_productions; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY productions
+    ADD CONSTRAINT pk_productions PRIMARY KEY (idproduction);
+
+
+--
+-- Name: pk_productions_menus_elements; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY productions_menus_elements
+    ADD CONSTRAINT pk_productions_menus_elements PRIMARY KEY (idproduction, idmenu);
+
+
+--
+-- Name: pk_productions_publications; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY productions_publications
+    ADD CONSTRAINT pk_productions_publications PRIMARY KEY (idproduction, idpublication);
+
+
+--
+-- Name: pk_productions_tarifs; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY productions_rate
+    ADD CONSTRAINT pk_productions_tarifs PRIMARY KEY (idrate, idproduction, idperiode);
+
+
+--
+-- Name: pk_prog_pictures; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_pictures
+    ADD CONSTRAINT pk_prog_pictures PRIMARY KEY (idpicture);
+
+
+--
+-- Name: pk_programs; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs
+    ADD CONSTRAINT pk_programs PRIMARY KEY (idprog);
+
+
+--
+-- Name: pk_programs_fields_group; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_fields_group
+    ADD CONSTRAINT pk_programs_fields_group PRIMARY KEY (idgroup);
+
+
+--
+-- Name: pk_programs_fields_group_fields; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_fields_group_fields
+    ADD CONSTRAINT pk_programs_fields_group_fields PRIMARY KEY (idfield, idgroup);
+
+
+--
+-- Name: pk_programs_publications; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_publications
+    ADD CONSTRAINT pk_programs_publications PRIMARY KEY (idprog, idpublication);
+
+
+--
+-- Name: pk_programs_versions; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_versions
+    ADD CONSTRAINT pk_programs_versions PRIMARY KEY (idprog, idversion);
+
+
+--
+-- Name: pk_publications; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY publications
+    ADD CONSTRAINT pk_publications PRIMARY KEY (idpublication);
+
+
+--
+-- Name: pk_publications_menus_elements; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY publications_menus_elements
+    ADD CONSTRAINT pk_publications_menus_elements PRIMARY KEY (idpublication, idmenu);
+
+
+--
+-- Name: pk_rb_items; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY kb_items
+    ADD CONSTRAINT pk_rb_items PRIMARY KEY (id);
+
+
+--
+-- Name: pk_ressources_access; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY ressources_access
+    ADD CONSTRAINT pk_ressources_access PRIMARY KEY (idacces);
+
+
+--
+-- Name: pk_services; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services
+    ADD CONSTRAINT pk_services PRIMARY KEY (idservice);
+
+
+--
+-- Name: pk_services_menus_elements; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_menus_elements
+    ADD CONSTRAINT pk_services_menus_elements PRIMARY KEY (idservice, idmenu);
+
+
+--
+-- Name: pk_services_orders; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders
+    ADD CONSTRAINT pk_services_orders PRIMARY KEY (idorder);
+
+
+--
+-- Name: pk_services_orders_chapitrage; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_chapitrage
+    ADD CONSTRAINT pk_services_orders_chapitrage PRIMARY KEY (idchapitrage);
+
+
+--
+-- Name: pk_services_orders_encoding; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_encoding
+    ADD CONSTRAINT pk_services_orders_encoding PRIMARY KEY (idencoding);
+
+
+--
+-- Name: pk_services_orders_lines; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_lines
+    ADD CONSTRAINT pk_services_orders_lines PRIMARY KEY (idorderline);
+
+
+--
+-- Name: pk_services_orders_subtitling; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_subtitling
+    ADD CONSTRAINT pk_services_orders_subtitling PRIMARY KEY (idsubtitling);
+
+
+--
+-- Name: pk_services_orders_translation; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_translation
+    ADD CONSTRAINT pk_services_orders_translation PRIMARY KEY (idtranslation);
+
+
+--
+-- Name: pk_services_orders_watermarking; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_orders_watermarking
+    ADD CONSTRAINT pk_services_orders_watermarking PRIMARY KEY (idwatermarking);
+
+
+--
+-- Name: pk_services_type; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY services_types
+    ADD CONSTRAINT pk_services_type PRIMARY KEY (idtype);
+
+
+--
+-- Name: pk_tarifs; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rates
+    ADD CONSTRAINT pk_tarifs PRIMARY KEY (idrate);
+
+
+--
+-- Name: pk_themes; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY themes
+    ADD CONSTRAINT pk_themes PRIMARY KEY (id);
+
+
+--
+-- Name: pk_traduction; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY translations
+    ADD CONSTRAINT pk_traduction PRIMARY KEY (id);
+
+
+--
+-- Name: pk_users; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_users PRIMARY KEY (iduser);
+
+
+--
+-- Name: pk_users_envir; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_environment
+    ADD CONSTRAINT pk_users_envir PRIMARY KEY (iduser, dataname);
+
+
+--
+-- Name: pk_users_fields; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_fields
+    ADD CONSTRAINT pk_users_fields PRIMARY KEY (idfield);
+
+
+--
+-- Name: pk_users_fields_group; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_fields_group
+    ADD CONSTRAINT pk_users_fields_group PRIMARY KEY (idgroup);
+
+
+--
+-- Name: pk_users_fields_group_fields; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_fields_group_fields
+    ADD CONSTRAINT pk_users_fields_group_fields PRIMARY KEY (idfield, idgroup);
+
+
+--
+-- Name: pk_users_fields_value; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_fields_value
+    ADD CONSTRAINT pk_users_fields_value PRIMARY KEY (idfield, iduser);
+
+
+--
+-- Name: pk_users_reset; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users_reset
+    ADD CONSTRAINT pk_users_reset PRIMARY KEY (email);
+
+
+--
+-- Name: pk_versions; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY versions
+    ADD CONSTRAINT pk_versions PRIMARY KEY (idversion);
+
+
+--
+-- Name: pk_views; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY publications_views
+    ADD CONSTRAINT pk_views PRIMARY KEY (idview);
+
+
+--
+-- Name: playlists_programs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY playlists_programs
+    ADD CONSTRAINT playlists_programs_pkey PRIMARY KEY (idplaylist, idprog, listorder);
+
+
+--
+-- Name: productions_fields_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY productions_fields_group
+    ADD CONSTRAINT productions_fields_group_pkey PRIMARY KEY (idproduction, "order", idgroup);
+
+
+--
+-- Name: programs_credits_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_credits
+    ADD CONSTRAINT programs_credits_pkey PRIMARY KEY (idcredit);
+
+
+--
+-- Name: programs_translations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY programs_translations
+    ADD CONSTRAINT programs_translations_pkey PRIMARY KEY (idprog, idfgroup, idview);
+
+
+--
+-- Name: tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (idtask);
+
+
+--
+-- Name: i_fk_billings_others_billings; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_billings_others_billings ON billings_others USING btree (idbilling);
+
+
+--
+-- Name: i_fk_billings_productions; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_billings_productions ON billings USING btree (idproduction);
+
+
+--
+-- Name: i_fk_billings_tarifs; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_billings_tarifs ON billings USING btree (idrate);
+
+
+--
+-- Name: i_fk_chapters_playlists; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_chapters_playlists ON chapters USING btree (idplaylist);
+
+
+--
+-- Name: i_fk_chapters_programs; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_chapters_programs ON chapters USING btree (idprog);
+
+
+--
+-- Name: i_fk_groups_productions; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_groups_productions ON groups USING btree (idproduction);
+
+
+--
+-- Name: i_fk_groups_programs_groups; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_groups_programs_groups ON groups_programs USING btree (idgroup);
+
+
+--
+-- Name: i_fk_groups_programs_programs; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_groups_programs_programs ON groups_programs USING btree (idprog);
+
+
+--
+-- Name: i_fk_menus_elements_components; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_menus_elements_components ON menus_elements USING btree (idcomponent);
+
+
+--
+-- Name: i_fk_organizations_contacts_or; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_organizations_contacts_or ON organizations_contacts USING btree (idorganization);
+
+
+--
+-- Name: i_fk_playlists_programs_playli; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_playlists_programs_playli ON playlists_programs USING btree (idplaylist);
+
+
+--
+-- Name: i_fk_playlists_programs_progra; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_playlists_programs_progra ON playlists_programs USING btree (idprog);
+
+
+--
+-- Name: i_fk_playlists_publications; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_playlists_publications ON playlists USING btree (idpublication);
+
+
+--
+-- Name: i_fk_productions_menus_elemen1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_menus_elemen1 ON productions_menus_elements USING btree (idmenu);
+
+
+--
+-- Name: i_fk_productions_menus_element; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_menus_element ON productions_menus_elements USING btree (idproduction);
+
+
+--
+-- Name: i_fk_productions_organizations; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_organizations ON productions USING btree (idorganization);
+
+
+--
+-- Name: i_fk_productions_programs_fiel; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_programs_fiel ON productions USING btree (idgroup);
+
+
+--
+-- Name: i_fk_productions_publications1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_publications1 ON productions_publications USING btree (idpublication);
+
+
+--
+-- Name: i_fk_productions_publications_; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_publications_ ON productions_publications USING btree (idproduction);
+
+
+--
+-- Name: i_fk_productions_tarifs_produc; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_tarifs_produc ON productions_rate USING btree (idproduction);
+
+
+--
+-- Name: i_fk_productions_tarifs_tarifs; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_productions_tarifs_tarifs ON productions_rate USING btree (idrate);
+
+
+--
+-- Name: i_fk_programs_fields_group_fi1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_fields_group_fi1 ON programs_fields_group_fields USING btree (idgroup);
+
+
+--
+-- Name: i_fk_programs_fields_group_fie; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_fields_group_fie ON programs_fields_group_fields USING btree (idfield);
+
+
+--
+-- Name: i_fk_programs_productions; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_productions ON programs USING btree (idproduction);
+
+
+--
+-- Name: i_fk_programs_programs; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_programs ON programs USING btree (idprog_programs_extract);
+
+
+--
+-- Name: i_fk_programs_publications_pro; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_publications_pro ON programs_publications USING btree (idprog);
+
+
+--
+-- Name: i_fk_programs_publications_pub; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_publications_pub ON programs_publications USING btree (idpublication);
+
+
+--
+-- Name: i_fk_programs_traduction_field; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_traduction_field ON programs_translations USING btree (idfgroup);
+
+
+--
+-- Name: i_fk_programs_traduction_progr; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_traduction_progr ON programs_translations USING btree (idprog);
+
+
+--
+-- Name: i_fk_programs_traduction_tradu; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_traduction_tradu ON programs_translations USING btree (id);
+
+
+--
+-- Name: i_fk_programs_versions_program; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_versions_program ON programs_versions USING btree (idprog);
+
+
+--
+-- Name: i_fk_programs_versions_version; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_programs_versions_version ON programs_versions USING btree (idversion);
+
+
+--
+-- Name: i_fk_publications_menus_eleme1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_publications_menus_eleme1 ON publications_menus_elements USING btree (idmenu);
+
+
+--
+-- Name: i_fk_publications_menus_elemen; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_publications_menus_elemen ON publications_menus_elements USING btree (idpublication);
+
+
+--
+-- Name: i_fk_publications_organization; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_publications_organization ON publications USING btree (idorganization);
+
+
+--
+-- Name: i_fk_ressources_access_compone; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_ressources_access_compone ON ressources_access USING btree (idcomponent);
+
+
+--
+-- Name: i_fk_ressources_access_users; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_ressources_access_users ON ressources_access USING btree (iduser);
+
+
+--
+-- Name: i_fk_users_fields_group_field1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_users_fields_group_field1 ON users_fields_group_fields USING btree (idgroup);
+
+
+--
+-- Name: i_fk_users_fields_group_fields; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_users_fields_group_fields ON users_fields_group_fields USING btree (idfield);
+
+
+--
+-- Name: i_fk_users_fields_value_users; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_users_fields_value_users ON users_fields_value USING btree (iduser);
+
+
+--
+-- Name: i_fk_users_fields_value_users_; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_users_fields_value_users_ ON users_fields_value USING btree (idfield);
+
+
+--
+-- Name: i_fk_users_users_fields_group; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_users_users_fields_group ON users USING btree (idgroup);
+
+
+--
+-- Name: i_fk_views_publications; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX i_fk_views_publications ON publications_views USING btree (idpublication);
+
+
+--
+-- Name: textsearch2_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX textsearch2_idx ON chapters_translations USING gin (textsearchable_index_col);
+
+
+--
+-- Name: textsearch_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX textsearch_idx ON programs_translations USING gin (textsearchable_index_col);
+
+
+--
+-- Name: tsvectorupdate; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER tsvectorupdate
+    BEFORE INSERT OR UPDATE ON programs_translations
+    FOR EACH ROW
+    EXECUTE PROCEDURE tsvector_update_trigger('textsearchable_index_col', 'pg_catalog.french', 'value');
+
+
+--
+-- Name: tsvectorupdate_chapters; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER tsvectorupdate_chapters
+    BEFORE INSERT OR UPDATE ON chapters_translations
+    FOR EACH ROW
+    EXECUTE PROCEDURE tsvector_update_trigger('textsearchable_index_col', 'pg_catalog.french', 'value');
+
+
+--
+-- Name: tsvectorupdate_kb; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER tsvectorupdate_kb
+    BEFORE INSERT OR UPDATE ON kb_items_translations
+    FOR EACH ROW
+    EXECUTE PROCEDURE tsvector_update_trigger('textsearchable_index_col', 'pg_catalog.french', 'value');
+
+
+--
+-- Name: fk_billings_others_billings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY billings_others
+    ADD CONSTRAINT fk_billings_others_billings FOREIGN KEY (idbilling) REFERENCES billings(idbilling);
+
+
+--
+-- Name: fk_billings_productions; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY billings
+    ADD CONSTRAINT fk_billings_productions FOREIGN KEY (idproduction) REFERENCES productions(idproduction);
+
+
+--
+-- Name: fk_billings_tarifs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY billings
+    ADD CONSTRAINT fk_billings_tarifs FOREIGN KEY (idrate) REFERENCES rates(idrate);
+
+
+--
+-- Name: fk_groups_productions; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT fk_groups_productions FOREIGN KEY (idproduction) REFERENCES productions(idproduction);
+
+
+--
+-- Name: fk_groups_programs_groups; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY groups_programs
+    ADD CONSTRAINT fk_groups_programs_groups FOREIGN KEY (idgroup) REFERENCES groups(idgroup);
+
+
+--
+-- Name: fk_groups_programs_programs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY groups_programs
+    ADD CONSTRAINT fk_groups_programs_programs FOREIGN KEY (idprog) REFERENCES programs(idprog);
+
+
+--
+-- Name: fk_organizations_contacts_organi; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY organizations_contacts
+    ADD CONSTRAINT fk_organizations_contacts_organi FOREIGN KEY (idorganization) REFERENCES organizations(idorganization);
+
+
+--
+-- Name: fk_playlists_publications; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY playlists
+    ADD CONSTRAINT fk_playlists_publications FOREIGN KEY (idpublication) REFERENCES publications(idpublication);
+
+
+--
+-- Name: fk_productions_organizations; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions
+    ADD CONSTRAINT fk_productions_organizations FOREIGN KEY (idorganization) REFERENCES organizations(idorganization);
+
+
+--
+-- Name: fk_productions_programs_fields_g; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions
+    ADD CONSTRAINT fk_productions_programs_fields_g FOREIGN KEY (idgroup) REFERENCES programs_fields_group(idgroup);
+
+
+--
+-- Name: fk_productions_publications_prod; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions_publications
+    ADD CONSTRAINT fk_productions_publications_prod FOREIGN KEY (idproduction) REFERENCES productions(idproduction);
+
+
+--
+-- Name: fk_productions_publications_publ; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions_publications
+    ADD CONSTRAINT fk_productions_publications_publ FOREIGN KEY (idpublication) REFERENCES publications(idpublication);
+
+
+--
+-- Name: fk_productions_tarifs_production; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions_rate
+    ADD CONSTRAINT fk_productions_tarifs_production FOREIGN KEY (idproduction) REFERENCES productions(idproduction);
+
+
+--
+-- Name: fk_productions_tarifs_tarifs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY productions_rate
+    ADD CONSTRAINT fk_productions_tarifs_tarifs FOREIGN KEY (idrate) REFERENCES rates(idrate);
+
+
+--
+-- Name: fk_publications_organizations; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY publications
+    ADD CONSTRAINT fk_publications_organizations FOREIGN KEY (idorganization) REFERENCES organizations(idorganization);
+
+
+--
+-- Name: fk_users_fields_group_fields_us1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_fields_group_fields
+    ADD CONSTRAINT fk_users_fields_group_fields_us1 FOREIGN KEY (idgroup) REFERENCES users_fields_group(idgroup);
+
+
+--
+-- Name: fk_users_fields_group_fields_use; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_fields_group_fields
+    ADD CONSTRAINT fk_users_fields_group_fields_use FOREIGN KEY (idfield) REFERENCES users_fields(idfield);
+
+
+--
+-- Name: fk_users_fields_value_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_fields_value
+    ADD CONSTRAINT fk_users_fields_value_users FOREIGN KEY (iduser) REFERENCES users(iduser);
+
+
+--
+-- Name: fk_users_fields_value_users_fiel; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_fields_value
+    ADD CONSTRAINT fk_users_fields_value_users_fiel FOREIGN KEY (idfield) REFERENCES users_fields(idfield);
+
+
+--
+-- Name: fk_users_users_fields_group; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_users_users_fields_group FOREIGN KEY (idgroup) REFERENCES users_fields_group(idgroup);
+
+
+--
+-- Name: fk_views_publications; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY publications_views
+    ADD CONSTRAINT fk_views_publications FOREIGN KEY (idpublication) REFERENCES publications(idpublication);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

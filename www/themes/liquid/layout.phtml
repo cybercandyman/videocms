@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="imagetoolbar" content="no" />
+<?php $this->headTitle(  $this->placeholder("title") ) ->setSeparator(" - ")->prepend($this->_config["productname"]);   ?>
+<?php echo htmlspecialchars_decode($this->headTitle(), ENT_QUOTES)?>
+<script type="text/javascript">var BASE_URL = "<?php echo BASE_URL?>";</script>
+
+<?php echo $this->javascriptfile(array(
+    BASE_URL."embeded/packs/extjs/ext-all.js",	
+	BASE_URL."embeded/js/extjs_override.js",	
+	BASE_URL."embeded/js/jquery-1.4.2.min.js",
+	BASE_URL."embeded/js/jquery-ui-1.8.5.custom.min.js",
+	BASE_URL."embeded/js/jquery.formStyle.js",
+	BASE_URL."embeded/js/cookies.js"));
+?>
+
+<?php echo $this->javascriptfile(array(BASE_URL."embeded/js/jquery.meio.mask.js",BASE_URL."embeded/js/jquery.metadata.js",BASE_URL."embeded/js/jquery.linkedselect.js")) ?>
+<?php echo $this->javascriptfile( array(BASE_URL."embeded/packs/extjs/locale/ext-lang-{$this->_session->locale}.js")); ?>
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/packs/ontoapp/localisation.js")),false) ?>
+<script type="text/javascript">
+Ext.Loader.setConfig({enabled:true,  paths: {
+    'Ext': '<?php echo BASE_URL?>embeded/packs/extjs/',
+    'Ext.ux' : '<?php echo BASE_URL?>embeded/packs/extjs/examples/ux/'
+}});
+Ext.scopeResetCSS = true;
+var site = { BASE_URL : "<?php echo BASE_URL ?>" };	
+</script>
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/gcv.js")),false) ?>
+
+<?php echo $this->headScript() ?>
+<?php 
+	echo $this->cssfile(array(BASE_URL."themes/liquid/css/general.css",
+		BASE_URL."themes/liquid/css/dashboard.css",
+		BASE_URL."themes/liquid/css/tables.css",
+		BASE_URL."themes/liquid/css/pagination.css",
+		BASE_URL."themes/liquid/css/forms.css",
+		BASE_URL."themes/liquid/css/gcv.css"));
+	echo $this->cssfile(array(
+		BASE_URL."themes/system/css/ui/start1.8/ui.css",		
+		BASE_URL."themes/system/css/tablesorter_blue.css",
+		BASE_URL."themes/system/css/tree/apple/style.css",
+			BASE_URL."embeded/packs/extjsthemes/gray-scope/css/ext-all-gray.css",
+		BASE_URL."themes/liquid/css/ext-all-scoped-override.css"
+		));
+	
+?>
+<!--[if lte IE 6]><?php echo $this->cssfile(BASE_URL."themes/liquid/css/admin-ie.css") ?><![endif]-->
+<!--[if lte IE 8]><?php echo $this->cssfile(BASE_URL."themes/liquid/css/admin-ie7.css") ?><![endif]-->
+
+<?php 
+    $config = Zend_Registry::isRegistered("config") ? Zend_Registry::get("config") : array();    
+    if($config["replication"] == true) :
+?>
+<?php echo $this->cssfile(BASE_URL."themes/liquid/css/greentab.css") ?>
+<?php else :?>
+<?php echo $this->cssfile(BASE_URL."themes/liquid/css/orangetab.css") ?>
+<?php endif;?>
+
+
+</head>
+
+<body>
+	<!--[if !IE]>start wrapper<![endif]-->
+	<div id="wrapper" >
+		<!--[if !IE]>start head<![endif]-->
+		<div id="head">
+			
+
+
+			<!--[if !IE]>start menus_wrapper<![endif]-->
+			<div id="menus_wrapper">			
+					<ul id="userdetails" style="float:right;margin-right:30px;">
+						<li><?php echo $this->_("Welcome")?> <strong><?php echo @$this->_session->user->informations["firstname"] ?> <?php echo @$this->_session->user->informations["name"] ?></strong></li>
+						<li>
+							<ul >								
+								<li class="last"><?php if($this->_session->user != null ):?><a href="<?php echo BASE_URL ?>user/disconnect"><?php echo $this->_("Log out")?></a><?php endif;?></li>
+							</ul>
+						</li>
+						<li><?php // echo $this->naction("accesslist","environment","index"); ?></li>
+					</ul>
+				<?php echo  $this->naction("menu","environment","index"); ?>			
+					
+			</div>
+			<!--[if !IE]>end menus_wrapper<![endif]-->
+			
+		</div>
+		<!--[if !IE]>end head<![endif]-->		
+		<!--[if !IE]>start content<![endif]-->
+		
+	
+	
+		<div id="content" >
+		            			
+		
+	
+		<?php $content = !isset($this->wrapContent) || $this->wrapContent === true ? $this->partial("partial_section_content.phtml", array("content"=> $this->layout()->content,"title" => $this->placeholder("title") )) : $this->layout()->content ; ?>
+		<?php if(!isset($this->displayContent) || $this->displayContent === true) :?>
+        	
+        	
+					<?php if(!isset($this->displaySideBar) || $this->displaySideBar === true ) : $sidebar = true;?>	
+						<?php if(trim($this->layout()->sidebar)!=""):?>					
+                    	<!--[if !IE]>start sidebar<![endif]-->
+                    			<div id="sidebar" style="">
+                    				<div class="inner">				        		    	
+                                            <?php //echo $this->placeholder("sidebar") ?>                        		            		    					
+                                            <?php echo $this->layout()->sidebar ?>                        		            		    					
+                    				</div>
+                    			</div>
+                    	<!--[if !IE]>end sidebar<![endif]-->
+                    	<?php else: $sidebar = false;?>
+                    		<script type="text/javascript">
+                    		jQuery(document).ready(function(){
+                    			$("#colCenter").css("margin-left",10);
+                        	});                    		
+                    		</script>  
+                    	<?php  endif;?>
+								
+					<?php endif;?>	
+				
+				
+
+									
+					<div id="colCenter" style="margin-left:252px;">
+															
+            			<!--[if !IE]>start page<![endif]-->
+            			<div id="page" >					        									                        		
+                                <?php  echo  $content ?>				            				
+            			</div>        		
+        			</div>				
+				
+			
+
+					
+			
+					<div style="clear:both"></div>
+			
+			
+			
+			
+        	<!--[if !IE]>end page<![endif]-->				
+			<?php else :?>					
+    			<?php echo $this->partial("partial_section_content_simple.phtml", array("decoratorSimpleContent"=> isset($this->decoratorSimpleContent) ? $this->decoratorSimpleContent : true , "content"=> $this->layout()->content,"title" => $this->placeholder("title") ))?>			    			
+			<?php endif;?>
+
+		</div>
+		
+		<!--[if !IE]>end content<![endif]-->		
+	</div>
+	<!--[if !IE]>end wrapper<![endif]-->
+	
+		
+	<!--[if !IE]>start footer<![endif]-->
+	<div id="footer">
+		<div id="footer_inner">
+		
+		<dl class="copy">
+			<dt><strong>GCV</strong> <em>build <?php echo $this->vbuild ?></em></dt>
+			<dd>&copy; <?php echo $this->_("2010 GCV V2.")?></dd>
+		</dl>
+		
+		<dl class="quick_links">				     
+			<dt><strong><?php echo $this->_("Languages")?></strong></dt>
+			<dd>
+			    <?php echo $this->naction("languages","environment","index") ?>
+			</dd>
+		</dl>				
+		<dl class="help_links">
+			<dt><strong><?php echo $this->_("Need Help ?")?></strong></dt>
+			<dd>
+				<ul>
+					<li><a href="<?php echo BASE_URL?>docs/api/index.html"><?php echo $this->_("API")?></a></li>
+					<li><a href="<?php echo BASE_URL?>soap/index?wsdl"><?php echo $this->_("SOAP")?></a></li>
+					<li><a href="<?php echo BASE_URL?>default/docs/faq"><?php echo $this->_("FAQ")?></a></li>
+					
+				</ul>
+			</dd>
+		</dl>
+	
+		</div>
+	</div>
+	<!--[if !IE]>end footer<![endif]-->
+
+	<script>
+		jQuery(document).ready(function(){
+			$("#ui-datepicker-div").css("display","none");		
+		});
+	</script>
+	
+	<?php // Zend_Debug::dump($_COOKIE)?>
+	
+	<script type="text/javascript">
+        jQuery(document).ready(function(){
+
+        	$(".more_description").hide();
+        	$(".more_description").prev("h3").click(function(){
+        		$(this).toggleClass("open");
+        		$next = $(this).next(".more_description");		
+        		if($next.css("display") == "none")
+        			$next.show();					
+        		else
+        			$next.hide();	
+        	}).addClass("expander").addClass("collapse").disableSelection();	
+
+       	 <?php if(isset($sidebar) && $sidebar):?>
+			$btn = '<a href="javascript:void(0);"  class="opened" id="slideBtn" title="<?php echo $this->_("Show / Hide sidebar")?>" alt="<?php echo $this->_("Show / Hide sidebar")?>">&nbsp;</a>';
+        	$("body").append($btn);        	
+        	$("#slideBtn").click(function(){        		
+            	if($("#sidebar").css("display") != "none"){                
+            		$("#sidebar").hide();
+    				$("#slideBtn").toggleClass("closed");
+    				$("#colCenter").css("margin-left",10);    				
+    				createCookie("side","close");    				
+            	}
+            	else{
+            		$("#sidebar").show();
+    				$("#slideBtn").toggleClass("closed");
+    				$("#colCenter").css("margin-left",252);    				
+    				createCookie("side","open");    				
+            	}       
+            });	            
+            	<?php if(isset($_COOKIE["side"]) && $_COOKIE["side"] =="close") :?>    
+            	$("#slideBtn").trigger("click");    			
+            	<?php endif;?>                
+            <?php endif;?>
+            
+        });
+</script>
+<?php echo $this->placeholder("topendjs") ?>
+
+</body>
+</html>
+
+        	

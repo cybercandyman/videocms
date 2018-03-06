@@ -1,0 +1,41 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>GCV</title>
+<link href="http://example.org/" />
+<updated>
+<?php echo date ("c",time())?>
+</updated>
+<?php for($i=0;$i<sizeof($this->videolist->_programs);$i++) : ?>
+<entry>
+<title><![CDATA[<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->title)) ?>]]></title>
+<link
+	href="http://<?php echo $_SERVER["HTTP_HOST"] ?>/lecteur_video/index.php?type=pr&amp;key=<?php echo $this->publicationkey ?>&amp;id=<?php echo $this->videolist->_programs[$i]->clefprog ?>&amp;lang=<?php echo $this->lang ?>" />
+<updated>
+<?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->year)) ?>
+</updated>
+<guid>
+http://
+<?php echo $_SERVER["HTTP_HOST"] ?>
+/lecteur_video/index.php?type=pr&amp;key=
+<?php echo $this->publicationkey ?>
+&amp;id=
+<?php echo $this->videolist->_programs[$i]->clefprog ?>
+</guid>
+<?php
+$picture = $this->videolist->_programs[$i]->_pictures[0];
+for($z=0;$z<sizeof($this->videolist->_programs[$i]->_pictures);$z++){
+    $pic = $this->videolist->_programs[$i]->_pictures[$z];
+    if(preg_match("#_videolist#i", $pic)){
+        $picture = $pic;break;
+    }
+}
+?>
+<summary>
+<![CDATA[<img src="<?php echo utf8_encode(htmlspecialchars($picture)) ?>" alt="" width="100px"/><?php echo utf8_encode(htmlspecialchars($this->videolist->_programs[$i]->synopsis)) ?>]]>
+</summary>
+<enclosure
+	url="<?php echo utf8_encode(htmlspecialchars($picture)) ?>"
+	type="image/jpeg" length="0"></enclosure>
+
+</entry>
+<?php endfor; ?>
+</feed>

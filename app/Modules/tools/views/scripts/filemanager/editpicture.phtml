@@ -1,0 +1,75 @@
+<script type="text/javascript"
+	src="<?php echo BASE_URL?>embeded/js/swfobject.js"></script>
+<div>
+
+<table>
+	<tbody>
+		<tr valign="top">
+			<td>
+			<div id="toolbox">
+
+			<ul>
+				<li><a href="#options"><?php echo $this->_("Options"); ?></a></li>
+				<li><a href="#thumbnails"><?php echo $this->_("Thumbnails"); ?></a></li>
+
+			</ul>
+			<div id="options" class="tabItem"><label><?php echo $this->_("Set usage") ?>
+			: </label> <select id="pictureUsage">
+				<option value="null"><?php echo $this->_("Null") ?></option>
+				<option value="program"><?php echo $this->_("Program picture") ?></option>
+				<option value="videolist"><?php echo $this->_("Videolist picture") ?></option>
+				<option value="serie"><?php echo $this->_("Series picture") ?></option>
+			</select></div>
+			<div id="thumbnails" class="tabItem">
+
+
+
+
+			<ul>
+
+				<li><?php echo $this->_("Dimensions") ?> : <select id="thumbSize">
+					<option>16 x 16</option>
+					<option>32 x 32</option>
+					<option>64 x 64</option>
+				</select></li>
+				<li><!-- <label><?php echo $this->_("Width")?> : </label><input type="text" name="pictureWidth" id="pictureWidth" size="2" />
+        				<label><?php echo $this->_("Height")?> : </label><input type="text" name="pictureHeight" id="pictureHeight" size="2"/> -->
+				</li>
+				<li><input type="button" id="createThumb"
+					value="<?php echo $this->_("Create thumbnail" ) ?>" /></li>
+			</ul>
+
+
+
+
+
+			</div>
+
+			</div>
+			</td>
+			<td>
+			<div class="picturePreview"><img src="<?php echo $this->picture ?>"
+				title="" /></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[ 
+jQuery(document).ready(function(){
+	$("#pictureUsage").val("<?php echo $this->usage?>");
+	$("#toolbox").tabs({ selected: 1 });
+	$("#createThumb").click(function(){
+		$.ajax({
+			type:"post",
+			url:"<?php echo BASE_URL ?>tools/filemanager/createthumb",
+			data:{picture:$(".picturePreview img").attr("src"),size:$("#thumbSize").val()}
+		});
+	});
+})
+
+ 
+//]]>
+ </script>

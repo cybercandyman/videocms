@@ -1,0 +1,67 @@
+<div id="dialogCreateNewGroup" title="<?php echo $this->_("Create new group") ?>">
+		
+<form action="<?php echo BASE_URL ?>prod/group/save"	method="post" id="groupDescriptionForm" >
+		
+		<fieldset class="small">
+		
+    		<p>
+    			<label><?php echo $this->_("Title of the group") ?></label>
+    			<span><input type="text" name="groupName" id="groupName" class="validate[required,ajax[ajaxGroupName]]"/></span>
+    		</p>
+    		
+    		<p>
+    			<label><?php echo $this->_("Code") ?></label>
+    			<span><input type="text" name="groupCode" id="groupCode" class="validate[required,ajax[ajaxGroupCode]]"/> </span>
+    		</p>
+    		
+    		<p>
+    			<label><?php echo $this->_("Type") ?></label>
+    			<span><?php echo $this->formSelect("groupType","","",array("group"=>"group","serie"=>"serie")) ?></span>
+    			<input type="hidden" name="groupprograms" id="groupprograms" value="" />
+    		</p>
+    		
+    		<p>
+    			<label><?php echo $this->_("Description")?></label>
+    			<span><?php echo $this->formTextarea("groupDescription",null,array("rows"=>10)) ?></span>
+    		</p>
+    		
+		</fieldset>
+		
+</form>
+			
+</div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+	$("#groupDescriptionForm").validationEngine({inlineValidation:true});
+    $("#dialogCreateNewGroup").dialog({
+    	modal: true,
+    	autoOpen: false,
+    	width:550,
+    	buttons: {
+    			'<?php echo $this->_("Save")?>':function(){
+    				if($("#groupDescriptionForm").validationEngine({returnIsValid:true}) == true){
+                    	$("#groupDescriptionForm").ajaxSubmit({
+                			success: function (responseXML){																							
+                					alert("saved !");
+                					loadGroupInformation();
+                					$.validationEngine.closePrompt(".formError",true) ;
+                					$("#dialogCreateNewGroup").dialog('close');				
+                			},
+                			error:function (XMLHttpRequest, textStatus, errorThrown) {}	
+                		});	
+    				}
+				},	
+    			'<?php echo $this->_("Close")?>':function(){
+					$.validationEngine.closePrompt(".formError",true) ;					
+    				$(this).dialog('close');
+    			}
+    		}
+    });		
+	$("#btnNewGroup").click(function(){
+		$("#dialogCreateNewGroup").dialog('open');
+	});
+});
+
+</script>

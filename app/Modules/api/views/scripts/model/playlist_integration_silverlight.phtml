@@ -1,0 +1,17 @@
+<object data="data:application/x-silverlight-2,"
+type="application/x-silverlight-2" width="<?php echo $this->options["width"] ?>" height="<?php echo $this->options["height"] ?>"
+id="silverlightControl">
+<param name="source" value="http://<?php echo $_SERVER["HTTP_HOST"] ?><?php echo BASE_URL ?>embeded/silverlight/Menifi.Player.xap" />
+<param name="enableHtmlAccess" value="true" />
+<param name="background" value="transparent" />
+<param name="Windowless" value="true" />
+<param name="minRuntimeVersion" value="2.0.31005.0" />
+<param name="autoUpgrade" value="true" />
+<param name="initParams" value="basehost=http://<?php echo $_SERVER["HTTP_HOST"] ?><?php echo BASE_URL ?>embeded/silverlight/,server=http://<?php echo $_SERVER["HTTP_HOST"] ?><?php echo BASE_URL ?>,publicationKey=<?php echo $this->publicationKey?>,type=pl,id=<?php echo $this->key?>" />
+<param name="culture" value="<?php echo $this->locale ?>" />
+<param name="uiculture" value="<?php echo $this->locale ?>" />
+<a href="http://go.microsoft.com/fwlink/?LinkID=124807"
+style="text-decoration: none;"> <img
+src="http://go.microsoft.com/fwlink/?LinkId=108181"
+alt="Get Microsoft Silverlight" style="border-style: none" /></a>
+</object>

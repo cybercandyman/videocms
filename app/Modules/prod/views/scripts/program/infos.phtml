@@ -1,0 +1,6 @@
+<div class="details"><?php if(sizeof($this->programReview) > 0) : ?> <?php foreach ($this->programReview[0]["details"] as $field) :?>
+<p><label><?php print $field["fieldtitle"] ?> :</label> <span
+	class="<?php echo $field["type"]?>_value">&nbsp;<?php print $field["value"] ?></span>
+</p>
+<?php  endforeach; ?> <br style="clear: both" />
+<?php endif; ?></div>

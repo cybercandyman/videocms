@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+   "http://www.w3.org/TR/html4/loose.dtd">
+   <html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php echo $this->javascriptfile( BASE_URL."embeded/js/jquery-1.4.2.min.js") ?>
+<?php echo $this->javascriptfile( BASE_URL."embeded/js/jquery-ui-1.8.5.custom.min.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/lecteur_video/default.css") ?>
+<meta property="og:title" content="<?php echo htmlspecialchars($this->object->title, ENT_COMPAT,"utf-8") ?>" />
+<meta property="og:type" content="movie" />
+<meta property="og:url" content="<?php echo $this->object->getHtmlUrlLecteurVideo() ?>" />
+<meta property="og:image" content="<?php echo $this->object->getPicture("videolist") ?>" />
+<meta property="og:description" content="<?php echo htmlspecialchars( $this->object->synopsis, ENT_COMPAT,"utf-8") ?>" />
+
+</head>
+<body>
+
+
+<table width="100%" border="0">
+	
+	<tr> <br/> </tr>
+	<tr>
+	<td><div align="left"><img src="<?php echo BASE_URL?>themes/lecteur_video/image003.jpg" width="426" height="73" style="margin-left:16px"/>  </div></td></tr>
+	
+	<tr>
+	<td><div align="center"><h1 id="title"><?php echo $this->_("Player video")?></div></h1></td></tr>
+	
+	<tr>	
+    	<td align="center" id="maincontent">
+    			
+    			<table class="ombre" align="center">	
+    			<tr>
+    				<td class="topleft"></td><td class="top"></td><td class="topright"></td>
+    			</tr>
+    			<tr>
+    				<td class="left"></td>
+    				<td class="content">
+    				
+    				<?php echo $this->layout()->content ?>
+                  	<?php 
+                    if($this->object instanceof Model_Api){
+                        echo $this->object->getEmbedSilverlightCode(array("height"=>"100%","width"=>"100%"));
+                    }                
+                    ?>
+    					 	
+    				</td>
+    				<td class="right"></td>
+    			</tr>
+    			<tr>
+    				<td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td>
+    			</tr>		
+    			</table>
+    				
+    	</td>	
+	</tr>
+	
+	<tr>	
+		<td align="center">Avancer / reculer la souris sur l'écran pour activer / désactiver les contrôles</td>		
+	</tr>
+	
+	<tr>
+		<td align="center"><br /><a target="_blank" href="<?php echo BASE_URL ?>themes/lecteur_video/page2.htm"><img src="<?php echo BASE_URL ?>themes/lecteur_video/pictos/info_noir.jpg" /></a></td>
+	</tr>
+
+	
+</table>
+
+
+<script type="text/javascript">
+
+function silverlightSetPageTitle (title){
+	
+	$("#title").html((title));
+}
+jQuery(document).ready(function(){
+	
+});
+
+</script>
+
+</body>
+</html>

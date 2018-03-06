@@ -1,0 +1,31 @@
+<form method="post"	action="<?php echo BASE_URL ?>prod/program/savechapter"	id="chapterForm" >			
+<fieldset class="small chapters" >    	
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<table cellspacing="2" width="100%">    	
+    	<tr valign="top">
+    		<td>
+    			<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"format"=>"mini","filter"=>array("1"))); ?>
+    		</td>
+    	<td>
+    	<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"format"=>"mini","filter"=>array("2"))); ?>
+    	<div>
+    	<div class="formButton">    				        			
+                  <?php echo $this->formHidden("idproduction",$this->idproduction,null); ?>    				
+                  <?php echo $this->formHidden("key",$this->key,null); ?> <?php echo $this->formHidden("idchapter",$this->getParam("idchapter",null),null); ?>
+                  <?php echo $this->formHidden("idview",$this->idview,null); ?>
+        </div>                	       
+    			</div>
+    		</td>
+    		<td>
+    				<?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields,"format"=>"mini","filter"=>array("3"))); ?>    
+    		</td>
+    	</tr>
+    		
+    </table>
+    
+</fieldset>
+</form>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.formStyle.js")?>
+<?php echo $this->setFormValue($this->values ,array("key"=>array("keys"=>array("type","idfgroup"),"separator"=>"_"),"value"=>"original_value"))?>
+    	
+    	

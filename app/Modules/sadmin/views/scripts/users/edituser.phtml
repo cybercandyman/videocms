@@ -1,0 +1,101 @@
+<?php $this->placeholder("title")->set($this->_( "Edit user"))?>
+<form action="<?php echo $this->url(array("action"=>"updateuser"))?>"
+	method="post"><a class="button check_all"
+	href="<?php echo $this->url(array("action"=>"edit","id"=>$this->iduser) ) ?>"><span><span><?php echo $this->_("Back to user")?></span></span></a>
+
+<fieldset>
+
+<p><label><?php echo $this->_("State") ?></label> <span><?php echo $this->formSelect('state', null, null, $this->state); ?></span></p>
+<p><label><?php echo $this->_("Name") ?></label> <span><?php echo $this->formText("name", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Firstname") ?></label> <span><?php echo $this->formText("firstname", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Phone number") ?></label> <span><?php echo $this->formText("phonenumber", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Phone number 2") ?></label> <span><?php echo $this->formText("phonenumber2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Mobile") ?></label> <span><?php echo $this->formText("mobilephone", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Title") ?></label> <span><?php echo $this->formText("title", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Work") ?></label> <span><?php echo $this->formText("work", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Organization") ?></label> <span><?php echo $this->formSelect('organization', 2, null, $this->contentTable("enum_organization")); ?></span></p>
+<p><label><?php echo $this->_("Organization details") ?></label> <span><?php echo $this->formSelect('organization_details', 2, null, $this->contentTable("enum_organization2")); ?></span></p>
+
+<p><label><?php echo $this->_("Fax number") ?></label> <span><?php echo $this->formText("faxnumber", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Adress1") ?></label> <span><?php echo $this->formText("adress1", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Adress2") ?></label> <span><?php echo $this->formText("adress2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Zip code") ?></label> <span><?php echo $this->formText("postalcode", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("City") ?></label> <span><?php echo $this->formText("city", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Email") ?></label> <span><?php echo $this->formText("email", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Email 2") ?></label> <span><?php echo $this->formText("email2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Login") ?></label> <span><?php echo $this->formText("ulogin", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Secret question") ?></label> <span><?php echo $this->formText("secretquestion", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Secret response") ?></label> <span><?php echo $this->formText("secretresponse", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Notes") ?></label> <span><?php echo $this->formTextarea("notes", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Picture") ?></label> <span><?php echo $this->formText("picture", "" ,null) ?>
+						<a href="javascript:filemanager('picture');" title="<?php echo $this->_("File explorer")?>">
+							<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+						</a>
+</span></p>
+
+
+
+<p><label>&nbsp;<?php echo $this->formHidden("iduser", $this->iduser ,null) ?></label>
+<span>
+<?php echo $this->sexybutton ("submit", $this->_("update"), array("send_form_btn"), null,array("id"=>"")) ?>
+</span></p>
+
+</fieldset>
+</form>
+
+
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+var $currentField ;
+function filemanager(idref)
+{		
+	$currentField = jQuery("#"+idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");	
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready(function(){     
+	$.metadata.setType("attr", "metadata");
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+
+    $("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        
+    	width:960,
+    	height:615,	    	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);			            						
+            		});      	                 		   				
+            		for(var i=0;i<filesSelected.length;i++){                     		  		
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	
+    
+});
+//]]>
+</script>
+
+
+<?php echo $this->setFormValue($this->rawData )?>

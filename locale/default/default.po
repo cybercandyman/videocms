@@ -1,0 +1,4466 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gcv\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-11 09:15+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: jean <jean@yahoo.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: $this->_;$this->view->_\n"
+"X-Poedit-SearchPath-0: C:\\projets\\GCV-V2-Phase2\\www\n"
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/controllers/UserController.php:125
+msgid "New inscription"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/controllers/UserController.php:189
+msgid "Reset password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/controllers/ToolsController.php:15
+msgid "Objects manager"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/controllers/ToolsController.php:21
+msgid "Explorer"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/controllers/ToolsController.php:97
+msgid "Error during program replication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/controllers/ToolsController.php:120
+msgid "Error during pushing files"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/models/program.php:1853
+msgid "Copy of"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/controllers/DataController.php:44
+msgid "backup.xml"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ViewsHelpers/GcvForm.php:57
+msgid "Press [ctrl] + [click] to select multiple values"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/tools/admin/libraries/Archive/file.php:78
+msgid "Unable to open file"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/error/error.phtml:1
+msgid "Error in the treatment of your request"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/model/error.phtml:1
+msgid "You have to get an identification token with the gettoken function"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/model/playlist_integration_iframehtml.phtml:3
+msgid "Your browser does not support frames. Click here"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/model/playlist_integration_urlhtml.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/model/playlist_integration_urlhtml.phtml:7
+msgid "View video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/model/program.phtml:118
+msgid "Not found"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/rest/mail.phtml:6
+msgid "Hello!"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/rest/mail.phtml:9
+#, php-format
+msgid "The video \"<b>%s</b>\" can be viewed at this address <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/api/views/scripts/rest/mail.phtml:11
+msgid "There is the message written by the sender"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:2
+msgid "Frequently Asked Questions (FAQ)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:5
+msgid "Structures and xml schema"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:23
+msgid "How to import programs ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:25
+msgid "You can import a program list in the database by using the import function under module production > tools menu > import. Your xml file has to respect the following xsd schema :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:29
+msgid "How to import package ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:32
+msgid "You can import a package by using the add / suppress menu under sadmin module. Your component must be an archive like the following example :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:33
+msgid "component example"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:36
+msgid "The inner manisfest.xml has to respect the following schema :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:40
+msgid "How to create a template ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:43
+msgid "You can use the following template as an example :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:44
+msgid "Richplayer example"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:48
+msgid "Click here for more information about templates :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:49
+msgid "Structure and properties of templates"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:53
+msgid "The inner theme.xml has to respect the following schema :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:58
+msgid "Questions about REST"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/faq.phtml:61
+msgid "More informations here"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:2
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:2
+msgid "Help:Templates"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:4
+msgid "Interface REST"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:97
+msgid "This function retrieves a list of video programs."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:19
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:49
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:66
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:84
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:102
+msgid "Replace this param name with your publication key"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:21
+msgid "Numbers of item per page"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:22
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:68
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:86
+msgid "Viewcode"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:23
+msgid "Perform a filter by keyword"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:26
+msgid "Additional params to filter videolist."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:27
+msgid "Each param can be a program field, ex with the field genre with code genre : filter_genre"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:44
+msgid "This function retrieves all playlist for a publication."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:61
+msgid "This function retrieves a playlist."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:67
+msgid "Key of the playlist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:79
+msgid "This function retrieves a program."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/rest.phtml:85
+msgid "Key of the program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:4
+msgid "General overview"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:7
+msgid "Files required by the application"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:11
+msgid "File used as an entry point in your template.In this file you can share javascripts or php code needed by other scripts."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:13
+msgid "File used to render a program. View Model_Program. Object data available in $this->program."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:15
+msgid "File used to render a playlist. View Model_Playlist. Object data available in $this->playlist."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:17
+msgid "File used to render a videolist. View Model_List. Object data available in $this->list."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:19
+msgid ""
+"Optionnal file, allows for  multilingualism in your template. \n"
+"\n"
+"Locale is deducted by the codeview in the url, defined in your publication back office. Format file is TMX. In order to refer to an entry of your translation file, you can use the following code : $this->translate('code') "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:25
+msgid "Template options retrieving"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:29
+msgid "This file contains the options which we can edit in the Backend (Template allocation or Resource integration). It will be possible to get back them from the layout.phtml file."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:34
+msgid "In this file, it will be possible to retrieve the parameters defined in the params.xml file, then to apply them to the chosen theme."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:35
+msgid "Params retrieving in layout.phtml file"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:49
+msgid "API Model"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:52
+#, php-format
+msgid "Api doc can be found <a href=\"%s\" target=\"_blank\">here</a>."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:55
+msgid "Constants"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:59
+msgid "This constant refers to the uri of your template."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:61
+msgid "This constant refers to the uri at the root of the application."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:65
+msgid "Generate enumeration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:67
+msgid ""
+"You can integrate, into your template, enumeration corresponding to an ENUM field. \n"
+"\n"
+"\t\t. In order to do this, you have to create a Model_Field object and call getHtml method."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:76
+msgid "Programs fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:79
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:97
+msgid "name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:80
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:98
+msgid "code"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:81
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:99
+msgid "type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/docs/templates.phtml:94
+msgid "Chapters fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/accesslist.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/accesslistmini.phtml:24
+msgid "submit"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/accesslistmini.phtml:35
+msgid "Ressource"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/infos.phtml:5
+msgid "Press [F11] to switch in fullscreen."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/infos.phtml:6
+msgid "This application is designed to fit with 1680 x 1050 pixels."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/infos.phtml:13
+msgid "Tips"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menu.phtml:4
+msgid "Home"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menu.phtml:8
+msgid "Super administration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menu.phtml:13
+msgid "Production"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menu.phtml:19
+msgid "Publication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menu.phtml:24
+msgid "Service"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:3
+msgid "Organizations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:5
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:12
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:19
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:26
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:33
+msgid "Create"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:6
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:27
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:34
+msgid "List"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:10
+msgid "Productions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:21
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:28
+msgid "Menu"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:17
+msgid "Publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:24
+msgid "Services"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:31
+msgid "Users"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:38
+msgid "Menus"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:40
+msgid "Components"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:41
+msgid "Menu elements"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:47
+msgid "Fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:49
+msgid "Create field"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:50
+msgid "Fields list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:51
+msgid "Create group of fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:52
+msgid "Group of fields list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:53
+msgid "Tables list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:57
+msgid "Tools"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:61
+msgid "Templates"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:62
+msgid "Billings list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:63
+msgid "Formats list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:64
+msgid "Profiles list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:65
+msgid "Ontology URI Mapping"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:66
+msgid "Ontology Class Mapping"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:67
+msgid "Ontology Editor"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:68
+msgid "MMS Update"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:69
+msgid "Clear cache"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/menusadminpartial.phtml:79
+msgid "Add / Suppress"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/sadminquicklinks.phtml:4
+msgid "Users list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/sadminquicklinks.phtml:5
+msgid "Productions list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/sadminquicklinks.phtml:6
+msgid "Publications list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/sadminquicklinks.phtml:7
+msgid "Services list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/environment/sadminquicklinks.phtml:12
+msgid "Quick links"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/error/browserup.phtml:30
+msgid "Your browser is not supported."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/error/browserup.phtml:31
+msgid "Please, use a more recent browse version."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/error/browserup.phtml:45
+msgid "Thank you for your understanding."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/add_translations.phtml:3
+msgid "Received"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/add_translations.phtml:4
+msgid "In progress"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/add_translations.phtml:5
+msgid "Canceled"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/add_translations.phtml:6
+msgid "Completed"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/index.phtml:2
+msgid "Welcome to"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/index/index.phtml:5
+#, php-format
+msgid "Language interfaces is deducted from your browser.<br/>The current language is <strong>%s</strong>.<br />If you want to change language, click on the flag in the bottom of this page."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/disallow.phtml:8
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep1.phtml:4
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep2.phtml:7
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep3.phtml:11
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/requestaccess.phtml:8
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/reset.phtml:11
+msgid "Access Denied"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/disallow.phtml:18
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep1.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep2.phtml:18
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep3.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:5
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/requestaccess.phtml:18
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/reset.phtml:22
+msgid "websitename Administration Panel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/disallow.phtml:20
+msgid "You are not allowed to view this page"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/disallow.phtml:27
+msgid "Request access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/disallow.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/requestaccess.phtml:28
+msgid "Disconnect"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/editmypassword.phtml:4
+msgid "Edit password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/editmypassword.phtml:10
+msgid "Type password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/editmypassword.phtml:12
+msgid "Type password again"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/editmypassword.phtml:15
+msgid "update password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep1.phtml:16
+msgid "Your email"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep1.phtml:21
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep2.phtml:28
+msgid "Next"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/forgottenpasswordstep3.phtml:24
+msgid "An email has been sent to you. Follow the url and the instructions. The url is valid 24 hours."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:10
+msgid "Username"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:24
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:20
+msgid "Password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:28
+msgid "Forgot pass"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:34
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:30
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:25
+msgid "Register"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/login.phtml:55
+msgid "If you want more information about GCV or request the opening of an account, contact us indicating your name, title, mail, url of your site and project assignment entity."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:3
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:4
+msgid "Last name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:5
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:6
+msgid "First name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:7
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:8
+msgid "Email"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:9
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:10
+msgid "Adress 1"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:11
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:12
+msgid "Adress 2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:14
+msgid "Zip code"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:16
+msgid "City"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:17
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:18
+msgid "Login"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:19
+msgid "Secret question"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:19
+msgid "Question will be requested  if you loose your password."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:21
+msgid "Secret response"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.ajax.phtml:26
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/register.phtml:22
+msgid "Confirm password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/requestaccess.phtml:20
+msgid "A request has been send."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/reset.phtml:25
+msgid "Your new password is"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/default/views/scripts/user/saveuser.ajax.phtml:1
+msgid "Request sent"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/list.phtml:12
+msgid "idbilling"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/list.phtml:13
+msgid "date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/list.phtml:15
+msgid "Total"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/list.phtml:31
+msgid "view"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:1
+msgid "Billing edition"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:3
+msgid "print"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:6
+msgid "Your reference"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:73
+msgid "Client"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:77
+msgid "Currency"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:95
+msgid "CDN (Content Delivery Network) consumption"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:26
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:133
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:101
+msgid "Type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:27
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:102
+msgid "Amount (Giga Bytes)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:28
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:103
+msgid "Unitary price (Giga Bytes)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:38
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:113
+msgid "Storage"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:49
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:124
+msgid "Streaming"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:64
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:139
+msgid "Additional"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:67
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:141
+msgid "Add a billing line"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:73
+msgid "wording"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:95
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:168
+msgid "Discount"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:97
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:170
+msgid "Add a discount line"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:102
+msgid "libelle"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:126
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:199
+msgid "Total resume"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:141
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:219
+msgid "Total billing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:147
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:225
+msgid "Discount rate %"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:152
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:230
+msgid "Vat %"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:159
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:237
+msgid "Total billing + vat"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.phtml:172
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:250
+msgid "Indicate the disount rate to apply to this billing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:6
+msgid "Billing of "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:46
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:79
+msgid "Adress"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:54
+msgid "Tel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:56
+msgid "Fax"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:68
+msgid "Date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:202
+msgid "Add  discount rate"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/billings/view.print.phtml:204
+msgid "Remove discount rate"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/chapterslist.phtml:2
+msgid "List of chapters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:4
+msgid "IDCHAPTER"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:5
+msgid "Picture"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:6
+msgid "Title"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:7
+msgid "Timecode"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:32
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:34
+msgid "edit"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:37
+msgid "add to kb"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/list.phtml:61
+msgid "Successfull replication "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/search.phtml:7
+msgid "search"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/chapters/search.phtml:11
+msgid "More criterias"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format1.phtml:2
+msgid "Consumption statistics by publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format1.phtml:3
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format2.phtml:3
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format4.phtml:4
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format5.phtml:4
+msgid "views"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format2.phtml:2
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format4.phtml:3
+msgid "Consumption statistics per program by publication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format3.phtml:1
+msgid "Total views per day"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format3.phtml:2
+msgid "Days"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format3.phtml:3
+msgid "Views"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/charts/format5.phtml:3
+msgid "Consumption statistics per production"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/data/import.phtml:1
+msgid "Import programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/data/import.phtml:6
+msgid "Select your file"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/data/import.phtml:8
+msgid "save"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/data/import.phtml:13
+msgid "Read the FAQ for more informations."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:8
+msgid "Activate live"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:9
+msgid "Desactivate live"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:34
+msgid "html"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:35
+msgid "file"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:256
+msgid "Live stream"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:288
+msgid "MMS Setup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:308
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:759
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:828
+msgid "Save"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:323
+msgid "Options"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:369
+msgid "Syndication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:376
+msgid "Content management"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:390
+msgid "Chapters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:393
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:394
+msgid "Create chapter"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:410
+msgid "Drag and drop to reorganize"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:440
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:575
+msgid "Current"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:447
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:582
+msgid "Active"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:454
+msgid "Please, You have to publish this element before his activation."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:475
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:601
+msgid "title"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:481
+msgid "order"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:489
+msgid "publication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:499
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:622
+msgid "Actions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:505
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:630
+msgid "Edit"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:514
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:638
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:776
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:803
+msgid "Delete"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:521
+msgid "You cannot delete a published chapter, please unpublish it before delete."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:535
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:658
+msgid "Display {0} - {1} of {2}"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:536
+msgid "No chapters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:539
+msgid "Inserts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:542
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:543
+msgid "Create insert"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:645
+msgid "You cannot delete a published pane, please unpublish it before delete."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:659
+msgid "No panes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:662
+msgid "Languages"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:671
+msgid "Add"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:681
+msgid "Remove selected"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:690
+msgid "Remove All"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:725
+msgid "Chapter form"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:728
+msgid "Delete pane"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:729
+msgid "Are you sure to delete this insert ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:731
+msgid "Delete chapter"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:732
+msgid "Are you sure to delete this chapter ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:734
+msgid "Insert form"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:764
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:789
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:817
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/direct/console.phtml:838
+msgid "Close"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:5
+msgid "Group of programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:15
+msgid "Information about your group of programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:18
+msgid "Title of the group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:10
+msgid "Code"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:27
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.ajax.phtml:6
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.phtml:6
+msgid "Description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:39
+msgid "Approved programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:69
+msgid "Search programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:78
+msgid "Publish your content"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:164
+msgid "Select  programs to be attached to the group by dragging them to the zone \"approved programs\""
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/editform.phtml:165
+msgid "If group has changed since last save, save it before any publish action !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:1
+msgid "List groups of programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:4
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:4
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:5
+msgid "create"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:12
+msgid "count"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:30
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:26
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:37
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.ajax.phtml:38
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.phtml:38
+msgid "delete"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:42
+msgid "No matches"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:53
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:54
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:67
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:79
+msgid "Removal confirmation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:56
+msgid "This group of programs will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/group/list.phtml:93
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:64
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:110
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:87
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:249
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:247
+msgid "Cancel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/index/index.phtml:2
+msgid "Informations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/index/index.phtml:3
+msgid "It appears that it's the first time you are here. Thank you to select one access from the dropdown menu in the resource module on the left."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/form.phtml:2
+msgid "Master"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/form.phtml:15
+msgid "Length"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/form.phtml:20
+msgid "Format"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/form.phtml:28
+msgid "Encoding"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/form.phtml:33
+msgid "Comments"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:1
+msgid "Masters list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:10
+msgid "idmaster"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/masters/list.phtml:38
+msgid "You are about to delete this master. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:1
+msgid "Insert edition"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:11
+msgid "content_type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:15
+msgid "pane_content"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:19
+msgid "Without editor"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:22
+msgid "With editor"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:40
+msgid "File explorer"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/edit.phtml:100
+msgid "Select"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:1
+msgid "Panes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:13
+msgid "idpane"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/panes/list.phtml:56
+msgid "This pane will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/addversions.phtml:1
+msgid "Remote file directory"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/addversions.phtml:4
+msgid "Return to the program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:9
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:9
+msgid "Chapters editing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:33
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:37
+msgid "cancel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:59
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:72
+msgid "get"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:61
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:74
+msgid "preview"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:176
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:388
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:172
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:278
+msgid "Create extract"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:286
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:295
+msgid "Confirmation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:286
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapters.phtml:295
+msgid "Fill the form with this item ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.ajax.phtml:37
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.phtml:37
+msgid "add"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chapterslist.ajax.phtml:70
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/chaptersv2.phtml:16
+msgid "Chapters list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/create.phtml:3
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/create2.phtml:1
+msgid "Create program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/dialogextract.phtml:25
+msgid "Cut your extract"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/dialogextract.phtml:37
+msgid "Start timecode"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/dialogextract.phtml:43
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/dialogextract.phtml:52
+msgid "set"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/dialogextract.phtml:48
+msgid "End timecode"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:5
+msgid "Extract of"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:15
+msgid "duplicate"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:20
+msgid "duplicate to internet"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:23
+msgid "export"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:25
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:42
+msgid "services"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:34
+msgid "Edit description of your program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:36
+msgid "edit informations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:49
+msgid "Illustrate your program with pictures"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:59
+msgid "Create chapters to navigate in your video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:64
+msgid "edit chapters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:81
+msgid "Videofiles"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:82
+msgid "Add streaming videos to your program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:87
+msgid "add new version"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:94
+msgid "Statistics"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:95
+msgid "Consult programs statistics"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:99
+msgid "Total views for last 30 days"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:101
+msgid "more statistics"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:114
+msgid "Extracts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:117
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:4
+msgid "create new extract"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:150
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list-mini.phtml:78
+msgid "Delete this program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:171
+msgid "Replicate this program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:173
+msgid "Please wait"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:179
+msgid "Replication is successfull for program data. Program Video file(s) will be replicated when next cron job is over."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:184
+msgid "Problem during data replication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:223
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list-mini.phtml:43
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:59
+msgid "This program will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:226
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:111
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list-mini.phtml:45
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:64
+msgid "Delete file on server : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:228
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:115
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list-mini.phtml:47
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:69
+msgid "Restore to depot"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:229
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:116
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list-mini.phtml:48
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:70
+msgid "Keep at the same place"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:236
+msgid "Program replication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/edit.phtml:238
+msgid "Your are going to replicate this program to internet."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:3
+msgid "Information edition"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:27
+msgid "Identification"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:45
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:54
+msgid "Group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:47
+msgid "create new group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:70
+msgid "add credits"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:95
+msgid "transcription"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:100
+msgid "Activity"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:113
+msgid "Genre"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:151
+msgid "Pictures"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:161
+msgid "Transcription"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:166
+msgid "More description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:181
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:197
+msgid "Back"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:182
+msgid "Rights"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:242
+msgid "close"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:327
+msgid "Credits editing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:331
+msgid "Name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/editinfo.phtml:334
+msgid "Function"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:43
+msgid "Promo"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:61
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:88
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:119
+msgid "Create playlist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:70
+msgid "Résumé"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:93
+msgid "Version B"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/extracts.phtml:190
+msgid "Drag extract from the list."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/index.phtml:6
+msgid "index3"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:19
+msgid "Audio languages"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:30
+msgid "File size"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:31
+msgid "Resolution"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:40
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:210
+msgid "Update"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:42
+msgid "uri"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:54
+msgid "This is a physical extract (ie file has been cut!). To come back to a virtual extract, remove all versions."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:62
+msgid "Tcin"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:64
+msgid "Tcout"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:66
+msgid "Edit timecode"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:77
+msgid "This is a virtual extract with specific timecode to adjust start and end."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:78
+msgid ""
+"Virtual extract uses by default the program video file (the « video ») with following tcin and tc out. .\n"
+"\n"
+"\t\t\t\t\t\t\t\t\t\t\t. In order to use a physical extract, proceed to a cut in and out in the source file and use the « add a new video file » function."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:84
+msgid "Update extract"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:87
+msgid "No versions."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:106
+msgid "Delete version"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:109
+msgid "You are about to delete this version."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:128
+msgid "Update mms"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:131
+msgid "You are about to update this version with the following mms :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/infosversions.phtml:196
+msgid "Video information"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:14
+msgid "duration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:16
+msgid "IDPROG"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/list.phtml:18
+msgid "keyprog"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/managepicture.phtml:14
+msgid "Picture editor"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/multilingualism.phtml:7
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:46
+msgid "remove"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/programslist.phtml:3
+msgid "List of programs : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/programslist.phtml:4
+#, php-format
+msgid "You have %s programs and %s extracts in stock."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/programslist.phtml:9
+msgid "export all programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:7
+msgid "publication state of the program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:9
+msgid "extracts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:11
+msgid "publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:12
+msgid "actions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:30
+msgid "click to publish all extracts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:47
+msgid "re-edit"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:62
+msgid "Check the case in front of the publication you want to publish."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publications.phtml:85
+msgid "done !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publicationsgroup.phtml:15
+msgid "Publish"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/publicationsgroup.phtml:31
+msgid "administrate"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickgroup.phtml:1
+msgid "Create new group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickprgroup.phtml:38
+msgid "Click to modify"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:2
+msgid "Results"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:14
+msgid "Programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:56
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:121
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:173
+msgid "no matches ..."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:142
+msgid "Objects knowledge base"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quickresults.phtml:151
+msgid "categories"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quicksearch.phtml:8
+msgid "Keywords"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/quicksearch.phtml:44
+msgid "Quick search"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/search.phtml:12
+msgid "reset"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:3
+msgid "agent"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:4
+msgid "concept"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:5
+msgid "event"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:6
+msgid "object"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:7
+msgid "place"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:8
+msgid "time"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:17
+msgid "Type or drop agent uri"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:28
+msgid "Type or drop concept uri"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/semantic.phtml:41
+msgid "Type or drop event uri"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:47
+msgid "You are about to delete the file : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:59
+msgid "select"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:70
+#, php-format
+msgid "Your deposit directory is %s"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:71
+msgid "Right click on a item for more actions like : rename, delete, view etc."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:72
+msgid "Left click on an item to select it."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofile.phtml:82
+msgid "Rename"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:26
+msgid "About this video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:29
+msgid "Filename"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:32
+msgid "Ratio"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:33
+msgid "Size"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/program/videofileinfo.phtml:34
+msgid "Audio stream count"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/pub/edit.phtml:2
+msgid "Publish your programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/pub/edit.phtml:18
+msgid "Published programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/pub/edit.phtml:143
+msgid "Select the programs you want to publish by dragging them to the zone \"published programs\""
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/pub/list.phtml:1
+msgid "List  of publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/pub/list.phtml:9
+msgid "count of programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:5
+msgid "idlog"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:11
+msgid "csuristem"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:13
+msgid "datetime"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:16
+msgid "csuseragent"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:18
+msgid "protocol"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:20
+msgid "transport"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/logs.ajax.phtml:22
+msgid "ip"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/program.phtml:2
+#, php-format
+msgid "Consumptions statistics for program (%s) by  publication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/program.phtml:8
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/programs.phtml:6
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/publication.phtml:7
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/publications.phtml:6
+msgid "Consumption period"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/program.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/programs.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/publication.phtml:16
+msgid "Details"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/programs.phtml:2
+msgid "Consumption statistics by program for all publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/programs.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/publication.phtml:15
+msgid "For better focus, graph shows only  top 30 programs."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/prod/views/scripts/stats/publication.phtml:1
+#, php-format
+msgid "Consumption statistics per program by publication : %s"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/index/index.phtml:8
+msgid "You have no access to the back office."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:1
+msgid "Template allocation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:9
+msgid "Playlist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:28
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:41
+msgid "Edit template parameters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:35
+msgid "Videolist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/affecttheme.phtml:51
+msgid "In order to allocate a template to a specific program or playlist, go to the integration menu of the program or playlist."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/checkoptionsbtn.phtml:3
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:118
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:137
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:154
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:176
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:200
+msgid "Parameters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/index.phtml:3
+msgid "Edit playlist description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/optionsdialog.phtml:31
+msgid "e.g."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/optionsdialog.phtml:65
+msgid "No configuration found. Please, check params.xml file."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:11
+msgid "Playlist integration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:17
+msgid "Template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:20
+msgid "Use default template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:22
+msgid "Use specific template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:27
+msgid "Edit template parameters - Playlist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:46
+msgid "Identification method"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:50
+msgid "Anonymous"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:52
+msgid "Login - Password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:99
+msgid "iframe"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:110
+msgid "link with html popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:120
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:139
+msgid "Width of the popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:121
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:140
+msgid "Height of the popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:128
+msgid "flash anim with html popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:146
+msgid "silverlight"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:159
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:180
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:204
+msgid "Width of the video in the silverlight component"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:160
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:181
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:205
+msgid "Height of the video in the silverlight component"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:161
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:182
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:206
+msgid "Switch on/off silverlights buttons (ex : 1011110111101)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:167
+msgid "silverlight by link with popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:192
+msgid "silverlight by anim with popup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:213
+msgid "Page lecteur video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:215
+msgid "lecteur video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:225
+msgid "Page lecteur video biecran"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/playlist.phtml:227
+msgid "lecteur video biecran"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/program.phtml:3
+msgid "Program integration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/program.phtml:5
+msgid "back"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/program.phtml:20
+msgid "Edit template parameters - Program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/program.phtml:90
+msgid "mms"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/theme.phtml:2
+msgid "Application templates"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/theme.phtml:9
+msgid "Your templates"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/videolist.phtml:7
+msgid "Videolist integration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/videolist.phtml:26
+msgid "Edit template parameters - Videolist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/videolist.phtml:62
+msgid "xml"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/integration/videolist.phtml:85
+msgid "xhtml"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/create.phtml:10
+msgid "Group name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/create.phtml:19
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:144
+msgid "explorer"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/list.phtml:1
+msgid "List of playlists"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/list.phtml:9
+msgid "idplaylist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/list.phtml:11
+msgid "Number of programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/list.phtml:27
+msgid "integration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/list.phtml:44
+msgid "This playlist will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:25
+msgid "Video files"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:63
+msgid "Click on a playlist programs to get its videos."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:89
+msgid "Playlist editing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:100
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:106
+msgid "Integration"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:123
+msgid "Availables views"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:130
+msgid "General description of your playlist"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:137
+msgid "Category"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:163
+msgid "Select a program to load chapters and videos."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:240
+msgid "Search program in stock"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:243
+msgid "Drop program from this list on the playlist programs panel."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:246
+msgid "Allocated programs"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:270
+msgid "Click on a playlist program to get its chapters."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:309
+msgid "Import chapters ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:310
+msgid "Import programs chapters ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:596
+msgid "Import chapters"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/playlist/playlistform.phtml:650
+msgid "saved"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stats/production.phtml:1
+#, php-format
+msgid "Consumptions statistics per program by production : %s"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stats/productions.phtml:1
+msgid "Consumption  statistics by production account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stats/program.phtml:2
+#, php-format
+msgid "Consumptions statistics for program : %s"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stats/programs.phtml:2
+msgid "Consumption statistics by program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:2
+msgid "Program update"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:6
+msgid "Production account updated this program since  last release."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:7
+msgid "Check case for parts you want update."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:17
+msgid "Stop annoying me with this alert"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:18
+msgid "Accepting updates will delete your personal changes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/checkupdates.phtml:37
+msgid "Confirm"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/editprogram.phtml:11
+msgid "export program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/editprogram.phtml:20
+msgid "edit desciption"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/editprogram.phtml:39
+msgid "edit description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/list.phtml:23
+msgid "production"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/list.phtml:25
+msgid "is published"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/programslist.phtml:12
+msgid "View selection"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/programslist.phtml:13
+msgid "Select the view for the export"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/programslist.phtml:34
+msgid "Export"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/stock/search.phtml:21
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:9
+msgid "Production account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/templates/dialog-js.phtml:65
+msgid "Update process finished correctly !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/templates/dialog-js.phtml:68
+msgid "Error "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/templates/dialog-js.phtml:68
+msgid "Please, choose and Save your specific template first. "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:2
+msgid "List of views"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:18
+msgid "create view"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:25
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:69
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:98
+msgid "Locale"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/pub/views/scripts/tools/views.phtml:109
+msgid "This view will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:3
+msgid "publish the bill"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:6
+msgid "Overview"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:67
+msgid "Complete billing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:107
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:163
+msgid "Amount"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/edit.phtml:123
+msgid "Discount  billing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:15
+msgid "State"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:15
+msgid "pending"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:15
+msgid "issued"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:18
+msgid "filter"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/billings/list.phtml:40
+msgid "production name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:15
+msgid "Command"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:16
+msgid "used in easystreaming"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:20
+msgid "Output string"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:21
+msgid "ex : _500.wmv"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:25
+msgid "Coder"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:26
+msgid "ffmpeg or mencoder"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:30
+msgid "Rate"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:31
+msgid "bytes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:35
+msgid "Width"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:36
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:41
+msgid "pixel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/formatform.phtml:40
+msgid "Height"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listformat.phtml:1
+msgid "List of formats"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listformat.phtml:9
+msgid "idformat"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listformat.phtml:37
+msgid "You are about to delete this format. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listprofil.phtml:1
+msgid "List of profiles"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listprofil.phtml:9
+msgid "idprofil"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/listprofil.phtml:37
+msgid "You are about to delete this profile. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/profilform.phtml:2
+msgid "Profile"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/encoding/profilform.phtml:15
+msgid "Formats"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:3
+msgid "Action"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:9
+msgid "groups list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:12
+msgid "create group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:17
+msgid "fields list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:20
+msgid "create field"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/actionmenu.phtml:22
+msgid "table list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:6
+msgid "Create a new field"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:12
+msgid "Name of the field."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:13
+msgid "Code of the field. No space and special characters allowed !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:15
+msgid "Type of the field. Cannot be changed once chosen."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:16
+msgid "text"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:17
+msgid "enum"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:18
+msgid "enum multi"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:20
+msgid "boolean"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:21
+msgid "complex boolean"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:22
+msgid "textarea"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:24
+msgid "picture"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:26
+msgid "Mask"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:26
+msgid "Input mask. For more documentation, you have to see jquery.meio.mask.js documentation."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:27
+msgid "Default value"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:27
+msgid "This is the default value of the field."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:31
+msgid "Grouping fields by personal affinities"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:38
+msgid "Table"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:38
+msgid "Table name in BDD. Name is deducted from the code."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:39
+msgid "Parent"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:39
+msgid "Parent is the code of another field."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:41
+msgid "Help"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:41
+msgid "This is the tooltip of the field in the generated form."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:61
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/creategroup.phtml:32
+msgid "Please check your entry, some fields are wrong."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:129
+msgid "This name already exists."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:157
+msgid "Check the searchable case to allow people to search with this criteria."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/createfield.phtml:158
+msgid "By choosing 1,2,3,4,5, you have the possibility to aggregate fields according to your own criterias."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/creategroup.phtml:2
+msgid "Create a new group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/creategroup.phtml:59
+msgid "Assign the fields to your group once you have created it."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/deletefield.phtml:5
+msgid "You are going to delete the field : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/deletefield.phtml:8
+msgid "Do you want to confirm ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/deletefield.phtml:13
+msgid "confirm"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/deletegroup.phtml:6
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/deleterow.phtml:6
+msgid "You are going to delete the group : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editfield.phtml:5
+msgid "Edit a field"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editfield.phtml:52
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:53
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/fieldlist.phtml:45
+msgid "translations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:1
+msgid "Edit a group of fields "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:4
+msgid "Fields in stock"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:21
+msgid "Group name "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:42
+msgid "create new panel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:46
+msgid "Drop fields in stock for standard description and more description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:47
+msgid "Standard description and more description are only used for programs. In other cases,  the distinction between standard and more description doesn't matter."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:53
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/pane.phtml:7
+msgid "Panel setup"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:60
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/pane.phtml:3
+msgid "Translations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/editgroup.phtml:144
+msgid "Deleting this panel will delete all attached fields and data for all programs.If you want keep data, move attached fields into another pane."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:1
+#, php-format
+msgid "Edit content of table %s"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:9
+msgid "Add a row"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:103
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/fieldlist.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/grouplist.phtml:17
+msgid "ID"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:17
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:82
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:105
+msgid "Libelle"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/edittable.phtml:130
+msgid "Are you sure to delete this row?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/fieldlist.phtml:1
+msgid "List of fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/fieldlist.phtml:64
+msgid "Are you sure to delete this field ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/grouplist.phtml:1
+msgid "List of groups"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/grouplist.phtml:19
+msgid "Number of fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/grouplist.phtml:20
+msgid "System group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/grouplist.phtml:76
+msgid "Are you sure to delete this group ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifyfield.phtml:11
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifygroup.phtml:11
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifytable.phtml:11
+msgid "Create extension"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifyfield.phtml:17
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifygroup.phtml:17
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifytable.phtml:17
+msgid "Create group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifyfield.phtml:23
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifygroup.phtml:23
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifytable.phtml:23
+msgid "Modify extension"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifyfield.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifygroup.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifytable.phtml:29
+msgid "Modify group"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifyfield.phtml:35
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifygroup.phtml:35
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/modifytable.phtml:35
+msgid "Modify table"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/tablelist.phtml:2
+msgid "List of tables"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/fields/tablelist.phtml:17
+msgid "Of field"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/create.phtml:1
+msgid "Create new menu"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/create.phtml:9
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/edit.phtml:10
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/listcomponents.phtml:18
+msgid "Url"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/create.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/edit.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/list.phtml:26
+msgid "Component"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/create.phtml:24
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:34
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/edit.phtml:30
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:36
+msgid "Be carefull, The url parameter takes advantage over any other."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:4
+msgid "Create new component"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/list.phtml:27
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/listcomponents.phtml:19
+msgid "Module"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:18
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:18
+msgid "Controller"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:24
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:24
+msgid "Route"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/createcomponent.phtml:35
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:37
+msgid "Separate parameters by comma. Ex : param1=value1,param2=value2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/edit.phtml:1
+msgid "Edit menu"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/editcomponent.phtml:4
+msgid "Edit component"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/list.phtml:2
+msgid "List of menu"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/list.phtml:68
+msgid "Are you sure to delete this menu entry ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/listcomponents.phtml:2
+msgid "List of components"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/menu/listcomponents.phtml:61
+msgid "Are you sure to delete this component ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:17
+msgid "String in mms to replace"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:23
+msgid "String replacement"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:24
+msgid "Enter new value"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:28
+msgid "Apply to "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:31
+msgid "or"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:31
+msgid "all productions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:50
+msgid "Be careful. This feature changes the database and can cause malfunctions in the playback of your videos."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/mms/edit.phtml:68
+msgid "Please, enter correct new value"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:2
+msgid "Contacts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:16
+msgid "Organization overview"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:34
+msgid "Name - Firstname"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:35
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:80
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:147
+msgid "Phone number"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:57
+msgid "Are you sure to delete this contact ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:57
+#, php-format
+msgid "Click <a href=\"%s\">yes</a> to confirm or <a href=\"#\" onclick=\"$.facebox.close();\">no</a> to cancel."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:76
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:145
+msgid "Firstname"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:84
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:149
+msgid "Fax number"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:96
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:155
+msgid "Address (2)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:104
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:159
+msgid "Postal Code"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:108
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:161
+msgid "Country"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:132
+msgid "Add contact"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/contacts.phtml:167
+msgid "add contact"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/list.phtml:2
+msgid "List of organizations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:19
+msgid "Organization name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:27
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:30
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:10
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:14
+msgid "Alias"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:29
+msgid "Registerd company code"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:31
+msgid "VAT intra"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:35
+msgid "Phone number 2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:41
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:43
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:22
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:20
+msgid "Email 2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:53
+msgid "Domain"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:65
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:60
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:18
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:28
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:26
+msgid "Notes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:72
+msgid "Create at the same time"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:76
+msgid "Publication account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/organizations/organization-form.phtml:77
+msgid "Service account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:1
+msgid "Install or uninstall : modules, controllers, plugins, helpers"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:7
+msgid "Upload new package"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:11
+msgid "upload"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:43
+msgid "Installation date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:77
+msgid "Remove package ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:79
+msgid "Are you sure to remove this package ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:84
+#, php-format
+msgid "For more informations about the structure of a component, you have to see the <a href='%s' >FAQ</a>."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/package/list.phtml:111
+msgid "Remove"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:14
+msgid "Edit a production account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:35
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:52
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:11
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:16
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:25
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:42
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:23
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:38
+msgid "Organization"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:49
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:15
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:24
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:22
+msgid "Mobile phone"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:56
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:17
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:26
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:24
+msgid "Organization details"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:78
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:39
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:36
+msgid "Work"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:92
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:34
+msgid "Broadcaster"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:99
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:51
+msgid "Group of fields"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:105
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:37
+msgid "Text banner"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:110
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:40
+msgid "Watermark"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:115
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:41
+msgid "Copyright"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:121
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/list.phtml:20
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:52
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:16
+msgid "Key"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:126
+msgid "Path download"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:130
+msgid "Path pictures"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:134
+msgid "Depot directory"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:138
+msgid "Streaming directory"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:183
+msgid "Current account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:297
+msgid "Please, write a valid MMS."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:300
+msgid "Thank you !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:307
+msgid "Error !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/edit.phtml:307
+msgid "Please, write a correct new value."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/list.phtml:3
+msgid "List of production accounts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/list.phtml:43
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:45
+msgid "menu"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/list.phtml:63
+msgid "This production account will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/list.phtml:65
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:67
+msgid "Free space"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:12
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:8
+msgid "Available menu elements"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:25
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:20
+msgid "Allocated menu elements"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:42
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:38
+msgid "update"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:44
+msgid "update all productions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:49
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:46
+msgid "delete personalization"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/menu.phtml:52
+msgid "You can specify a different list and order for each production account. Go to the list of productions and click menu for the production account you want to edit."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/productions/production-form.phtml:5
+msgid "Create a production account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:5
+msgid "Edit a publication account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:19
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:17
+msgid "Email contact"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/edit.phtml:55
+msgid "Default publication of"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:1
+msgid "List of publication accounts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:17
+msgid "Path"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:42
+msgid "access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/list.phtml:65
+msgid "This publication account will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:40
+msgid "update all publications"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/menu.phtml:50
+msgid "You can specify a different list and order for each publication account. Go to the list of publications and click menu for the publication account you want to edit."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/prodaccess.phtml:1
+msgid "Access to productions account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/prodaccess.phtml:3
+msgid "Available production accounts "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/prodaccess.phtml:15
+msgid "Allocated production accounts "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/prodaccess.phtml:36
+msgid "Drop productions account into the right column."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/publications/publication-form.phtml:5
+msgid "Create a publication account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/addclass.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editclass.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/listclass.phtml:1
+msgid "Class mapping"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/addclass.phtml:9
+msgid "Class"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/addclass.phtml:12
+msgid "next"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/addclass.phtml:20
+msgid "Choose a class in the list and click on next to begin the mapping."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editclass.phtml:5
+msgid "List of class properties"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editclass.phtml:7
+msgid "add property mapping"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editclass.phtml:35
+msgid "Choose in the list a property to map and click to the Add button. On the new row, choose the GCV field and save."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:9
+msgid "Agent"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:15
+msgid "Concept"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:21
+msgid "Event"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:26
+msgid "Object"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:31
+msgid "Place"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:36
+msgid "Time"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:53
+msgid "Map your ontology class uri to functionalities"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/editor.phtml:54
+msgid "Separe your value with a comma"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/listclass.phtml:9
+msgid "Class URI"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/semantic/listclass.phtml:43
+msgid "Are you sure to delete the mapping for this classes ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/create.phtml:6
+msgid "Create a service account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/create.phtml:9
+msgid "Update a service account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/create.phtml:19
+msgid "Services type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/list.phtml:2
+msgid "List of services accounts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/list.phtml:67
+msgid "This service account will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/menu.phtml:43
+msgid "update all services accounts"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/services/menu.phtml:52
+msgid "You can specify a different list and order for each service account. Go to the  services list and click menu for the service you want to edit."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:1
+msgid "Rumble stats"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:9
+msgid "from date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:10
+msgid "From date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:13
+msgid "to date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:14
+msgid "To date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:17
+msgid "volume"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:18
+msgid "Enter amount of stats to rumble"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/tools/rumblestats.phtml:25
+msgid "rumble"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:2
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:3
+msgid "List of translations"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:23
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:31
+msgid "Lang"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:14
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:24
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:32
+msgid "Value"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:33
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:78
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:43
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:78
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:69
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:108
+msgid "Translation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:56
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:57
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:57
+msgid "Are you sure to delete this translation ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/glist.phtml:71
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/list.phtml:71
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/translations/listtranslationmenu.phtml:97
+msgid "Add translation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/create.phtml:6
+msgid "Create a user account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/create.phtml:18
+msgid "Mobile"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/create.phtml:25
+msgid "Adress1"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/create.phtml:26
+msgid "Adress2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:14
+msgid "edit access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:16
+msgid "Change password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:24
+msgid "Requested access by the user"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:28
+msgid "Viewing access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:31
+msgid "approve"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edit.phtml:32
+msgid "refuse"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:1
+msgid "Edit users access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:7
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editpassword.phtml:9
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edituser.phtml:4
+msgid "Back to user"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:29
+msgid "Vivo Access"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:38
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:57
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:89
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:126
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/listressources.phtml:33
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/listressources.phtml:55
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/listressources.phtml:81
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/listressources.phtml:110
+msgid "Admin"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:74
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:106
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:110
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:141
+msgid "Select all"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:75
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:107
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:111
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:142
+msgid "Deselect all"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:90
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/listressources.phtml:82
+msgid "View"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:158
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:165
+msgid "Yes"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:161
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:168
+msgid "No"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/editaccess.phtml:176
+msgid "Vivo Web Interface"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/edituser.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/userpresentation.phtml:2
+msgid "Edit user"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/list.phtml:1
+msgid "List of users"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/list.phtml:23
+msgid "state"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/list.phtml:34
+msgid "unactive"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/list.phtml:34
+msgid "active"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/list.phtml:58
+msgid "This user will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/menu.phtml:8
+msgid "Menu elements in stock"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/menu.phtml:21
+msgid "Allocated menu elements "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/menu.phtml:35
+msgid "delete user personalization"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/menu.phtml:47
+msgid "You can specify a different list and order for each production account. Go to the production list and click menu for the production account you want to edit."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/searchengine.phtml:8
+msgid "Show pending request"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/searchengine.phtml:10
+msgid "More options"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/userpresentation.phtml:7
+msgid "This user is active."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/sadmin/views/scripts/users/userpresentation.phtml:9
+msgid "This user is unactive."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:10
+msgid "Chaptering"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:15
+msgid "Edit service chaptering"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:17
+msgid "View service chaptering"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:26
+msgid "File"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:54
+msgid "Captures/Miniatures"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:65
+msgid "YES"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:67
+msgid "NOT"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:96
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/encoding.phtml:43
+msgid "Current status"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/chapitrage.phtml:115
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/encoding.phtml:57
+msgid "Status"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/encoding.phtml:13
+msgid "Edit service encoding"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/encoding.phtml:15
+msgid "View service encoding"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/encoding.phtml:24
+msgid "Comments (formats)"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:19
+msgid "edit program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:27
+msgid "Edit service description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:29
+msgid "View service description"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:39
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:126
+msgid "IDORDER"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:83
+msgid "Program title"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:127
+msgid "Creation Date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:137
+msgid "Desired Date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:157
+msgid "Account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:181
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:23
+msgid "Subtitling"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:198
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:31
+msgid "Watermarking"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/informations.phtml:256
+msgid "Delivery date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/processing.phtml:50
+msgid "Submit"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:26
+msgid "Edit service subtitling"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:28
+msgid "View service subtitling"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:36
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:65
+msgid "Font"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:59
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:88
+msgid "Font Size"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:81
+msgid "Justification"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:98
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:204
+msgid "Left"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:108
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:205
+msgid "Middle"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:117
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:206
+msgid "Right"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:138
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:110
+msgid "Color"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/subtitling.phtml:158
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/translation.phtml:20
+msgid "Language"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/translation.phtml:14
+msgid "Edit Translation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:34
+msgid "Edit Watermarking"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:36
+msgid "View Watermarking"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:45
+msgid "Text"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:134
+msgid "Image"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:161
+msgid "Orientation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:167
+msgid "Angle in degrees"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:176
+msgid "°"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:188
+msgid "Position"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:197
+msgid "Top-left"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:198
+msgid "Top"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:199
+msgid "Top-right"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:211
+msgid "Bottom-left"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:212
+msgid "Bottom"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:213
+msgid "Bottom-right"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:234
+msgid "Mosaic"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/command/watermarking.phtml:255
+msgid "Opacity"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:10
+msgid "Orders List"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:26
+msgid "Received or In Progress"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:119
+msgid "Message"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:134
+msgid "creation date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:142
+msgid "expected date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:147
+msgid "origin"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:154
+msgid "account"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:162
+msgid "status"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:170
+msgid "delivery date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:195
+msgid "delay warning : expected date expired"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:201
+msgid "order enclosed"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:207
+msgid "abort request"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:256
+msgid "details"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:293
+msgid "expected date expired"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:294
+msgid "cancellation request pending"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:296
+msgid "Delete service ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list.phtml:301
+msgid "This service will be deleted. Are you sure ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/orders/list_orders_scripts.phtml:60
+msgid "Accept"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list.phtml:14
+msgid "List of services"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list.phtml:33
+msgid "Program name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list.phtml:52
+msgid "Create a service"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list_pagination.phtml:153
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list_pagination.phtml:161
+msgid "enclosed"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/ser/views/scripts/prod/list_scripts.phtml:39
+msgid "Enclose"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:13
+msgid "Thumbnails"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:16
+msgid "Set usage"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:18
+msgid "Null"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:19
+msgid "Program picture"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:20
+msgid "Videolist picture"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:21
+msgid "Series picture"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:30
+msgid "Dimensions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/editpicture.phtml:39
+msgid "Create thumbnail"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:21
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:28
+msgid "Upload"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:22
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:40
+msgid "Download"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:23
+msgid "Info"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:29
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:41
+msgid "Clear queue"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:47
+msgid "File name"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:49
+msgid "File permission"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:111
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:293
+msgid "Add to the download list"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:154
+msgid "Choose files"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:195
+msgid "Are you sure to delete : "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:282
+msgid "Create Folder"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:316
+msgid "Open"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:391
+msgid "New"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/filemanager/explorer.phtml:392
+msgid "Loading"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/docs.phtml:11
+msgid "File used as an entry point in your template.Iin this file you can sharejavascript or php code needed by other scripts."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/docs.phtml:19
+msgid ""
+"Optional file allows for multilingualism in your template. \n"
+"Locale is deducted by the codeview in the url, defined in your publication back office. Format file is TMX. In order to refer to an entry of your translation file, you can use the following code : $this->translate('code') "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/docs.phtml:42
+msgid ""
+"You can integrate into your template enumeration corresponding to an ENUM field. \n"
+"\t\tIn order to do this, you have to create a Model_Field object and call getHtml method."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:2
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:1
+msgid "Template editing"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:3
+msgid "Folder theme"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:5
+msgid "return"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:8
+msgid "Files in template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:18
+msgid "editor"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:27
+msgid "Save modification"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:103
+msgid "Saved"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:119
+msgid "Get quick help"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:120
+msgid "Click on a template file to load it in the editor."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:121
+msgid "Check radio button \"With editor\" to edit your template with a wysiwyg editor."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/edit.phtml:122
+msgid "Caution : use of a wysiwyg editor add unwanted code and can cause malfuntions !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:28
+msgid "Upload new template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:36
+#, php-format
+msgid "For more informations about the structure of a template, you have to see the <a href='%s' >FAQ</a>."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:41
+msgid "Duplicate from a default template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:72
+msgid "Availables template"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:77
+msgid "Author"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:78
+msgid "Directory"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:100
+msgid "download"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/templates/list.phtml:115
+msgid "Confirm deletion of this theme ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/edititem.phtml:7
+msgid "Select first your item type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/index.phtml:8
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/index.phtml:19
+msgid "Objects knowledge base modification"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/index.phtml:27
+msgid "By choosing an item type, you search elements of this type. Text fields are combined to fulltext search and do not appear in the additional information."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/index.phtml:54
+msgid "Are you sure to delete this object ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/index.phtml:138
+msgid "You can drag and drop objects onto the form to pre-fill by clicking on the title of the object. When you search, you can return to the tree by clicking cancel."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/search.phtml:4
+msgid "Search"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/virtualmanager/search.phtml:5
+msgid "Element type"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:22
+msgid "Dialog Security"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:25
+msgid "Dear User, You are using Internet Explorer who does not support anymore authentification via Url."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:29
+#, php-format
+msgid "Please see this Microsoft KB for information %s."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:33
+msgid "As a result, you have to type yourself the identification in the next dialog prompt with the following information :"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:50
+msgid "Otherwise, you can use another navigator like firefox or chrome."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/tools/views/scripts/vivoweb/index.phtml:54
+msgid "Click on the confirm button when you are ready."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/watch/views/scripts/Copy
+#: of
+#: user/login.phtml:10
+msgid "Forgot password"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/watch/views/scripts/playlist/index.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/watch/views/scripts/program/index.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/watch/views/scripts/silverlight/index.phtml:1
+#: C:\projets\GCV-V2-Phase2\www/app/Modules/watch/views/scripts/videolist/index.phtml:1
+msgid "Template has to be set !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:8
+msgid " of "
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:13
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:16
+msgid "First"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:22
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:25
+msgid "Previous"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:40
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/items_pagination.phtml:43
+msgid "Last"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:25
+msgid "send link"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:32
+msgid "publish"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:58
+msgid "add new video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:91
+msgid "Program form"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:105
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:107
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:129
+msgid "Versions"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:107
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:118
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:119
+msgid "Please, you have to save your program before."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:113
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:161
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:179
+msgid "Order services"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:159
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:177
+msgid "Export program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:171
+msgid "Live"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:173
+msgid "Duplicate program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:175
+msgid "Internet replication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:181
+msgid "Delete program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:240
+msgid "Becarefull, this program is under direct"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:315
+msgid "Problem with this production account, no publication associated !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:332
+msgid "Done !"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:392
+msgid "Successfull replication  for data. Video files will be deployed over the next cron job."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:419
+msgid "Duplicate this program"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:465
+msgid "Program duplication"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:467
+msgid "Your are going to duplicate this program."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/programlayout.phtml:479
+msgid "Live console"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/stats_calendar_header.phtml:16
+msgid "Starting date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/stats_calendar_header.phtml:18
+msgid "End date"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/stats_calendar_header.phtml:28
+msgid "Refresh chart"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/super.phtml:10
+msgid "index2"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/mail/usercreation.phtml:5
+#, php-format
+msgid "A user has just been created and request an access to : %s. Please check your administration panel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/mail/usercreation.phtml:9
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/mail/userresetpass.phtml:10
+msgid "Greetings"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/mail/userresetpass.phtml:4
+msgid "This email is sent to you because you  forgot your password."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/app/ShareViews/mail/userresetpass.phtml:5
+msgid "The following url is valid only for the next 24 hours."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/lecteur_video/layout.phtml:27
+msgid "Player video"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:73
+msgid "Administration panel"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:78
+msgid "Welcome"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:81
+msgid "Log out"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:100
+msgid "Advanced Search"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:190
+msgid "2010 GCV V2."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:200
+msgid "Need Help ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:203
+msgid "API"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:204
+msgid "SOAP"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:205
+msgid "FAQ"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/layout.phtml:237
+msgid "Show / Hide sidebar"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/themes/liquid/login.phtml:6
+msgid "Connection"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/gcv.js:85
+msgid "You are using more than one instance of the application, we have to reload the current page."
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/gcv.js:86
+msgid "Do you want skeep this notification and reload automatically ?"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:7
+msgid "This field is required"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:8
+msgid "Please select an option"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:9
+msgid "This checkbox is required"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:12
+msgid "Between"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:13
+msgid "and"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:14
+msgid "characters allowed"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:17
+msgid "Checks allowed Exceeded"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:20
+msgid "Please select"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:21
+msgid "options"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:24
+msgid "Your field is not matching"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:27
+msgid "Invalid phone number"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:30
+msgid "Invalid email address"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:33
+msgid "Invalid date, must be in YYYY-MM-DD format"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:36
+msgid "Numbers only"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:39
+msgid "No special caracters allowed"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:43
+msgid "This user is available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:44
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:50
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:57
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:63
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:69
+msgid "Loading, please wait"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:45
+msgid "This user is not available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:49
+msgid "This code is available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:51
+msgid "This code is already taken"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:55
+msgid "This email is not available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:56
+msgid "This email is available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:61
+msgid "This group name is not available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:62
+msgid "This group name is available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:67
+msgid "This group code is already taken"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:68
+msgid "This group code is available"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/js/jquery.validationEngine.langue.js:73
+msgid "Letters only"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:3
+msgid "Please, tip a label"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:4
+msgid "Do you confirm the suppression"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:5
+msgid "Item creation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:6
+msgid "Category creation"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:8
+msgid "Rename item or category"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:9
+msgid "Create category"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:10
+msgid "Create object"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:11
+msgid "Edit object"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:18
+msgid "Filter"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:19
+msgid "Reset"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:22
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:32
+msgid "Nothing to display"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:25
+msgid "Ontology tools"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:29
+msgid "Linked objects"
+msgstr ""
+
+#: C:\projets\GCV-V2-Phase2\www/www/embeded/packs/ontoapp/localisation.js:33
+msgid "Sort on these fields"
+msgstr ""
+

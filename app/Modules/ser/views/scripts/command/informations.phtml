@@ -1,0 +1,270 @@
+<!-- Informations -->
+
+<div class="blocInfos" id="informations_blocInfos">
+			
+	<h2><?php echo $this->_("Informations") ?></h2>	
+	
+	
+	<?php if($this->_session->environment["module"] == "ser"):?>
+		        <?php //echo ($this->order[0]["account"])	?>
+				<!-- Bouttons pour l'accès à la fiche programme (production ou publication) -->
+				<?php if($this->module_source == "prod" || $this->order[0]["account"] == "prod"):	?>
+				<p class="large">
+				<?php echo $this->sexybutton ("href", $this->_ ( "edit program" ), array("grey_btn"), BASE_URL."prod/program/manage/key/".$this->getParam("key") ,array("id"=>"")) ?>				
+				</p>
+				<?php endif; ?>
+				
+				<?php if($this->module_source == "pub" || $this->order[0]["account"] == "pub"):	?>
+				<p class="large">
+				<?php echo $this->sexybutton ("href", $this->_ ( "edit program" ), array("grey_btn"), BASE_URL ."pub/stock/manage/key/". $this->getParam("key") ."/publicationKey/".$this->publication["key"],array("id"=>"")) ?>					
+				</p>
+				<?php endif; ?>
+<?php endif;?>				
+				
+				
+	<span class="rubInfos">
+		<?php if($this->index) : ?>
+			<?php echo $this->_("Edit service description")?>
+		<?php else: ?>
+			<?php echo $this->_("View service description"); ?>
+		<?php endif; ?>		
+	</span>	
+				
+	<div class="moreinfos">				
+
+					<fieldset>
+
+						<p style="display:none">
+							<label>
+								<?php echo $this->_ ( "IDORDER" );
+								//echo $this->index;
+								?>
+							</label>
+							<?php if($this->index == 1) : ?>
+								<span>
+									<input
+									class="inputText" 
+									name="idorder" 
+									id="idorder" 
+									readonly="readonly" 
+									value="<?php echo $this->idorder ?>" 
+									type="text" /> 
+								</span>
+							<?php else: ?>
+								<span class="TEXT_value">
+									<?php echo $this->getParam("idorder") ?>
+								</span>
+							<?php endif; ?>							
+						</p>
+						
+						<p style="display:none">
+							<label>
+								<?php echo $this->_ ( "Key" )?>
+							</label>
+							<?php if($this->index == 1) : ?>
+								<span>
+									<input
+									class="inputText" 
+									name="keyprogram" 
+									id="keyprogram" 
+									readonly="readonly" 
+									value="<?php echo $this->getParam("key") ?>" 
+									type="text" /> 
+								</span>
+							<?php else: ?>
+								<span class="TEXT_value">
+									<?php echo $this->getParam("key") ?>
+								</span>
+							<?php endif; ?>							
+						</p>
+								
+						<p style="display:none">
+							<label>
+								<?php echo $this->_ ( "Program title" )?>
+							</label>
+							<?php if($this->index == 1) : ?>
+								<span>
+									<input
+									class="inputText" 
+									name="program_title" 
+									id="program_title" 
+									readonly="readonly" 
+									value="<?php echo urldecode(urldecode($this->getParam("programTitle"))) ?>" 
+									type="text" /> 
+								</span>
+							<?php else: ?>
+								<span class="TEXT_value">
+									<?php echo urldecode(urldecode($this->getParam("programTitle"))) ?>
+								</span>
+							<?php endif; ?>
+						</p>
+						
+						<p style="display:none">
+							<label>
+								<?php echo $this->_ ( "Production account" )?>
+							</label>
+							<?php if($this->index == 1) : ?>
+								<span>
+									<input
+									class="inputText" 
+									name="accountproduction" 
+									id="accountproduction" 
+									readonly="readonly" 
+									value="<?php echo $this->_session->environment["ressource"] ?>" 
+									type="text" /> 
+								</span>
+							<?php else: ?>
+								<span class="TEXT_value">
+									<?php echo $this->_session->environment["ressource"] ?>
+								</span>
+							<?php endif; ?>
+						</p>
+						 
+						
+						<?php if(!$this->index) : ?>
+							<p>
+								<label>
+									<?php echo $this->_ ( "Creation Date" )?>
+								</label> 
+								<span class="TEXT_value">
+									<?php echo $this->order[0]["date_of_creation"]; ?>
+								</span>								
+							</p>					
+						<?php endif; ?>
+						
+						<p>
+							<label>
+								<?php echo $this->_ ( "Desired Date" )?>
+							</label>
+							<?php if($this->index == 1) : ?>
+							
+							<span>
+								<?php 
+								echo $this->formText("desireddate", "" ,array("class"=>"validate[required]")) 
+								?>
+							</span>
+							<?php else: ?>
+								<span class="TEXT_value">
+									<?php echo $this->order[0]["desireddate"]; ?>
+								</span>
+							<?php endif; ?>
+						</p>
+												
+				<!-- Options of Services -->
+				<?php if($this->index == 1) : ?>
+					<p>
+						<label>
+							<?php echo $this->_ ( "Account" )?>
+						</label>							
+						<span style="display: block; float: left;">	
+									<ul
+									 id="servicesSelection">
+									
+								
+										<?php if(hasService($this->id_type, 1)) : ?>										
+										<li>
+											<?php echo $this->formCheckbox("chapitrage_cb","chapitrage", array("checked"=>$this->chapitrage_checked)) ;?>										
+											<?php echo "&nbsp;" . $this->_ ( "Chaptering" )?>
+										</li>
+										<?php endif;?>
+										
+										<?php if(hasService($this->id_type, 2)) : ?>
+										<li>
+											<?php echo $this->formCheckbox("encoding_cb","encoding", array("checked"=>$this->encoding_checked)) ;?>							
+											<?php echo "&nbsp;" . $this->_ ( "Encoding" )?>
+										</li>
+										<?php endif;?>
+										
+										<?php if(hasService($this->id_type, 3)) : ?>
+										<li>
+											<?php echo $this->formCheckbox("subtitling_cb","subtitling", array("checked"=>$this->subtitling_checked)) ;?>							
+											<?php echo "&nbsp;" . $this->_ ( "Subtitling" )?>
+										</li>
+										<?php endif;?>
+										
+										<?php if(hasService($this->id_type, 4)) : ?>
+										<li>
+											<?php echo $this->formCheckbox("translation_cb","translation", array("checked"=>$this->translation_checked)) ;?>							
+											<?php echo "&nbsp;" . $this->_ ( "Translation" )?>
+										</li>
+										<?php endif;?>
+										
+										<?php if(hasService($this->id_type, 5)) : ?>
+										<li>
+											<?php 
+												//Zend_Debug::dump($this->watermarking_checked);exit;
+											?>
+											<?php echo $this->formCheckbox("watermarking_cb","watermarking", array("checked"=>$this->watermarking_checked)) ;?>							
+											<?php echo "&nbsp;" . $this->_ ( "Watermarking" )?>
+										</li>
+										<?php endif;?>																												
+									</ul>
+							</span>
+					</p>
+				<?php endif; ?>
+
+				<?php if($this->index != 1) : ?>
+				
+					<p>
+						<label>
+							<?php echo $this->_ ( "Current status" )?>
+						</label> 
+						<span class="TEXT_value">
+							<?php echo $this->_ ( $this->order[0]["status"]) ?>
+						</span>				
+					</p>
+				<?php endif; ?>
+				
+				<?php
+					$service_states = array();
+					//Zend_Debug::dump($this->order[0]); exit;
+					switch ($this->order[0]["status"])
+					{
+						case "Received":
+							$service_states = array("Received", "In progress", "Canceled");
+							break;
+						case "In progress":
+							$service_states = array("In progress", "Completed",  "Canceled");
+							break;
+						case "Completed":
+						case "Canceled":
+							break; 
+					}								
+				?>
+				
+				<?php if($this->index == 2 && count($service_states)) : ?>
+					<p>
+						<label>
+							<?php echo $this->_ ( "Status" )?>
+						</label>
+						<span class="TEXT_value">
+							<select id="information_list_state" name="information_list_state">
+								<?php				 
+									foreach ($service_states as $state)
+									{
+										echo "<option>" . $this->_ ($state) . "</option>\n";
+									}	
+								?>
+							</select>
+						</span>				
+					</p>
+				<?php endif; ?>
+				
+				<?php if($this->order[0]["delivery_date"]):	?>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Delivery date" )?>
+					</label> 
+					<span class="TEXT_value">
+						<?php echo $this->order[0]["delivery_date"] ?>
+					</span>		
+				</p>
+				<?php endif; ?>	
+				
+			
+	
+				
+			</fieldset>
+
+	</div>
+</div>

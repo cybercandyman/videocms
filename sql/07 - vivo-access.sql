@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN vivo_access smallint NOT NULL DEFAULT 0;

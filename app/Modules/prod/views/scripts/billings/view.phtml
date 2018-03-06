@@ -1,0 +1,192 @@
+<?php $this->placeholder("title")->set($this->_( "Billing edition") )?>
+<h2><?php echo $this->billing["date"] ?> <a class="button check_all"
+	href="<?php echo $this->url(array('format'=>'print'))?>"><span><span><?php echo $this->_("print")?></span></span></a>
+</h2>
+
+<h3><?php echo $this->_("Your reference")?></h3>
+
+<span>
+
+
+<p>
+<ul>
+<?php $currency = "Eur";?>
+	<li><?php echo $this->_("Client")?> : <?php echo $this->organization[0]["name"]?></li>
+	<li><?php echo $this->_("Production")?> : <?php echo $this->production[0]["name"]?></li>
+	<li><?php echo $this->_("Currency")?> : <?php echo $currency ?></li>
+</ul>
+</p>
+
+<fieldset class="panel"><legend><?php echo $this->_("CDN (Content Delivery Network) consumption")?></legend>
+
+<div>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><?php echo $this->_ ( "Type" );?></th>
+			<th><?php echo $this->_ ( "Amount (Giga Bytes)" );?></th>
+			<th><?php echo $this->_ ( "Unitary price (Giga Bytes)" );?></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+	<?php $total = 0;?>
+
+		<tr class="odd">
+			<td><?php echo $this->_("Storage")?></td>
+			<td><?php 
+			$bs = new Zend_Measure_Binary( $this->billing["bytes_stored"],Zend_Measure_Binary::BYTE);
+			$bs->convertTo(Zend_Measure_Binary::GIGABYTE) ;
+			echo $bs->toString(4) ?></td>
+			<td><?php echo $this->billing["gb_stored"] ?></td>
+			<td><?php $tmp =  round($this->billing["bytes_stored_cost"],2);
+			echo $tmp ;$total += $tmp?></td>
+		</tr>
+		<tr class="even">
+
+			<td><?php echo $this->_("Streaming")?></td>
+			<td><?php 
+			$bst = new Zend_Measure_Binary( $this->billing["bytes_streamed_logs"],Zend_Measure_Binary::BYTE);
+			$bst->convertTo(Zend_Measure_Binary::GIGABYTE) ;
+			echo $bst->toString(4)
+			?> <br />
+			<?php //echo $this->billing["bytes_streamed_logs"] ?></td>
+			<td><?php echo $this->billing["gb_streamed"] ?></td>
+			<td><?php $tmp = round($this->billing["bytes_streamed_cost"],2);echo $tmp ;$total += $tmp ?></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+<fieldset class="panel"><legend><?php echo $this->_("Additional")?> </legend>
+<div><?php if( $this->billing["billing_status"] == 0):?> 
+
+	<?php echo $this->sexybutton ("href", $this->_("Add a billing line"), array("add_new"), "javascript:void(0)",array("id"=>"btnBillingLine")) ?>
+	
+	<?php endif;?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><?php echo $this->_("wording")?></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->billlines["+"] as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $item["libelle"]?></td>
+			<td><?php echo number_format($item["amount"],2);
+			$total += $item["amount"]?></td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+</div>
+</fieldset>
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Discount")?></legend>
+<div><?php if( $this->billing["billing_status"] == 0):?>
+<?php echo $this->sexybutton ("href", $this->_("Add a discount line"), array("add_new"), "javascript:void(0)",array("id"=>"btnDiscountLine")) ?>
+		<?php endif;?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><?php echo $this->_ ( "libelle" );?></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->billlines["-"] as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+			<td><?php echo $item["libelle"]?></td>
+			<td><?php 
+			echo number_format($item["amount"],2);
+			$total -= $item["amount"]?></td>
+
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
+
+
+</div>
+</fieldset>
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Total resume")?></legend>
+<div>
+
+
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th width="70%"><?php echo $this->_ ( "Type" );?></th>
+			<th><?php echo $currency ?></th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr class="odd">
+			<td><?php echo $this->_("Total billing")?></td>
+			<td><?php echo number_format($total,2) ?></td>
+		</tr>
+
+		<?php if($this->billing["rate_discount"] > 0):?>
+		<tr class="even">
+			<td><?php echo $this->_("Discount rate %")?></td>
+			<td><?php echo number_format($this->billing["rate_discount"],2) ; $total -= $total * ($this->billing["rate_discount"] / 100)?></td>
+		</tr>
+		<?php endif; ?>
+		<tr class="odd">
+			<td><?php echo $this->_("Vat %")?></td>
+			<td><?php echo number_format($this->billing["vatrate"],2)?></td>
+		</tr>
+
+
+
+		<tr class="resume">
+			<td><?php echo $this->_("Total billing + vat")?></td>
+			<td><span id="totBilling"> <?php  echo number_format(ZN_Math::ceiling($total+ ($total*($this->billing["vatrate"]/100)),2),2) ?></span></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+
+
+<script type="text/javascript">
+
+function addDiscountRate(){
+	if( rate = prompt("<?php echo $this->_("Indicate the disount rate to apply to this billing") ?>") ){
+		document.location.href = "<?php echo $this->url(array("action"=>"setrate"))?>" + "/rate/"+rate;
+	}
+}
+
+	jQuery(document).ready(function(){
+
+			$("#formDiscountLine, #formBillingLine").css("display","none");
+			$("#btnDiscountLine").toggle(function(){
+				$("#formDiscountLine").css("display","block");
+			},function(){
+				$("#formDiscountLine").css("display","none");
+			});
+			$("#btnBillingLine").toggle(function(){
+				$("#formBillingLine").css("display","block");
+			},function(){
+				$("#formBillingLine").css("display","none");
+			});
+	});
+
+</script>

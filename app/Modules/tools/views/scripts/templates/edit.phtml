@@ -1,0 +1,125 @@
+
+<?php $this->placeholder("title")->set($this->_("Template editing"))?>
+<h2><?php echo $this->_("Folder theme")?> : <?php echo $this->theme ?></h2>
+<p><a class="button check_all"
+	href="<?php echo BASE_URL ?>tools/templates/list"><span><span><?php echo $this->_("return")?></span></span></a><!--  -->
+</p>
+<br />
+<fieldset class="panel float"><legend><?php echo $this->_("Files in template") ?></legend>
+<div>
+<ul id="themesfiles">
+<?php foreach($this->files as $file): ?>
+	<li><a href="javascript:void(0)"><?php echo $file->name ?></a></li>
+	<?php endforeach;?>
+</ul>
+</div>
+</fieldset>
+
+<fieldset class="panel float" ><legend><?php echo $this->_("editor")?></legend>
+<div>
+<p><label for="editorChoice1"><?php echo $this->_("Without editor")?></label><input
+	checked="checked" type="radio" name="editorChoice" id="editorChoice1"
+	value="without" />&nbsp; <input type="radio" name="editorChoice"
+	id="editorChoice2" value="with" /><label for="editorChoice2"><?php echo $this->_("With editor")?></label>
+</p>
+<span> <textarea rows="40" cols="150" id="textEditor"></textarea> </span>
+<p>
+<?php echo $this->sexybutton ("submit", $this->_("Save modification"), array("send_form_btn"), null,array("id"=>"saveModification")) ?> 
+</p>
+</div>
+</fieldset>
+
+<br style="clear: both" />
+
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/ckeditor/ckeditor.js",false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/ckeditor/adapters/jquery.js",false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.blockUI.js") ?>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+jQuery(document).ready(function(){
+	$("#docsTemplates").dialog({				
+		resizable: true,
+		height:600,
+		modal: false,
+		autoOpen:false,
+		width:850,
+		buttons: {
+			
+			<?php echo $this->_("Close")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+	
+});
+
+//]]>
+</script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		
+		$("#editorChoice2").click(function(){
+			$( '#textEditor' ).ckeditor({
+				 toolbar :
+				        [				            
+				            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link'],
+				            ['Styles','Format','Font','FontSize'],
+				            ['TextColor','BGColor']				        				            
+				        ]
+					});
+		});
+		//customConfig : '/custom/ckeditor_config.js'
+			
+		$("#editorChoice1").click(function(){
+			var ckEditor = $( '#textEditor' ).ckeditorGet(); 
+			ckEditor.destroy();			
+		});
+		
+		var currentFile = "";
+		$("#themesfiles li a").click(function(){
+			currentFile = $(this).html();
+			$.blockUI({message:"<h1><?php echo $this->_("Please wait") ?></h1>"});	
+			var timestamp = new Date().getTime();
+			
+			$.get("<?php echo $this->relativePath ?>" + "/" + $(this).html() + "?t=" + timestamp  ,null,
+					 function(data){				
+				   		$("#textEditor").val(data);
+				   		$.unblockUI();
+				 },"text"
+			 );
+		});
+
+		$("#saveModification").click(function(){
+			$.ajax({
+				url:"<?php echo BASE_URL ?>tools/templates/savemodifications",
+				type:"post",
+				data:{theme:"<?php echo $this->theme ?>",file:currentFile,content:$("#textEditor").val()},
+				success:function(){
+					$("<div><?php echo $this->_("Saved") ?></div>").dialog(
+							{
+								"title":"<?php echo $this->_("Confirmation") ?>",
+								buttons:{
+									"close":function(){$(this).dialog("close");}
+								}
+							});
+				}
+			});
+		});
+		
+	});
+</script>
+
+<?php echo $this->naction("templates","docs","index")?>
+
+<?php echo $this->systemMessage('<a href="javascript:void(0)" onclick="jQuery(\'#docsTemplates\').dialog(\'open\');" >'. $this->_("Get quick help").'</a>',1)?>
+<?php echo $this->systemMessage($this->_("Click on a template file to load it in the editor."),1)?>
+<?php echo $this->systemMessage($this->_("Check radio button \"With editor\" to edit your template with a wysiwyg editor."),1)?>
+<?php echo $this->systemMessage($this->_("Caution : use of a wysiwyg editor add unwanted code and can cause malfuntions !"),2)?>
+	
+	
+

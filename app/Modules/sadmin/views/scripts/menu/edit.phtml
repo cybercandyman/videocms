@@ -1,0 +1,44 @@
+<?php $this->placeholder("title")->set($this->_( "Edit menu"))?>
+<form method="post" action="<?php echo BASE_URL ?>sadmin/menu/update">
+
+<fieldset>
+
+
+<p><label><?php echo $this->_("Title") ?></label> <span><?php echo $this->formText("title", "" ,null) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Url") ?></label> <span><?php echo $this->formText("url", "" ,null) ?></span>
+</p>
+<p><label>&nbsp;</label><span> OR </span></p>
+<p><label><?php echo $this->_("Component") ?></label> <span><?php echo $this->formSelect('idcomponent', 2, null, $this->listComponents); ?></span>
+</p>
+<p><label>&nbsp; <?php echo $this->formHidden("idmenu", null ,null) ?></label>
+<span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span>
+</button>
+</span></p>
+
+
+
+</fieldset>
+</form>
+
+<a class="button check_all"
+	href="<?php echo BASE_URL ?>sadmin/translations/listtranslationmenu/id/<?php echo $this->idmenu ?>"><span><span><?php echo $this->_("translations") ?></span></span></a>
+
+
+
+<?php echo $this->systemMessage($this->_ ( "Be carefull, The url parameter takes advantage over any other." ) ,1)?>
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ;?>];
+jQuery(document).ready(function(){       
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+    <?php foreach ( $this->rawData as $key => $value ) {	?>
+		$("#<?php echo $key?>").val('<?php echo $this->escape( $value ); ?>');
+    <?php }	?>
+});
+//]]>
+</script>

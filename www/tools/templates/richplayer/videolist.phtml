@@ -1,0 +1,43 @@
+
+<link
+	rel="stylesheet" type="text/css"
+	href="<?php echo THEME_PATH ?>/videolist.css" />
+<?php require_once(dirname(__FILE__)."/functions.php") ;?>
+
+<?php require_once('search.phtml') ?>
+
+<?php
+$programs = $this->list->getPrograms();
+foreach($programs as $program):
+?>
+
+<div class="ligne">
+<div class="photo"><a href="#"
+	onclick="goSheet('<?php echo $program->getHtmlUrlForVideolist() ?>');"><img
+	src="<?php echo $program->getPicture("videolist") ?>" alt="Photo"
+	width="76" height="61" style="border: none;" /></a></div>
+<div class="puce"><img src="<?php echo THEME_PATH ?>/images/puce.gif"
+	alt="- " /></div>
+<div class="texte"><strong><span class="title"><a href="#"
+	onclick="goSheet('<?php echo $program->getHtmlUrlForVideolist() ?>');"><?php echo $program->title ?></a></span></strong><br />
+<?php echo Tronquer_Texte( htmlspecialchars_decode( $program->synopsis),150) ?>
+<div class="duree"></div>
+</div>
+<div class="infos">
+
+<p><strong>Genre :</strong>&nbsp;<?php echo $program->genre ?></p>
+<p><strong>Date :</strong>&nbsp;<?php echo $program->date ?></p>
+<p><strong>Durée :</strong>&nbsp;<?php echo substr($program->duration,0,8) ?></p>
+
+</div>
+<div style="clear: both;"></div>
+</div>
+<?php endforeach?>
+<?php echo $this->paginationControl($this->paginator,'Sliding', 'items_pagination.phtml'); ?>
+
+
+
+
+
+
+

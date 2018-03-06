@@ -1,0 +1,12 @@
+<?php
+for ($i = 0; $i < sizeof($this->pages); $i ++) {
+    $entry = $this->pages[$i];
+    
+    if(($i+1) == sizeof($this->pages)){
+        printf("<li>%s</li>",$entry->getLabel());    
+    }else{
+        printf("<li><a href=\"%s\">%s</a></li>", $entry->getHref(),$entry->getLabel());
+    }
+   
+}
+        

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<?php $this->headTitle(  $this->placeholder("title") ) ->setSeparator(" - ")->prepend($this->_config["productname"]);   ?>
+<script type="text/javascript">var BASE_URL = "<?php echo BASE_URL?>";</script>
+
+
+<?php echo $this->javascriptfile( array(
+	BASE_URL."embeded/js/jquery-1.4.2.min.js",
+	BASE_URL."embeded/js/jquery-ui-1.8.5.custom.min.js",
+	BASE_URL."embeded/js/jquery.formStyle.js",
+	BASE_URL."embeded/js/jquery.corner.js",	
+	BASE_URL."embeded/js/jquery.linkedselect.js",
+	BASE_URL."embeded/js/cookies.js"
+	)); ?>
+
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/gcv.js")),false) ?>
+<?php echo $this->javascriptfile(array(BASE_URL."embeded/js/jquery.meio.mask.js",BASE_URL."embeded/js/jquery.metadata.js",BASE_URL."embeded/js/jquery.linkedselect.js")) ?>
+<?php echo $this->headScript() ?>
+<?php 
+	echo $this->cssfile(array(BASE_URL."themes/liquid/css/general.css",
+		BASE_URL."themes/liquid/css/dashboard.css",
+		BASE_URL."themes/liquid/css/tables.css",
+		BASE_URL."themes/liquid/css/pagination.css",
+		BASE_URL."themes/liquid/css/forms.css",
+		BASE_URL."themes/liquid/css/gcv.css"));
+	echo $this->cssfile(array(
+		BASE_URL."themes/system/css/ui/start1.8/ui.css",		
+		BASE_URL."themes/system/css/tablesorter_blue.css",
+		BASE_URL."themes/system/css/tree/apple/style.css",
+		BASE_URL."embeded/packs/extjsthemes/gray-scope/css/ext-all-gray.css",
+		BASE_URL."themes/liquid/css/ext-all-scoped-override.css"
+		
+		));
+?>
+</head>
+<body>
+<noscript>
+	<p>You have to activate javascript.</p>
+</noscript>
+<?php echo $this->layout()->content?>
+<script>
+		jQuery(document).ready(function(){
+			$("#ui-datepicker-div").css("display","none");
+		});
+</script>
+<?php echo $this->placeholder("topendjs") ?>
+</body>
+</html>

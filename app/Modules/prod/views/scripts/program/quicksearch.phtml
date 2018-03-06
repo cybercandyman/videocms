@@ -1,0 +1,45 @@
+<?php $this->masterView('sidebar_module.phtml'); ?>
+<?php $this->block('content')->start(); ?>
+
+
+<div class="sidebar-module-quicksearch">
+<form action="<?php echo $this->url(array("action"=>"quickresults","module"=>"prod","controller"=>"program"),null,true) ?>" method="get" id="quickSearchForm">
+     	<p>
+     		<label ><?php echo $this->_("Keywords")?></label>
+     		<span><input type="text" style="width:95%" name="fullTextFilter" /></span>
+     	</p>
+    	<p>
+   			
+   			<?php echo $this->sexybutton ("submit", $this->_("submit"), array("send_form_btn"), null) ?>
+		</p>
+</form>
+</div>	
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.form.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function(){				
+		$("#quickSearchForm").submit(function(event){
+			$.facebox.settings.opacity = 0.6;
+			$.facebox("<table align=\"center\"><tr><td><img src=\"<?php echo BASE_URL ?>themes/system/pics/loading.gif\"></tr></td></table>");
+			$("#quickSearchForm").ajaxSubmit({
+				success:function(msg){					
+					$.facebox(msg);
+				}
+			});		
+			event.preventDefault();			
+		});			
+    	$("#facebox .paginationControl a,#facebox table.tablesorter thead a").live("click",function(event){									
+    		$.facebox({ajax:$(this).attr("href")});$("#facebox div#quickResults").css("width","850px");
+			event.preventDefault();
+		});	   	
+	});
+	
+</script>
+<?php $this->block()->end(); ?>
+
+<?php $this->block('title')->start(); ?>
+	<?php echo $this->_("Quick search") ?></h2>
+<?php $this->block()->end(); ?>

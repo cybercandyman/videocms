@@ -1,0 +1,138 @@
+<?php $this->placeholder("title")->set( $this->_("Insert edition") ); ?>    
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/ckeditor/ckeditor.js",false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/ckeditor/adapters/jquery.js",false) ?>
+
+<form method="post" action="<?php echo BASE_URL ?>prod/panes/save?format=<?php echo $this->getParam("format","")?>" id="formPane">
+<fieldset>
+
+<p><label><?php echo $this->_("Title") ?></label> <span><?php echo $this->formText("title", $this->pane["title"] ,array("class"=>"validate[required]")) ?></span>
+<p><label><?php echo $this->_("Code") ?></label> <span><?php echo $this->formText("code", $this->pane["code"] ,array("class"=>"validate[required]")) ?></span>
+<p><label><?php echo $this->_("content_type") ?></label> <span><?php echo $this->formSelect("content_type", $this->pane["content_type"] ,array(),array(""=>"","1"=>"html","2"=>$this->_("file"))) ?></span>
+
+<div>
+
+<label><?php echo $this->_("pane_content") ?></label> 
+<span id="pane_editor_type1" class="peditor">
+<table>
+<tr>
+<td><?php echo $this->_("Without editor")?>
+<input checked="checked" type="radio" name="editorChoice" id="editorChoice1"	value="without" />
+&nbsp; 
+<input type="radio" name="editorChoice"	id="editorChoice2" value="with" /><?php echo $this->_("With editor")?>
+</td>
+</tr>
+<tr>
+
+<td><?php echo $this->formTextarea("pane_content1",$this->pane["pane_content"] ,array()) ?>
+
+</td>
+</tr>
+</table>
+</span>
+
+
+<span id="pane_editor_type2" class="peditor">
+<table>
+
+<tr>
+<td><?php echo $this->formText("pane_content2",$this->pane["pane_content"] ,array()) ?>
+<a href="javascript:filemanager('#pane_content2');" title="<?php echo $this->_("File explorer")?>">
+<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+</a>
+</td>
+</tr>
+</table>
+</span>
+
+
+</div>
+
+
+<p><label>&nbsp;</label>
+<input type="hidden" name="idpane"  id="idpane" value="<?php echo $this->pane["idpane"] ?>"/>
+<input type="hidden" name="pane_content"  id="pane_content" value=""/>
+<?php if($this->getParam("format") != "ajax"):?>
+
+<span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span>
+<?php endif;?>
+</p>
+</fieldset>
+</form>
+
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+
+ <script type="text/javascript" src="<?php echo BASE_URL?>embeded/js/jquery.metadata.js"></script>
+<script type="text/javascript">
+var $currentField ;
+function filemanager(idref)
+{		
+	$currentField = jQuery(idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+function setEditor(){
+	$(".peditor").css("display","none");
+	if($("#content_type").val() == 1){
+		$("#pane_editor_type1").show();
+		$("#pane_content").val($("#pane_content1").val());
+	}
+	if($("#content_type").val() == 2){
+		$("#pane_editor_type2").show();
+		$("#pane_content").val($("#pane_content2").val());
+	}
+}
+
+jQuery(document).ready(function(){
+	$.metadata.setType("attr", "metadata");
+	$("#content_type").change(function(){
+		setEditor();
+	});
+	$("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        
+    	width:850,
+    	height:480,	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);			            						
+            		});      	                 		   				
+            		for(var i=0;i<filesSelected.length;i++){                     		  		
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	
+	
+	$("#editorChoice2").click(function(){
+		$( '#pane_content1' ).ckeditor({});
+	});
+	//customConfig : '/custom/ckeditor_config.js'
+		
+	$("#editorChoice1").click(function(){
+		var ckEditor = $( '#pane_content1' ).ckeditorGet(); 
+		ckEditor.destroy();			
+	});
+
+	jQuery("#formPane").submit(function(){	 
+		CKupdate();			
+	});
+	setEditor();
+});
+
+function CKupdate(){	
+    for ( instance in CKEDITOR.instances ){
+        CKEDITOR.instances[instance].updateElement();
+    }
+    setEditor();
+}
+</script>																		

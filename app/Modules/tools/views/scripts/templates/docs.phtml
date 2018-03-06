@@ -1,0 +1,111 @@
+
+<div id="docsTemplates" title="<?php echo $this->_("Help:Templates")?>">
+
+<h3><?php echo $this->_("General overview") ?></h3>
+
+<dl class="help">
+	<dt><?php echo $this->_("Files required by the application")?></dt>
+	<dd>		
+		<dl>
+			<dt>layout.phtml</dt>
+				<dd><?php echo $this->_("File used as an entry point in your template.Iin this file you can sharejavascript or php code needed by other scripts.")?></dd>
+			<dt>program.phtml</dt>
+			<dd><?php echo $this->_("File used to render a program. View Model_Program. Object data available in \$this->program.")?></dd>
+			<dt>playlist.phtml</dt>
+			<dd><?php echo $this->_("File used to render a playlist. View Model_Playlist. Object data available in \$this->playlist.")?></dd>
+			<dt>videolist.phtml</dt>
+			<dd><?php echo $this->_("File used to render a videolist. View Model_List. Object data available in \$this->list.")?></dd>
+			<dt>translations.tmx</dt>
+			<dd><?php echo $this->_("Optional file allows for multilingualism in your template. 
+Locale is deducted by the codeview in the url, defined in your publication back office. Format file is TMX. In order to refer to an entry of your translation file, you can use the following code : \$this->translate('code') ")?></dd>
+		</dl>
+						
+	</dd>
+	<dt><?php echo $this->_("API Model")?></dt>
+	<dd>
+	
+		<?php echo sprintf($this->_("Api doc can be found <a href=\"%s\" target=\"_blank\">here</a>.","none"),BASE_URL."docs/index.html")?>
+	</dd>
+	
+	<dt><?php echo $this->_("Constants")?></dt>
+	<dd>
+		<dl>
+			<dt>THEME_PATH</dt>
+			<dd><?php echo $this->_("This constant refers to the uri of your template.") ?></dd>
+			<dt>BASE_URL</dt>
+			<dd><?php echo $this->_("This constant refers to the uri at the root of the application.") ?></dd>
+		</dl>
+	</dd>
+	
+	<dt><?php echo $this->_("Generate enumeration")?></dt>
+	<dd>
+		<?php echo $this->_("You can integrate into your template enumeration corresponding to an ENUM field. 
+		In order to do this, you have to create a Model_Field object and call getHtml method.")?>
+	</dd>
+	
+	
+</dl>
+
+
+
+<h3><?php echo $this->_("Programs fields") ?></h3>
+<table class="tablesorter display table">
+<thead>
+	<th><?php echo $this->_("name")?></th>
+	<th><?php echo $this->_("code")?></th>
+	<th><?php echo $this->_("type")?></th>	
+</thead>
+<tbody>
+<?php foreach($this->programsfields as $field) :?>
+    <tr>
+    <td><?php echo $field["title"]?></td>
+    <td><?php echo $field["code"]?></td>
+    <td><?php echo $field["type"]?></td>
+    </tr>
+<?php endforeach;?>
+</tbody>
+</table>
+
+<h3><?php echo $this->_("Chapters fields") ?></h3>
+<table class="tablesorter display table">
+<thead>
+	<th><?php echo $this->_("name")?></th>
+	<th><?php echo $this->_("code")?></th>
+	<th><?php echo $this->_("type")?></th>	
+</thead>
+<tbody>
+<?php foreach($this->chaptersfields as $field) :?>
+    <tr>
+    <td><?php echo $field["title"]?></td>
+    <td><?php echo $field["code"]?></td>
+    <td><?php echo $field["type"]?></td>
+    </tr>
+<?php endforeach;?>
+</tbody>
+</table>
+
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+jQuery(document).ready(function(){
+	$("#docsTemplates").dialog({				
+		resizable: true,
+		height:600,
+		modal: false,
+		autoOpen:false,
+		width:850,
+		buttons: {
+			
+			<?php echo $this->_("Close")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});	
+	
+});
+
+//]]>
+</script>

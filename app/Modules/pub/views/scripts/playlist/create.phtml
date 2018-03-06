@@ -1,0 +1,27 @@
+
+<?php $this->placeholder("title")->set($this->_("Create playlist"))?>
+<form action="<?php echo BASE_URL ?>pub/playlist/save" method="post"
+	id="formPlaylistDescription">
+<fieldset>
+<p><label><?php echo $this->_("Title")?></label> <span><?php echo $this->formText("playlistTitle",$this->playlist["title"],null)?></span>
+</p>
+<p><label><?php echo $this->_("Description")?></label> <span><?php echo $this->formText("playlistDescription",$this->playlist["description"],null)?></span>
+</p>
+<p><label><?php echo $this->_("Group name")?></label> <span><?php echo $this->formText("playlistGroupName",$this->playlist["groupname"],null)?></span>
+</p>
+<p><label><?php echo $this->_("Picture")?></label> <span><?php echo $this->formText("playlistPicture",$this->playlist["picture"],null)?></span>
+</p>
+
+<?php echo $this->formHidden("idplaylist",$this->playlist["idplaylist"]) ?>
+<?php echo $this->formHidden("publicationkey",$this->publicationkey) ?>
+<p><label>&nbsp;</label> <span>
+
+<?php echo $this->sexybutton ("href",  $this->_("explorer"), array("grey_btn"), "javascript:filemanager('playlistPicture');",array("id"=>"")) ?>
+</span>
+</p>
+<p><label>&nbsp;</label> <span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+</fieldset>
+</form>
+
+<?php echo $this->partial('genericform.phtml', array("fields"=>array())); ?>

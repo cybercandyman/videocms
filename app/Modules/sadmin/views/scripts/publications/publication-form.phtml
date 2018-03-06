@@ -1,0 +1,124 @@
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.meio.mask.js") ?>
+<?php $this->placeholder("title")->set($this->_("Create a publication account"))?>
+<form method="post" id="publicationForm" action="<?php echo BASE_URL ?>sadmin/publications/save">
+
+<fieldset>
+
+
+<p><label><?php echo $this->_("Name") ?></label> <span><?php echo $this->formText("name", "" ,array("class"=>"validate[required]")) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Alias") ?></label> <span><?php echo $this->formText("alias", "" ,array("class"=>"validate[required,custom[noSpecialCaracters]]",null)) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Email contact") ?></label> <span><?php echo $this->formText("email", "" ,null) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Email 2") ?></label> <span><?php echo $this->formText("email2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Phone number") ?></label> <span><?php echo $this->formText("phonenumber2", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Mobile phone") ?></label> <span><?php echo $this->formText("mobilephone", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Organization") ?></label> <span><?php echo $this->formSelect('organization', 2, null, $this->contentTable("enum_organization")); ?></span></p>
+<p><label><?php echo $this->_("Organization details") ?></label> <span><?php echo $this->formSelect('organization_details', 2, null, $this->contentTable("enum_organization2")); ?></span></p>
+
+<p><label><?php echo $this->_("Notes") ?></label> <span><?php echo $this->formTextarea("notes", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Picture") ?></label> <span><?php echo $this->formText("picture", "" ,null) ?>
+	<a href="javascript:filemanager('picture');" title="<?php echo $this->_("File explorer")?>">
+							<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+						</a>
+						</span></p>
+
+
+<div style="display:none">
+<p><label><?php echo $this->_("Title") ?></label> <span><?php echo $this->formText("title", "" ,null) ?></span></p>
+<p><label><?php echo $this->_("Work") ?></label> <span><?php echo $this->formText("work", "" ,null) ?></span></p>
+</div>
+<p><label><?php echo $this->_("Organization") ?></label> <span><?php echo $this->formSelect("idorganization", "" ,array("class"=>"validate[required]"),$this->organizationsList) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Url") ?></label> <span><?php echo $this->formText("url", "" ,null) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Description") ?></label> <span><?php echo $this->formTextarea("description", "" ,array("cols"=>50, "rows" => 10)) ?></span>
+</p>
+
+<p><label><?php echo $this->_("Service") ?></label> <span><?php echo $this->formSelect("idservice", "" ,null,$this->servicesList) ?></span>
+
+<p><label>&nbsp; <?php echo $this->formHidden("idpublication", $this->idpublication ,null) ?></label>
+<span><?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+
+
+
+
+</fieldset>
+
+
+</form>
+
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+
+
+
+<script type="text/javascript">
+//<![CDATA[   
+
+var $currentField ;
+function filemanager(idref)
+{		
+	$currentField = jQuery("#"+idref);		
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");	
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+jQuery(document).ready(function(){   
+	$.metadata.setType("attr", "metadata");
+	$("#pictureZone").click(function(){
+    	$("#loadPicture").dialog('open');	
+	});
+	$("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	        
+    	width:960,
+    	height:615,	    	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);			            						
+            		});      	                 		   				
+            		for(var i=0;i<filesSelected.length;i++){                     		  		
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    				}
+    			}
+    });	
+		 
+});
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ?>];
+jQuery(document).ready(function(){    
+	   $("#publicationForm").validationEngine();  
+    jQuery.each(field_not_ok, function() {
+      $("#" + this).addClass("input_nok");
+    });  
+    $('input:text').setMask(); 
+    <?php   if(is_array($this->rawData)):
+    foreach ( $this->rawData as $key => $value ) {	?>
+		$("#<?php echo $key?>").val("<?php echo $this->escapejs( $value ); ?>");	 		
+    <?php }
+    endif;	?>
+});
+//]]>
+</script>

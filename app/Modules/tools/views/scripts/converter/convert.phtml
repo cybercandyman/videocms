@@ -1,0 +1,16 @@
+<form method="post" action="<?php echo $this->url(
+array("controller"=>"converter","module"=>"tools","action"=>"convert"),null,true) ?>"  enctype="multipart/form-data">
+
+<p>
+	<label>Selectionner script : </label>
+	<?php echo $this->formFile("files")?>
+</p>
+<p>
+	<label>Nom de la table de destination : </label>
+	<?php echo $this->formText("table")?>
+</p>
+	<p>
+	<?php echo $this->formSubmit("convertir","convertir")?>
+	</p>
+
+</form>

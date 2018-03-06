@@ -1,0 +1,337 @@
+
+<?php 
+	//Zend_Debug::dump(hasService($this->id_type, 5));exit;
+?>
+<?php if(hasService($this->id_type, 5)) : ?>
+<!-- Watermarking -->
+<script type="text/javascript">
+	//
+	chb.push("watermarking");
+	//
+	$(function() {
+		$("#slider").slider({	
+			value:50,
+			min: 0,
+			max: 100,
+			step: 1,
+			slide: function(event, ui) {$("#opacity2").val(ui.value);}
+		});
+	});		
+	function watermarkingPosition(e)
+	{
+		//watermarking_position = e;
+		$("input.nineSelector").css("border","none");
+		//document.getElementById(e).style.border = "2px solid #00E";
+		$("#" + e+"-button").css("border", "2px solid #00E");
+		$("#watermarking_position_state").attr("value", e);
+	}					
+</script>
+
+<div class="blocInfos" id="watermarking_blocInfos" style="<?php if($this->getParam("action") != "view" && $this->getParam("action") != "processing") :?> display:none<?php endif; ?>">
+	<h2><?php echo $this->_("Watermarking") ?></h2>	
+	<span class="rubInfos">
+		<?php if($this->index == 1) : ?>
+			<?php echo $this->_("Edit Watermarking")?>
+		<?php else: ?>
+			<?php echo $this->_("View Watermarking"); ?>
+		<?php endif; ?>		
+	</span>	
+	<div class="moreinfos">
+	
+		<fieldset>	
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Text" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 				
+					<input
+					class="inputText" 
+					name="watermarking_text_input" 
+					id="watermarking_text_input" 
+					value=""
+					type="text" /> 
+				</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->watermarking[0]["text"]; ?>
+					</span>
+				<?php endif; ?>		
+			</p>
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Font" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+					<span> 
+						<select id="watermarking_font_list" name="watermarking_font_list">
+							<?php 								
+								foreach ($this->font_families as $font)
+								{
+									echo "<option>" . $font . "</option>\n";
+								}	
+								echo "<option>" . "None" . "</option>\n";					
+							?>		
+						</select>
+					</span>
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->watermarking[0]["font"]; ?>
+					</span>
+				<?php endif; ?>
+			</p>
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Font Size" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 
+					<input
+					class="inputText" 
+					style="text-align:center;font-weight:bold;width:20px;"
+					name="watermarking_font_size_input" 
+					id="watermarking_font_size_input" 
+					value="12"
+					type="text" 
+					alt="mskFontSize"/>
+				</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->watermarking[0]["font_size"]; ?>
+					</span>
+				<?php endif; ?>
+			</p>	
+						
+			<p>
+				<label>
+					<?php echo $this->_ ( "Color" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 
+					<input 
+					id="vtrColorPicker2"
+					name="watermarking_font_color" 
+					size="7" 
+					value="#BBBBBB" 
+					type="text"  
+					style="width:100px;" 
+					readonly="readonly"
+					/>						
+				</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->watermarking[0]["font_color"]; ?>
+					</span>
+				<?php endif; ?>
+			</p>
+	
+			<?php if(strlen($this->watermarking[0]["image_file"])|| ($this->index == 1)) :?>
+			<p>
+				<label>
+					<?php echo $this->_ ( "Image" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 
+					<input
+					class="inputText" 
+					name="watermarking_image_input" 
+					id="watermarking_image_input" 
+					value=""
+					type="text" /> 
+				</span> 
+				<a href="javascript:filemanager('watermarking_image_input');" class="filemanager"> File manager </a>
+				<?php else: ?>
+					<span class="TEXT_value">
+						<a 
+							class="link_sorter" 
+							target="_blank"
+							
+							href="<?php echo $this->watermarking[0]["image_file"] ?>" ><?php echo $this->watermarking[0]["image_file"] ?>
+						</a>
+					</span>
+				<?php endif; ?>
+			</p>
+			<?php endif; ?>	
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Orientation" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 
+					<input
+					style="text-align:center;font-weight:bold;width:30px;"
+					title="<?php echo $this->_ ( "Angle in degrees" )?>"
+					class="inputText" 
+					name="watermarking_orientation" 
+					id="watermarking_orientation" 
+					value="0"
+					type="text" 
+					alt="msk"/> 
+				</span> 
+				<span>
+					<?php echo $this->_ ( "°" )?>
+				</span> 
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->watermarking[0]["orientation"]."°" ?>
+					</span>
+				<?php endif; ?>
+			</p>
+
+			<input type="hidden" name="watermarking_position_state" value="middle" id="watermarking_position_state" />			
+			<p>				
+				<label>
+					<?php echo $this->_ ( "Position" )?>
+				</label>
+				<?php if($this->index == 1) : ?>
+				<span>
+				<table>
+					<caption>
+					</caption>				
+					<tr>
+						<td>
+							<input class="nineSelector" type="button" id="top-left-button" value="" onclick="watermarkingPosition('top-left')" title="<?php echo $this->_ ( "Top-left" )?>"/>
+							<input class="nineSelector" type="button" id="top-button" value="" onclick="watermarkingPosition('top')" title="<?php echo $this->_ ( "Top" )?>"/>
+							<input class="nineSelector" type="button" id="top-right-button" value="" onclick="watermarkingPosition('top-right')" title="<?php echo $this->_ ( "Top-right" )?>Top-right"/>
+						</td>
+					</tr>					
+					<tr>
+						<td>
+							<input class="nineSelector" type="button" id="left-button" name="left-button" value="" onclick="watermarkingPosition('left')" title="<?php echo $this->_ ( "Left" )?>"/>
+							<input class="nineSelector" type="button" id="middle-button" name="middle-button" value="" checked="true" onclick="watermarkingPosition('middle')" title="<?php echo $this->_ ( "Middle" )?>"/>
+							<input class="nineSelector" type="button" id="right-button" name="right-button" value="" onclick="watermarkingPosition('right')" title="<?php echo $this->_ ( "Right" )?>"/>
+						</td>
+					</tr>					
+					<tr>
+						<td>
+							<input class="nineSelector" type="button" id="bottom-left-button" name="bottom-left-button" value="" onclick="watermarkingPosition('bottom-left')"  title="<?php echo $this->_ ( "Bottom-left" )?>"/>
+							<input class="nineSelector" type="button" id="bottom-button" name="bottom-button" value="" onclick="watermarkingPosition('bottom')"  title="<?php echo $this->_ ( "Bottom" )?>"/>
+							<input class="nineSelector" type="button" id="bottom-right-button" name="bottom-right-button" value="" onclick="watermarkingPosition('bottom-right')"  title="<?php echo $this->_ ( "Bottom-right" )?>"/>
+						</td>
+					</tr>				
+				</table>
+				</span>	
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php echo $this->_ ($this->watermarking[0]["position"]) ?>
+					</span>
+				<?php endif; ?>					
+			</p>
+			
+			<?php if($this->index == 1) : ?>
+				<script type="text/javascript">
+					// Sélection du bouton par défaut	
+					$("#middle-button").css("border", "2px solid #00E");
+				</script>
+			<?php endif; ?>	
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Mosaic" )?>
+				</label>
+				<?php if($this->index == 1) : ?>
+					<span style="display: block; float: left;">
+						<?php 
+							echo $this->formCheckbox("mosaic_cb","mosaic", array("checked"=>$this->mosaic_checked)) ;
+						?>		
+					</span>	
+				<?php else: ?>
+					<span class="TEXT_value">
+						<?php if($this->watermarking[0]["mosaic"] == 1) : ?>
+							<?php echo $this->_("YES") ?>
+						<?php else: ?>
+							<?php echo $this->_("NOT") ?>
+						<?php endif; ?>
+					</span>
+				<?php endif; ?>									
+			</p>
+			
+			<p>
+				<label>
+					<?php echo $this->_ ( "Opacity" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<span> 	
+					<div>
+					<input 
+						type="text" 
+						id="opacity2" 
+						name="watermarking_opacity"
+						style="text-align:center;font-weight:bold;width:30px;margin:5px 5px 5px 5px;"
+						value="50"
+						readonly="readonly" />			
+						<div 
+							id="slider"
+							style="margin:10px 10px 10px 10px;float:left;width:272px">
+						</div>					
+					</div>
+				</span>
+				<?php else: ?>
+					<span class="TEXTAREA_value">
+						<?php echo $this->watermarking[0]["opacity"] ?>
+					</span>
+				<?php endif; ?>
+			</p>	
+	
+			<p>
+				<label>
+					<?php echo $this->_ ( "Comments" )?>
+				</label> 
+				<?php if($this->index == 1) : ?>
+				<textarea
+					name="watermarking_comments" 
+					id="watermarking_comments" 
+					rows="15" 
+					cols="80"></textarea>
+				<?php else: ?>
+					<span class="TEXTAREA_value">
+						<?php echo nl2br($this->watermarking[0]["comments"]) ?>
+					</span>
+				<?php endif; ?>
+			</p>
+
+			<?php if($this->index != 1) : ?>
+				<p>
+					<label>
+						<?php echo $this->_ ( "Current status"  )?>
+					</label>
+					<span class="TEXT_value">
+						<?php echo $this->_ ( $this->watermarking[0]["status"]) ?>
+					</span>		
+				</p>
+			<?php endif; ?>
+			
+			<?php if($this->index == 2
+			&& !isEnded($this->order[0]["status"])
+			&& !isEnded($this->watermarking[0]["status"])
+			) : ?>
+					<p>
+						<label>
+							<?php echo $this->_ ( "Status" )?>
+						</label> 
+						<span class="TEXT_value">
+							<?php
+								$service_states = serviceStateSelection($this->order[0]["status"], $this->watermarking[0]["status"]);								
+							?>
+						<select id="watermarking_list_state" name="watermarking_list_state">
+							<?php 							 
+								foreach ($service_states as $state)
+								{
+									echo "<option>" . $this->_ ($state) . "</option>\n";
+								}	
+							?>		
+						</select>		
+						</span>				
+					</p>
+				<?php endif; ?>
+			
+		</fieldset>
+	
+    </div>
+</div>	
+
+<?php endif;?>

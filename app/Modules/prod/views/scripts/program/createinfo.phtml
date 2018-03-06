@@ -1,0 +1,19 @@
+<form method="post" action="<?php echo BASE_URL ?>prod/program/save">
+<fieldset><?php echo $this->partial('genericform.phtml', array("fields"=>$this->fields)); ?>
+<?php echo $this->formHidden("idproduction",$this->idproduction,null); ?>
+
+<p><label>&nbsp;</label> <span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></p>
+</fieldset>
+
+</form>
+<script type="text/javascript">
+//<![CDATA[   
+var field_not_ok = [<?php echo $this->field_not_ok ;?>];
+jQuery(document).ready(function(){       
+    jQuery.each(field_not_ok, function() {
+    	$("#" + this).addClass("input_nok");
+    });  
+});
+//]]>
+</script>
+<?php echo $this->setFormValue($this->rawData)?>

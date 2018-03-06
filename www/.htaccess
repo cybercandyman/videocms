@@ -1,0 +1,11 @@
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d 
+RewriteRule ^.*$ - [NC,L]
+RewriteRule .*\.(png|bmp|gif|jpg) - [NC,L]
+RewriteRule ^.*$ index.php [NC,E=REMOTE_USER:%{HTTP:Authorization},L]
+#RewriteRule !\.(js|ico|gif|jpg|png|css|swf|xml|php|wsdl|htm|ics|asx)$ index.php
+</IfModule> 

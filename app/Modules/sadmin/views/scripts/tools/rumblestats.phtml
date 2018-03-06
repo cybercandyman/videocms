@@ -1,0 +1,54 @@
+<?php $this->placeholder("title")->set($this->_("Rumble stats"))?>
+<form method="post"  >
+
+<fieldset>
+
+
+
+<p>
+	<label><?php echo $this->_("from date") ?></label>
+	<span><?php echo $this->formText("fromdate", "" ,array("class"=>"validate[required]","placeholder" => $this->_ ( "From date" ) )) ?></span>
+</p>
+<p>
+	<label><?php echo $this->_("to date") ?></label>
+	<span><?php echo $this->formText("todate", "" ,array("class"=>"validate[required]","placeholder" => $this->_ ( "To date" ))) ?></span>
+</p>
+<p>
+	<label><?php echo $this->_("volume") ?></label>
+	<span><?php echo $this->formText("volume", "" ,array (  "required" => "required", "placeholder" => $this->_ ( "Enter amount of stats to rumble" ) )) ?></span>
+</p>
+<p>
+<p><label><?php echo $this->_("Production account") ?></label> <span><?php echo $this->formSelect('production', null , null, $this->contentTable("productions",null,null,"idproduction","name")); ?></span>
+</p>
+
+<p><label>&nbsp;</label>
+<span> <?php echo $this->sexybutton ("submit", $this->_("rumble"), array("send_form_btn"), null) ?> </span></p>
+
+
+
+</fieldset>
+
+</form>
+
+
+<script type="text/javascript">
+                        	jQuery(document).ready(function() {
+                        		$('#fromdate').datepicker({
+                        			showButtonPanel:"true",                       
+                        			dateFormat: 'yy/mm/dd',
+                        			changeMonth:true,
+                        			changeYear:true  		            				
+                                });                                
+	                            $("#fromdate").datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+                           		 $("#fromdate").datepicker('option','dateFormat','yy/mm/dd');    
+
+                           		$('#todate').datepicker({
+                        			showButtonPanel:"true",                       
+                        			dateFormat: 'yy/mm/dd',
+                        			changeMonth:true,
+                        			changeYear:true  		            				
+                                });                                
+	                            $("#todate").datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+                           		 $("#todate").datepicker('option','dateFormat','yy/mm/dd');                                                    
+                            });
+                        </script>         

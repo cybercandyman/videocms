@@ -1,0 +1,26 @@
+<form action="<?php echo BASE_URL?>sadmin/fields/confirmdeletefield"
+	method="post" id="deleteField">
+
+<p><?php
+echo $this->_ ( "You are going to delete the field : " ) . $this->field [0] ['title'];
+?> <br />
+<?php
+echo $this->_ ( "Do you want to confirm ?" );
+?> <br />
+</p>
+<p><input type="hidden" name="udf_id"
+	value="<?php echo $this->field [0] ['idfield']?>" /> 
+	<?php echo $this->sexybutton ("submit", $this->_("confirm"), array("send_form_btn"), null,array("id"=>"submit")) ?>
+	<?php echo $this->sexybutton ("button", $this->_("back"), array("send_form_btn"), null,array("id"=>"back")) ?>	
+</form>
+<script type="text/javascript">
+//<![CDATA[   
+jQuery(document).ready(function() 
+    { 
+    
+        $("#submit").click(function(){$("#deleteField").trigger("submit");}); 
+        $("#back").click(function(){history.back();}); 
+    } 
+); 
+//]]>
+</script>

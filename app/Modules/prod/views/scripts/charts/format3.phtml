@@ -1,0 +1,22 @@
+<graph caption='<?php echo $this->_("Total views per day")?>'
+	xAxisName='<?php echo $this->_("Days")?>' yAxisMinValue='15000'
+	yAxisName='<?php echo $this->_("Views")?>' numberPrefix=''
+	showNames='1' showValues='1' rotateNames='0' showColumnShadow='1'
+	animation='1' showAlternateHGridColor='1'  divLineAlpha='20' alternateHGridAlpha='5' decimalPrecision='0'
+
+	yAxisMaxValue='10' yAxisMinValue='0'  showPrintMenuItem='0' showAboutMenuItem='0' >
+
+
+<?php if(sizeof($this->data)>0):?>
+
+<?php foreach($this->data as $entry):?>
+<set
+	name='' value='<?php echo $entry["count"] ?>'
+	hoverText='<?php echo $entry["datetime"] ?>' />
+<?php endforeach;?>
+
+
+<?php else:?>
+<set name='' />
+<?php endif;?>
+</graph>

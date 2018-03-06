@@ -1,0 +1,91 @@
+<?php $this->placeholder("title")->set(  isset($this->program["details"]["title"]["value"])?$this->program["details"]["title"]["value"]:"Undefined" )?>
+
+<p><?php $tmp = array(); foreach ($this->views as $view):    	
+$tmp[ $view["viewcode"] ] = $view["viewname"];
+endforeach;?> <?php echo $this->_("Views")?> : <?php echo $this->formSelect("viewSelector", Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default") ,null,$tmp) ?>
+</p>
+
+<?php if($this->_session->environment["module"] == "pub"):?>
+<div class="blocInfos">
+<?php echo $this->sexybutton ("href", $this->_("integration"), array("grey_btn"), BASE_URL ."pub/integration/program/key/".$this->key."/viewcode/".Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default"),array("id"=>"")) ?> 
+<?php echo $this->sexybutton ("href", $this->_("export program"), array("grey_btn"), BASE_URL ."pub/data/exportprogram/keyprog/".$this->key."/viewcode/".Zend_Controller_Front::getInstance()->getRequest()->getParam("viewcode","default")."/publicationKey/".$this->_session->environment["details"]["key"],array("id"=>"")) ?> 
+</div>
+<?php endif;?>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Description") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Edit description of your program")?>
+</span>
+<div class="moreinfos"><!--  <a href="<?php echo BASE_URL ?>pub/stock/editinfo/key/<?php echo $this->key ?>/fkey/<?php echo $this->fkey ?>/view/<?php echo $this->currentidview?>" class="button check_all"><span><span><?php echo $this->_("edit desciption")?></span></span></a> -->
+<?php echo $this->action("editinfo","program","prod",array("key"=>$this->key,"fkey"=> $this->fkey,"view"=>$this->currentidview)); ?>
+</div>
+</div>
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Picture") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Illustrate your program with pictures")?>
+</span>
+<div class="moreinfos"><?php echo $this->action("managepicture","program","prod",array("key"=>$this->key)); ?>
+</div>
+</div>
+
+
+<div class="blocInfos">
+<h2><?php echo $this->_("Chapters") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Create chapters to navigate in your video")?>
+</span>
+<div class="moreinfos"><a href="<?php echo BASE_URL ?>pub/stock/editchapters/key/<?php echo $this->key ?>/fkey/<?php echo $this->fkey ?>/view/<?php echo $this->currentidview?>/publicationKey/<?php echo $this->getParam("publicationKey",$this->_session->environment["details"]["key"])?>"
+	class="button check_all"><span><span><?php echo $this->_("edit description")?></span></span></a>
+
+<?php echo $this->action("chapterslist","program","prod",array("key"=>$this->key,"idview"=>$this->currentidview)); ?>
+</div>
+</div>
+
+
+
+
+<?php if($this->_session->environment["module"] == "pub"):?>
+<div class="blocInfos">
+<h2><?php echo $this->_("Statistics") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Consult programs statistics")?>
+</span>
+<div class="moreinfos">
+
+<h3><?php echo $this->_("Total views for last 30 days") ?></h3>
+<a
+	href="<?php echo BASE_URL ?>pub/stats/program/idprog/<?php echo $this->program["idprog_programs_of"] ?>"
+	class="button check_all"><span><span><?php echo $this->_("more statistics")?></span></span></a>
+<?php echo $this->action("programoverview","stats","pub",array("idprog"=>$this->program["idprog_programs_of"])); ?>
+</div>
+</div>
+
+<?php endif;?>
+
+<?php echo $this->action("checkupdates","stock","pub",array("idprogramFrom"=>$this->program["idprog_programs_of"])); ?>
+
+
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){		
+	$(".blocInfos h2").each(function(){
+		$(this).click(function(){
+			if($(".moreinfos",$(this).parent()).css("display") == "none"){
+				$(".rubInfos",$(this).parent()).css("display","none");			
+				$(".moreinfos",$(this).parent()).css("display","block");					
+				$(".sortContent").sortable("refresh");
+				$(".extractItem").draggable('enable');		
+			}
+			else{						
+				$(".moreinfos",$(this).parent()).css("display","none");	
+				$(".rubInfos",$(this).parent()).css("display","block");	
+			}
+		});
+	});		
+	$("#viewSelector").change(function(){		
+		document.location.href = "<?php echo BASE_URL ?>pub/stock/manage/fkey/<?php echo $this->fkey ?>/viewcode/"+$("#viewSelector").val() + "/publicationKey/<?php echo $this->getParam("publicationKey",$this->_session->environment["details"]["key"])?>";
+	});
+});
+</script>
+

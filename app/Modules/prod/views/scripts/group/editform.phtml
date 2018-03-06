@@ -1,0 +1,172 @@
+<?php echo $this->javascriptfile(BASE_URL."tools/script/get/file/".rawurlencode(rawurlencode(BASE_URL."embeded/js/jquery.validationEngine.langue.js")),false) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.validationEngine.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/validationEngine.jquery.css") ?>
+
+<?php $this->placeholder("title")->set($this->_("Group of programs"))?>
+
+<table width="100%">
+
+	<tr valign="top">
+
+		<td width="50%">
+
+
+		<fieldset class="panel">
+		<legend><?php echo $this->_("Information about your group of programs")?></legend>
+		<form action="<?php echo BASE_URL ?>prod/group/<?php echo $this->formaction ?>"	method="post" id="groupDescriptionForm">
+		<fieldset class="small">
+		<p><label><?php echo $this->_("Title of the group") ?></label> <span>
+		<input type="text" name="groupName" id="groupName" class="validate[required]"/> </span></p>
+		<p><label><?php echo $this->_("Code") ?></label> <span> 
+		<input	type="text" name="groupCode" id="groupCode" class="validate[required]"/> </span></p>
+		<p><label><?php echo $this->_("Type") ?></label> <span> <?php echo $this->formSelect("groupType","","",array("group"=>"group","serie"=>"serie")) ?>
+		</span></p>
+		<input type="hidden" name="groupprograms" id="groupprograms" value="" />
+		<input type="hidden" name="idgroup" id="idgroup" value="<?php echo isset($this->group["idgroup"]) ?  $this->group["idgroup"] : ""?>" />
+
+		<p><label><?php echo $this->_("Description")?></label> <span> <?php echo $this->formTextarea("groupDescription",null,array("rows"=>10)) ?>
+		</span></p>
+		<p><label>&nbsp;</label> <span> <?php echo $this->sexybutton ("submit", $this->_("save"), array("send_form_btn"), null) ?></span></p>
+		</fieldset>
+		</form>
+
+
+		</fieldset>
+
+		</td>
+		<td width="50%">
+		<fieldset class="panel">
+		<legend><?php echo $this->_("Approved programs")?></legend>
+		<div class="folder" id="AffectedPrograms">
+		<ul class="sortContent">
+		<?php
+		if(isset($this->group["programs"])):
+		foreach($this->group["programs"] as $prog):?>
+			<li class="ui-state-default">
+			<div class="sortableItem">
+			<div class="cancel" style="float: right; cursor: pointer" onclick="removeItem(this)">
+			<img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png" /></div>
+			<span class="item_<?php echo $prog["keyprog"] ?>">
+			<?php if( $prog["idprog_programs_extract"] != "") : ?><img class="icones"  align="top" src="<?php echo BASE_URL ?>themes/system/pics/cut.png" /><?php endif;?>
+		<?php echo $prog["details"]["title"]["original_value"]?></span>&nbsp;
+	
+			</div>
+			</li>
+			<?php endforeach;
+			endif;?>
+		</ul>
+		</div>
+		</fieldset>
+		</td>
+	</tr>
+</table>
+
+
+
+
+
+
+<fieldset class="panel"><legend><?php echo $this->_("Search programs")?></legend>
+<?php echo $this->action("search","program","prod",array("formatlist"=>"mini"))?>
+<div id="programsList"></div>
+</fieldset>
+
+
+<?php if($this->formaction == "update"):?>
+<div class="blocInfos">
+<h2><?php echo $this->_("Publications") ?></h2>
+<span class="rubInfos"> <?php echo $this->_("Publish your content")?> </span>
+<div class="moreinfos"><?php echo $this->action("publicationsgroup","program","prod",array("idgroup"=> $this->group["idgroup"])); ?>
+</div>
+</div>
+<?php endif;?>
+
+
+<script type="text/javascript">
+function removeItem(item){
+	jQuery(item).parent().parent().remove();	
+	saveContentOrdering();
+}
+
+function saveContentOrdering(){
+	jQuery(".sortContent").each(function(){
+		var listPrograms = "";				
+		$("li div span",this).each(function(){
+			listPrograms += listPrograms != "" ? "&":"";
+			listPrograms +=  $(this).attr("class") ;			
+		});	
+		$("#groupprograms").val(listPrograms);
+	});
+}
+
+jQuery(document).ready(function(){
+
+
+	$("#groupDescriptionForm").validationEngine();
+	$(".blocInfos h2").each(function(){
+		$(this).click(function(){
+			if($(".moreinfos",$(this).parent()).css("display") == "none"){
+				$(".rubInfos",$(this).parent()).css("display","none");			
+				$(".moreinfos",$(this).parent()).css("display","block");					
+				$(".sortContent").sortable("refresh");
+				$(".extractItem").draggable('enable');		
+			}
+			else{						
+				$(".moreinfos",$(this).parent()).css("display","none");	
+				$(".rubInfos",$(this).parent()).css("display","block");	
+			}
+		});
+	});			
+	$('#programsList .draggableItem').live("mouseover", function() {	
+			if (!$(this).data("init")) {				
+				$(this).data("init", true).disableSelection();	
+    			jQuery(this).draggable({	
+    				connectToSortable: 'ul.sortContent',
+    				helper: 'clone',
+    				iframeFix: true,
+    				snap: true,
+    				revert: 'invalid',
+   					addClasses: false,
+    				refreshPositions: true					
+            	});
+    			$(".sortContent").sortable( 'refreshPositions' );
+			}
+	});		
+	$(".sortContent").sortable({			
+		stop: function(event, ui) { 
+    		var result = ui.item.find("div.cancel");		
+    		if(result.length == 0){	        		
+    				$("span",ui.item).parent() .prepend('<div class="cancel" style="float:right;cursor:pointer" onclick="removeItem(this)" ><img border="0" src="<?php echo BASE_URL ?>themes/system/pics/cancel.png"/></div>');
+    		}
+		},					  
+		update: function(event, ui) {
+			$(".sortContent li").addClass("ui-state-default");
+			saveContentOrdering();
+		},		
+		tolerance: 'pointer',
+		placeholder: 'ui-state-highlight' ,
+		dropOnEmpty: true,
+		forcePlaceholderSize: true		
+	});		
+	saveContentOrdering();
+	<?php if($this->formaction == "update"):?>
+		$("#groupName").val("<?php echo $this->escapejs($this->group["name"])?>");
+		$("#groupCode").val("<?php echo $this->escapejs($this->group["code"])?>");
+		$("#groupDescription").val("<?php echo $this->escapejs($this->group["description"])?>");
+		$("#groupType").val("<?php echo $this->escapejs($this->group["type"])?>");
+	<?php endif;?>
+
+	$
+});
+
+</script>
+
+<?php echo $this->systemMessage($this->_("Select  programs to be attached to the group by dragging them to the zone \"approved programs\"") ,1)?>
+<?php echo $this->systemMessage( $this->_("If group has changed since last save, save it before any publish action !") ,1)?>
+
+
+
+
+
+
+

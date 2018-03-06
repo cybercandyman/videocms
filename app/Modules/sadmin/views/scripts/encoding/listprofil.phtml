@@ -1,0 +1,70 @@
+<?php $this->placeholder("title")->set($this->_("List of profiles"))?>
+<div>
+
+
+<?php echo $this->sexybutton ("href", $this->_("create") , array("add_new",""),  $this->url(array("controller"=>"encoding","module"=>$this->getParam("module"),"action"=>"createprofil"),null,true)  ,array("id"=>"")) ?>
+<table id="data" class="tablesorter display table">
+	<thead>
+		<tr>
+			<th>#<?php echo $this->_ ( "idprofil" );?></th>
+			<th><?php echo $this->_ ( "title" );?></th>			
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>">
+
+			<td>#<?php echo $item["idprofil"]?></td>
+			<td><?php echo $item["title"]?></td>			
+			<td>
+			<div class="actions_menu">
+			<ul>
+				
+				<li><a class="edit" href="<?php echo $this->url( array("controller"=>"encoding","module"=>$this->getParam("module"), "action" =>"editprofil","idprofil"=> $item["idprofil"]) )?>"><?php echo $this->_("edit") ?></a></li>
+				<li><a class="delete" href="<?php echo $this->url( array("controller"=>"encoding","module"=>$this->getParam("module"), "action" =>"deleteprofil","idprofil"=> $item["idprofil"]) )?>"><?php echo $this->_("delete") ?></a></li>
+			</ul>
+			</div>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+</div>
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+<div id="deleteDialog">
+	<?php echo $this->_("You are about to delete this profile. Are you sure ?")?>
+</div>
+<script type="text/javascript" >
+
+jQuery(document).ready(function(){
+
+	var _destroyUrl = "";
+	$(".actions_menu a.delete").click(function(event){
+		event.preventDefault();
+		_destroyUrl = $(this).attr("href");
+		$("#deleteDialog").dialog('open');
+		
+	});
+	$("#deleteDialog").dialog({					
+		modal: true,
+		autoOpen:false,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'<?php echo $this->_("Delete")?>': function() {
+				$(this).dialog('close');					
+				document.location.href = _destroyUrl;								
+			},
+			<?php echo $this->_("Cancel")?>: function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+	
+});
+
+</script>

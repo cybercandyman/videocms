@@ -1,0 +1,850 @@
+<?php echo $this->javascriptfile(BASE_URL . "embeded/js/Silverlight.js")?>
+<?php echo $this->cssfile(BASE_URL."embeded/packs/extjs/examples/ux/css/CheckHeader.css") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.facebox.js") ?>
+<?php echo $this->cssfile( BASE_URL."themes/system/css/facebox.css") ?>
+<script type="text/javascript">
+//<![CDATA[ 
+Ext.require(['Ext.ux.CheckColumn','Ext.ux.grid.FiltersFeature']);
+var text_desactived = "<?php echo $this->_("Activate live","none") ?>";
+var text_actived = "<?php echo $this->_("Desactivate live","none") ?>";
+
+Ext.onReady(function(){	
+	
+	var svlObjectDialog;
+	
+	Ext.define('Direct', {
+	    extend: 'Ext.data.Model',
+	    idProperty: 'iddirect',
+	    fields: [ 'iddirect',  'mms','timeend','current_panel','current_chapter','lastupdate','lang']	 
+	});
+	
+	Ext.define('Language', {
+	    extend: 'Ext.data.Model',
+	    idProperty: 'lcid',
+	    fields: [ 'lcid',  'libelle']	 
+	});
+
+	Ext.define('Pane', {
+	    extend: 'Ext.data.Model',
+	    idProperty: 'idpane',
+	    fields: [ 'idpane', 'title','publication_state','pane_content','applicable_environnement','code','idproduction','idpublication',
+	        	    {name : "content_type",convert:function(value,record){
+		        	    	var tmp ;
+		           	  		switch(value){
+		           	  		case "1" :tmp = "<?php echo $this->_("html") ?>"; break;
+			           	  	case "2" :tmp = "<?php echo $this->_("file") ?>"; break;
+			           	  	default:tmp = value;break;
+		           	  		} 
+		           	  		return tmp;
+		           	  	 
+		             }} ]	 
+	});	
+
+	Ext.define('Chapter', {
+	    extend: 'Ext.data.Model',
+	    idProperty: 'id',
+	    fields: [ 'id', 'idprog','idplaylist','order',{name:'state',type:'bool'},{name : "title"}]	 
+	});
+
+	var languages = Ext.create('Ext.data.Store', {
+		model: 'Language',
+	    data : [
+	      <?php $languages = $this->simpleTable("enum_lcid",null,"lcid","libelle");				
+	     		 $tmp = "";
+	      		foreach($languages as $lcid => $libelle ){
+	      			$tmp .= $tmp != "" ? "," : "";
+					$tmp .= "{lcid:\"".$lcid."\",libelle:\"".$libelle."\"}";	
+				}
+				echo $tmp;
+	      ?>
+	    ]
+	});
+	
+	var selectedLanguages = Ext.create('Ext.data.Store', {
+		model: 'Language',
+	    listeners:{		    
+	    	datachanged:function(store,opts){	
+	    		 var lcid = "";
+	          	 store.each(function(language){
+		          	 if( typeof(language.get("lcid")) != 'undefined' ){
+		          		lcid = lcid != "" ? lcid + "," : "";
+		          		lcid = lcid + language.get("lcid");
+		          	 }
+			     });
+	          	 var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+		         directRowSet.set('lang',lcid);	    
+	    	},
+	    	update:function(store){ 	    				   
+	    	},
+	    	clear:function(){
+	    		var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+	    		  directRowSet.set('lang',"");	    
+			}
+	    },
+	    autoLoad:false
+	});
+
+	var combolangues = Ext.create('Ext.form.ComboBox', {	   
+	    store: languages,
+	    id:'availableLcidCombo',
+	    queryMode: 'local',
+	    displayField: 'libelle',
+	    valueField: 'lcid',	  
+	    editable:false  
+	});
+	
+	var selectedlangues = Ext.create('Ext.form.ComboBox', {	   
+	    queryMode: 'local',
+	    store: selectedLanguages,
+	    id:'selectedLcidCombo',
+	    displayField: 'libelle',
+	    valueField: 'lcid',	  
+	    editable:false  
+	     
+	});
+
+	var directStore = Ext.create('Ext.data.Store', {
+	    model: 'Direct',
+	    storeId:'directStore',	  
+	    autoSync:true,
+	    proxy: {	 
+	    	type: 'ajax',   
+	        reader: {
+	            type: 'json',
+	            root: 'direct',
+	            successProperty: 'success'
+	        },
+	    	api:{
+	    		update	:BASE_URL + 'prod/direct/updatedirect?format=json&key=<?php echo $this->getParam("key")?>',
+	    		read    :BASE_URL + 'prod/direct/getdirect?format=json&iddirect=<?php echo $this->infosdirect["iddirect"]?>&key=<?php echo $this->getParam("key")?>'
+		    },
+	        listeners:{
+				exception:function(obj,reponse,operation,eOpts){
+									
+				}
+	        }        	        	        		         		    		        	
+	    },
+	    listeners:{
+	    	datachanged:function(store,opts){		    
+	    	},
+	    	update:function(store){ 
+	    		Ext.getCmp("chapterGrid").getView().refresh()	;	    	  		  
+	    		Ext.getCmp("paneGrid").getView().refresh()	;	    	  		  
+	    	},
+	    	write:function(writed){
+	    	}
+		}
+	});
+	
+	directStore.load({
+	    scope   : this,
+	    callback: function(records, operation, success) {
+	    	
+	    	var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+	    	var lang = directRowSet.get("lang");var selected = new Array();	  
+	    	if(lang != null && lang != ""){
+	    		Ext.Array.each( lang.split(','),function(lcid){
+		    		selected.push( languages.findRecord("lcid",lcid) );
+				});
+	    	}  	
+	    	
+	    	selectedLanguages.loadData(selected );
+	    }
+	});	
+	
+
+    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+        groupHeaderTpl: '{name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+    });
+    
+	var PanesStore = Ext.create('Ext.data.Store', {
+	    model: 'Pane',
+	    storeId:'PanesStore',	
+	    groupField: 'content_type',    
+	    pageSize: 100,
+	    remoteSort:false,	  
+	    proxy: {
+	        type: 'ajax',
+	        reader: {
+	            type: 'json',
+	            root: 'panes',
+	            successProperty: 'success'
+	        },
+	        api:{
+	        	update:BASE_URL + 'prod/direct/savepane?format=json&key=<?php echo $this->getParam("key")?>',
+	        	read:BASE_URL + "prod/panes/list?format=json&key=<?php echo $this->getParam("key")?>"
+	        },
+	        listeners:{
+				exception:function(obj,reponse,operation,eOpts){
+									
+				}
+	        }
+	    },
+	    listeners:{
+	    	datachanged:function(store,opts){		    
+	    	},
+	    	update:function(store){ 		    	  		  
+	    	},
+	    	write:function(writed){
+	    	}
+		},
+	    autoLoad: true,
+	    sorters:{
+		    property : 'idpane',
+	        direction: 'DESC'}
+	});
+	
+	var ChapterStore = Ext.create('Ext.data.Store', {
+	    model: 'Chapter',
+	    storeId:'ChapterStore',
+	    pageSize: 2000,
+	    proxy: {
+	        type: 'ajax',
+	        reader: {
+	            type: 'json',
+	            root: 'chapters',
+	            successProperty: 'success'
+	        },
+	        api:{
+	        	update:BASE_URL + 'prod/direct/updatechapters/key/<?php echo $this->getParam("key")?>',
+	        	read:BASE_URL + "prod/program/chapterslist?layout=extjs&format=json&key=<?php echo $this->getParam("key")?>"
+	        },
+	        listeners:{
+				exception:function(obj,reponse,operation,eOpts){
+										
+				}
+	        }
+	    },
+	    listeners:{
+	    	datachanged:function(store,opts){		    
+	    	},
+	    	update:function(store){ 		    		    
+	    	},
+	    	write:function(writed){
+	    	}
+		},
+	    autoLoad: true,
+	    sorters:{
+		    property : 'order',
+	        direction: 'ASC'}
+	});
+  
+	var mainLayout = Ext.create('Ext.Viewport', {	        	           
+	   layout: {
+           type: 'border'           
+       },        	     
+	    renderTo: Ext.getBody(), 	    
+	    items:[		
+	    {			
+	    	xtype:'panel',	    	
+	    	region:'west',
+	    	margin:5,
+	    	border:0,
+	    	layout: {
+	            type: 'vbox',	            	          
+	            align: 'stretch'	                           
+	        },
+	        
+	        width:500,	 	             
+	    	items:[
+	    	       {		    	    	   
+		    	        xtype:'panel',	    	
+	    				id:'preview',	
+	    				height:300, 
+	    				width:500,	
+	    				border:0,	    									    	
+	    				title:'<?php echo $this->_("Live stream","none") ?>',		    				      
+	    				listeners: {
+	    		       		render:function(panel){ 
+		    		       		 		 
+	    		          		 Silverlight.createObjectEx({		    		          		 	
+	    		            	        source: "<?php echo BASE_URL?>embeded/silverlight/editVideo.xap",
+	    		            	        parentElement: panel.body.dom,
+	    		            	        id: "silverlightControlDirectStream",
+	    		            	        properties: {
+	    		            	            width: "100%",
+	    		            	            height: "100%",
+	    		            	            version: "3.0.40624.0",
+	    		            	            background: "transparent",
+	    		            	            isWindowless: "true",
+	    		            	            enableHtmlAccess: "true",
+	    		            	            autoUpgrade: "false",
+	    		            	            initParams: "screenShot=0"
+	    		            	        },
+	    		            	        events: {
+	    		            	    		onload:function(){  
+	    		            	    			svlObjectDialog = document.getElementById("silverlightControlDirectStream");    	
+	    		            	    			var direct = "<?php echo $this->infosdirect !== null ? $this->infosdirect["mms"]:"" ?>"
+	    		            	    			if(direct != ""){
+	    		            	    				svlObjectDialog.Content.SilverlightApp.loadVideo(direct);
+	    		            	    			}		            	    			
+	    		            	         }}
+	    		            	    });
+	    		       		}
+	    		       }
+  		       },
+  		       {
+  		    	   xtype:'form',    		    	
+  		    	   title:'<?php echo  ( $this->_("MMS Setup","none") )?>',    		    	
+  		    	   id:'formStream',      		     	    	     		     
+      	  	       labelPad: 10,        
+    		       border:0,
+    	  	       bodyStyle: 'padding:10px 0 0px 10px',
+    	           defaults: {
+    	                  width: 480,
+    	                  labelSeparator: '',
+    	                  msgTarget: 'side'
+    	           },
+    	           defaultType: 'textfield',
+    		       items:[{
+ 	                    fieldLabel: 'mms/url' ,
+  	          	  	    labelAlign:"left",	
+  	  	          	    labelWidth: 50,                    
+	                    name: 'mms',	                    
+	                    value:"<?php echo $this->infosdirect !== null ? $this->infosdirect["mms"]:"" ?>",
+	                    allowBlank:false
+	               }
+	            ],	            
+	            buttons: [{ text: "<?php  echo $this->_("Save") ?>",
+		            		margin:'0 5 5 0',		            	            		         	
+		            	 	scope:this,
+			            	 listeners: {
+			            	        click: function() {
+				            	        var form = this.up('form').getForm();
+			            	        	   if (form.isValid()) {	            	        		   
+			            	        		   svlObjectDialog.Content.SilverlightApp.loadVideo(form.findField("mms").value);	
+			            	        		   updateMMSStream(form.findField("mms").value);        	        		   
+			            	        	   }	            	           	            	           
+			            	        }
+			            	 }
+		        }]
+  		       },{
+    		    	xtype:'panel',	    	    	 			
+    	 			title:"<?php echo $this->_("Options","none") ?>",
+     	 			id:'optionspanel',
+     	 			height:85,
+     	 			border:0,
+     	 			layout:{
+						align:'center',
+						type:'vbox'
+					},
+    				listeners: {
+    					afterrender:function(){          				
+        				}
+    		       	},
+    		       	items:{
+						xtype:"button",
+						cls:'direct',
+					    overCls:'direct-over',
+					    pressedCls:'direct-pressed',
+					    width:150,
+						<?php if(!$this->program->isDirect()) :?>
+					    text: text_desactived,					  
+					    <?php else :?>
+						text: text_actived,
+						pressed:true,
+						<?php endif; ?>
+					    scale   : 'large',
+					    enableToggle:true,	
+					    margin:'5 0 0 0',			    
+					    
+					    handler: function() {    						        
+					    },
+					    toggleHandler:function(){
+							if(this.pressed){
+								this.setText(text_actived);
+							}else{
+								this.setText (text_desactived);
+							}
+							switchDirectState(this.pressed);
+						}        				
+        		    }        	 			 
+  		       },
+  		       {
+  	   		    	xtype:'panel',	  	  	   		   	
+  	   	  	   		border:0,  	 
+  	   	   	  	    bodyStyle: 'padding:5px;',     
+  	    	   	   	height:240,   	   	   	  	
+  	    	   	   	autoScroll: true,	 			
+  	   	 	 		title:"<?php  echo $this->_("Syndication","none")  ?>",
+  	   	 	 		html:'<ul><?php foreach($this->links as $link) :?><li><a href="<?php echo $link["link"]?>" target="_blank"><?php echo  $link["name"]?></a></li><?php endforeach ?></ul>'
+			   }  		       		       
+		   	]			
+	    },
+	    {
+	    	xtype:'tabpanel',	    	
+	        title:"<?php echo $this->_("Content management","none") ?>",	               
+	        layout: 'fit', 	      
+			id:'controls',		
+			region:'center',
+			margin:'5 5 5 0',
+			border:0,
+			listeners:{
+					 click: {
+				            element: 'el', //bind to the underlying el property on the panel
+				            fn: function(){  }
+				    }	  
+				},			
+			items: [					
+				{
+				title:"<?php echo $this->_("Chapters","none") ?>",
+				tbar:[{xtype: 'tbfill'},{xtype: 'buttongroup',
+						items:[
+						       {   tooltip:"<?php echo $this->_("Create chapter","none") ?>",
+							       text:"<?php echo $this->_("Create chapter","none") ?>",
+							       'handler':function(){
+							    		$("#dialogchapterframe").attr("src",BASE_URL + 'prod/program/chapterform/method/new/keyprog/<?php echo $this->getParam("key") ?>');
+										$("#dialogchapter").dialog("open");
+								      }
+							       }
+						]}],
+				 	xtype:'grid',
+			    plugins: [ Ext.create('Ext.grid.plugin.CellEditing', {
+		            clicksToEdit: 1
+		        })],		       
+			    id:"chapterGrid",
+			    border:0,
+			    viewConfig: { 
+					plugins: {
+		            	ptype: 'gridviewdragdrop',
+		            	dragText: '<?php echo $this->_("Drag and drop to reorganize",'javascript');?>'	            	
+		        	},
+		        	listeners: {
+						drop: function(node, data, dropRec, dropPosition){
+							
+							var store = Ext.getCmp("chapterGrid").getStore();
+					    	var order = 1; 
+				    		store.each(function(chapter){
+								chapter.set("order" , order++ );
+					    	});
+				    		store.sync();
+						}
+	            	},
+	            	getRowClass: function(record, index) {
+		            	var store =  Ext.data.StoreManager.lookup('directStore');
+	            		if(record.get("id") == store.first().get("current_chapter"))	                   	
+							return "extjs-row-active";
+	                  	else
+		                  	return "extjs-row-unactive";
+	                }
+	            	},
+			    store: ChapterStore,				    
+			    width: '100%',
+			    height: '100%',
+			    autoExpandColumn  	 :'title',  
+			    layout:'fit', 
+			    forceFit: true, 
+			    cls:'extjs-grid',
+			    columns: [  
+	                {
+	                	text: "<?php echo $this->_("Current","none");?>",
+	            	    xtype:'actioncolumn',
+	            	    tdCls: 'x-change-cell',
+	            	    width:7,
+	            	    align:'center',
+	            	    menuDisabled:true,
+	                    items: [{
+	                    	tooltip: "<?php echo $this->_("Active","none");?>",
+	                    	icon:BASE_URL + "themes/system/pics/toggle-expand-dark.png",
+		            	    iconCls:"extjs_actioncolumn-icon",		            	   
+	                    	handler: function(grid, rowIndex, colIndex) {
+		                    	 var store = grid.getStore();
+		                    	 var rec = store.getAt(rowIndex);
+		                    	 if(rec.get("state") == 0){
+									alert("<?php echo $this->_("Please, You have to publish this element before his activation.","none") ?>");
+									return;
+		                    	 }
+		                    	 var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+		                    	 if(directRowSet.get("current_chapter") == rec.get("id")){
+		                    		 directRowSet.set("current_chapter",0);	  
+		                    	 }else{
+		                    		 directRowSet.set("current_chapter",rec.get("id"));
+		                    	 }	                  			                    	 		                    	 		                    	               
+	                        }
+		                }]
+	                },      
+			        {
+			            text: 'id',    
+			            menuDisabled:true,        
+			            sortable: false,
+			            hideable: false,
+			            dataIndex: 'id',
+			            width:5
+			        },
+			        {
+			            text: '<?php  echo $this->_("title")?>',   
+			            menuDisabled:true,         
+			            dataIndex: 'title',   
+			            width:60         
+			        },
+			        {
+			            text: '<?php  echo $this->_("order")?>',  
+			            menuDisabled:true,          
+			            dataIndex: 'order',   
+			            width:10         
+			        },
+			        {			        	
+			        	xtype:'checkcolumn',
+			        	menuDisabled:true,
+			        	text: '<?php  echo $this->_("publication")?>',
+			        	dataIndex: 'state',			    
+			            listeners:{
+			        			checkchange:function(){
+			        				Ext.getCmp("chapterGrid").getStore().sync();
+				        		}									    
+					    },				        
+			            width:8	
+			        },
+			        {
+			        	text: "<?php echo $this->_("Actions","none");?>",
+			        	menuDisabled:true,
+	            	    xtype:'actioncolumn',
+	            	    align:'center',
+	            	    width:10,
+	            	    items: [{
+		            	    tooltip: "<?php echo $this->_("Edit","none");?>",
+	                    	icon:BASE_URL + "themes/liquid/css/layout/site/tables/edit_action.gif",		            	    		            	  
+	                    	handler: function(grid, rowIndex, colIndex) {	
+								var idchapter = grid.getStore().getAt(rowIndex).get("id");
+								$("#dialogchapterframe").attr("src",BASE_URL + 'prod/program/chapterform/method/edit/format/ajax/keyprog/<?php echo $this->getParam("key") ?>/idchapter/'+idchapter);
+								$("#dialogchapter").dialog("open");						
+	                    	}
+	            	    },
+	            	    {
+		            	    tooltip: "<?php echo $this->_("Delete","none");?>",
+		            	    
+	                    	icon:BASE_URL + "themes/liquid/css/layout/site/tables/action4.gif",		            	    		            	  
+	                    	handler: function(grid, rowIndex, colIndex) {	
+								 var idchapter = grid.getStore().getAt(rowIndex).get("id");
+								 var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+		                    	 if(directRowSet.get("current_chapter") == idchapter){
+										alert("<?php echo $this->_("You cannot delete a published chapter, please unpublish it before delete.","none") ?>");
+										return;
+		                    	 }
+			                    	 
+		                    	 currentidchapter = idchapter;
+								$("#dialogdeletechapter").dialog("open");		
+	                    }
+	            	    }]	            	   
+			        }
+			    ],
+		        bbar: Ext.create('Ext.PagingToolbar', {
+		            store: ChapterStore,
+		            id:'ChapterStorePaging',
+		            displayInfo: true,
+		            displayMsg: "<?php echo $this->_("Display {0} - {1} of {2}") ?>",
+		            emptyMsg: "<?php echo $this->_("No chapters") ?>"		            
+		        })
+			},{				
+				title:"<?php echo $this->_("Inserts","none") ?>",
+				tbar:[{xtype: 'tbfill'},{xtype: 'buttongroup',
+						items:[
+						       {   tooltip:"<?php echo $this->_("Create insert","none") ?>",
+							       text:"<?php echo $this->_("Create insert","none") ?>",
+							       'handler':function(){
+							    		$("#dialogpaneframe").attr("src",BASE_URL + 'prod/panes/create?format=ajax');
+										$("#dialogpane").dialog("open");
+								      }
+							       }
+						]}],
+				 	xtype:'grid',
+			    plugins: [ Ext.create('Ext.grid.plugin.CellEditing', {
+		            clicksToEdit: 1
+		        })],		       
+			    id:"paneGrid",
+			    features: [groupingFeature],
+			    border:0,
+			    viewConfig: { 
+	            	getRowClass: function(record, index) {
+	            		var store =  Ext.data.StoreManager.lookup('directStore');
+	            		if(record.get("idpane") == store.first().get("current_panel"))	                   	
+							return "extjs-row-active";
+	                  	else
+		                  	return "extjs-row-unactive";		            	
+	                }
+	            },
+			    store: PanesStore,				    
+			    width: '100%',
+			    height: '100%',
+			    autoExpandColumn  	 :'title',  
+			    layout:'fit', 
+			    forceFit: true, 
+			    cls:'extjs-grid',
+			    columns: [  
+	                {
+	                	text: "<?php echo $this->_("Current","none");?>",
+	            	    xtype:'actioncolumn',
+	            	    tdCls: 'x-change-cell',
+	            	    width:7,
+	            	    align:'center',
+	            	    menuDisabled:true,
+	                    items: [{
+	                    	tooltip: "<?php echo $this->_("Active","none");?>",
+	                    	icon:BASE_URL + "themes/system/pics/toggle-expand-dark.png",
+		            	    iconCls:"extjs_actioncolumn-icon",		            	   
+	                    	handler: function(grid, rowIndex, colIndex) {
+		                    	 var store = grid.getStore();
+		                    	 var rec = store.getAt(rowIndex);		            
+		                    	 var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+		                    	 if(directRowSet.get("current_panel") == rec.get("idpane")){
+		                    		 directRowSet.set("current_panel",0);	  
+		                    	 }else{
+		                    		 directRowSet.set("current_panel",rec.get("idpane"));
+		                    	 }	                             	    			    			                           		                    	 
+		                    	                    			                         
+	                        }
+		                }]
+	                },			        
+
+
+			        {
+			            text: '<?php  echo $this->_("title")?>',   
+			            menuDisabled:true,         
+			            dataIndex: 'title',   
+			            width:53         
+			        },
+			        {
+			            text: 'code',    
+			            menuDisabled:false,        
+			            sortable: true,
+			            hideable: false,
+			            dataIndex: 'code',
+			            width:20
+			        },
+			        {
+			            text: '<?php  echo $this->_("type")?>',   
+			            menuDisabled:false,      
+			            sortable: true,   
+			            dataIndex: 'content_type',   
+			            width:10         
+			        },
+			        {
+			        	text: "<?php echo $this->_("Actions","none");?>",
+			        	menuDisabled:true,
+	            	    xtype:'actioncolumn',
+	            	    align:'center',
+	            	    padding:'0 5px',
+	            	    width:10,
+	            	    items: [{
+		            	    
+		            	    tooltip: "<?php echo $this->_("Edit","none");?>",
+	                    	icon:BASE_URL + "themes/liquid/css/layout/site/tables/edit_action.gif",		            	    		            	  
+	                    	handler: function(grid, rowIndex, colIndex) {	
+								var idpane = grid.getStore().getAt(rowIndex).get("idpane");
+								$("#dialogpaneframe").attr("src",BASE_URL + 'prod/panes/edit?format=ajax&idpane='+idpane);
+								$("#dialogpane").dialog("open");		
+	                    	}
+	            	    },{
+		            	    tooltip: "<?php echo $this->_("Delete","none");?>",
+		            		
+	                    	icon:BASE_URL + "themes/liquid/css/layout/site/tables/action4.gif",		            	    		            	  
+	                    	handler: function(grid, rowIndex, colIndex) {	
+								 var idpane = grid.getStore().getAt(rowIndex).get("idpane");
+								 var directRowSet = Ext.data.StoreManager.lookup('directStore').getAt(0);
+		                    	 if(directRowSet.get("current_panel") == idpane){
+										alert("<?php echo $this->_("You cannot delete a published pane, please unpublish it before delete.","none") ?>");
+										return;
+		                    	 }
+			                    	 
+		                    	 currentidpane = idpane;
+								$("#dialogdeletepane").dialog("open");		
+	                    	}
+	            	    }]	            	   
+			        }],
+			        bbar: Ext.create('Ext.PagingToolbar', {
+			            store: PanesStore,
+			            id:'PaneStorePaging',
+			            displayInfo: true,
+			            displayMsg: "<?php echo $this->_("Display {0} - {1} of {2}") ?>",
+			            emptyMsg: "<?php echo $this->_("No panes") ?>"		            
+			        })					
+			},{
+				title:"<?php echo $this->_("Languages","none");?>",
+				
+				layout:{
+					type:'hbox'
+				},
+				items:[
+					combolangues,
+					{
+						xtype:"button",						
+						text: "<?php echo $this->_("Add","none") ?>",				  			    					  
+					    handler: function() {
+					    	if(Ext.getCmp('selectedLcidCombo').getStore().findRecord("lcid",Ext.getCmp('availableLcidCombo').getValue()) == null){
+					    			Ext.getCmp('selectedLcidCombo').getStore().add(Ext.getCmp('availableLcidCombo').getStore().findRecord("lcid",Ext.getCmp('availableLcidCombo').getValue()));
+					    	}	        
+					    }					  
+					},
+					{
+						xtype:"button",		
+							
+						text: "<?php echo $this->_("Remove selected","none") ?>",				    					  
+					    handler: function() { 
+					    	Ext.getCmp('selectedLcidCombo').getStore().remove(Ext.getCmp('selectedLcidCombo').getStore().findRecord("lcid",Ext.getCmp('selectedLcidCombo').getValue()))  ;
+					    	Ext.getCmp('selectedLcidCombo').clearValue(); 						        
+					    }					  
+					},
+					selectedlangues,
+					{
+						xtype:"button",						
+					    text: "<?php echo $this->_("Remove All","none") ?>",					    					  
+					    handler: function() { 
+					    	Ext.getCmp('selectedLcidCombo').getStore().removeAll(false)  ;
+					    							        
+					    }					  
+					}
+					
+				],
+				xtype:'panel'
+			}]
+	    }
+	    ]
+	});
+});
+
+function switchDirectState(state){
+	   Ext.Ajax.request({
+		    url: BASE_URL + 'prod/direct/switchdirectstate',
+		    params: {
+		        state: state,
+		        key : "<?php echo $this->getParam("key")  ?>"
+		    },
+		    success: function(response){
+		        var text = response.responseText;
+		       
+		    }
+		});    
+}
+
+function updateMMSStream(mms){
+	Ext.data.StoreManager.lookup('directStore').getAt(0).set("mms",mms);
+}
+//Ext.util.Observable.capture(Ext.getCmp('paneGrid'), console.info);
+//]]>
+</script>
+<div id="dialogchapter" title="<?php echo $this->_("Chapter form")?>">
+	<iframe id="dialogchapterframe" width="100%" height="95%" src="" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+<div id="dialogdeletepane" title="<?php echo $this->_("Delete pane")?>">
+	<p><?php echo $this->_("Are you sure to delete this insert ?") ?></p>
+</div>
+<div id="dialogdeletechapter" title="<?php echo $this->_("Delete chapter")?>">
+	<p><?php echo $this->_("Are you sure to delete this chapter ?") ?></p>
+</div>
+<div id="dialogpane" title="<?php echo $this->_("Insert form")?>">
+	<iframe id="dialogpaneframe" width="100%" height="95%" src="" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+
+<script type="text/javascript">
+var currentidpane = currentidchapter = 0;
+
+function refreshDirect(){
+	jQuery.ajax({
+		type:'get',
+		url:BASE_URL + "prod/direct/updatedirect/key/<?php echo $this->getParam("key")?>",
+		success:function(msg){}
+	});	
+}
+
+jQuery(document).ready(function(){
+
+
+	jQuery("#dialogchapter").dialog({
+		height: 650,
+		width:980,
+		modal: true,
+		autoOpen: false,
+		buttons: {
+			'<?php echo $this->_("Save")?>':function(){					
+				$('#dialogchapterframe').contents().find('#chapterForm').trigger("submit");
+				setTimeout("Ext.data.StoreManager.lookup('ChapterStore').load()",1000);
+				jQuery("#dialogchapter").dialog('close');
+        	},					
+			'<?php echo $this->_("Close")?>':function(){
+				jQuery("#dialogchapter").dialog('close');
+			}
+		}
+	});
+	
+	jQuery("#dialogdeletepane").dialog({
+		height: 240,
+		width:320,
+		modal: true,
+		autoOpen: false,
+		buttons: {
+			'<?php echo $this->_("Delete")?>':function(){					
+				jQuery.ajax({
+					type:'get',
+					url:BASE_URL + 'prod/panes/delete/format/ajax/idpane/'+currentidpane,
+					success:function(msg){
+						jQuery("#dialogdeletepane").dialog('close');
+						setTimeout("Ext.data.StoreManager.lookup('PanesStore').load()",1000);	
+					},
+					error:function(msg){
+						alert("An error was triggered");
+					}
+				});
+        	},					
+			'<?php echo $this->_("Close")?>':function(){
+				jQuery("#dialogdeletepane").dialog('close');
+			}
+		}
+	});
+
+	
+	
+	jQuery("#dialogdeletechapter").dialog({
+		height: 240,
+		width:320,
+		modal: true,
+		autoOpen: false,
+		buttons: {
+			'<?php echo $this->_("Delete")?>':function(){					
+				jQuery.ajax({
+					type:'get',
+					url:BASE_URL + 'prod/program/deletechapter/format/ajax/key/<?php echo $this->getParam("key")?>/id/'+currentidchapter,
+					success:function(msg){
+						jQuery("#dialogdeletechapter").dialog('close');
+						setTimeout("Ext.data.StoreManager.lookup('ChapterStore').load()",1000);	
+						refreshDirect();
+					},
+					error:function(msg){
+						alert("An error was triggered");
+					}
+				});
+        	},					
+			'<?php echo $this->_("Close")?>':function(){
+				jQuery("#dialogdeletechapter").dialog('close');
+			}
+		}
+	});
+	jQuery("#dialogpane").dialog({
+		height: 650,
+		width:980,
+		modal: true,
+		autoOpen: false,
+		buttons: {
+			'<?php echo $this->_("Save")?>':function(){		
+
+				$("#dialogpaneframe")[0].contentWindow.CKupdate();
+				$('#dialogpaneframe').contents().find('form').submit();
+				
+				setTimeout("Ext.data.StoreManager.lookup('PanesStore').load()",1000);	
+				setTimeout("refreshDirect()",1000);	
+				jQuery("#dialogpane").dialog('close');
+				
+        	},					
+			'<?php echo $this->_("Close")?>':function(){
+				jQuery("#dialogpane").dialog('close');
+			}
+		}
+	});
+	
+});
+</script>
+
+<div id="publicationLinks" >
+
+</div>	
+

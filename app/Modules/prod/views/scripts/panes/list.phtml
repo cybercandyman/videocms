@@ -1,0 +1,95 @@
+<?php $this->placeholder("title")->set($this->_("Panes"))?>
+
+
+<p class="large">
+	<?php echo $this->sexybutton ("href", $this->_("create"), array("add_new"), BASE_URL."prod/panes/create" ,array(""=>"")) ?>
+</p>
+
+<table id="data" class="tablesorter display table">
+	<thead>
+	
+		<tr>
+		
+			<th class="header"><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("idpane"))) ?>"><?php echo $this->_ ( "idpane" );?></a></th>
+			<th class="header"><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("title"))) ?>"><?php echo $this->_ ( "title" );?></a></th>
+			<th class="header"><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("content_type"))) ?>"><?php echo $this->_ ( "type" );?></a></th>			
+			<th class="header"><a class="link_sorter" href="<?php echo $this->url(array( "ord" => $this->order("code"))) ?>">#<?php echo $this->_ ( "code" );?></a></th>
+			
+				
+			<th></th>
+			
+			
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->paginator as $item): ?>
+	
+		<tr class="<?php echo $this->cycle(array("odd","even"))->next()?>" >
+		
+			<td><?php echo $item["idpane"]?></td>
+			<td><?php echo $item["title"]?></td>
+			<td><?php echo $item["content_type"]?></td>
+			<td><?php echo $item["code"]?></td>
+			<td>
+				<div class="actions_menu">
+				<ul>				
+					<li><a class="edit" href="<?php print BASE_URL ?>prod/panes/edit/idpane/<?php print $item["idpane"]?>"><?php echo $this->_("edit") ?></a></li>
+					<li><a class="delete" href="<?php echo BASE_URL?>prod/panes/delete/idpane/<?php print $item["idpane"]?>"><?php echo $this->_("delete") ?></a></li>
+
+				</ul>
+				</div>
+			</td>
+		
+		</tr>
+		
+	<?php endforeach ?>
+	</tbody>
+	</table>
+
+
+<?php echo $this->paginationControl($this->paginator,'All', 'search_pagination.phtml'); ?>
+
+
+
+<div id="dialog" title="<?php echo  $this->_("Removal confirmation") ?>">
+<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span> 
+<p><?php echo  $this->_("This pane will be deleted. Are you sure ?") ?></p>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function() {
+		var urlredirector = "";
+		$(".tablesorter a.delete").each(function(){
+
+			$(this).click(function(){
+				urlredirector = $(this).attr("href");				
+				$("#dialog").dialog("open");
+				return false;
+			});
+			
+		})
+		
+		$("#dialog").dialog({				
+				bgiframe: true,
+				width:550,				
+				modal: true,
+				autoOpen:false,
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'<?php echo $this->_("Delete")?>': function() {
+						$(this).dialog('close');		
+						document.location.href = urlredirector;										
+					},
+					<?php echo $this->_("Cancel")?>: function() {
+						$(this).dialog('close');
+					}
+				}
+			})
+}); 
+//]]>
+</script>
+

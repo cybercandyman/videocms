@@ -1,0 +1,65 @@
+
+.field .toggle {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	background:url(../pics/toggle-bg.png) no-repeat;
+	height: 32px;
+	width: 96px;
+	display: block;
+}
+
+
+.iPhoneCheckContainer {
+	position: relative;
+	display: block;
+	margin: 1px;
+	cursor: pointer;
+	overflow: hidden; 
+	height: 29px;
+	width: 94px;
+}
+
+.iPhoneCheckContainer input {
+	filter: alpha(opacity=0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	opacity: 0; 
+}
+
+.iPhoneCheckContainer label {
+    width: 50px;
+	height: 29px;
+	display: block;
+	text-indent: -9999px;
+	cursor: pointer;
+	position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+
+label.iPhoneCheckLabelOn {
+    background: url(../pics/yes.png) no-repeat;
+	left: 0;
+}
+
+label.iPhoneCheckLabelOff {
+    background: url(../pics/no.png) top right no-repeat;
+	right: 0;
+}
+
+.iPhoneCheckHandle {
+  display: block;
+  height: 29px;
+  width: 44px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 1px;
+  background: url(../pics/toggle.png) no-repeat;
+  padding-left: 3px; 
+}
+
+.iPhoneCheckHandle:hover {
+	background-position: 0 -29px;
+}

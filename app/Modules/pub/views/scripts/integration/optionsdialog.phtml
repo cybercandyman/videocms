@@ -1,0 +1,67 @@
+<?php
+//Vérifier que le fichier de conf existe, sinon afficher une alerte...
+if ($this->hasOptions) {
+	$config = new Zend_Config_Xml ( $this->fullpath . '/params.xml', 'params' );
+	$elements = array ();
+	foreach ( $config->param as $param ) {
+		switch ($param->type) {
+			case 'list' :
+				$html = '<label class="span6" for="%s" title="%s">%s : </label>
+					 	<select class="span4" id="%s" name="%s">';
+				$optionsArray = array ();
+				$optionsArray = explode ( ',', $param->options );
+				foreach ( $optionsArray as $optionArray ) {
+					$selected = '';
+					$option = explode ( ':', $optionArray );
+					if (isset ( $this->themeOptions [$param->name] )) {
+						$selected = $this->themeOptions [$param->name] == $option [0] ? 'selected="selected"' : '';
+					}
+					$html .= '<option value="' . $option [0] . '" ' . $selected . '>' . $option [1] . '</option>';
+				}
+				$html .= "</select>";
+				$elements [] = sprintf ( $html, $param->name, $param->description, $param->label, $param->name, $param->name );
+				break;
+			
+			case 'text' :
+				$value = '';
+				if (isset ( $this->themeOptions [$param->name] ))
+					$value = $this->themeOptions [$param->name];
+				$html = '<label class="span6" for="%s" title="%s">%s : </label>
+					 <input class="span4" type="text" id="%s" name="%s" size="%d" placeholder="%s" value="%s" />';
+				$elements [] = sprintf ( $html, $param->name, $param->description, $param->label, $param->name, $param->name, $param->size, $this->_ ( "e.g." ) . " : " . $param->default, $value );
+				break;
+			
+			case 'radio' :
+				$radios = explode ( ",", $param->options );
+				$rad0 = explode ( ":", $radios [0] );
+				$rad1 = explode ( ":", $radios [1] ); //@todo : Gestion des params par défaut.$param->default
+				
+
+				$checked0 = '';
+				$checked1 = '';
+				if (isset ( $this->themeOptions [$param->name] )) {
+					$checked0 = $this->themeOptions [$param->name] == $rad0 [0] ? 'checked="checked"' : '';
+					$checked1 = $this->themeOptions [$param->name] == $rad1 [0] ? 'checked="checked"' : '';
+				}
+				//				if ($checked0 == '' && $checked1 == '') {
+				//					// If there are both blank, first radio element is checked by default
+				//					if ($param->default != '') {
+				//						$checked = 'checked="checked"';
+				//					} 
+				//				}
+				$html = '<label class="span6" for="%s" title="%s">%s : </label><div class="span4"><span>' . $rad0 [1] . '</span><input type="radio" id="radio0_%s" name="%s" value="%d" %s /><span>' . $rad1 [1] . '</span><input type="radio" id="radio1_%s" name="%s" value="%d" %s /></div>';
+				$elements [] = sprintf ( $html, $param->name, $param->description, $param->label, $param->name, $param->name, $rad0 [0], $checked0, $param->name, $param->name, $rad1 [0], $checked1 );
+				break;
+		}
+	}
+	echo '<input type="hidden" id="elementtype" name="elementtype" value ="' . $this->type . '"/>';
+	echo '<input type="hidden" id="fullpath" name="fullpath" value ="' . $this->fullpath . '"/>';
+	echo '<input type="hidden" id="view" name="view" value="' . $this->view . '"/>';
+	echo '<input type="hidden" id="key" name="key" value="' . $this->key . '"/>';
+	foreach ( $elements as $element ) {
+		echo '<div class="row-fluid">' . $element . '</div>';
+	}
+} else {
+	echo '<p class="alert alert-error">' . $this->_ ( 'No configuration found. Please, check params.xml file.' ) . '</p>';
+}
+?>

@@ -1,0 +1,121 @@
+<?php if ($this->program) : ?>
+<program>
+<infos>
+
+<title><?php echo (htmlspecialchars($this->program->title)) ?></title>
+<synopsis><?php echo (htmlspecialchars($this->program->synopsis)) ?></synopsis>
+<duration><?php echo $this->program->duration ?></duration>
+<date><?php echo $this->program->date ?></date>
+<genre><?php echo (htmlspecialchars($this->program->genre)) ?></genre>
+<tcin><?php echo $this->program->tcin ?></tcin>
+<tcout><?php echo $this->program->tcout ?></tcout>
+<url><?php echo (htmlspecialchars($this->program->getHtmlUrlLecteurVideo())) ?></url>
+<key><?php echo $this->program->keyprog ?></key>
+<direct><?php echo $this->program->isDirect() ? "true":"false" ?></direct>
+<isextract><?php echo $this->program->isExtract() ?></isextract>
+
+<moreinfos>
+<?php $program =  $this->program;
+foreach($program->_data as $key =>$value ):?>
+<?php if(!is_array($value)):?>
+<<?php echo $key ?>><?php echo htmlspecialchars( $value,ENT_QUOTES,'UTF-8')  ?></<?php echo $key ?>>
+<?php endif;?>
+<?php endforeach;?>
+<?php foreach($program->_data["details"] as $field ):?>
+<field>
+<?php $unFilteredKey = array("title","type","default_value","value","original_value","code");foreach($field as $key => $value ):if(in_array($key,$unFilteredKey)):?>
+<<?php echo $key?>><?php echo htmlspecialchars( $value,ENT_QUOTES,'UTF-8')  ?></<?php echo $key?>>
+<?php endif; endforeach; ?>
+</field>
+<?php endforeach;?>
+</moreinfos>
+
+
+
+<?php if (sizeof(    $this->program->getPictures() )>0) : ?>
+<pictures>
+<?php foreach ( $this->program->getPictures() as  $picture ) : ?>
+<picture usage="<?php echo $picture->usage ?>"><?php echo $picture->uri ?></picture>
+<?php endforeach; ?>
+</pictures>
+<?php endif;?>
+<picture><?php echo $this->program->getPicture("program") ?></picture>
+<ressource>http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/program/<?php echo $this->publicationkey ?>/key/<?php echo $this->program->keyprog ?></ressource>
+<more></more>
+
+<chapters>
+<?php
+$chapters = $this->program->getChapters();
+for($y=0 ; $y <sizeof($chapters) ;$y++) : ?>
+<chapter>
+<?php foreach($chapters[$y]->_data["details"] as $field):?>
+<<?php echo $field["code"]?>><?php echo $field["code"] != "timecode" ? htmlspecialchars($field["value"]):$chapters[$y]->getCleanTimeCode()?></<?php echo $field["code"]?>>
+<?php endforeach;?>
+<?php $semantics = $chapters[$y]->getSemantics() ; if(is_array($semantics)): ?>
+<openannotation>
+<?php foreach ($semantics as $semantic): ?>
+<annotation><uri><?php echo htmlspecialchars( $semantic["annotation"]["value"] ) ?></uri><body><?php echo htmlspecialchars( $semantic["source"]["value"] ) ?></body><type><?php echo htmlspecialchars( $semantic["type"]["value"] ) ?></type></annotation>
+<?php endforeach;?>
+</openannotation>
+<?php endif;?>
+
+</chapter>
+<?php endfor;?>
+</chapters>
+
+
+<videos>
+<?php
+$videos = (array)$this->program->getVideos();
+for($y=0 ; $y <sizeof($videos) ;$y++) : ?>
+<video>
+
+<filename><?php echo (htmlspecialchars(@$videos[$y]->filename)) ?></filename>
+<arl><?php echo (htmlspecialchars(@$videos[$y]->getUri())) ?></arl>
+<bitrate><?php echo (htmlspecialchars(@$videos[$y]->rate)) ?></bitrate>
+<size><?php echo (htmlspecialchars(@$videos[$y]->filesize)) ?></size>
+<codec><?php echo (htmlspecialchars(@$videos[$y]->codec)) ?></codec>
+
+<?php $langues = $videos[$y]->getLangues(); ?>
+<languages>
+<?php for($w=0 ; $w <sizeof($langues) ;$w++) : ?>
+<language>
+<lcid><?php echo (htmlspecialchars($langues[$w]["lcid"])) ?></lcid>
+<title><?php echo (htmlspecialchars($langues[$w]["libelle"])) ?></title>
+<picture><?php echo (htmlspecialchars($langues[$w]["picture"])) ?></picture>
+</language>
+<?php endfor;?>
+</languages>
+
+</video>
+<?php endfor;?>
+</videos>
+
+<serie>
+<?php $otherProgs = $this->program->getSerie();?>
+<?php foreach ($otherProgs as $tmp) :?>
+<program>
+<infos>
+<title><?php echo htmlspecialchars($tmp->title) ?></title>
+<synopsis><?php echo htmlspecialchars($tmp->synopsis) ?></synopsis>
+<duration><?php echo htmlspecialchars($tmp->duration) ?></duration>
+<date><?php echo htmlspecialchars($tmp->date) ?></date>
+<picture><?php echo htmlspecialchars($tmp->getPicture("videolist")) ?></picture>
+<key><?php echo htmlspecialchars($tmp->keyprog) ?></key>
+<ressource>http://<?php echo $_SERVER['HTTP_HOST']?><?php echo BASE_URL ?>rest/program/<?php echo $this->publicationkey ?>/key/<?php echo $tmp->keyprog ?></ressource>
+<url></url>
+</infos>
+</program>
+<?php endforeach;?>
+</serie>
+
+</infos>
+</program>
+
+
+<?php else :?>
+<program>
+<?php echo $this->_("Not found")?>
+</program>
+<?php endif;?>
+

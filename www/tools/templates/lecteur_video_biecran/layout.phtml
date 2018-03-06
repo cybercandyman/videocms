@@ -1,0 +1,323 @@
+<?php 
+require_once 'config.php';
+require_once 'init.php';
+define ("HOST","http://".$_SERVER["HTTP_HOST"].BASE_URL);
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+   "http://www.w3.org/TR/html4/loose.dtd">
+   <html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<script type="text/javascript">
+var publicationKey = "<?php echo $this->publicationKey?>";
+var programKey = "<?php echo   $this->key ?>";
+var BASE_URL = "<?php echo BASE_URL ?>";
+var biecran = true;
+</script>
+<?php echo $this->cssfile(THEME_PATH."/reset.css") ?>
+<?php echo $this->cssfile(THEME_PATH."/style.css") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery-1.4.2.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/packs/extjs/ext-all.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.metadata.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/Silverlight.js") ?>
+<?php echo $this->javascriptfile(THEME_PATH."/jquery.qtip.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."themes/lecteur_video_biecran/cplayer.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."themes/lecteur_video_biecran/direct.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.jscrollpane.min.js") ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/jquery.mousewheel.js") ?>
+<?php echo $this->cssfile(BASE_URL."themes/system/css/jquery.jscrollpane.css") ?>
+<style type="text/css">
+.jspVerticalBar{
+	width:10px;
+}
+.jspDrag{
+	background:#A3A3A3;
+	
+}
+.jspTrack{
+	background:#EEEEEE;
+}
+</style>
+<meta property="og:title" content="<?php echo htmlspecialchars($this->object->title, ENT_COMPAT,"utf-8") ?>" />
+<meta property="og:type" content="movie" />
+<meta property="og:url" content="<?php echo $this->object->getHtmlUrlLecteurVideoBiecran() ?>" />
+<meta property="og:image" content="<?php echo $this->object->getPicture("videolist") ?>" />
+<meta property="og:description" content="<?php echo htmlspecialchars( $this->object->synopsis, ENT_COMPAT,"utf-8") ?>" />
+
+<style type="text/Css">
+.titleZone {
+	background:
+		url("<?php echo BASE_URL ?>tools/templates/richplayer/images/zone-titres.gif")
+		no-repeat scroll 0 0 #00AEEE;    
+}
+.blocChapitre.active {
+	background: url("<?php echo BASE_URL ?>tools/templates/richplayer/images/fond-titre-tags.gif") bottom left repeat-x;
+}
+.blocDescription.active {
+	background: url("<?php echo BASE_URL ?>tools/templates/richplayer/images/fond-titre-tags.gif") bottom left repeat-x;
+}
+</style>
+</head>
+
+
+
+<body>
+
+	
+    <div class="wrapper">
+    
+    <?php if(!isset($_GET["iframe"])):?>
+        <div class="bandeauHaut">
+        	
+        <img src="<?php echo $this->logo_path."/lecteur_video_biecran.jpg"  ?>" style="margin-left:16px"/> 
+        
+        </div>
+    <?php endif;?>
+        
+        	<div class="column left">
+                	
+                	<div class="player bloc">
+                		
+						<div id="player" ><!-- DEBUT LECTEUR SILVERLIGHT -->  
+						
+                                                                     
+                            <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="425px" height="240px" id="silverlightControl">
+                				<param name="source" value="<?php echo  HOST ?>embeded/silverlight/Menifi.Player.xap" />
+                				<param name="enableHtmlAccess" value="true" />
+                				<param name="background" value="white" />
+                				<param name="minRuntimeVersion" value="2.0.31005.0" />
+                				<param name="autoUpgrade" value="true" />
+                				<param name="onLoad" value="PlayerLoaded" /> 
+                				<param name="Windowless" value="true" />
+                				<param name="initParams" value="currentChapterDisplay=0,dualscreen=0,button=1001110111111,basehost=<?php echo  HOST ?>embeded/silverlight/,server=<?php echo  HOST ?>,publicationKey=<?php echo $this->publicationKey?>,type=<?php echo $this->type ?>,id=<?php  echo $this->key ?>,autoplay=0,autoload=0,muted=1" />
+                				<param name="culture" value="<?php echo $this->lang == "gb" ? "en" : $this->lang ?>" />
+                				<param name="uiculture" value="<?php echo $this->lang == "gb" ? "en" : $this->lang ?>" />
+                				<a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;"><img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" /> </a> </object>
+                				
+                				<script type="text/javascript">
+                                function silverlightSetPageTitle(title){		                                		
+                                	}
+                                </script> <!-- FIN LECTEUR SILVERLIGHT -->                                
+                         </div>
+                         
+                                        						
+					</div>
+	
+
+        
+        
+                        <div class="chapters bloc">
+                        
+                            <div class="zoneDynamique">
+                            
+                            <!-- 
+                            <div class="titre">
+                            	<img  height="27"   src="./pics/chapitre-<?php echo $this->lang == "fr" ? "fr":"en"?>.gif" />
+                            	<img  height="27"   src="/MoteurTemplate/templates/Default/images/picto-bouee-vide.png" width="148px"/>
+                            	
+                            	<a  href="mailto:video@finances.gouv.fr" title="<?php echo $this->lang == "fr" ? "support utilisateurs" : "support" ?>">
+                            		<img  height="27"   src="/MoteurTemplate/templates/Default/images/bouton-fermer.gif"  />
+                            	</a>                            
+                           	</div>     
+                           	 -->
+                           	                        
+                            <div id="contenuDynamique">       
+                                                 
+                            	<?php 
+                            	$chapters = array();
+                            	   if($this->object instanceof Model_Program){
+                            	         $chapters[] =  $this->object->getChapters();                                      
+                                    }    
+                                    else if($this->object instanceof Model_Playlist){                                        
+                                        foreach($this->object->getPrograms() as $program)
+                                            $chapters[] =  $program->getChapters(); 
+                                    }
+                                    
+                    
+                            	if(sizeof($chapters) == 1 && sizeof($chapters[0]) ==0) 
+                            	    printf("<p class=\"note\">%s</p>",$this->lang=="fr"?"Ce programme ne contient pas de chapitre":"No chapters");
+                            	
+                            	    
+                            	for($i=0;$i<sizeof($chapters);$i++):
+                            	    $y = 0;                                
+                            	    foreach($chapters[$i] as $chapter) :                             	   
+                            	?>
+                            	                          	                            
+                            		 <div class="blocChapitre chapter_<?php echo $i?>_<?php echo $y?> " data="{idplaylist:<?php echo $i?>,idchapter:<?php echo $y?>,timecode:'<?php print $chapter->timecode ?>'}" id="chapter_<?php echo $i?>_<?php echo $y?>" >
+                                            <div class="blocImage">
+                                            	<?php if($chapter->picture != "") :?>
+                                            	<a href="javascript:void(0)"><img width="32" height="32" src="<?php echo $chapter->picture?>"></a>
+                                            	<?php endif; ?>
+                                            	<div class="pictos" >
+                                            		<?php if($chapter->file != ""):?>
+                                            		<div class="pictoFunc file">
+                                            		<a target="_blank" href="<?php echo $chapter->file ?>" >
+                                            			<img width="13" height="14"  src="<?php echo BASE_URL ?>tools/templates/richplayer/images/picto-pdf.gif">
+                                            		</a>	
+                                            		</div>
+                                            		<?php endif;?>
+                                            		<?php if($chapter->urltitle != ""):?>
+                                            		<div class="pictoFunc url">
+                                            		<a target="_blank" href="<?php echo $chapter->url ?>" title="<?php echo $chapter->urltitle ?>">
+                                            			<img width="13" height="14"  src="<?php echo BASE_URL ?>tools/templates/richplayer/images/picto-web.gif">                                            		
+                                            		</a>	
+                                            		</div>
+                                            		<?php endif;?>
+                                            	</div>
+                                            </div>
+                                            
+                                            <div class="blocDescription">                                            	
+                                            	<div>
+                                            		<span class="<?php print mb_substr($chapter->timecode,0,8) == "00:00:00" ?  "title"  :  "chapter" ?>">
+                                            	    	<a href="javascript:void(0)" class="libelle"><?php echo $chapter->title ?></a>
+                                            	    </span>
+                                            	    &nbsp;<em><?php print  mb_substr($chapter->timecode,0,8) != "00:00:00" ? CleanTc($chapter->timecode) : "" ?></em>
+                                            	</div>
+                                            	<div>
+                                            		<span class="qtip" title="<?php echo $chapter->description?>">
+                                            		    <?php echo strlen($chapter->description)>100 ?  mb_substr($chapter->description,0,110)." ... " : $chapter->description?>
+                                            		 </span>
+                                            	</div>
+                                            </div>
+                                            <div class="clear"></div>
+    								</div>
+    
+                            	<?php $y++;endforeach;
+                            
+                            	endfor;
+                            	?>
+                            
+                            <div id="arrondiBas"></div>
+                            </div>
+                            </div>                        
+                        </div>
+        
+        </div>
+        
+        <div class="column right">        
+            <div class="frameZone bloc">
+            	<div id="frame">
+            		
+            	</div>
+            </div>
+            <div class="titleZone bloc">
+            	  <div id="zoneTitrePlaylist">
+            	  	    <?php echo $this->title ;?>
+            	  </div>
+          		  <div id="zoneTitreProg">
+          		  		
+          		  </div>
+            </div>
+            
+
+    
+    
+    
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+function gcv_loadUrl(){
+	switchToPlayer();		
+}
+function switchToPlayer(){
+	jQuery('#anim').hide();
+	jQuery('#player').show();
+	jQuery("#silverlightControl").css("width","472px");
+	jQuery("#silverlightControl").css("height","240px");	
+}
+
+$.metadata.setType("attr","data");
+var site = {base_path:"<?php echo BASE_URL ?>",current:"<?php echo BASE_URL ?>watch/program/index"};
+var ressource = <?php echo  $this->ressourceJson ;?>;		
+var defaultState = '<img src="<?php echo $this->picture ?>" width="600px" height="450px"/>';
+function setDefaultState(){
+	$("#frame").html(defaultState);
+}
+setDefaultState();
+var sl;
+function slreload(sender,events){
+	document.location.href =  site.current + "?type=pr&keypub=" + events.pubkey + "&key=" + events.key + "&lang=<?php echo $this->lang?>"  ;				
+}
+function PlayerLoaded(){		
+	 sl = jQuery	("#silverlightControl").silverlight({
+		events:{
+			stateChange:function(){ if(sl.getCurrentState() == "Stopped")setDefaultState(); } ,
+			chapterChange:function(sender, events){         							
+					jQuery(".blocChapitre").removeClass("active");$("#frame").html("");
+    				jQuery(".chapter_"+  events.idplaylist + "_" +  events.idchapter) .addClass("active");
+    				setDefaultState();	
+    				jQuery(".chapter_"+  events.idplaylist + "_" +  events.idchapter + " .pictoFunc.file a").each(function(){    					
+        				if($(this).attr("href") != ""){
+        					var content = '<iframe src="'+$(this).attr("href")+'" width="100%" height="100%" border="0" frameborder="0" marginwidth="0" marginheight="0"></iframe>' ;
+    						$("#frame").html(content);
+        				}    						
+	    			});	  	    												
+			} ,
+			reload:slreload,
+			playlistChange:function(sender,events){
+				<?php if($this->type=="pl"):?>
+					$("#zoneTitreProg").html(ressource.playlist.programs.program[events.idplaylist].infos.title);
+				<?php endif;?>
+			}
+		}
+	});
+	jQuery(".blocChapitre .libelle,.blocChapitre .blocImage a").each(function(){
+		jQuery(this).click(function(){            	
+    		var data = $(this).parentsUntil(".blocChapitre").parent().metadata();
+			sl.pausePlaying();
+			sl.setPlaylistIndex(data.idplaylist);
+    		//sl.setChapterIndex (data.idchapter,data.idplaylist);        
+			sl.seekToTimeByTimecode(data.timecode,1);				    			
+    		sl.startPlaying();     		        		
+    	});
+	});	
+	
+jQuery(document).ready(function(  ){
+
+	
+	var scrollpane = $('#contenuDynamique').jScrollPane({autoReinitialise : true});
+	
+	jQuery.directgcv({
+		publicationKey:publicationKey,
+		programKey:programKey,
+		biecran:biecran,
+		BASE_URL:"<?php echo BASE_URL?>",
+		silverlight:sl,
+		interval:5000,		
+		onChange:function(args){
+		},
+		onChapterChange:function(html,idchapter){
+			var api = scrollpane.data("jsp");
+			api.getContentPane().html(html);
+			 				
+			if(idchapter > 0){
+				api.scrollToElement(".chapter_0_" +  idchapter,true);
+				 jQuery(".blocChapitre").removeClass("active");$("#frame").html("");
+    				jQuery(".chapter_0_" +  idchapter) .addClass("active");
+    				setDefaultState();	
+    				jQuery(".chapter_0_" + idchapter + " .pictoFunc.file a").each(function(){    					
+        				if($(this).attr("href") != ""){
+        					var content = '<iframe src="'+$(this).attr("href")+'" width="100%" height="100%" border="0" frameborder="0" marginwidth="0" marginheight="0"></iframe>' ;
+    						$("#frame").html(content);
+        				}    						
+	    			});	  
+			 }else{
+				 setDefaultState();
+			 }
+		}	
+	});
+		
+	})	;
+				
+}
+
+</script>
+
+
+							

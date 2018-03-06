@@ -1,0 +1,86 @@
+.asmContainer {
+	/* container that surrounds entire asmSelect widget */
+}
+
+.asmSelect {
+	/* the newly created regular 'select' */
+	display: inline;
+	float:left;
+	border: 1px solid #C6C6C6;
+	font-family: Verdana, Arial;
+	font-size: 11px;
+	vertical-align: top;
+	color: #5D6972;
+	background: white url(../../liquid/css/layout/site/bg_blue.png) repeat-x top left;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	padding: 2px 0 2px 0;
+	width:200px;
+	margin-right:5px;
+}
+
+.asmOptionDisabled {
+	/* disabled options in new select */
+	color: #999; 
+}
+
+.asmHighlight {
+	/* the highlight span */
+	padding: 0;
+	margin: 0 0 0 1em;
+}
+
+.asmList {
+	/* html list that contains selected items */
+	margin: 0px 0 0 5px ; 
+	position: relative;
+	display:block;
+	list-style: none; 
+}
+
+.asmListItem {
+	/* li item from the html list above */	
+	background: #ddd;
+	border: 1px solid #bbb; 
+    margin: 0 5px 5px 0; 
+	line-height: 18px;
+	height:18px;
+	padding:0px;
+	float:left;
+	width:100px;
+	position:relative;
+}
+
+.asmListItem:hover {
+	background-color: #e5e5e5;
+}
+
+.asmListItemLabel {
+	/* this is a span that surrounds the text in the item, except for the remove link */
+	padding: 1px 2px 0 2px;
+	display: block;
+	float:left;
+	width:70px;
+	overflow:hidden;
+	height: 18px;
+}
+
+.asmListSortable .asmListItemLabel {
+	cursor: move; 
+}
+
+.asmListItemRemove {
+	/* the remove link in each list item */
+	position: absolute;
+	top:1px;
+	right:1px;
+
+}
+
+.asmListItem .deletePic{
+	height:16px;
+	width:16px;
+	vertical-align: top;
+}

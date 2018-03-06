@@ -1,0 +1,117 @@
+
+<div id="docsRest" title="<?php echo $this->_("Help:Templates")?>">
+
+<h3><?php echo $this->_("Interface REST") ?></h3>
+
+
+
+<dl class="help">
+
+			<dt>videolist</dt>
+				<dd>
+					
+					<div class="description">
+						<?php echo $this->_("This function retrieves a list of video programs.")?>
+					</div> 
+					
+					<div class="params">
+						<ul>
+							<li><span class="bold">publicationkey :</span><span  class="definition"><?php echo $this->_("Replace this param name with your publication key")?></span></li>
+							<li><span class="bold">numItem :</span><span  class="definition"><?php echo $this->_("Numbers of item per page")?></span></li>
+							<li><span class="bold">page :</span><span  class="definition"><?php echo $this->_("Numbers of item per page")?></span></li>
+							<li><span class="bold">viewcode :</span><span  class="definition"><?php echo $this->_("Viewcode")?></span></li>							
+							<li><span class="bold">fulltext :</span><span  class="definition"><?php echo $this->_("Perform a filter by keyword")?></span></li>							
+							<li><span class="bold">params :</span>
+							<span class="definition">
+							<?php echo $this->_("Additional params to filter videolist.")?><br />
+							<?php echo $this->_("Each param can be a program field, ex with the field genre with code genre : filter_genre")?>
+							
+							</span>
+							</li>
+						</ul>
+					</div> 
+					
+					<div class="example">
+						Example : http://.../rest/videolist/publicationkey/viewcode/default/filter_genre/5
+					</div> 
+					
+
+				
+				</dd>
+			<dt>playlists</dt>
+			<dd>
+					<div class="description">
+						<?php echo $this->_("This function retrieves all playlist for a publication.")?>
+					</div> 
+					
+					<div class="params">
+						<ul>
+							<li><span class="bold">publicationkey :</span><span class="definition"><?php echo $this->_("Replace this param name with your publication key")?></span></li>
+							
+						</ul>
+					</div> 
+					
+					<div class="example">
+						Example : http://.../rest/playlists/publicationkey
+					</div> 
+			</dd>		
+			<dt>playlist</dt>
+			<dd>
+					<div class="description">
+						<?php echo $this->_("This function retrieves a playlist.")?>
+					</div> 
+					
+					<div class="params">
+						<ul>
+							<li><span class="bold">publicationkey :</span><span class="definition"><?php echo $this->_("Replace this param name with your publication key")?></span></li>
+							<li><span class="bold">key :</span><span class="definition"><?php echo $this->_("Key of the playlist")?></span></li>							
+							<li><span class="bold">viewcode :</span><span class="definition"><?php echo $this->_("Viewcode")?></span></li>		
+						</ul>
+					</div> 
+					
+					<div class="example">
+						Example : http://.../rest/playlist/publicationkey/key/key_of_the_playlist
+					</div> 
+					</dd>
+			<dt>program</dt>
+			<dd>
+					<div class="description">
+						<?php echo $this->_("This function retrieves a program.")?>
+					</div> 
+					
+					<div class="params">
+						<ul>
+							<li><span class="bold">publicationkey :</span><span class="definition"><?php echo $this->_("Replace this param name with your publication key")?></span></li>
+							<li><span class="bold">key :</span><span class="definition"><?php echo $this->_("Key of the program")?></span></li>									
+							<li><span class="bold">viewcode :</span><span class="definition"><?php echo $this->_("Viewcode")?></span></li>							
+						</ul>
+					</div> 
+					
+					<div class="example">
+						Example : http://.../rest/program/publicationkey/key/key_of_the_program
+					</div> 
+				</dd>	
+			<dt>table</dt>
+			<dd>
+					<div class="description">
+						<?php echo $this->_("This function retrieves a list of video programs.")?>
+					</div> 
+					
+					<div class="params">
+						<ul>
+							<li><span class="bold">publicationkey :</span><span class="definition"><?php echo $this->_("Replace this param name with your publication key")?></span></li>
+							<li><span class="bold">name :</span><span class="definition"></span></li>
+							<li><span class="bold">lang :</span><span class="definition"></span></li>
+							
+						</ul>
+					</div> 
+					
+					<div class="example">
+						Example : http://.../rest/table/publicationkey/numItem/page/viewcode/version/params
+					</div> 
+					
+			<dd>
+		</dl>
+	
+
+</div>

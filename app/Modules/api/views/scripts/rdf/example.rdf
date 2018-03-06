@@ -1,0 +1,57 @@
+
+
+
+<?xml:namespace href="http://www.w3c.org/RDF/" as="RDF"?> 
+<?xml:namespace href="http://purl.org/RDF/DC/" as="DC"?>
+<RDF:RDF> 
+   <RDF:Description About="http://www.dstc.edu.au/videos/98-02-20.mpg#seq3"> 
+     <DC:Type>Image.Moving.TV.news.sequence</DC:Type>
+     <DC:Description.text>"Cambodia's democracy campaigner, Sam Rainsy, 
+                 criticises Australia's response to his country's 
+                               political crisis."</DC:Description.text>
+     <DC:Subject>Cambodia -- Politics, Government, History</DC:Subject>
+     <DC:Contributor.Reporter>Catherine McGrath</DC:Contributor.Reporter>
+     <DC:Format.Length>90 secs</DC:Format.Length>
+     <DC:Coverage.t.min DC:Scheme="SMPTE">19:31:24;1</DC:Coverage.t.min>
+     <DC:Coverage.t.max DC:Scheme="SMPTE">19:32:54;1</DC:Coverage.t.max>
+     <DC:Relation.HasPart>
+       <RDF:Seq>
+         <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#scene3.1"/>
+         <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#scene3.2"/>
+         <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#scene3.3"/>
+         <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#scene3.4"/>
+         <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#scene3.5"/>
+       </RDF:Seq>
+     </DC:Relation.HasPart>
+   </RDF:Description> 
+</RDF:RDF>
+
+<?xml:namespace href="http://www.w3c.org/RDF/" as="RDF"?> 
+<?xml:namespace href="http://purl.org/RDF/DC/" as="DC"?>
+
+<RDF:RDF> 
+   <RDF:Description About="http://www.dstc.edu.au/videos/98-02-20.mpg"> 
+       <DC:Title>SBS World News</DC:Title>
+       <DC:Creator>Special Broadcasting Service</DC:Creator>
+       <DC:Subject>News, Current Affairs</DC:Subject>
+       <DC:Description>Major world news events of the day.</DC:Description>
+       <DC:Publisher>Special Broadcasting Service</DC:Publisher>
+       <DC:Contributor.Presenter>Indira Naidoo</DC:Contributor.Presenter>    
+       <DC:Format DC:Scheme="IMT">video/mpg</DC:Format>
+       <DC:Type>Image.Moving.TV.News</DC:Type>
+       <DC:Language>en</DC:Language>
+       <DC:Date>1998-05-12</DC:Date>
+       <DC:Format.Length>30 mins</DC:Format.Length>
+       <DC:Relation.HasPart>
+          <RDF:Seq>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq1"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq2"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq3"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq4"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq5"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq6"/>
+            <RDF:LI Resource="http://www.dstc.edu.au/videos/98-02-20.mpg#seq7"/>
+         </RDF:Seq>
+      </DC:Relation.HasPart>
+   </RDF:Description> 
+</RDF:RDF>

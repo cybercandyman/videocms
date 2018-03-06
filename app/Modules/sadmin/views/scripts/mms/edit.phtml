@@ -1,0 +1,86 @@
+<?php $this->placeholder ( "title" )->set ( $this->_ ( "Update mms" ) )?>
+<?php
+$replacement = array("PHP");
+//echo "DEBUG : " .str_replace($replacement, "Zend", "Hello World of PHP");
+?>
+<div id="result"></div>
+<?php
+	//print_r($this->prodinfos); 
+?>
+<form id="mms_update" class method="post" action="<?php echo $this->url ( array ("module" => "sadmin", "controller" => "mms", "action" => "update" ), null, true )?>">
+<fieldset>
+<legend></legend>
+
+
+	<!-- MMS old value set in broadcast.ini-->
+	<p>
+		<label for="old_mms"><?php echo $this->_ ( "String in mms to replace" )?></label>
+		<span><?php echo $this->formText ( "old_mms", $this->uris[0] );	?></span>
+	</p>
+	
+	<!-- MMS new value set by user-->
+	<p>
+		<label for="new_mms"><?php echo $this->_ ( "String replacement" ) ;?></label>
+		<span><?php echo $this->formText ( "new_mms", "", array ("autofocus" => "on",  "required" => "required", "placeholder" => $this->_ ( "Enter new value" ) ) );	?></span>
+	</p>
+
+	<p>
+			<label for="ps"><?php echo $this->_ ( "Apply to ")?></label>
+			<span>
+				<?php echo $this->formSelect ( "idprod", "idprod", array() , $this->prodlist )?>
+				<?php echo $this->_ ( "or") ?> <?php echo $this->_ ( "all productions" ) ;?>
+				<input type="checkbox" name="checkall" id="checkall">
+				<input type="hidden" name="prod" id="prod" value="1">
+		
+			</span>
+			
+	</p>
+
+
+	<p>
+	<label>&nbsp;</label>
+		<span>
+		<?php echo $this->sexybutton ("submit", $this->_("Save"), array("send_form_btn"), null,array("id"=>"valider")) ?>
+		</span>
+	</p>
+
+		
+
+	
+<?php echo $this->systemMessage( $this->_ ( "Be careful. This feature changes the database and can cause malfunctions in the playback of your videos." ),5)?>	
+</form>
+<div id="debug"></div>
+<script>
+$("#checkall").click (function (){
+	$("#prod").val("1");
+	if ( $(this).is (':checked') ){
+		$("#prod").val("2");
+		$("#idprod").attr("disabled","disabled");
+	}
+	else {
+		$("#idprod").removeAttr("disabled"); 
+	}
+});
+
+$("#mms_update").submit(function(event) {
+
+	if($("#new_mms").val() =='' || $("#old_mms").val()=='') {
+		$("#result").html('<div class="alert alert-error"><p><strong><?php echo $this->_ ( "Please, enter correct new value" ) ;?>');
+		 return false;
+	}
+	event.preventDefault();
+	$("#result").html('<img src="<?php echo BASE_URL?>themes/liquid/css/layout/site/forms/loading.gif"; />');
+
+	url = $(this).attr( 'action' );
+	var data = $(this).serialize();
+	$.ajax({
+		  type: 'POST',
+		  url: url,
+		  data: data,
+		  success: function(data){
+			  //$('#debug').html(data); 
+			  $("#result").empty().html('<div class="alert alert-success"><p><?php echo $this->_ ( "Update process finished correctly !" ) ;?></p> <p><br />'+$("#old_mms").val()+' &rarr; '+$("#new_mms").val()+'</p></div>');
+		  }
+	});
+});
+</script>

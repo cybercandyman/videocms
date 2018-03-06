@@ -1,0 +1,44 @@
+<?php
+$this->placeholder("title")->set(sprintf($this->_("Consumptions statistics for program (%s) by  publication"),$this->program["title"]["value"]))?>
+
+<?php echo $this->javascriptfile(BASE_URL."embeded/js/FusionCharts.js" ) ?>
+<?php echo $this->javascriptfile(BASE_URL."embeded/packs/datepicker/js/datepicker.js") ?>
+<?php echo $this->cssfile( BASE_URL."embeded/packs/datepicker/css/datepicker.css") ?>
+
+<h3><?php echo $this->_("Consumption period")?> :</h3>
+
+<?php echo $this->partial("stats_calendar_header.phtml",array("formAction"=>$this->url(array("controller" => "stats" , "module" => "prod" , "action" => "program","idprog"=>$this->getParam("idprog")), null, true)))?>
+
+<p class="large"></p>
+<div id="chartdiv"></div>
+
+<h3><?php echo $this->_("Details")?> :</h3>
+<div id="logs"></div>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){	
+        var myChart = new FusionCharts(BASE_URL + "embeded/flash/Charts/Line.swf", "myChartId", "98%", "500");
+        myChart.setDataURL("<?php echo $this->dataUrl?>");
+        myChart.setTransparent(true);
+        myChart.render("chartdiv");       
+        jQuery.get('<?php echo $this->url(array("action" => "logs" , "format" => "ajax" , "type" => "ProgramViewedByAllPublication"), null, false)?>', function(data) {
+    		jQuery('#logs').html(data);		  
+    	});	
+        function loading(){
+    		$("#logs").html("<img src=\"<?php echo BASE_URL?>themes/system/pics/loading.gif\">");
+    	}  
+    	$("#logs .paginationControl a,#logs table#data thead a,#logs table.tablesorter thead tr th div a.link_sorter").live("click",function(event){			
+			loading();				
+			$("#logs").load($(this).attr("href"));				
+			event.preventDefault();
+		});	  
+    	function goToLink(id)
+    	{
+    	document.getElementById("corps").scrollTop = document.getElementById(id).offsetTop;
+    	}
+    			 
+});        
+</script>
+
+

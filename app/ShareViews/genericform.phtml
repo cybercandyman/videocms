@@ -1,0 +1,184 @@
+<?php             
+    if(!Zend_Registry::isRegistered("includejs")) {
+        Zend_Registry::set("includejs",true);
+    }
+    $level = array();
+    $this->placeholder("fields")->set (""); 
+?>
+
+<?php foreach ( $this->fields as $key => &$value ) : 
+    $value["uniquid"] = uniqid("field");
+    endforeach;
+?> 		
+
+<?php foreach ( $this->fields as $field => &$value ) : ?>
+
+<?php $this->placeholder("fields")->captureStart('APPEND',''.$value["cat"]); ?>
+ 			<p>
+				<label><?php echo $value["title"]?></label>
+				<span class="formField">
+				<?php if($value["code"] == "timecode" && $value["groupname"]  == "chapters"):?> 
+					<script type="text/javascript">
+						var fieldTimeCode = "<?php echo $value["type"]."_".$value["idfgroup"] ?>";//<?php echo $value["groupname"]?> 
+					</script>
+				<?php endif;?>
+				<?php switch ($value["type"]): 
+				        case "TEXT" : echo $this->formText($value["type"]."_".$value["idfgroup"], $value["default_value"] ,array("alt"=>$value["mask"],"rel"=>$value["code"])); break;
+						case "TEXTAREA" : echo $this->formTextarea($value["type"]."_".$value["idfgroup"], $value["default_value"] , array("rows"=>5,"rel"=>$value["code"])) ; break;
+						case "ENUM" : echo $this->formSelect($value["type"]."_".$value["idfgroup"], "", array("rel"=>$value["code"],"class"=>$value["uniquid"]), $this->contentTable($value["table_ref"]))  /*formText($value["type"]."_".$value["idfgroup"], "" ,null);*/; 
+						/** 
+						 * Gestion des selects liés
+						 */						
+						$this->placeholder("topendjs")->captureStart();
+						if ($value["parent"] != ""){
+						    foreach ( $this->fields as $fieldtmp => $valuetmp ) :
+						        if($value["parent"] == $valuetmp["code"] && $valuetmp["type"] == "ENUM"){
+						            ?>
+						            	<script type="text/javascript">
+						            		jQuery(document).ready(function(){
+												//$("select[id=<?php echo $value["type"]."_".$value["idfgroup"] ?>]").linkedtoselect("select[id=<?php echo $valuetmp["type"]."_".$valuetmp["idfgroup"] ?>]","<?php echo $value["table_ref"] ?>");
+												$("select.<?php echo $value["uniquid"] ?>").linkedtoselect("select.<?php echo $valuetmp["uniquid"] ?>","<?php echo $value["table_ref"] ?>");
+							            	});
+						            	</script>
+						            <?php 
+						        }
+						    endforeach;						    
+						}
+						$this->placeholder("topendjs")->captureEnd();						
+						break;
+						case "BOOLEAN" : echo $this->formCheckbox($value["type"]."_".$value["idfgroup"], null , null, null); break;
+						case "COMPLEXBOOLEAN" : echo $this->formTextarea($value["type"]."_desc_".$value["idfgroup"], $value["default_value"] , array("readonly"=>"readonly","rows"=>10)) ; echo $this->formCheckbox($value["type"]."_".$value["idfgroup"], null , array("rel"=>$value["code"]), null); break;
+						case "ENUMMULTI" :echo $this->formSelect ($value["type"]."_".$value["idfgroup"], $value["default_value"], array("multiple" => "multiple","size"=>"5","rel"=>$value["code"],"title" => $this->_("Press [ctrl] + [click] to select multiple values","none")), $this->contentTable($value["table_ref"])) ; break;
+						case "RADIO" : echo $this->formText($value["type"]."_".$value["idfgroup"], $value["default_value"] ,array("rel"=>$value["code"])); break;
+						case "DATE" : echo $this->formText($value["type"]."_".$value["idfgroup"], "" ,array("readonly"=>"readonly","rel"=>$value["code"]));						
+						?> 						
+						<script type="text/javascript">
+                        	jQuery(document).ready(function() {
+                        		$('input[rel=<?php echo  $value["code"] ?>]').datepicker({
+                        			showButtonPanel:"true",                       
+                        			dateFormat: 'yy/mm/dd',
+                        			changeMonth:true,
+                        			changeYear:true  		            				
+                                });                                
+	                            $("#<?php print $value["type"]."_".$value["idfgroup"]?>").datepicker('option',$.datepicker.regional['<?php echo $this->_session->locale ?>']);
+	                            $("#<?php print $value["type"]."_".$value["idfgroup"]?>").datepicker('option','dateFormat','yy/mm/dd');                                                   
+                            });
+                        </script>                        
+						<?php 
+						break;
+						case "PICTURE" : echo $this->formText($value["type"]."_".$value["idfgroup"],$value["default_value"] ,array("rel"=>$value["code"]));?>
+						<a href="javascript:filemanager('<?php echo $value["type"]."_".$value["idfgroup"]?>');" title="<?php echo $this->_("File explorer")?>">
+							<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+						</a>
+						</span>
+						
+						
+												
+						<?php 
+						break;
+						case "FILE" : echo $this->formText($value["type"]."_".$value["idfgroup"], $value["default_value"] ,array("rel"=>$value["code"]));?>
+						<a href="javascript:filemanager('<?php echo $value["type"]."_".$value["idfgroup"]?>');" title="<?php echo $this->_("File explorer")?>">
+							<img src="<?php echo BASE_URL ?>themes/system/pics/explorer.png" class="icones" />
+						</a>
+						</span>
+						<!-- <label class="spacer">&nbsp;</label>
+						<span><a href="javascript:filemanager('<?php echo $value["type"]."_".$value["idfgroup"]?>');" class="button grey_btn"><span><span><?php echo $this->_("explorer") ?></span></span></a></span>
+						 -->						
+						<?php
+						break; 
+						default : break;
+						endswitch;				 ?>
+			     </span>
+		</p>			
+<?php 
+$this->placeholder("fields")->captureEnd(); 
+?>		
+<?php endforeach; ?>
+ 
+ 
+ 
+<?php 
+// Output only part requested
+foreach( $this->placeholder("fields") as $key => $value) :
+
+    if(isset($this->filter) && is_array($this->filter)){
+        if(in_array($key,$this->filter))
+        echo $value ;
+    }
+    else     
+    echo $value ;
+ 	
+endforeach;?>
+
+<?php if( Zend_Registry::get("includejs") === true) : ?>
+ 
+<?php if( $this->format  == "mini") : ?>
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe	id="modalIframeIdExplorer" width="100%" height="95%"	src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>	
+<?php else :?>
+<div id="divIdExplorer" title="<?php echo $this->_("Explorer");?>">
+<iframe id="modalIframeIdExplorer" width="100%" height="95%" src=""  marginWidth="0" marginHeight="0" frameborder="0" scrolling="auto">Your browser does not suppr</iframe>
+</div>
+<?php endif;?>
+	 
+
+
+<script  type="text/javascript">
+//<![CDATA[   
+var $currentField ;
+function filemanager(idref)
+{	
+	
+	$currentField = jQuery("#"+idref);	
+	<?php if( $this->format  == "mini") : ?>
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer/format/mini");
+	<?php else :?>
+	jQuery("#modalIframeIdExplorer").attr("src","<?php echo BASE_URL?>tools/filemanager/explorer");
+	<?php endif;?>		
+	jQuery("#divIdExplorer").dialog('open');
+}
+
+jQuery(document).ready(function(){  
+	$('input:text').setMask();
+	$.metadata.setType("attr", "metadata");
+    $("#divIdExplorer").dialog({
+    	modal: false,
+    	autoOpen: false,    	    
+    	<?php if( $this->format  == "mini") : ?>
+    	width:250,
+    	height:310,	
+    	<?php else :?>
+    	width:1024,
+    	height:615,	
+    	<?php endif;?>	
+    	buttons: {
+    			'<?php echo $this->_("Select","none")?>':function(){
+    				
+            		var filesSelected = new Array();
+            		$('#modalIframeIdExplorer').contents().find('#explorerPanel .clicked').parent().each(function(){					            		
+            			filesSelected.push($(this).metadata().link);						
+            		});     
+            		             		   				
+            		for(var i=0;i<filesSelected.length;i++){        				
+            			$currentField.val(filesSelected[i]);            			 
+            		}
+    				$(this).dialog('close');  
+    				jQuery("#modalIframeIdExplorer").removeAttr("src");					
+    			},						
+    			'<?php echo $this->_("Cancel")?>':function(){
+    					$(this).dialog('close');
+    					jQuery("#modalIframeIdExplorer").removeAttr("src");
+    				}
+    			}
+    });	
+    
+});
+//]]>
+</script>
+<?php 
+    Zend_Registry::set("includejs",false);
+?>
+<?php endif;?>
+
+
